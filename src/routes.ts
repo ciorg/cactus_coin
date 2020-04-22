@@ -51,6 +51,13 @@ router.post('/login', (req, res, next) => {
     res.redirect('/');
   });
 
+  router.get('/about', 
+    connectEnsureLogin.ensureLoggedIn(),
+    (req, res) => {
+      res.render('pages/about');
+    }
+  );
+
   /*
   UserDetails.register({username:'paul', active: false}, 'paul');
   UserDetails.register({username:'jay', active: false}, 'jay');
