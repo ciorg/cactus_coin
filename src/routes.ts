@@ -27,19 +27,21 @@ router.post('/login', (req, res, next) => {
   });
   
   router.get('/login',
-    (req, res) => res.sendFile('html/login.html',
-    { root: process.cwd() })
-  );
+    (req, res) => {
+      res.render('pages/login');
+    });
   
   router.get('/',
     connectEnsureLogin.ensureLoggedIn(),
-    (req, res) => res.sendFile('html/index.html', {root: process.cwd()})
-  );
+    (req, res) => {
+      res.render('pages/index');
+    });
   
   router.get('/private',
     connectEnsureLogin.ensureLoggedIn(),
-    (req, res) => res.sendFile('html/private.html', {root: process.cwd()})
-  );
+    (req, res) => {
+      res.render('pages/private');
+    });
   
   router.get('/user',
     connectEnsureLogin.ensureLoggedIn(),

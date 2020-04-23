@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title> Login </title>
-  <link rel="stylesheet" href="styles.css">
+  <head>
+    <%- include('../partials/head'); -%>
 </head>
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); -%>
+</header>
+
 
 <body>
   <form action="/login" method="post">
@@ -24,16 +29,9 @@
     </div>
     <label id="error-message"></label>
   </form>
-
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const info = urlParams.get('info');
-
-    if(info) {
-      const errorMessage = document.getElementById("error-message");
-      errorMessage.innerText = info;
-      errorMessage.style.display = "block";
-    }
-  </script>
+  <footer>
+    <%- include('../partials/footer'); -%>
+  </footer>
 </body>
+
 </html>

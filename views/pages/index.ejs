@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title> Home </title>
-  <link rel="stylesheet" href="styles.css">
+    <%- include('../partials/head'); -%>
+    <title> Home </title>
 </head>
 
 <body>
+  <header>
+    <%- include('../partials/header'); -%>
+</header>
   <div class="message-box">
     <h1 id="welcome-message"></h1>
     <a href="/private">Go to private area</a>
