@@ -4,7 +4,7 @@ import passport from 'passport';
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
+router.post('/portal', (req, res, next) => {
     passport.authenticate('local',
     (err, user, info) => {
       if (err) {
@@ -12,7 +12,7 @@ router.post('/login', (req, res, next) => {
       }
   
       if (!user) {
-        return res.redirect('/login?info=' + info);
+        return res.redirect('/portal?info=' + info);
       }
   
       req.logIn(user, function(err) {
@@ -20,45 +20,31 @@ router.post('/login', (req, res, next) => {
           return next(err);
         }
   
-        return res.redirect('/');
+        return res.redirect('/home');
       });
   
     })(req, res, next);
   });
   
-  router.get('/login',
-    (req, res) => {
-      res.render('pages/login');
-    });
-  
   router.get('/',
-    connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
-      res.render('pages/index');
+      res.render('pages/portal');
     });
   
-  router.get('/private',
+  router.get('/home',
     connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
-      res.render('pages/private');
-    });
-  
-  router.get('/user',
-    connectEnsureLogin.ensureLoggedIn(),
-    (req, res) => res.send({user: req.user})
-  );
+      const user = req.user;
 
+      res.render('pages/home', {
+        user
+      });
+    });
+  
   router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
-
-  router.get('/about', 
-    connectEnsureLogin.ensureLoggedIn(),
-    (req, res) => {
-      res.render('pages/about');
-    }
-  );
 
   /*
   UserDetails.register({username:'paul', active: false}, 'paul');
