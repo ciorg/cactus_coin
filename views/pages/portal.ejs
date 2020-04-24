@@ -8,20 +8,22 @@
 <header>
     <%- include('../partials/header'); -%>
 </header>
+<div class="login-form">
   <form action="/portal" method="post">
-    <div class="field">
+    <div class="login-username">
       <label>Username:</label>
-      <input type="text" name="username" />
+      <input type="text" name="username" placeholder="username" required />
       <br />
     </div>
-    <div class="field">
+    <div class="login-password">
       <label>Password:</label>
-      <input type="password" name="password" required />
+      <input type="password" name="password" placeholder="password" required />
     </div>
-    <div class="field">
+    <div class="login-submit">
       <input class="submit-btn" type="submit" value="Go To Your Home Page" required />
     </div>
   </form>
+</div>
 
   <h3>home page where all the other stuff will be</h3>
   <footer>

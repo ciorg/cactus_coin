@@ -1,8 +1,25 @@
 body {
   padding: 0;
   width: 100%;
+}
+
+.login-form {
   background-color: #8da4bf;
-  font-family: 'Quicksand';
+  font-family: 'Varela';
   color: white;
+  width: 20%;
+  height: 100%;
+  float: left;
+  padding: 3%;
 }
   
+input[type=text] {
+  border-style:none;
+  border: 2px solid #8da4bf;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  width: 80%;
+  height: 1.8em;
+  font-size: 0.8em;
+  color: #8da4bf; 
+}
