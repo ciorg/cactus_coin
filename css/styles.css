@@ -3,31 +3,34 @@ body {
   width: 100%;
 }
 
+.portalBody {
+  background-color: #DCDB45;
+  height: 1080px;
+  width: 100%
+}
+
 .loginForm {
-  background-color: #8da4bf;
   font-family: 'Varela';
   font-size:1.3em;
-  color: white;
+  color: #F1DD9E;
   width: 100%;
-  height: 100%;
+  height: 40%;
   float: left;
   padding: 3%;
   text-align: center;
   border-radius: 5px;
-  border: 2px solid red;
 }
 
 .loginButton:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
+  background-color: #9C7D23; /* Green */
 }
 
 .loginButton {
   width: 50%;
   font-size: 1.1em;
-  color: #8da4bf;
+  color: #DCDB45;
   border-radius: 5px;
-  background-color: white;
+  background-color: #234311;
   margin-top: 5%;
 }
 
@@ -41,7 +44,7 @@ body {
   
 input[type=text] {
   border-style:none;
-  border: 2px solid #8da4bf;
+  border: 2px solid #234311;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   width: 80%;
@@ -52,7 +55,7 @@ input[type=text] {
 
 input[type=password] {
   border-style:none;
-  border: 2px solid #8da4bf;
+  border: 2px solid #234311;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   width: 80%;
@@ -68,7 +71,7 @@ input[type=password] {
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #111; /* Black*/
+  background-color: #4A6713; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
