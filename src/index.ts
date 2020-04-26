@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
-app.use(express.static(path.join(process.cwd(), 'css')));
+app.use(express.static(path.join(process.cwd(), 'static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
