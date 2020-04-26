@@ -1,12 +1,69 @@
-body {
-  padding: 0;
-  width: 100%;
-}
+/*
+colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519, #c49c3c, #ac6404
+*/
 
 .portalBody {
-  background-color: #DCDB45;
-  height: 1080px;
-  width: 100%
+  background-color: #a1f113;
+  height: 100%;
+  width: 100%;
+  float: clear;
+}
+
+.portalHeader {
+  height: 135px;
+  width: 100%;
+  border-bottom: 5px solid #ac6404;
+  background-image: linear-gradient(#ef2556, #facc04);
+}
+
+.portalHeader p {
+  font-family: 'Varela';
+  font-size: 2.5em;
+  color: #1c6404;
+  font-weight: bold;
+  text-shadow: 2px 2px #d54a00;
+  letter-spacing: 2px;
+}
+
+.headerMiddle {
+  width: 12%;
+  margin: auto;
+}
+
+.headerMiddle img{
+  height: 133px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  border: 2px solid #1c6404;
+}
+
+
+.headerMiddle img:hover {
+  opacity: 0.5;
+}
+
+.headerLeft {
+  position: absolute;
+  width: 44%;
+  text-align: right;
+  height: 135px;
+}
+
+.headerRight {
+  position: absolute;
+  width: 44%;
+  height: 145px;
+  right: 0;
+  top: 0;
+}
+
+.headerRight img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 80px;
 }
 
 .loginForm {
@@ -71,18 +128,10 @@ input[type=password] {
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #4A6713; /* Black*/
+  background-color: #1c6404; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-.sideBar .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
