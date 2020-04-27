@@ -16,5 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(authenticate);
 app.use('/', routes);
+
+app.use(function(req, res, next){
+    res.status(404).send('this page does not exist');
+    // res.status(404).render('404_error_template', {title: "Sorry, page not found"});
+});
   
 app.listen(port, () => console.log(`Example app listening on port:${port}`));

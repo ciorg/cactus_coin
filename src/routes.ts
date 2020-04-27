@@ -12,7 +12,7 @@ router.post('/portal', (req, res, next) => {
       }
   
       if (!user) {
-        return res.redirect('/portal?info=' + info);
+        return res.redirect('/?info=' + info);
       }
   
       req.logIn(user, function(err) {
@@ -22,29 +22,29 @@ router.post('/portal', (req, res, next) => {
   
         return res.redirect('/home');
       });
-  
     })(req, res, next);
   });
   
   router.get('/',
-    (req, res) => {
+    (req, res, next) => {
       res.render('pages/portal');
     });
   
-  router.get('/home',
-    connectEnsureLogin.ensureLoggedIn(),
-    (req, res) => {
-      const user = req.user;
-
-      res.render('pages/home', {
-        user
-      });
-    });
+  router.get(
+      '/home',
+      connectEnsureLogin.ensureLoggedIn('/'),
+      (req, res, next) => {
+        const user = req.user;
+        res.render('pages/home', { user });
+      }
+  );
   
-  router.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
+  router.get('/logout', (req, res, next) => {
+      req.logout();
+      res.redirect('/');
   });
+
+    
 
   /*
   UserDetails.register({username:'paul', active: false}, 'paul');
