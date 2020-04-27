@@ -1,8 +1,8 @@
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-const mongoose = require('mongoose');
-import passportLocalMongoose from 'passport-local-mongoose';
+import DB from './db_api';
+
 
 const router = express.Router();
 
@@ -15,21 +15,12 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
-mongoose.connect('mongodb://localhost/MyDatabase',
-  { useNewUrlParser: true, useUnifiedTopology: true });
+const db = new DB();
 
-const Schema = mongoose.Schema;
+const userDetails = db.userDetails();
 
-const UserDetail = new Schema({
-  username: String,
-  password: String
-});
-
-UserDetail.plugin(passportLocalMongoose);
-const UserDetails = mongoose.model('userInfo', UserDetail);
-
-passport.use(UserDetails.createStrategy());
-passport.serializeUser(UserDetails.serializeUser());
-passport.deserializeUser(UserDetails.deserializeUser());
+passport.use(userDetails.createStrategy());
+passport.serializeUser(userDetails.serializeUser());
+passport.deserializeUser(userDetails.deserializeUser());
 
 export = router;
