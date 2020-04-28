@@ -19,6 +19,12 @@ class DB {
 
         userDetail.plugin(passportLocalMongoose);
         return mongoose.model('userInfo', userDetail);
+
+         /*
+            UserDetails.register({username:'paul', active: false}, 'paul');
+            UserDetails.register({username:'jay', active: false}, 'jay');
+            UserDetails.register({username:'roy', active: false}, 'roy');
+        */
     }
 }
 

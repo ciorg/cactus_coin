@@ -1,5 +1,6 @@
 import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
+import { check } from 'express-validator'; 
 import passport from 'passport';
 
 const router = express.Router();
@@ -44,11 +45,27 @@ router.post('/portal', (req, res, next) => {
       res.redirect('/');
   });
 
-    
+  router.get(
+    '/register',
+    (req, res, next) => {
+        res.render('pages/register');
+  });
 
-  /*
-  UserDetails.register({username:'paul', active: false}, 'paul');
-  UserDetails.register({username:'jay', active: false}, 'jay');
-  UserDetails.register({username:'roy', active: false}, 'roy');
-  */
+  router.post(
+    '/register',
+    [
+        check('username').trim().escape().stripLow(),
+        check('reg_password').trim().escape().stripLow(),
+        check('con_password').trim().escape().stripLow()
+    ],
+    (req: any, res: any, next: any) => {
+        const newUser = {
+            uname: req.body.username,
+            pass: req.body.reg_password,
+            cpass: req.body.con_password
+        }
+
+        res.send(newUser);
+    });
+
  export = router;
