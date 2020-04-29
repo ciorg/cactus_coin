@@ -2,8 +2,9 @@ import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator'; 
 import passport from 'passport';
+import userModel from './db_api';
 
-const router = express.Router();
+const router = express.Router()
 
 router.post('/portal', (req, res, next) => {
     passport.authenticate('local',
@@ -58,14 +59,23 @@ router.post('/portal', (req, res, next) => {
         check('reg_password').trim().escape().stripLow(),
         check('con_password').trim().escape().stripLow()
     ],
-    (req: any, res: any, next: any) => {
-        const newUser = {
-            uname: req.body.username,
-            pass: req.body.reg_password,
-            cpass: req.body.con_password
-        }
+    async (req: any, res: any, next: any) => {
+        const { username, password, role } = req.body;
 
-        res.send(newUser);
+        let user;
+
+        try {
+            user = await userModel.register({
+                username,
+                active: true,
+                role,
+                registered: new Date()
+            }, password);
+        } catch (e) {
+            return res.send(e);
+        }
+    
+        return res.render('pages/home', { user });
     });
 
  export = router;

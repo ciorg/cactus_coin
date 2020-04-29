@@ -8,14 +8,37 @@
         <label>Username:</label>
         <input type="text" name="username" required />
         <br />
+        <label>Role:</label>
+        <select name="role" id="role">
+            <option value="user">User</option>
+            <option value="rr">Rootbeer Rater</option>
+        </select>
+        <br />
         <label>Password:</label>
-        <input type="password" name="reg_password" required />
+        <input type="password" name="password" id="password" required />
         <br />
         <label>Confirm Password:</label>
-        <input type="password" name="con_password" required />
+        <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' required />
         <br />
-        <button type="submit" value="Login" required >
+        <span id='message'></span>
+        <br />
+        <button type="submit" value="Login" id="submit" required >
             Enter
         </button>
-    </form> 
+    </form>
+
+    <script>
+        var check = function() {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+                document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
 </body>

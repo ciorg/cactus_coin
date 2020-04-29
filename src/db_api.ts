@@ -1,31 +1,23 @@
 const mongoose = require('mongoose');
 import passportLocalMongoose from 'passport-local-mongoose';
 
-class DB {
-    connection: any;
+mongoose.connect('mongodb://localhost/MyDatabase',
+{ useNewUrlParser: true, useUnifiedTopology: true });
 
-    constructor() {
-        this.connection = mongoose.connect('mongodb://localhost/MyDatabase',
-            { useNewUrlParser: true, useUnifiedTopology: true });
-    }
+const Schema = mongoose.Schema;
 
-    userDetails() {
-        const Schema = mongoose.Schema;
+// roles are king, rr, user
 
-        const userDetail = new Schema({
-            username: String,
-            password: String
-        });
+const userDetail = new Schema({
+    username: String,
+    password: String,
+    role: String,
+    registered: Date,
+    active: Boolean
+});
 
-        userDetail.plugin(passportLocalMongoose);
-        return mongoose.model('userInfo', userDetail);
+userDetail.plugin(passportLocalMongoose);
 
-         /*
-            UserDetails.register({username:'paul', active: false}, 'paul');
-            UserDetails.register({username:'jay', active: false}, 'jay');
-            UserDetails.register({username:'roy', active: false}, 'roy');
-        */
-    }
-}
+const userModel = mongoose.model('userInfo', userDetail);
 
-export = DB;
+export = userModel;

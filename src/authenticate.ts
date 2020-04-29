@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-import DB from './db_api';
+import userModel from './db_api';
 
 
 const router = express.Router();
@@ -15,12 +15,8 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
-const db = new DB();
-
-const userDetails = db.userDetails();
-
-passport.use(userDetails.createStrategy());
-passport.serializeUser(userDetails.serializeUser());
-passport.deserializeUser(userDetails.deserializeUser());
+passport.use(userModel.createStrategy());
+passport.serializeUser(userModel.serializeUser());
+passport.deserializeUser(userModel.deserializeUser());
 
 export = router;
