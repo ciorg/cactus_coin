@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 import passportLocalMongoose from 'passport-local-mongoose';
 
+//sudo docker exec -it 768a2742624a mongo
+
 mongoose.connect('mongodb://localhost/MyDatabase',
 { useNewUrlParser: true, useUnifiedTopology: true });
 
