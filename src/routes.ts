@@ -48,8 +48,15 @@ router.post('/portal', (req, res, next) => {
 
   router.get(
     '/register',
+    connectEnsureLogin.ensureLoggedIn('/'),
     (req, res, next) => {
-        res.render('pages/register');
+        const { user }: any = req;
+
+        if (user && user.role === 'king') {
+            res.render('pages/register');
+        } else {
+            res.redirect('/');
+        }
   });
 
   router.post(

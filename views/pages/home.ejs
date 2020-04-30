@@ -29,10 +29,19 @@
             </footer>
         </div>
         <script>
-            ['Portal', 'Notes', 'To Do', 'Projects']
-                .forEach((link) => {
-                    
-                });
+            document.getElementById("navLinks").addEventListener("load", displayLinks);
+
+            function displayLinks() {
+                console.log('here');
+
+                const rr = document.getElementById('rr');
+            
+                console.log(user.role);
+
+                if (user.role === 'rr' || user.role == 'king') {
+                    rr.style.display = 'block';
+                }
+            }
         </script>
     </body>
 </html>

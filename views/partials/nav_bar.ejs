@@ -1,5 +1,5 @@
-<div class="navLinks">
-    <ul>
+<div class="navLinks" >
+    <ul id="navLinks">
         <li>
             <a href="/">Portal</a>
         </li>
@@ -12,14 +12,21 @@
         <li>
             <a href="#projects">Projects</a>
         </li>
-        <li>
-            <a href="#rootbeer">Rootbeer Rater</a>
-        </li>
-        <li>
-            <a href="/register">Add User</a>
-        </li>
+        <% if (user.role === 'rr' || user.role === 'king') { %>
+            <li>
+                <a href="#rootbeer">Rootbeer Rater</a>
+            </li>
+        <% } %>
+        <% if (user.role === 'king') { %>
+            <li>
+                <a href="/register">Add User</a>
+            </li>
+        <% } %>
         <li>
             <a href="#user info">User Info</a>
+        </li>
+        <li>
+            <a href="/logout">Log Out</a>
         </li>
     </ul>
 </div>
