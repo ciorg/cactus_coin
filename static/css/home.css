@@ -13,15 +13,16 @@
     border: 2px solid #1c6404;
 }
 
+.navLinks {
+    overflow: hidden;
+    background-color: #ffc800;
+    margin: auto;
+}
+
 .navLinks ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    background-color: #ffc800;
-    width: 80%;
-    border-radius: 10px;
-
 }
 
 .navLinks li {
@@ -30,12 +31,13 @@
   
 .navLinks li a {
     display: block;
-    color: white;
+    color: #d54a00;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
   
 .navLinks li a:hover {
-    background-color: #111;
+    background-color: #fc1378;
+    color: #ffc800;
 }
