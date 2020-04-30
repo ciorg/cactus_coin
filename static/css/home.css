@@ -1,0 +1,41 @@
+.userLogo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.userLogo img{
+    margin-top: 25px;
+    margin-right: 25px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #1c6404;
+}
+
+.navLinks ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ffc800;
+    width: 80%;
+    border-radius: 10px;
+
+}
+
+.navLinks li {
+    float: left;
+  }
+  
+.navLinks li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+.navLinks li a:hover {
+    background-color: #111;
+}
