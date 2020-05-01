@@ -53,7 +53,7 @@ router.post('/portal', (req, res, next) => {
         const { user }: any = req;
 
         if (user && user.role === 'king') {
-            res.render('pages/register');
+            res.render('pages/register', { user });
         } else {
             res.redirect('/');
         }
@@ -69,10 +69,10 @@ router.post('/portal', (req, res, next) => {
     async (req: any, res: any, next: any) => {
         const { username, password, role } = req.body;
 
-        let user;
+        let newuser;
 
         try {
-            user = await userModel.register({
+            newuser = await userModel.register({
                 username,
                 active: true,
                 role,
@@ -82,7 +82,7 @@ router.post('/portal', (req, res, next) => {
             return res.send(e);
         }
     
-        return res.render('pages/home', { user });
+        return res.render('pages/home', { user: newuser });
     });
 
  export = router;

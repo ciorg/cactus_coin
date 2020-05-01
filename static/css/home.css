@@ -41,3 +41,64 @@
     background-color: #fc1378;
     color: #ffc800;
 }
+
+.add_user {
+    padding-top: 3%;
+    margin: auto;
+    width: 60%;
+    font-family: 'Varela';
+    font-size:1.2em;
+    text-align: center;
+    color: white;
+    line-height: 2.5em;
+}
+
+.reg_input {
+    width: 70%;
+    text-align: left;
+}
+
+.reg_label {
+    width: 30%;
+}
+
+.add_user table {
+    width: 80%;
+    margin: auto;
+}
+
+.add_user input[type=text] {
+    width: 95%;
+    height: 2em;
+    font-size: 0.8em;
+    color: #d44c04; 
+}
+
+.add_user input[type=password] {
+    width: 95%;
+    height: 2em;
+    font-size: 0.8em;
+    color: #d44c04; 
+}
+
+.add_user select {
+    width: 30%;
+    height: 2em;
+    font-size: 0.8em;
+    color: #d44c04; 
+    text-align: center;
+}
+
+.addUser_button {
+    width: 40%;
+    font-size: 1.1em;
+    color: #facc04;
+    border-radius: 5px;
+    background-color: #d44c04;
+    margin-top: 5%;
+}
+
+.addUser_button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
