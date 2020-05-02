@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); -%>
+</head>
+<body>
+    <div class="pageBody">
+        <%- include('../partials/nav_bar'); %>
+        <div class="add_user">
+            <form action="/register" method="post">
+                <table>
+                    <tr>
+                        <td class="reg_label">
+                            <label>Username:</label>
+                        </td>
+                        <td class="reg_input"> 
+                            <input type="text" name="username" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="reg_label">
+                            <label>Password:</label>
+                        </td>
+                        <td class="reg_input">
+                            <input type="password" name="password" id="password" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="reg_label">
+                            <label>Confirm Password:</label>
+                        </td>
+                        <td class="reg_input">
+                            <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="reg_label">
+                            <label>Role:</label>
+                        </td>
+                        <td class="reg_input">
+                            <select name="role" id="role">
+                                <option value="user" >User</option>
+                                <option value="rr">Rootbeer Rater</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                 <span id='message'></span>
+                <button type="submit" value="Login" class="addUser_button" required >
+                    Add User
+                </button>
+            </form>
+        </div>
+        <div class="userLogo">
+            <img src="imgs/cc_logo.png"/>
+        </div>
+
+        <div class="portalBottom">
+            <div class="short">
+            <img src="imgs/short_landscape.png"/>
+            </div>
+            <div class="long">
+            <img src="imgs/long_landscape.png"/>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var check = function() {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+                document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
+</body>

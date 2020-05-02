@@ -1,8 +1,10 @@
 import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
+import { check } from 'express-validator'; 
 import passport from 'passport';
+import userModel from './user';
 
-const router = express.Router();
+const router = express.Router()
 
 router.post('/portal', (req, res, next) => {
     passport.authenticate('local',
@@ -44,11 +46,43 @@ router.post('/portal', (req, res, next) => {
       res.redirect('/');
   });
 
-    
+  router.get(
+    '/register',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    (req, res, next) => {
+        const { user }: any = req;
 
-  /*
-  UserDetails.register({username:'paul', active: false}, 'paul');
-  UserDetails.register({username:'jay', active: false}, 'jay');
-  UserDetails.register({username:'roy', active: false}, 'roy');
-  */
+        if (user && user.role === 'king') {
+            res.render('pages/register', { user });
+        } else {
+            res.redirect('/');
+        }
+  });
+
+  router.post(
+    '/register',
+    [
+        check('username').trim().escape().stripLow(),
+        check('reg_password').trim().escape().stripLow(),
+        check('con_password').trim().escape().stripLow()
+    ],
+    async (req: any, res: any, next: any) => {
+        const { username, password, role } = req.body;
+
+        let newuser;
+
+        try {
+            newuser = await userModel.register({
+                username,
+                active: true,
+                role,
+                registered: new Date()
+            }, password);
+        } catch (e) {
+            return res.send(e);
+        }
+    
+        return res.render('pages/home', { user: newuser });
+    });
+
  export = router;

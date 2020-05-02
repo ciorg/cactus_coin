@@ -1,25 +1,26 @@
 const mongoose = require('mongoose');
-import passportLocalMongoose from 'passport-local-mongoose';
 
-class DB {
-    connection: any;
-
-    constructor() {
-        this.connection = mongoose.connect('mongodb://localhost/MyDatabase',
-            { useNewUrlParser: true, useUnifiedTopology: true });
+//sudo docker exec -it 768a2742624a mongo
+class MongooseApi {
+    constructor(url: string) {
+        mongoose.connect(
+            url,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
+        );
     }
 
-    userDetails() {
+    schema(schema: any) {
         const Schema = mongoose.Schema;
 
-        const userDetail = new Schema({
-            username: String,
-            password: String
-        });
+        return new Schema(schema);
+    }
 
-        userDetail.plugin(passportLocalMongoose);
-        return mongoose.model('userInfo', userDetail);
+    model(name: string, dbSchema: any) {
+        return mongoose.model(name, dbSchema);
     }
 }
 
-export = DB;
+export = MongooseApi;

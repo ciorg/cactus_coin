@@ -1,9 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-
 import authenticate from './authenticate';
 import routes from './routes';
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,7 +19,6 @@ app.use('/', routes);
 
 app.use(function(req, res, next){
     res.status(404).send('this page does not exist');
-    // res.status(404).render('404_error_template', {title: "Sorry, page not found"});
 });
   
 app.listen(port, () => console.log(`Example app listening on port:${port}`));
