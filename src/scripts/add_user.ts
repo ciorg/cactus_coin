@@ -1,4 +1,4 @@
-import userModel from '../db_api';
+import userModel from '../user';
 
 
 async function register() {

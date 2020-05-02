@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-import userModel from './db_api';
+import userModel from './user';
 
 
 const router = express.Router();
