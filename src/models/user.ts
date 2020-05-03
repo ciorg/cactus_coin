@@ -1,6 +1,5 @@
-// const mongoose = require('mongoose');
 import passportLocalMongoose from 'passport-local-mongoose';
-import DbApi from './db_api';
+import DbApi from '../db_api';
 
 const db = new DbApi('mongodb://localhost/MyDatabase');
 
