@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('../partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="css/rb.css">
 </head>
 <body>
     <div class="pageBody">
@@ -11,34 +12,10 @@
                 <table>
                     <tr>
                         <td class="rb_label">
-                            <label>Brand</label>
+                            <label>Brand Name</label>
                         </td>
                         <td class="rb_input"> 
-                            <input type="text" name="rb_brand" required />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rb_label">
-                            <label>Flavor</label>
-                        </td>
-                        <td class="rb_input"> 
-                            <input type="text" name="rb_flavor" required />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rb_label">
-                            <label>Sweetness</label>
-                        </td>
-                        <td class="rb_input"> 
-                            <input type="text" name="rb_sweetness" required />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rb_label">
-                            <label>Bite</label>
-                        </td>
-                        <td class="rb_input"> 
-                            <input type="text" name="rb_bite" required />
+                            <input type="text" name="rb_brand_name" required />
                         </td>
                     </tr>
                     <tr>
@@ -46,23 +23,63 @@
                             <label>Branding</label>
                         </td>
                         <td class="rb_input"> 
-                            <input type="text" name="rb_branding" required />
+                            <input type="number" name="rb_branding" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>After Taste</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_at" min="0" max="10" placeholder="0"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="rb_label">
-                            <label>Bubble</label>
+                            <label>Aroma</label>
                         </td>
                         <td class="rb_input"> 
-                            <input type="text" name="rb_bubble" required />
+                            <input type="number" name="rb_aroma" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Bite</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_bite" min="0" max="10" placeholder="0"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="rb_label">
-                            <label>Satisfaction</label>
+                            <label>Carbonation</label>
                         </td>
                         <td class="rb_input"> 
-                            <input type="text" name="rb_satisfaction" required />
+                            <input type="number" name="rb_carb" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Flavor</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_flavor" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Smoothness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_smooth" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Sweetness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_sweet" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Overall</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_overall" min="0" max="10" placeholder="0"/>
                         </td>
                     </tr>
                     <tr>
@@ -74,6 +91,9 @@
                         </td>
                     </tr>
                 </table>
+                <p>Notes:</p>
+                <textarea name="notest"></textarea>
+                <br />
                 <button type="submit" value="rootbeer" class="add_rb_button" required >
                     Add Rootbeer
                 </button>
