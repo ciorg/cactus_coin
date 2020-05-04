@@ -6,6 +6,7 @@ import multer from 'multer';
 import path from 'path';
 
 import userModel from './models/user';
+import rbModel from './models/rb';
 
 const router = express.Router()
 
@@ -117,9 +118,28 @@ router.post('/portal', (req, res, next) => {
     router.post(
         '/rootbeer',
         upload.single('rb_image'),
-        (req: any, res: any, next: any) => {
+        async (req: any, res: any, next: any) => {
             console.log(req.user);
             console.log(req.file);
+
+            const newRbInfo = {
+                name: req.body.rb_brand_name,
+                created: new Date(),
+                created_by: req.user._id,
+                image: req.file.path
+            };
+
+            let newRb;
+            
+            try {
+                newRb = await rbModel.create(newRbInfo);
+                return res.send(newRb);
+            } catch (e) {
+                return res.send(e);
+            }
+        
+
+    
         return res.send(req.body);
     });
 
