@@ -7,6 +7,7 @@ import path from 'path';
 
 import userModel from './models/user';
 import rbModel from './models/rb';
+import rbRatingModel from './models/rb_ratings';
 
 const router = express.Router()
 
@@ -133,14 +134,40 @@ router.post('/portal', (req, res, next) => {
             
             try {
                 newRb = await rbModel.create(newRbInfo);
-                return res.send(newRb);
             } catch (e) {
                 return res.send(e);
             }
-        
 
-    
-        return res.send(req.body);
+            let newRating;
+
+            const rbRating = {
+                rb_id: newRb._id,
+                ratind_date: new Date(),
+                rated_by: req.user._id,
+                branding: req.body.rb_branding,
+                after_taste: req.body.rb_at,
+                aroma: req.body.rb_aroma,
+                bite: req.body.rb_bite,
+                carbonation: req.body.rb_carb,
+                flavor: req.body.rb_flavor,
+                smoothness: req.body.rb_smooth,
+                sweetness: req.body.rb_sweet,
+                overall: req.body.rb_overall,
+                notes: req.body.rb_notes
+            };
+
+            try {
+                newRating = await rbRatingModel.create(rbRating);
+            } catch (e) {
+                return res.send(e);
+            }
+
+            const rObj = {
+                rating: newRating,
+                rb: newRb
+            };
+        
+            return res.send(rObj);
     });
 
  export = router;
