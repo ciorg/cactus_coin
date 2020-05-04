@@ -2,7 +2,10 @@ import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator'; 
 import passport from 'passport';
-import userModel from './user';
+import multer from 'multer';
+import path from 'path';
+
+import userModel from './models/user';
 
 const router = express.Router()
 
@@ -55,7 +58,7 @@ router.post('/portal', (req, res, next) => {
         if (user && user.role === 'king') {
             res.render('pages/register', { user });
         } else {
-            res.redirect('/');
+            res.redirect('/home');
         }
   });
 
@@ -83,6 +86,41 @@ router.post('/portal', (req, res, next) => {
         }
     
         return res.render('pages/home', { user: newuser });
+    });
+
+    router.get('/rootbeer',
+        connectEnsureLogin.ensureLoggedIn('/'),
+        (req: any, res: any, next: any) => {
+            const { user }: any = req;
+
+            if (user && (user.role === 'king' || user.role === 'rr')) {
+                res.render('pages/rootbeer', { user });
+            } else {
+                res.redirect('/home');
+            }
+    });
+
+    const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');
+    
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, imgPath);
+        },
+        filename: (req, file, cb) => {
+            // need a uniq name for each file
+            cb(null, file.originalname);
+        }
+      });
+
+      const upload = multer({ storage });
+
+    router.post(
+        '/rootbeer',
+        upload.single('rb_image'),
+        (req: any, res: any, next: any) => {
+            console.log(req.user);
+            console.log(req.file);
+        return res.send(req.body);
     });
 
  export = router;

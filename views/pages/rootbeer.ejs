@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="css/rb.css">
+</head>
+<body>
+    <div class="pageBody">
+        <%- include('../partials/nav_bar'); %>
+        <div class="add_rb">
+            <form action="/rootbeer" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Brand Name</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="text" name="rb_brand_name" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Branding</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_branding" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>After Taste</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_at" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Aroma</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_aroma" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Bite</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_bite" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Carbonation</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_carb" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Flavor</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_flavor" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Smoothness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_smooth" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Sweetness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_sweet" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Overall</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="rb_overall" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Image</label>
+                        </td>
+                        <td class="rb_input">
+                            <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
+                        </td>
+                    </tr>
+                </table>
+                <p>Notes:</p>
+                <textarea name="notest"></textarea>
+                <br />
+                <button type="submit" value="rootbeer" class="add_rb_button" required >
+                    Add Rootbeer
+                </button>
+            </form>
+        </div>
+        <div class="userLogo">
+            <img src="imgs/cc_logo.png"/>
+        </div>
+
+        <div class="portalBottom">
+            <div class="short">
+            <img src="imgs/short_landscape.png"/>
+            </div>
+            <div class="long">
+            <img src="imgs/long_landscape.png"/>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    </script>
+</body>

@@ -1,4 +1,4 @@
-import userModel from '../user';
+import userModel from '../models/user';
 
 
 async function register() {

@@ -1,2 +1,5 @@
 dist/
 node_modules/
+
+# dont want to save images
+static/rb_imgs/*
