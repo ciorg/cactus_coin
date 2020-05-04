@@ -107,6 +107,7 @@ router.post('/portal', (req, res, next) => {
             cb(null, imgPath);
         },
         filename: (req, file, cb) => {
+            // need a uniq name for each file
             cb(null, file.originalname);
         }
       });
@@ -117,6 +118,8 @@ router.post('/portal', (req, res, next) => {
         '/rootbeer',
         upload.single('rb_image'),
         (req: any, res: any, next: any) => {
+            console.log(req.user);
+            console.log(req.file);
         return res.send(req.body);
     });
 
