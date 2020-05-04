@@ -1,6 +1,5 @@
-Website 
+node.js
+mongo
+express
 
-things to add
-* hacker news feed
-* sports ball feed
-* cypto trackers
+personal site for things I'm interested in
