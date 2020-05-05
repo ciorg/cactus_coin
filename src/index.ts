@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import authenticate from './authenticate';
-import routes from './routes';
+import routes from './routes/routes';
 
 
 const app = express();
