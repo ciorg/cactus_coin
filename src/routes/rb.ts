@@ -4,21 +4,19 @@ import connectEnsureLogin from 'connect-ensure-login';
 import multer from 'multer';
 import path from 'path';
 
+import permissions from '../permissions';
 import rbModel from '../models/rb';
 import rbRatingModel from '../models/rb_ratings';
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
     (req: any, res: any, next: any) => {
         const { user }: any = req;
 
-        if (user && (user.role === 'king' || user.role === 'rr')) {
-            res.render('pages/rootbeer', { user });
-        } else {
-            res.redirect('/home');
-        }
+        res.render('pages/rootbeer', { user });
     }
 );
 
