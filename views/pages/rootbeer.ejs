@@ -7,6 +7,17 @@
 <body>
     <div class="pageBody">
         <%- include('../partials/nav_bar'); %>
+        <div class="rb_home">
+            <ul>
+                <li>crud rootbeer</li>
+                <li>crud rating</li>
+                <li>search rb</li>
+                <li>link to home rb</li>
+                <li>home rb search rb</li>
+                <li>home rb view all</li>
+                <li>home rb sort by any category</li>
+            </ul>
+        </div>
         <div class="add_rb">
             <form action="/rootbeer" method="post" enctype="multipart/form-data">
                 <table>
@@ -92,7 +103,7 @@
                     </tr>
                 </table>
                 <p>Notes:</p>
-                <textarea name="notest"></textarea>
+                <textarea name="rb_notes"></textarea>
                 <br />
                 <button type="submit" value="rootbeer" class="add_rb_button" required >
                     Add Rootbeer
