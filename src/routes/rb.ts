@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 
 import multer from 'multer';
@@ -13,10 +13,12 @@ const router = express.Router();
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    (req: any, res: any, next: any) => {
+    async (req: any, res: any, next: any) => {
         const { user }: any = req;
 
-        res.render('pages/rootbeer', { user });
+        const rbs = await rbModel.find({});
+
+        res.render('pages/rb/home', { user, rbs });
     }
 );
 
@@ -34,10 +36,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+router.get('/create_rb',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    (req: any, res: any) => {
+        const { user }: any = req;
+
+        res.render('pages/rb/create', { user });
+    }
+);
+
+router.get('/rb/:rb_id', async (req: Request, res: Response) => {
+    const id = req.params.rb_id;
+    const rbData = await rbModel.find({ _id: id });
+    console.log(rbData);
+    res.send(rbData);
+});
+
 router.post(
-    '/rootbeer',
+    '/create_rb',
     upload.single('rb_image'),
-    async (req: any, res: any, next: any) => {
+    async (req: any, res: any) => {
         console.log(req.user);
         console.log(req.file);
 

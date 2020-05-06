@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head'); -%>
+    <%- include('../../partials/head'); -%>
     <link rel="stylesheet" type="text/css" href="css/rb.css">
 </head>
 <body>
     <div class="pageBody">
-        <%- include('../partials/nav_bar'); %>
-        <div class="rb_home">
-            <ul>
-                <li>crud rootbeer</li>
-                <li>crud rating</li>
-                <li>search rb</li>
-                <li>link to home rb</li>
-                <li>home rb search rb</li>
-                <li>home rb view all</li>
-                <li>home rb sort by any category</li>
-            </ul>
-        </div>
+        <%- include('../../partials/nav_bar'); %>
         <div class="add_rb">
             <form action="/rootbeer" method="post" enctype="multipart/form-data">
                 <table>
@@ -123,7 +112,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-    </script>
 </body>
