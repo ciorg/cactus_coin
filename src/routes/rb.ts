@@ -6,7 +6,6 @@ import path from 'path';
 
 import permissions from '../permissions';
 import rbModel from '../models/rb';
-import rbRatingModel from '../models/rb_ratings';
 
 const router = express.Router();
 
@@ -22,21 +21,7 @@ router.get('/rootbeer',
     }
 );
 
-const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');
-    
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, imgPath);
-    },
-    filename: (req, file, cb) => {
-        // need a uniq name for each file
-        cb(null, file.originalname);
-    }
-});
-
-const upload = multer({ storage });
-
-router.get('/create_rb',
+router.get('/rb_create',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     (req: any, res: any) => {
@@ -46,65 +31,96 @@ router.get('/create_rb',
     }
 );
 
+router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
+    const id = req.params.rb_id;
+
+    try {
+        const response = await rbModel.deleteOne({ _id: id });
+
+        console.log(response);
+
+        res.redirect('/rootbeer');
+
+    } catch (e) {
+        res.send(e);
+    }
+});
+
 router.get('/rb/:rb_id', async (req: Request, res: Response) => {
     const id = req.params.rb_id;
     const rbData = await rbModel.find({ _id: id });
-    console.log(rbData);
     res.send(rbData);
 });
 
+const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');
+    
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, imgPath);
+    },
+    filename: (req, file, cb) => {
+        // need a uniq name for each file
+        // epochtime, random int, filename
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage });
+
 router.post(
-    '/create_rb',
+    '/rb_create',
     upload.single('rb_image'),
     async (req: any, res: any) => {
-        console.log(req.user);
-        console.log(req.file);
+        const newRbInfo = {
+            name: req.body.rb_brand_name,
+            created: new Date(),
+            created_by: req.user._id,
+            image: `rb_imgs/${req.file.filename}`
+        };
+        
+        try {
+            await rbModel.create(newRbInfo);
+        } catch (e) {
+            return res.send(e);
+        }
+        
+        res.redirect('/rootbeer');
+});
 
+router.get('/rb_update/:rb_id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: any) => {
+        const id = req.params.rb_id;
+        const rb = await rbModel.find({ _id: id });
+
+        const { user }: any = req;
+
+        res.render('pages/rb/update', { user, rb: rb[0] });
+    }
+);
+
+router.post(
+    '/rb_update',
+    upload.single('rb_image'),
+    async (req: any, res: any) => {
+
+        /*
         const newRbInfo = {
             name: req.body.rb_brand_name,
             created: new Date(),
             created_by: req.user._id,
             image: req.file.path
         };
-
-        let newRb;
         
         try {
-            newRb = await rbModel.create(newRbInfo);
+            await rbModel.create(newRbInfo);
         } catch (e) {
             return res.send(e);
         }
-
-        let newRating;
-
-        const rbRating = {
-            rb_id: newRb._id,
-            ratind_date: new Date(),
-            rated_by: req.user._id,
-            branding: req.body.rb_branding,
-            after_taste: req.body.rb_at,
-            aroma: req.body.rb_aroma,
-            bite: req.body.rb_bite,
-            carbonation: req.body.rb_carb,
-            flavor: req.body.rb_flavor,
-            smoothness: req.body.rb_smooth,
-            sweetness: req.body.rb_sweet,
-            overall: req.body.rb_overall,
-            notes: req.body.rb_notes
-        };
-
-        try {
-            newRating = await rbRatingModel.create(rbRating);
-        } catch (e) {
-            return res.send(e);
-        }
-
-        const rObj = {
-            rating: newRating,
-            rb: newRb
-        };
-    
-        return res.send(rObj);
+        */
+        
+        res.redirect('/rootbeer');
 });
 
 export = router;

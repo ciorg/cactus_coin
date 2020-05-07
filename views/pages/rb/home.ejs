@@ -25,12 +25,12 @@
             <% rbs.forEach((rb) => { %>
                 <tr>
                     <td><a href="/rb/<%=rb._id%>"><%= rb.name %></a></td>
-                    <td><a href="#">edit</a></td>
-                    <td><a href="#">delete</a></td>
+                    <td><a href="/rb_update/<%=rb._id%>">edit</a></td>
+                    <td><a href="/rb/<%=rb._id %>/delete">delete</a></td>
                 </tr>
             <% }); %>
         </table>
-        <a href="/create_rb">Add New Rootbeer</a>
+        <a href="/rb_create">Add New Rootbeer</a>
 
         <div class="userLogo">
             <img src="imgs/cc_logo.png"/>
