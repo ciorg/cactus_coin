@@ -1,37 +1,57 @@
 .rb_view {
     color: #55260d;
-    width: 40%;
+    width: 95%;
     margin: auto;
     text-align: center;
+    padding-top: 3%;
+}
+
+.rb_view p {
+    font-size: 1.5em;
+}
+
+.rb_view a {
+    float: right;
+}
+
+.rb_view img {
+    float: left;
+    height: 400px;
+    width: 200px;
 }
 
 .edit_rb {
-    height: 40%; /* 100% Full-height */
-    width: 0%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    height: 0; /* 100% Full-height */
+    width: 60%; /* 0 width - change this with JavaScript */
     z-index: 1; /* Stay on top */
-    top: 10%; /* Stay at the top */
-    left: 0;
     background-color: #facc04;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px; /* Place content 60px from the top */
+    overflow-y: hidden; /* Disable horizontal scroll */
     transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+    margin: auto;
 }
 
 .edit_rb form {
     color: #55260d;
     text-align: center;
-    line-height: 1.5em;
-    font-size: 1.5em;
+    line-height: 1.2em;
+    font-size: 1.2em;
 }
 
 .edit_rb input {
-    margin-top: 3%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
+.edit_rb input[type=text] {
+    border-style:none;
+    width: 25%;
+    height: 1.8em;
+    font-size: 1em;
+    color: #d44c04; 
+  }
+
 .edit_rb button {
-    width: 80%;
+    width: 30%;
     font-size: 1.1em;
     color: #facc04;
     border-radius: 5px;
@@ -42,4 +62,4 @@
 .edit_rb button:hover {
     background-color: #facc04;
     color: #d44c04
-  }
+}

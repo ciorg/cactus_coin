@@ -15,22 +15,21 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 
 .portalContent {
   position: absolute;
-  margin-top: 10%;
-  margin-left: 22%;
-  width: 40%;
-  height: 40%;
+  margin-top: 20%;
+  margin-left: 55%;
+  width: 60%;
+  height: 60%;
 }
 
 .portalLogo {
   float: left;
-  height: 200px;
-  width: 200px;
+  height: 50%;
+  width: 22%;
   shape-outside: circle(50%);
-
 }
 
 .portalLogo img{
-  height: 175px;
+  height: 80%;
   border-radius: 50%;
   border: 2px solid #1c6404;
 }
@@ -50,7 +49,7 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
   text-decoration: none;
   font-family: 'Varela';
   text-shadow: 2px 2px #ef2556;
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 
 .portalLinks a:hover{
@@ -67,7 +66,7 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 .short img {
   position: absolute;
   height: 75px;
-  width: 300px;
+  width: 20%;
   bottom: 0;
   right: 0;
 }
@@ -75,7 +74,7 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 .long img {
   position: absolute;
   height: 75px;
-  width: 1200px;
+  width: 80%;
   bottom: 0;
   left: 0;
 }

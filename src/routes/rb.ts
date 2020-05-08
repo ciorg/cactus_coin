@@ -98,26 +98,28 @@ router.post(
 });
 
 router.post(
-    '/rb_update',
+    '/rb_update/:id',
     upload.single('rb_image'),
     async (req: any, res: any) => {
-
-        /*
-        const newRbInfo = {
-            name: req.body.rb_brand_name,
-            created: new Date(),
-            created_by: req.user._id,
-            image: req.file.path
-        };
+        const updateFields: { name?: string, image?: string } = {};
         
-        try {
-            await rbModel.create(newRbInfo);
-        } catch (e) {
-            return res.send(e);
+        if (req.file && req.file.path) {
+            updateFields.image = `rb_imgs/${req.file.filename}`;
         }
-        */
+
+        if(req.body && req.body.rb_brand_name) {
+            updateFields.name = req.body.rb_brand_name;
+        }
+
+        if (Object.keys(updateFields).length) {
+            try {
+                const update = await rbModel.updateOne({ _id: req.params.id }, updateFields) 
+            } catch (e) {
+                res.send(e);
+            }
+        }
         
-        res.redirect('/rootbeer');
+        res.redirect(`/rb/${req.params.id}`);
 });
 
 export = router;
