@@ -28,20 +28,5 @@
                 <%- include('../partials/footer'); %>
             </footer>
         </div>
-        <script>
-            document.getElementById("navLinks").addEventListener("load", displayLinks);
-
-            function displayLinks() {
-                console.log('here');
-
-                const rr = document.getElementById('rr');
-            
-                console.log(user.role);
-
-                if (user.role === 'rr' || user.role == 'king') {
-                    rr.style.display = 'block';
-                }
-            }
-        </script>
     </body>
 </html>

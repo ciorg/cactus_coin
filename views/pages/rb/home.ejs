@@ -25,7 +25,6 @@
             <% rbs.forEach((rb) => { %>
                 <tr>
                     <td><a href="/rb/<%=rb._id%>"><%= rb.name %></a></td>
-                    <td><a href="/rb_update/<%=rb._id%>">edit</a></td>
                     <td><a href="/rb/<%=rb._id %>/delete">delete</a></td>
                 </tr>
             <% }); %>
@@ -45,7 +44,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-    </script>
 </body>

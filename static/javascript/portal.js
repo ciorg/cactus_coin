@@ -1,4 +1,5 @@
 function slide(id) {
+    const open = isOpen(id);
     if (isOpen(id)) {
       closeNav(id);
     } else {

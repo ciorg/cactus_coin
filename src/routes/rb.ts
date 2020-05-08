@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
+import crypto from 'crypto';
 
 import multer from 'multer';
 import path from 'path';
@@ -47,9 +48,12 @@ router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
 });
 
 router.get('/rb/:rb_id', async (req: Request, res: Response) => {
-    const id = req.params.rb_id;
-    const rbData = await rbModel.find({ _id: id });
-    res.send(rbData);
+        const id = req.params.rb_id;
+        const rb = await rbModel.find({ _id: id });
+
+        const { user }: any = req;
+
+        res.render('pages/rb/view', { user, rb: rb[0] });
 });
 
 const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');
@@ -59,9 +63,15 @@ const storage = multer.diskStorage({
         cb(null, imgPath);
     },
     filename: (req, file, cb) => {
-        // need a uniq name for each file
-        // epochtime, random int, filename
-        cb(null, file.originalname);
+        const shasum = crypto.createHash('md5');
+
+        const hashInput = new Date().getTime() * Math.random();
+
+        shasum.update(`${hashInput}`, 'utf8');
+    
+        const prefix = shasum.digest('hex');
+
+        cb(null, `${prefix}_${file.originalname}`);
     }
 });
 
@@ -86,19 +96,6 @@ router.post(
         
         res.redirect('/rootbeer');
 });
-
-router.get('/rb_update/:rb_id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: any) => {
-        const id = req.params.rb_id;
-        const rb = await rbModel.find({ _id: id });
-
-        const { user }: any = req;
-
-        res.render('pages/rb/update', { user, rb: rb[0] });
-    }
-);
 
 router.post(
     '/rb_update',

@@ -9,26 +9,21 @@
 <body>
     <div class="pageBody">
         <%- include('../../partials/nav_bar'); %>
-        <div class="add_rb">
+        <div class="rb_view">
+            <h2><%= rb.name %></h2>
+            <img src="../<%= rb.image %>" height=200>
+            <br />
+            <a href="#" onclick="slide('edit_rb')">Edit Rootbeer Info</a>
+        </div>
+        <div class="edit_rb" id="edit_rb" >
             <form action="/rb_update" method="post" enctype="multipart/form-data">
-                <table>
-                    <tr>
-                        <td class="rb_label">
-                            <label>Name</label>
-                        </td>
-                        <td class="rb_input"> 
-                            <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rb_label">
-                            <label>Image</label>
-                        </td>
-                        <td class="rb_input">
-                            <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
-                        </td>
-                    </tr>
-                </table>
+                <label >Change Name</label> 
+                <br />
+                <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
+                <td class="rb_label">
+                <label>Update Image</label>
+                <br />
+                <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
                 <br />
                 <button type="submit" value="rootbeer" class="add_rb_button" required >
                     Update
@@ -38,11 +33,6 @@
         <div class="userLogo">
             <img src="../imgs/cc_logo.png"/>
         </div>
-
-        <p><%= rb.created %></p>
-
-        <img src="../<%= rb.image %>" height=50>
-
         <div class="portalBottom">
             <div class="short">
             <img src="../imgs/short_landscape.png"/>
@@ -52,4 +42,6 @@
             </div>
         </div>
     </div>
+
+    <script src="../javascript/portal.js"></script>  
 </body>
