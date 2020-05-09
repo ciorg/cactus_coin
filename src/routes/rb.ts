@@ -7,6 +7,7 @@ import path from 'path';
 
 import permissions from '../permissions';
 import rbModel from '../models/rb';
+import ratingsModel from '../models/rb_ratings';
 
 const router = express.Router();
 
@@ -50,10 +51,11 @@ router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
 router.get('/rb/:rb_id', async (req: Request, res: Response) => {
         const id = req.params.rb_id;
         const rb = await rbModel.find({ _id: id });
+        const ratings = await ratingsModel.find({ rb_id: id });
 
         const { user }: any = req;
 
-        res.render('pages/rb/view', { user, rb: rb[0] });
+        res.render('pages/rb/view', { user, rb: rb[0], ratings });
 });
 
 const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');

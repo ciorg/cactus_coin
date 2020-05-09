@@ -9,34 +9,32 @@
 <body>
     <div class="pageBody">
         <%- include('../../partials/nav_bar'); %>
-        <div class="rb_view">
+        <div class="rb_image">
             <img src="../<%= rb.image %>">
-            <table>
-                <tr>
-                    <td>
-                        <%= rb.name %>
-                    </td>
-                    <td>
-                        <a href="#" onclick="slide('edit_rb', 'height', 20)">Edit Rootbeer Info</a>
-                    </td>
-                    <td>
-                        view ratings
-                    </td>
-                </tr>
-            </table>
         </div>
-        <div class="edit_rb" id="edit_rb" >
-            <form action="/rb_update/<%=rb._id%>" method="post" enctype="multipart/form-data">
-                <label >Change Name</label> 
-                <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
-                <td class="rb_label">
-                <label>Update Image</label>
-                <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
-                <br />
-                <button type="submit" value="rootbeer" class="add_rb_button" required >
-                    Update
-                </button>
-            </form>
+        <div class="rb_view">
+            <p><%= rb.name %></p>
+            <div class="rb_links">
+                <a href="#" onclick="slide('edit_rb', 'height', 20)">Edit Rootbeer Info</a>
+                <a href="#">view ratings</a>
+            </div>
+            <div class="edit_rb" id="edit_rb" >
+                <form action="/rb_update/<%=rb._id%>" method="post" enctype="multipart/form-data">
+                    <label >Change Name</label> 
+                    <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
+                    <td class="rb_label">
+                    <label>Update Image</label>
+                    <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
+                    <br />
+                    <button type="submit" value="rootbeer" class="add_rb_button" required >
+                        Update
+                    </button>
+                </form>
+            </div>
+            <div class="ratings">
+                <a href="/rate/<%=rb._id%>">Add Rating</a>
+                <p><%= ratings[1] %></p>
+            </div>
         </div>
         <div class="userLogo">
             <img src="../imgs/cc_logo.png"/>
