@@ -23,8 +23,7 @@ router.post(
     '/rate/:id',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: Response) => {        
-
+    async (req: any, res: Response) => {
         const rating = {
             rb_id: req.params.id,
             rating_date: new Date(),
@@ -48,6 +47,19 @@ router.post(
         }
 
         return res.redirect(`/rb/${req.params.id}`);
+});
+
+router.get('/ratings',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const { user }: any = req;
+        // list of all the ratings user has submitted
+        // edit and/ or delete them
+        // get all the ratings from the user
+        const usersRatings = await ratingsModel.find({ rated_by: req.user._id});
+
+        return res.render('pages/rating/view', { user, usersRatings });
 });
 
 export = router;

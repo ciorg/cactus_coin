@@ -2,6 +2,7 @@
     color: #55260d;
     background-color: white;
     width: 70%;
+    height: 50%;
     margin: auto;
     text-align: center;
     padding-top: 3%;
@@ -68,4 +69,25 @@
 .edit_rb button:hover {
     background-color: #facc04;
     color: #d44c04
+}
+
+.ratings {
+    margin: auto;
+    height: 0; /* 100% Full-height */
+    width: 70%; /* 0 width - change this with JavaScript */
+    z-index: 1; /* Stay on top */
+    background-color: #facc04;
+    overflow-y: hidden; /* Disable horizontal scroll */
+    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.ratings table {
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.ratings table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
 }

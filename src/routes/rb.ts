@@ -8,6 +8,7 @@ import path from 'path';
 import permissions from '../permissions';
 import rbModel from '../models/rb';
 import ratingsModel from '../models/rb_ratings';
+import userModel from '../models/user';
 
 const router = express.Router();
 
@@ -51,7 +52,14 @@ router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
 router.get('/rb/:rb_id', async (req: Request, res: Response) => {
         const id = req.params.rb_id;
         const rb = await rbModel.find({ _id: id });
+
         const ratings = await ratingsModel.find({ rb_id: id });
+
+        
+        for (const r of ratings) {
+            const name = await userModel.findById(r.rated_by, 'username');
+            r.rated_by = name.username;
+        }
 
         const { user }: any = req;
 

@@ -20,11 +20,14 @@
         </div>
 
         <p><%= user %></p>
+        <a href="/ratings">View Ratings</a>
 
         <table>
             <% rbs.forEach((rb) => { %>
                 <tr>
                     <td><a href="/rb/<%=rb._id%>"><%= rb.name %></a></td>
+                    <td><a href="/rb/<%=rb._id%>">View</a></td>
+                    <td><a href="/rate/<%=rb._id%>">Add Rating</a></td>
                     <td><a href="/rb/<%=rb._id %>/delete">delete</a></td>
                 </tr>
             <% }); %>
