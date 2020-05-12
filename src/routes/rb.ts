@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import crypto from 'crypto';
 
+
 import multer from 'multer';
 import path from 'path';
 
@@ -19,6 +20,31 @@ router.get('/rootbeer',
         const { user }: any = req;
 
         res.render('pages/rb/home', { user });
+    }
+);
+
+router.post('/rb_search',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const { user }: any = req;
+
+        let search;
+
+        try {
+            search = new RegExp(req.body.rb_search, 'i');
+        } catch (e) {
+            res.send(e);
+        }
+
+        const results = await rbModel.find({ name: search });
+
+        for (const r of results) {
+            const name = await userModel.findById(r.created_by, 'username');
+            r.created_by = name.username;
+        }
+
+        res.render('pages/rb/search_results', { user, results });
     }
 );
 

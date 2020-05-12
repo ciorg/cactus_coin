@@ -1,5 +1,5 @@
 .rb_home {
-    width: 40%;
+    width: 840px;
     height: 125px;
     margin: auto;
     text-align: center;
@@ -140,4 +140,30 @@
 .ratings table, th, tr, td {
     border: 1px solid black;
     border-collapse: collapse;
+}
+
+.search_results {
+    margin-top: 30px;
+}
+
+.search_results table {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.search_results table, th, tr, td {
+    border: 1px solid #d44c04;
+    border-collapse: collapse;
+}
+
+.search_results a {
+    text-decoration: none;
+    font-family: 'Varela';
+    font-size: 1.2em;
+    color: white;
+}
+
+.search_results a:hover {
+    color: pink
 }

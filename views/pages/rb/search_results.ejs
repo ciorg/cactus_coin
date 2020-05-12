@@ -21,7 +21,28 @@
                 </form>
             </div>
         </div>
-
+        <div class='search_results'>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Date Created</th>
+                    <th>Added By</th>
+                    <th>Avg Rating</th>
+                    <th>Add Rating</th>
+                </tr>
+                <% for (const result of results) { %>
+                <tr>
+                    <td><a href="/rb/<%-result._id %>"><%- result.name %></a></td>
+                    <td><img height=75 src="<%- result.image %>"></td>
+                    <td><%- result.created.toDateString() %></td>
+                    <td><%- result.created_by %></td>
+                    <td>Avg Rating</td>
+                    <td><a href="/rate/<%- result._id %>">Add Rating</a></td>
+                </tr>
+                <% } %>
+            </table>
+        </div>
         <footer>
             <%- include('../../partials/footer'); %>
         </footer>
