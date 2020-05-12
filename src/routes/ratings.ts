@@ -54,12 +54,55 @@ router.get('/ratings',
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
         const { user }: any = req;
-        // list of all the ratings user has submitted
-        // edit and/ or delete them
-        // get all the ratings from the user
+
         const usersRatings = await ratingsModel.find({ rated_by: req.user._id});
 
         return res.render('pages/rating/view', { user, usersRatings });
+});
+
+router.post('/ratings/:id/update',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const updatedRating = {
+            rating_date: new Date(),
+            rated_by: req.user._id,
+            branding: req.body.branding,
+            after_taste: req.body.at,
+            aroma: req.body.aroma,
+            bite: req.body.bite,
+            carbonation: req.body.carb,
+            flavor: req.body.flavor,
+            smoothness: req.body.smooth,
+            sweetness: req.body.sweet,
+            overall: req.body.overall,
+            notes: req.body.notes
+        };
+
+        if (Object.keys(updatedRating).length) {
+            try {
+                const update = await ratingsModel.updateOne({ _id: req.params.id }, updatedRating);
+                res.redirect('/ratings');
+            } catch (e) {
+                res.send(e);
+            }
+        }
+        
+    }
+)
+
+router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const response = await ratingsModel.deleteOne({ _id: id });
+
+        console.log(response);
+
+        res.redirect('/ratings');
+    } catch (e) {
+        res.send(e);
+    }
 });
 
 export = router;

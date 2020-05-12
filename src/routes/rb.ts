@@ -18,9 +18,7 @@ router.get('/rootbeer',
     async (req: any, res: any, next: any) => {
         const { user }: any = req;
 
-        const rbs = await rbModel.find({});
-
-        res.render('pages/rb/home', { user, rbs });
+        res.render('pages/rb/home', { user });
     }
 );
 

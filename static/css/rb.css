@@ -1,3 +1,53 @@
+.rb_home {
+    width: 40%;
+    height: 125px;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    margin-top: 30px;
+}
+
+.rb_home_links {
+    width: 100%;
+    height: 2em;
+    border-radius: 25px 25px 0px 0px;
+    background-color: #d44c04
+}
+
+.rb_home_links a {
+    text-decoration: none;
+    font-family: 'Varela';
+    padding: 20px;
+    font-size: 1.3em;
+    color: #facc04;
+}
+
+.rb_home_links a:hover {
+    color: white;
+}
+
+.rb_home_search {
+    margin-top: 30px;
+}
+
+.rb_home_search label {
+    font-size: 1.4em;
+    font-family: 'Varela';
+    color: #cb7519
+}
+
+.rb_home_search input[type=search] {
+    border-style:none;
+    border: 2px solid #cb7519;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 60%;
+    height: 2.6em;
+    font-size: 0.8em;
+    color: #d44c04; 
+  }
+
 .rb_view {
     color: #55260d;
     background-color: white;
