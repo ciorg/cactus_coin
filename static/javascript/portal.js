@@ -1,23 +1,23 @@
-function slide(id) {
-    if (isOpen(id)) {
-      closeNav(id);
+function slide(id, parameter='width', size=20) {
+    if (isOpen(id, parameter, size)) {
+      closeNav(id, parameter);
     } else {
-      openNav(id);
+      openNav(id, parameter, size);
     }
   }
 
-  function isOpen(id) {
-    if (document.getElementById(id).style.width === '20%') {
+  function isOpen(id, parameter, size) {
+    if (document.getElementById(id).style[parameter] === `${size}%`) {
         return true;
     }
 
     return false;
   }
 
-  function openNav(id) {
-    document.getElementById(id).style.width = "20%";
+  function openNav(id, parameter, size) {
+    document.getElementById(id).style[parameter] = `${size}%`;
   }
 
-  function closeNav(id) {
-    document.getElementById(id).style.width = "0";
+  function closeNav(id, parameter) {
+    document.getElementById(id).style[parameter] = 0;
   }

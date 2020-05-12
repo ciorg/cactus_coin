@@ -1,10 +1,169 @@
-.add_rb {
+.rb_home {
+    width: 840px;
+    height: 125px;
     margin: auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    margin-top: 30px;
+}
+
+.rb_home_links {
+    width: 100%;
+    height: 2em;
+    border-radius: 25px 25px 0px 0px;
+    background-color: #d44c04
+}
+
+.rb_home_links a {
+    text-decoration: none;
+    font-family: 'Varela';
+    padding: 20px;
+    font-size: 1.3em;
+    color: #facc04;
+}
+
+.rb_home_links a:hover {
+    color: white;
+}
+
+.rb_home_search {
+    margin-top: 30px;
+}
+
+.rb_home_search label {
+    font-size: 1.4em;
+    font-family: 'Varela';
+    color: #cb7519
+}
+
+.rb_home_search input[type=search] {
+    border-style:none;
+    border: 2px solid #cb7519;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
     width: 60%;
-    background-color: #fff;
-}
+    height: 2.6em;
+    font-size: 0.8em;
+    color: #d44c04; 
+  }
 
-.add_rb table {
+.rb_view {
+    color: #55260d;
+    background-color: white;
+    width: 70%;
+    height: 50%;
     margin: auto;
+    text-align: center;
+    padding-top: 3%;
 }
 
+.rb_view p {
+    font-size: 1.5em;
+}
+
+.rb_links a {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.rb_links{
+    margin-bottom: 3%;
+}
+
+.rb_image img {
+    float: left;
+    height: 400px;
+}
+
+.edit_rb {
+    margin: auto;
+    height: 0; /* 100% Full-height */
+    width: 70%; /* 0 width - change this with JavaScript */
+    z-index: 1; /* Stay on top */
+    background-color: #facc04;
+    overflow-y: hidden; /* Disable horizontal scroll */
+    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.edit_rb form {
+    color: #55260d;
+    text-align: center;
+    line-height: 1.2em;
+    font-size: 1.2em;
+}
+
+.edit_rb input {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.edit_rb input[type=text] {
+    border-style:none;
+    width: 25%;
+    height: 1.8em;
+    font-size: 1em;
+    color: #d44c04; 
+  }
+
+.edit_rb button {
+    width: 30%;
+    font-size: 1.1em;
+    color: #facc04;
+    border-radius: 5px;
+    background-color: #d44c04;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+.edit_rb button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
+
+.ratings {
+    margin: auto;
+    height: 0; /* 100% Full-height */
+    width: 70%; /* 0 width - change this with JavaScript */
+    z-index: 1; /* Stay on top */
+    background-color: #facc04;
+    overflow-y: hidden; /* Disable horizontal scroll */
+    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.ratings table {
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.ratings table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.search_results {
+    margin-top: 30px;
+}
+
+.search_results table {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.search_results table, th, tr, td {
+    border: 1px solid #d44c04;
+    border-collapse: collapse;
+}
+
+.search_results a {
+    text-decoration: none;
+    font-family: 'Varela';
+    font-size: 1.2em;
+    color: white;
+}
+
+.search_results a:hover {
+    color: pink
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/portal.css">
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+    <link rel="stylesheet" type="text/css" href="../css/rb.css">
+</head>
+<body>
+    <div class="pageBody">
+        <%- include('../../partials/nav_bar'); %>
+        <p><%= user.username %> <%= rb.name %></p>
+        <div class="rate">
+            <form action="/rate/<%= rb._id %>" method="post">
+                <table>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Branding</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="branding" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>After Taste</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="at" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Aroma</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="aroma" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Bite</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="bite" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Carbonation</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="carb" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Flavor</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="flavor" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Smoothness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="smooth" min="0" max="10" placeholder="0"/>
+                        </td>
+                        <td class="rb_label">
+                            <label>Sweetness</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="sweet" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rb_label">
+                            <label>Overall</label>
+                        </td>
+                        <td class="rb_input"> 
+                            <input type="number" name="overall" min="0" max="10" placeholder="0"/>
+                        </td>
+                    </tr>
+                </table>
+                <p>Notes:</p>
+                <textarea name="notes"></textarea>
+                <br />
+                <button type="submit" value="rating" class="rate_button" required >
+                    Submit Rating
+                </button>
+            </form>
+        </div>
+        <div class="userLogo">
+            <img src="../imgs/cc_logo.png"/>
+        </div>
+        <div class="portalBottom">
+            <div class="short">
+            <img src="../imgs/short_landscape.png"/>
+            </div>
+            <div class="long">
+            <img src="../imgs/long_landscape.png"/>
+            </div>
+        </div>
+    </div>
+</body>

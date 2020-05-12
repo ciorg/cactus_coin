@@ -2,6 +2,7 @@ import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator';
 import userModel from '../models/user';
+import permissions from '../permissions';
 
 const router = express.Router()
 
@@ -17,14 +18,11 @@ router.get(
 router.get(
     '/register',
     connectEnsureLogin.ensureLoggedIn('/'),
-    (req, res, next) => {
+    permissions(['king']),
+    (req, res) => {
         const { user }: any = req;
 
-        if (user && user.role === 'king') {
-            res.render('pages/register', { user });
-        } else {
-            res.redirect('/home');
-        }
+        res.render('pages/register', { user });
 });
 
 router.post(
@@ -34,7 +32,7 @@ router.post(
         check('reg_password').trim().escape().stripLow(),
         check('con_password').trim().escape().stripLow()
     ],
-    async (req: any, res: any, next: any) => {
+    async (req: any, res: any) => {
         const { username, password, role } = req.body;
 
         let newuser;
