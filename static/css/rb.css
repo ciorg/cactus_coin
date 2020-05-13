@@ -144,26 +144,33 @@
 
 .search_results {
     margin-top: 30px;
+    color: #d44c04;
 }
 
 .search_results table {
-    width: 80%;
+    width: 75%;
     margin: auto;
     text-align: center;
+    background-color: white;
+    font-size: 1.2em;
+}
+
+.search_results th {
+    background-color: #d44c04;
+    color: white;
 }
 
 .search_results table, th, tr, td {
-    border: 1px solid #d44c04;
+    border: 2px solid white;
     border-collapse: collapse;
 }
 
 .search_results a {
-    text-decoration: none;
     font-family: 'Varela';
-    font-size: 1.2em;
-    color: white;
+    font-size: 1em;
+    color: #d44c04;
 }
 
 .search_results a:hover {
-    color: pink
+    font-weight: bold;
 }

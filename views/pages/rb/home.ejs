@@ -7,20 +7,7 @@
 <body>
     <div class="pageBody">
         <%- include('../../partials/nav_bar'); %>
-        <div class="rb_home">
-            <div class="rb_home_links" >
-                <a href="#">Your Rootbeers</a>
-                <a href="/ratings">Your Ratings</a>
-                <a href="#">Every Rootbeer</a>
-                <a href="/rb_create">Add New Rootbeer</a>
-            </div>
-            <div class="rb_home_search">
-                <form action="/rb_search" method="post">
-                    <label>Search Database:</label>
-                    <input type="search" name="rb_search" required />
-                </form>
-            </div>
-        </div>
+        <%- include('../../partials/rootbeer_actions'); %>
 
         <footer>
             <%- include('../../partials/footer'); %>

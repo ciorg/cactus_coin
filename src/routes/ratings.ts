@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
-import permissions from '../permissions';
+import permissions from '../utils/permissions';
 
 import rbModel from '../models/rb';
 import ratingsModel from '../models/rb_ratings';

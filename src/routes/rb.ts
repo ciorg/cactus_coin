@@ -1,22 +1,26 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import crypto from 'crypto';
-
-
-import multer from 'multer';
 import path from 'path';
+import multer from 'multer';
 
-import permissions from '../permissions';
+
 import rbModel from '../models/rb';
 import ratingsModel from '../models/rb_ratings';
+
+import RUtils from '../utils/route_utils';
 import userModel from '../models/user';
+
+import permissions from '../utils/permissions';
+
+const routeUtils = new RUtils();
 
 const router = express.Router();
 
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: any, next: any) => {
+    async (req: Request, res: any, next: any) => {
         const { user }: any = req;
 
         res.render('pages/rb/home', { user });
@@ -44,7 +48,7 @@ router.post('/rb_search',
             r.created_by = name.username;
         }
 
-        res.render('pages/rb/search_results', { user, results });
+        res.render('pages/rb/display', { user, results });
     }
 );
 
@@ -58,22 +62,11 @@ router.get('/rb_create',
     }
 );
 
-router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
-    const id = req.params.rb_id;
 
-    try {
-        const response = await rbModel.deleteOne({ _id: id });
-
-        console.log(response);
-
-        res.redirect('/rootbeer');
-
-    } catch (e) {
-        res.send(e);
-    }
-});
-
-router.get('/rb/:rb_id', async (req: Request, res: Response) => {
+router.get('/rb/:rb_id', 
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
         const id = req.params.rb_id;
         const rb = await rbModel.find({ _id: id });
 
@@ -113,6 +106,8 @@ const upload = multer({ storage });
 
 router.post(
     '/rb_create',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
     upload.single('rb_image'),
     async (req: any, res: any) => {
         const newRbInfo = {
@@ -133,6 +128,8 @@ router.post(
 
 router.post(
     '/rb_update/:id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
     upload.single('rb_image'),
     async (req: any, res: any) => {
         const updateFields: { name?: string, image?: string } = {};
@@ -155,5 +152,39 @@ router.post(
         
         res.redirect(`/rb/${req.params.id}`);
 });
+
+router.get('/rb_mine',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const { user }: any = req;
+
+        const results = await rbModel.find({ created_by: user._id });
+
+        for (const r of results) {
+            const name = await userModel.findById(r.created_by, 'username');
+            r.created_by = name.username;
+        }
+
+        res.render('pages/rb/display', { user, results });
+    }
+);
+
+router.get('/rb_every',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const { user }: any = req;
+
+        const results = await rbModel.find();
+
+        for (const r of results) {
+            const name = await userModel.findById(r.created_by, 'username');
+            r.created_by = name.username;
+        }
+
+        res.render('pages/rb/display', { user, results });
+    }
+);
 
 export = router;

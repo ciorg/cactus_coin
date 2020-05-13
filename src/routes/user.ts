@@ -2,7 +2,7 @@ import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator';
 import userModel from '../models/user';
-import permissions from '../permissions';
+import permissions from '../utils/permissions';
 
 const router = express.Router()
 
