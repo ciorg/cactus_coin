@@ -33,14 +33,6 @@ router.post('/rb_search',
     }
 );
 
-router.get('/rb_create',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    (req: Request, res: Response) => {
-        res.render('pages/rb/create', { user: routeUtils.getUser(req) });
-    }
-);
-
 router.get('/rb/:id', 
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
