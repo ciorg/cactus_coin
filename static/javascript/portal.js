@@ -7,7 +7,7 @@ function slide(id, parameter='width', size=20) {
   }
 
   function isOpen(id, parameter, size) {
-    if (document.getElementById(id).style[parameter] === `${size}%`) {
+    if (document.getElementById(id).style[parameter] === `${size}px`) {
         return true;
     }
 
@@ -15,7 +15,7 @@ function slide(id, parameter='width', size=20) {
   }
 
   function openNav(id, parameter, size) {
-    document.getElementById(id).style[parameter] = `${size}%`;
+    document.getElementById(id).style[parameter] = `${size}px`;
   }
 
   function closeNav(id, parameter) {
