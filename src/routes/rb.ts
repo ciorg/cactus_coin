@@ -43,12 +43,15 @@ router.get('/rb/:id',
 
         let ratings = await routeUtils.searchRatings('rb_id', rbId);
 
-        ratings = await routeUtils.addUserName(ratings, 'rated_by')
+        ratings = await routeUtils.addUserName(ratings, 'rated_by');
+
+        const avg = routeUtils.avgRating(ratings);
 
         res.render('pages/rb/view', {
             user: routeUtils.getUser(req),
             rb: rb,
-            ratings
+            ratings,
+            avg
         });
 });
 

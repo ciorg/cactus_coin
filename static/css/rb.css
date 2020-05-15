@@ -50,36 +50,46 @@
 
 .rb_view {
     color: #55260d;
-    background-color: white;
-    width: 70%;
-    height: 50%;
+    width: 75%;
+    height: 80%;
     margin: auto;
+    margin-top: 1%;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.rb_view_top {
     text-align: center;
-    padding-top: 3%;
 }
 
-.rb_view p {
-    font-size: 1.5em;
+.rb_view_top p {
+    margin: auto;
+    font-size: 1.3em;
 }
 
-.rb_links a {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.rb_links{
-    margin-bottom: 3%;
+.rb_image {
+    float: left;
+    width: 30%;
 }
 
 .rb_image img {
-    float: left;
-    height: 400px;
+    width: 100%;
+    height: 100%;
 }
+
+.rb_links{
+    float: right;
+    width: 70%;
+}
+
+.rb_links a {
+}
+
 
 .edit_rb {
     margin: auto;
     height: 0; /* 100% Full-height */
-    width: 70%; /* 0 width - change this with JavaScript */
+    width: 20%; /* 0 width - change this with JavaScript */
     z-index: 1; /* Stay on top */
     background-color: #facc04;
     overflow-y: hidden; /* Disable horizontal scroll */
@@ -123,12 +133,8 @@
 
 .ratings {
     margin: auto;
-    height: 0; /* 100% Full-height */
     width: 70%; /* 0 width - change this with JavaScript */
-    z-index: 1; /* Stay on top */
     background-color: #facc04;
-    overflow-y: hidden; /* Disable horizontal scroll */
-    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 .ratings table {

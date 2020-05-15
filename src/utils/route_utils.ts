@@ -65,6 +65,30 @@ class RB {
         return RatingsModel.find({ [field]: search });
     }
 
+    avgRating(ratings: any) {
+        const numerator: number = ratings.length;
+
+        const avgObj: { [propname: string]: number } = {};
+
+        for (const rating of ratings) {
+            Object.keys(rating).forEach((key: string) => {
+                if (typeof rating[key] === 'number') {
+                    if (avgObj[key]) {
+                        avgObj[key] += rating[key];
+                    } else {
+                        avgObj[key];
+                    }
+                }
+            });
+        }
+
+        for (const [key, total] of Object.entries(avgObj)) {
+            avgObj[key] = total / numerator;
+        }
+
+        return avgObj;
+    }
+
     async addUserName(objArray: any[], userIdField: string): Promise<any[]> {
         for (const i of objArray) {
             const user = await UserModel.findById(i[userIdField], 'username');
@@ -72,18 +96,6 @@ class RB {
         }
 
         return objArray;
-    }
-
-    uniqFileName(fileName: string): string {
-        const shasum = crypto.createHash('md5');
-
-        const hashInput = new Date().getTime() * Math.random();
-
-        shasum.update(`${hashInput}`, 'utf8');
-            
-        const prefix = shasum.digest('hex');
-
-        return `${prefix}_${fileName}`;
     }
 
     rbInfo(user: any, req: Request) {
@@ -120,6 +132,18 @@ class RB {
         if (Object.keys(updateFields).length) {
             return RBModel.updateOne({ _id: req.params.id }, updateFields) 
         }
+    }
+
+    uniqFileName(fileName: string): string {
+        const shasum = crypto.createHash('md5');
+
+        const hashInput = new Date().getTime() * Math.random();
+
+        shasum.update(`${hashInput}`, 'utf8');
+            
+        const prefix = shasum.digest('hex');
+
+        return `${prefix}_${fileName}`;
     }
 
     imgStorage() {
