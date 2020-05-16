@@ -42,7 +42,7 @@ router.post(
                 username,
                 active: true,
                 role,
-                registered: new Date()
+                created: new Date()
             }, password);
         } catch (e) {
             return res.send(e);

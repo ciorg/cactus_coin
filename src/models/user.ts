@@ -7,7 +7,7 @@ const userDetail =  db.schema({
     username: String,
     password: String,
     role: String,
-    registered: Date,
+    created: Date,
     active: Boolean
 });
 

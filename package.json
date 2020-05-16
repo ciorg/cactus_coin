@@ -5,7 +5,13 @@
   "main": "index.js",
   "author": "ciorg",
   "scripts": {
-    "build": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json",
+    "test": "jest tests"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/*.js?(x)"
+    ]
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -31,6 +37,7 @@
     "@types/passport": "^1.0.3",
     "@types/passport-local-mongoose": "^4.0.13",
     "@types/safe-regex": "^1.1.2",
+    "jest": "^26.0.1",
     "typescript": "^3.8.3"
   }
 }

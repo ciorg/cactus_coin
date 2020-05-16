@@ -82,7 +82,7 @@ class RB {
     avgRating(ratings: any) {
         const numerator: number = ratings.length;
 
-        const avgObj: { [propname: string]: number } = {};
+        const avgObj: { [propname: string]: any } = {};
 
         for (const rating of ratings) {
             for (const field of this.rating_fields) {
@@ -95,10 +95,16 @@ class RB {
         }
 
         for (const [key, total] of Object.entries(avgObj)) {
-            avgObj[key] = total / numerator;
+            const avg = total / numerator;
+            avgObj[key] = avg.toFixed(1);
         }
 
         return avgObj;
+    }
+
+    formatDate(dateObj: any) {
+        console.log(dateObj);
+        console.log(Date.parse(dateObj));
     }
 
     async addUserName(objArray: any[], userIdField: string): Promise<any[]> {
