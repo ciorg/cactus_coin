@@ -7,59 +7,88 @@
     <div class="pageBody">
         <%- include('./ll_partials/nav_bar') %>
         <div class="rb_view">
-            <div class="rb_view_top">
-                <p><%= rb.name %></p>
+            <div class="rb_view_name">
+                <p>#10 - <%= rb.name %></p>
             </div>
             <div class="rb_image">
                 <img src="../<%= rb.image %>">
             </div>
-            <div class="rb_links">
-                <a href="#" onclick="slide('edit_rb', 'height', 20)">Edit Rootbeer Info</a>
-                <a href="#">View Ratings</a>
-                <a href="/rate/<%=rb._id%>">Add Rating</a>
-                <div class="edit_rb" id="edit_rb" >
-                    <form action="/rb_update/<%=rb._id%>" method="post" enctype="multipart/form-data">
-                        <label >Change Name</label> 
-                        <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
-                        <td class="rb_label">
-                            <label>Update Image</label>
-                            <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
-                            <br />
-                            <button type="submit" value="rootbeer" class="add_rb_button" required >
-                                Update
-                            </button>
-                        </form>
-                    </div>
-                <div class="ratings">
-                <table>
-                    <tr>
-                        <td>Branding</td>
-                        <td>After Taste</td>
-                        <td>Aroma</td>
-                        <td>Bite</td>
-                        <td>Carbonation</td>
-                        <td>Flavor</td>
-                        <td>Smoothness</td>
-                        <td>Sweetness</td>
-                        <td>Overall</td>
-                        <td>Notes</td>
-                    </tr>
-                    <% for (const r of ratings) { %>
+            <div class="rb_ratings">
+                <div class="rb_avg_ratings">
+                    <table>
                         <tr>
-                            <td><%= r.branding %></td>
-                            <td><%= r.after_taste %></td>
-                            <td><%= r.aroma %></td>
-                            <td><%= r.bite %></td>
-                            <td><%= r.carbonation %></td>
-                            <td><%= r.flavor %></td>
-                            <td><%= r.smoothness %></td>
-                            <td><%= r.sweetness %></td>
-                            <td><%= r.overall %></td>
-                            <td><%= r.notes %></td>
+                            <td id="category">Overall</td>
+                            <td><%= avg.overall %></td>
+                            <td id="category">Branding</td>
+                            <td ><%= avg.branding %></td>
+                            <td id="category">After Taste</td>
+                            <td><%= avg.after_taste %></td>
+                        </tr>
+                        <tr>
+                            <td id="category">Aroma</td>
+                            <td><%= avg.aroma %></td>
+                            <td id="category">Bite</td>
+                            <td><%= avg.bite %></td>
+                            <td id="category">Carbonation</td>
+                            <td><%= avg.carbonation %></td>
+                        </tr>
+                        <tr>
+                            <td id="category">Flavor</td>
+                            <td><%= avg.flavor %></td> 
+                            <td id="category">Smoothness</td>
+                            <td><%= avg.smoothness %></td>
+                            <td id="category">Sweetness</td>
+                            <td><%= avg.sweetness %></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="rb_all_ratings">
+                    <table>
+                        <tr>
+                            <th>Rated By</th>
+                            <th>Date</th>
+                            <th>Overall</th>
+                            <th>Branding</th>
+                            <th>After Taste</th>
+                            <th>Aroma</th>
+                            <th>Bite</th>
+                            <th>Carbonation</th>
+                            <th>Flavor</th>
+                            <th>Smoothness</th>
+                            <th>Sweetness</th>
+                        </tr>
+                        <% for (const rating of ratings) {%>
+                        <tr>
+                            <td><%- rating.rated_by %></td>
+                            <td><%- rating.rating_date %></td>
+                            <td><%- rating.overall %></td>
+                            <td><%- rating.branding %></td>
+                            <td><%- rating.after_taste %></td>
+                            <td><%- rating.aroma %></td>
+                            <td><%- rating.bite %></td>
+                            <td><%- rating.carbonation %></td>
+                            <td><%- rating.flavor %></td>
+                            <td><%- rating.smoothness %></td>
+                            <td><%- rating.sweetness %></td>
                         </tr>
                         <% } %>
                     </table>
                 </div>
+            </div>
+            <div class="rb_links">
+                <a href="/rate/<%=rb._id%>">Add Rating</a>
+            </div>
+            <div class="edit_rb" id="edit_rb" >
+                <form action="/rb_update/<%=rb._id%>" method="post" enctype="multipart/form-data">
+                    <label >Change Name</label> 
+                    <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
+                    <label>Update Image</label>
+                    <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
+                    <br />
+                    <button type="submit" value="rootbeer" class="add_rb_button" required >
+                        Update
+                    </button>
+                </form>
             </div>
         </div>
         <%- include('./ll_partials/footer') %>

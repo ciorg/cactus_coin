@@ -9,8 +9,22 @@ import UserModel from '../models/user';
 import RatingsModel from '../models/rb_ratings';
 import * as I from './interface';
 
-
 class RB {
+    rating_fields: string[];
+
+    constructor() {
+        this.rating_fields = [
+            'branding',
+            'after_taste',
+            'aroma',
+            'bite',
+            'carbonation',
+            'flavor',
+            'smoothness',
+            'sweetness',
+            'overall'
+        ];
+    }
     getUser(req: Request)  {
        return req.user;
     }
@@ -71,15 +85,13 @@ class RB {
         const avgObj: { [propname: string]: number } = {};
 
         for (const rating of ratings) {
-            Object.keys(rating).forEach((key: string) => {
-                if (typeof rating[key] === 'number') {
-                    if (avgObj[key]) {
-                        avgObj[key] += rating[key];
-                    } else {
-                        avgObj[key];
-                    }
+            for (const field of this.rating_fields) {
+                if(avgObj[field]) {
+                    avgObj[field] += rating[field];
+                } else {
+                    avgObj[field] = rating[field];
                 }
-            });
+            }
         }
 
         for (const [key, total] of Object.entries(avgObj)) {
