@@ -11,8 +11,8 @@ const router = express.Router();
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: Request, res: any) => {
-        res.render('pages/rb/home', { user: routeUtils.getUser(req) });
+    async (req: Request, res: Response) => {
+        res.render('pages/rb/home', { user: req.user });
     }
 );
 

@@ -25,6 +25,7 @@ class RB {
             'overall'
         ];
     }
+
     getUser(req: Request)  {
        return req.user;
     }
