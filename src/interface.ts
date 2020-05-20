@@ -1,7 +1,7 @@
 export interface RootBeer {
     name: string;
     created: Date;
-    created_by: string;
+    user: string;
     image?: string;
 }
 
@@ -15,6 +15,6 @@ export interface User {
 }
 
 export interface Result {
-    msg: any;
+    res: any;
     error?: boolean;
 }

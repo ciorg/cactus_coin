@@ -11,6 +11,10 @@ class Controller {
         });
     }
 
+    errorHandler(e: Error) {
+        this.log.error(e.message);
+    }
+
     create(req: Request) {}
 
     update(req: Request) {}

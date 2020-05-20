@@ -3,9 +3,13 @@ import connectEnsureLogin from 'connect-ensure-login';
 import multer from 'multer';
 import permissions from '../utils/permissions';
 
+import RB from '../controllers/rb';
 import RUtils from '../utils/route_utils';
+import CUtils from '../controllers/utils';
 
 const routeUtils = new RUtils();
+const cUtils = new CUtils();
+const rb = new RB();
 const router = express.Router();
 
 router.get('/rootbeer',
@@ -16,19 +20,51 @@ router.get('/rootbeer',
     }
 );
 
+const upload = multer({ storage: routeUtils.imgStorage() });
+
+router.post(
+    '/rb_create',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    upload.single('rb_image'),
+    async (req: Request, res: Response) => {
+        const create = await rb.create(req);
+
+        if (create.error) {
+            return res.render('pages/error');
+        }
+
+        res.redirect('/rootbeer');
+});
+
+router.post(
+    '/rb_update/:id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    upload.single('rb_image'),
+    async (req: Request, res: Response) => {
+        const update = await rb.update(req);
+
+        if (update.error) {
+            return res.render('pages/error');
+        }
+
+        res.redirect(`/rb/${req.params.id}`);
+});
+
 router.post('/rb_search',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-        const search = routeUtils.makeRegex(req.body.rb_search);
+        const search = await rb.webSearch(req, 'name');
 
-        let results = await routeUtils.searchRootbeer('name', search); 
+        if (search.error) {
+            return res.render('pages/error');
+        }
     
-        results = await routeUtils.addUserName(results, 'created_by');
-
         res.render('pages/rb/display', {
-            user: routeUtils.getUser(req),
-            results
+            user: req.user,
+            results: search.res
         });
     }
 );
@@ -53,32 +89,6 @@ router.get('/rb/:id',
             ratings,
             avg
         });
-});
-
-const upload = multer({ storage: routeUtils.imgStorage() });
-
-router.post(
-    '/rb_create',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    upload.single('rb_image'),
-    async (req: Request, res: Response) => {
-        const response = await routeUtils.createRB(req);
-        console.log(response);
-
-        res.redirect('/rootbeer');
-});
-
-router.post(
-    '/rb_update/:id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    upload.single('rb_image'),
-    async (req: Request, res: Response) => {
-        const response = await routeUtils.updateRB(req);
-        console.log(response);
-
-        res.redirect(`/rb/${req.params.id}`);
 });
 
 router.get('/rb_mine',

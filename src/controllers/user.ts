@@ -12,7 +12,7 @@ class User extends Controller {
         } = req.body;
 
         const result: I.Result = {
-            msg: null
+            res: null
         };
 
         try {
@@ -23,13 +23,13 @@ class User extends Controller {
                 created: new Date()
             }, password);
 
-            result.msg = `created: ${response.username}, id: ${response._id}`;
+            this.log.info(`created: ${response.username}, id: ${response._id}`);
+            result.res = response._id;
         } catch (e) {
             result.error = true;
-            this.log.error(e)
+            this.errorHandler(e.message)
         }
 
-        this.log.info(result.msg);
         return result;
     }
 
