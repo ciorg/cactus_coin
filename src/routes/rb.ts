@@ -5,12 +5,12 @@ import permissions from '../utils/permissions';
 
 import RB from '../controllers/rb';
 import RUtils from '../utils/route_utils';
-import CUtils from '../controllers/utils';
 
 const routeUtils = new RUtils();
-const cUtils = new CUtils();
 const rb = new RB();
 const router = express.Router();
+
+const upload = multer({ storage: routeUtils.imgStorage() });
 
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
@@ -19,8 +19,6 @@ router.get('/rootbeer',
         res.render('pages/rb/home', { user: req.user });
     }
 );
-
-const upload = multer({ storage: routeUtils.imgStorage() });
 
 router.post(
     '/rb_create',
@@ -73,21 +71,17 @@ router.get('/rb/:id',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-        const rbId = routeUtils.getParam(req, 'id');
+        const view = await rb.viewRbInfo(req);
 
-        const rb = await routeUtils.getRbById(rbId);
-
-        let ratings = await routeUtils.searchRatings('rb_id', rbId);
-
-        ratings = await routeUtils.addUserName(ratings, 'rated_by');
-
-        const avg = routeUtils.avgRating(ratings);
+        if (view.error) {
+            res.render('pages/error');
+        }
 
         res.render('pages/rb/view', {
-            user: routeUtils.getUser(req),
-            rb: rb,
-            ratings,
-            avg
+            user: req.user,
+            rb: view.res.rb,
+            ratings: view.res.ratings,
+            avg: view.res.avg
         });
 });
 
@@ -95,16 +89,15 @@ router.get('/rb_mine',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-        let results = await routeUtils.searchRootbeer(
-            'created_by',
-            routeUtils.getUserId(req)
-        );
-    
-        results = await routeUtils.addUserName(results, 'created_by');
+        const users = await rb.getUsersRb(req);
+
+        if (users.error) {
+            return res.render('pages/error');
+        }
 
         res.render('pages/rb/display', {
-            user: routeUtils.getUser(req),
-            results
+            user: req.user,
+            results: users.res
         });
     }
 );
@@ -113,12 +106,15 @@ router.get('/rb_every',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        let results = await routeUtils.getEveryRB();
-        results = await routeUtils.addUserName(results, 'created_by'); 
+        const every = await rb.getEveryRb(req);
+
+        if (every.error) {
+            return res.render('pages/error');
+        } 
 
         res.render('pages/rb/display', {
-            user: routeUtils.getUser(req),
-            results
+            user: req.user,
+            results: every.res
         });
     }
 );

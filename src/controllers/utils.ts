@@ -4,13 +4,12 @@ import safe from 'safe-regex';
 
 
 class Utils {
-    async addUserName(objArray: any[]): Promise<any[]> {
+    async addUserName(objArray: any[]) {
+        console.log(objArray);
         for (const i of objArray) {
-            const user = await UserModel.findById(i.user, 'username');
-            i.username = user.username;
+            const user = await UserModel.findById(i.user);
+            i.user = user.username;
         }
-
-        return objArray;
     }
 
     sanitizeRegex(search: string) {

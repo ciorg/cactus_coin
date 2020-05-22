@@ -21,8 +21,8 @@
                 <% for (const result of results) { %>
                 <tr>
                     <td><a href="/rb/<%-result._id %>"><%- result.name %></a></td>
-                    <td><%- result.created.toDateString() %></td>
-                    <td><%- result.created_by %></td>
+                    <td><%- result.created %></td>
+                    <td><%- result.user %></td>
                     <td>Avg Rating</td>
                     <td><a href="/rate/<%- result._id %>">Add Rating</a></td>
                 </tr>
