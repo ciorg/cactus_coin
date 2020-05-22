@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
-import permissions from '../permissions';
+import permissions from '../utils/permissions';
 
 import rbModel from '../models/rb';
 import ratingsModel from '../models/rb_ratings';
@@ -26,8 +26,8 @@ router.post(
     async (req: any, res: Response) => {
         const rating = {
             rb_id: req.params.id,
-            rating_date: new Date(),
-            rated_by: req.user._id,
+            created: new Date(),
+            user: req.user._id,
             branding: req.body.branding,
             after_taste: req.body.at,
             aroma: req.body.aroma,
@@ -36,9 +36,8 @@ router.post(
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
             sweetness: req.body.sweet,
-            overall: req.body.overall,
-            notes: req.body.notes
-        }
+            overall: req.body.overall
+        };
 
         try {
             await ratingsModel.create(rating);
@@ -65,8 +64,8 @@ router.post('/ratings/:id/update',
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
         const updatedRating = {
-            rating_date: new Date(),
-            rated_by: req.user._id,
+            created: new Date(),
+            user: req.user._id,
             branding: req.body.branding,
             after_taste: req.body.at,
             aroma: req.body.aroma,

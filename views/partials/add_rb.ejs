@@ -1,0 +1,26 @@
+<div class="add_rb" id="add_rb">
+    <form action="/rb_create" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="rb_label">
+                    <label>Brand Name</label>
+                </td>
+                <td class="rb_input"> 
+                    <input type="text" name="rb_brand_name" required />
+                </td>
+            </tr>
+            <tr>
+                <td class="rb_label">
+                    <label>Image (Optional)</label>
+                </td>
+                <td class="rb_input">
+                    <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
+                </td>
+            </tr>
+        </table>
+        <br />
+        <button type="submit" value="rootbeer" class="add_rb_button" required >
+            Add New Rootbeer
+        </button>
+    </form>
+</div>

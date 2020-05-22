@@ -1,11 +1,11 @@
-import DbApi from '../db_api';
+import DbApi from '../utils/db_api';
 
 const db = new DbApi('mongodb://localhost/MyDatabase');
 
 const rbRatingSchema =  db.schema({
     rb_id: String,
-    rating_date: Date,
-    rated_by: String,
+    created: Date,
+    user: String,
     branding: Number,
     after_taste: Number,
     aroma: Number,

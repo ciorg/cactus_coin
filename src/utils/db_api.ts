@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 //sudo docker exec -it 768a2742624a mongo
+
 class MongooseApi {
     constructor(url: string) {
         mongoose.connect(

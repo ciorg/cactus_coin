@@ -1,159 +1,122 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
-import crypto from 'crypto';
-
-
 import multer from 'multer';
-import path from 'path';
+import permissions from '../utils/permissions';
 
-import permissions from '../permissions';
-import rbModel from '../models/rb';
-import ratingsModel from '../models/rb_ratings';
-import userModel from '../models/user';
+import RB from '../controllers/rb';
+import RUtils from '../utils/route_utils';
 
+const routeUtils = new RUtils();
+const rb = new RB();
 const router = express.Router();
+
+const upload = multer({ storage: routeUtils.imgStorage() });
 
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: any, next: any) => {
-        const { user }: any = req;
-
-        res.render('pages/rb/home', { user });
+    async (req: Request, res: Response) => {
+        res.render('pages/rb/home', { user: req.user });
     }
 );
-
-router.post('/rb_search',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
-        const { user }: any = req;
-
-        let search;
-
-        try {
-            search = new RegExp(req.body.rb_search, 'i');
-        } catch (e) {
-            res.send(e);
-        }
-
-        const results = await rbModel.find({ name: search });
-
-        for (const r of results) {
-            const name = await userModel.findById(r.created_by, 'username');
-            r.created_by = name.username;
-        }
-
-        res.render('pages/rb/search_results', { user, results });
-    }
-);
-
-router.get('/rb_create',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    (req: any, res: any) => {
-        const { user }: any = req;
-
-        res.render('pages/rb/create', { user });
-    }
-);
-
-router.get('/rb/:rb_id/delete', async (req: Request, res: Response) => {
-    const id = req.params.rb_id;
-
-    try {
-        const response = await rbModel.deleteOne({ _id: id });
-
-        console.log(response);
-
-        res.redirect('/rootbeer');
-
-    } catch (e) {
-        res.send(e);
-    }
-});
-
-router.get('/rb/:rb_id', async (req: Request, res: Response) => {
-        const id = req.params.rb_id;
-        const rb = await rbModel.find({ _id: id });
-
-        const ratings = await ratingsModel.find({ rb_id: id });
-
-        
-        for (const r of ratings) {
-            const name = await userModel.findById(r.rated_by, 'username');
-            r.rated_by = name.username;
-        }
-
-        const { user }: any = req;
-
-        res.render('pages/rb/view', { user, rb: rb[0], ratings });
-});
-
-const imgPath = path.join(process.cwd(), 'static', 'rb_imgs');
-    
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, imgPath);
-    },
-    filename: (req, file, cb) => {
-        const shasum = crypto.createHash('md5');
-
-        const hashInput = new Date().getTime() * Math.random();
-
-        shasum.update(`${hashInput}`, 'utf8');
-    
-        const prefix = shasum.digest('hex');
-
-        cb(null, `${prefix}_${file.originalname}`);
-    }
-});
-
-const upload = multer({ storage });
 
 router.post(
     '/rb_create',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
     upload.single('rb_image'),
-    async (req: any, res: any) => {
-        const newRbInfo = {
-            name: req.body.rb_brand_name,
-            created: new Date(),
-            created_by: req.user._id,
-            image: `rb_imgs/${req.file.filename}`
-        };
-        
-        try {
-            await rbModel.create(newRbInfo);
-        } catch (e) {
-            return res.send(e);
+    async (req: Request, res: Response) => {
+        const create = await rb.create(req);
+
+        if (create.error) {
+            return res.render('pages/error');
         }
-        
+
         res.redirect('/rootbeer');
 });
 
 router.post(
     '/rb_update/:id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
     upload.single('rb_image'),
-    async (req: any, res: any) => {
-        const updateFields: { name?: string, image?: string } = {};
-        
-        if (req.file && req.file.path) {
-            updateFields.image = `rb_imgs/${req.file.filename}`;
+    async (req: Request, res: Response) => {
+        const update = await rb.update(req);
+
+        if (update.error) {
+            return res.render('pages/error');
         }
 
-        if(req.body && req.body.rb_brand_name) {
-            updateFields.name = req.body.rb_brand_name;
-        }
-
-        if (Object.keys(updateFields).length) {
-            try {
-                const update = await rbModel.updateOne({ _id: req.params.id }, updateFields) 
-            } catch (e) {
-                res.send(e);
-            }
-        }
-        
         res.redirect(`/rb/${req.params.id}`);
 });
+
+router.post('/rb_search',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const search = await rb.webSearch(req, 'name');
+
+        if (search.error) {
+            return res.render('pages/error');
+        }
+    
+        res.render('pages/rb/display', {
+            user: req.user,
+            results: search.res
+        });
+    }
+);
+
+router.get('/rb/:id', 
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const view = await rb.viewRbInfo(req);
+
+        if (view.error) {
+            res.render('pages/error');
+        }
+
+        res.render('pages/rb/view', {
+            user: req.user,
+            rb: view.res.rb,
+            ratings: view.res.ratings,
+            avg: view.res.avg
+        });
+});
+
+router.get('/rb_mine',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const users = await rb.getUsersRb(req);
+
+        if (users.error) {
+            return res.render('pages/error');
+        }
+
+        res.render('pages/rb/display', {
+            user: req.user,
+            results: users.res
+        });
+    }
+);
+
+router.get('/rb_every',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const every = await rb.getEveryRb(req);
+
+        if (every.error) {
+            return res.render('pages/error');
+        } 
+
+        res.render('pages/rb/display', {
+            user: req.user,
+            results: every.res
+        });
+    }
+);
 
 export = router;

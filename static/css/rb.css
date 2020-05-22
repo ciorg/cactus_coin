@@ -49,41 +49,87 @@
   }
 
 .rb_view {
-    color: #55260d;
-    background-color: white;
-    width: 70%;
-    height: 50%;
+    width: 75%;
+    height: 80%;
     margin: auto;
+    margin-top: 1%;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.rb_view_name {
+    background-color: #facc04;
+    border-radius: 20px 20px 0px 0px;
+    color: #d44c04;
+}
+
+.rb_view_name p {
     text-align: center;
-    padding-top: 3%;
+    margin: auto;
+    font-size: 2.0em;
+    font-weight: bolder;
 }
 
-.rb_view p {
-    font-size: 1.5em;
-}
-
-.rb_links a {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.rb_links{
-    margin-bottom: 3%;
+.rb_image {
+    float: left;
+    width: 30%;
+    height: 100%;
 }
 
 .rb_image img {
-    float: left;
-    height: 400px;
+    width: 100%;
+}
+
+.rb_ratings {
+    float: right;
+    border-bottom: 2px solid #1c6404;
+    width: 70%;
+    color: #1c6404;
+}
+
+.rb_avg_ratings #category {
+    color: #1c6404;
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
+}
+
+.rb_avg_ratings table {
+    font-size: 1.6em;
+    text-align: center;
+    font-weight: 400;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rb_avg_ratings td {
+    border-collapse: collapse;
+    border: 2px solid #1c6404
+}
+
+.rb_all_ratings table {
+    wiDth: 100%;
+    text-align: center;
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
+}
+
+.rb_all_ratings th {
+    background-color: #1c6404;
+    color: white;
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
+}
+
+.rb_all_ratings td {
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
 }
 
 .edit_rb {
     margin: auto;
-    height: 0; /* 100% Full-height */
-    width: 70%; /* 0 width - change this with JavaScript */
-    z-index: 1; /* Stay on top */
+    height: 100px; /* 100% Full-height */
+    width: 100%; /* 0 width - change this with JavaScript */
     background-color: #facc04;
-    overflow-y: hidden; /* Disable horizontal scroll */
-    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 .edit_rb form {
@@ -123,12 +169,6 @@
 
 .ratings {
     margin: auto;
-    height: 0; /* 100% Full-height */
-    width: 70%; /* 0 width - change this with JavaScript */
-    z-index: 1; /* Stay on top */
-    background-color: #facc04;
-    overflow-y: hidden; /* Disable horizontal scroll */
-    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 .ratings table {
@@ -144,26 +184,84 @@
 
 .search_results {
     margin-top: 30px;
+    color: #d44c04;
 }
 
 .search_results table {
-    width: 80%;
+    width: 75%;
     margin: auto;
     text-align: center;
+    background-color: white;
+    font-size: 1.2em;
+}
+
+.search_results th {
+    background-color: #d44c04;
+    color: white;
 }
 
 .search_results table, th, tr, td {
-    border: 1px solid #d44c04;
+    border: 2px solid white;
     border-collapse: collapse;
 }
 
 .search_results a {
-    text-decoration: none;
     font-family: 'Varela';
-    font-size: 1.2em;
-    color: white;
+    font-size: 1em;
+    color: #d44c04;
 }
 
 .search_results a:hover {
-    color: pink
+    font-weight: bold;
 }
+
+.add_rb {
+    margin: auto;
+    height: 0; /* 100% Full-height */
+    z-index: 1; /* Stay on top */
+    overflow-y: hidden; /* Disable horizontal scroll */
+    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+    width: 840px;
+    margin: auto;
+    text-align: center;
+    margin-top: 2%;
+    background-color: white;
+    border-radius: 25px;
+    font-size: 1.4em;
+    font-family: 'Varela';
+    color: #cb7519;
+    border: 2px solid #d44c04
+}
+
+.add_rb table {
+    margin: auto;
+    margin-top: 2%;
+    width: 90%;
+}
+
+.add_rb button {
+    width: 30%;
+    font-size: 1.1em;
+    color: #facc04;
+    border-radius: 5px;
+    background-color: #d44c04;
+}
+
+.add_rb button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
+
+.add_rb input[type=text] {
+    width: 90%;
+    height: 1.8em;
+    font-size: 1em;
+    color: #d44c04;
+    border-radius: 15px;
+  }
+
+  .add_rb input[type=file] {
+    height: 1.6em;
+    font-size: 1em;
+    color: #d44c04;
+  }
