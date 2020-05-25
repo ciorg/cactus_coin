@@ -3,35 +3,35 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 */
 
 .pageBody {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  font-family: 'Varela';
-  background-image: linear-gradient(#ef2556, #facc04);
-  border-bottom: 2px solid #d44c04;
-  position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    font-family: 'Varela';
+    background-image: linear-gradient(#ef2556, #facc04);
+    position: fixed;
 }
 
 .portalContent {
-  position: absolute;
-  margin-top: 20%;
-  margin-left: 55%;
-  width: 60%;
-  height: 60%;
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 55%;
+    width: 400px;
+    height: 300px;
 }
 
 .portalLogo {
+  height: 100%;
+  width: 175px;
   float: left;
-  height: 50%;
-  width: 22%;
   shape-outside: circle(50%);
 }
 
 .portalLogo img{
-  height: 80%;
-  border-radius: 50%;
-  border: 2px solid #1c6404;
+    margin-top: 15px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid #1c6404;
 }
 
 .portalLogo img:hover {
@@ -58,25 +58,22 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 
 
 .portalBottom {
-  position: absolute;
   width: 100%;
+  position: fixed;
   bottom: 0;
+  height: 100px;
 }
 
 .short img {
-  position: absolute;
-  height: 75px;
+  height: 100px;
   width: 20%;
-  bottom: 0;
-  right: 0;
+  float: right;
 }
 
 .long img {
-  position: absolute;
-  height: 75px;
+  height: 100px;
   width: 80%;
-  bottom: 0;
-  left: 0;
+  float: left;
 }
 
 .loginForm {

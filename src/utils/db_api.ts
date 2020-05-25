@@ -7,6 +7,7 @@ class MongooseApi {
         mongoose.connect(
             url,
             {
+                useCreateIndex: true,
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             }
