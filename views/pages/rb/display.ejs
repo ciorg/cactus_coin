@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="css/rb.css">
 </head>
 <body>
-    <div class="pageBody">
+    <div class="display_page_body">
         <%- include('../../partials/nav_bar'); %>
         <%- include('../../partials/rootbeer_actions'); %>
         <%- include('../../partials/add_rb'); %>
@@ -13,7 +13,7 @@
             <table>
                 <tr>
                     <th>Name</th>
-                    <th>Date Created</th>
+                    <th>Added</th>
                     <th>Added By</th>
                     <th>Avg Rating</th>
                     <th></th>
@@ -23,13 +23,15 @@
                     <td><a href="/rb/<%-result._id %>"><%- result.name %></a></td>
                     <td><%- result.created %></td>
                     <td><%- result.user %></td>
-                    <td>Avg Rating</td>
+                    <td><%- result.avg %></td>
                     <td><a href="/rate/<%- result._id %>">Add Rating</a></td>
                 </tr>
                 <% } %>
             </table>
         </div>
+        <div class="bottom_padding">
+        </div>
     </div>
    
-    <script src="../javascript/portal.js"></script>  
+    <script src="../javascript/portal.js"></script>
 </body>

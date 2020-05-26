@@ -85,13 +85,12 @@ class User extends Controller {
 
     async getUsersRb(req: Request) {
         const { user }: any = req;
-        const result = await this.search('user', user._id);
+        // const result = await this.search('user', user._id);
+        const result = await this._modelAction('find', { user: user._id });
 
         if (result.error) return result;
 
-        await this.utils.addUserName(result.res);
-
-        console.log('result', result);
+        result.res = await this.utils.format(result.res);
 
         return result;
     }
@@ -101,7 +100,7 @@ class User extends Controller {
 
         if (result.error) return result;
 
-        await this.utils.addUserName(result.res);
+        result.res = await this.utils.format(result.res);
 
         return result;
 
@@ -111,11 +110,12 @@ class User extends Controller {
         const searchTerms = this.utils.makeRegex(req.body.rb_search);
 
         if (searchTerms) {
-            const result = await this.search(field, searchTerms);
+            // const result = await this.search(field, searchTerms);
+            const result = await this._modelAction('find', { [field]: searchTerms })
 
             if (result.error) return result;
 
-            await this.utils.addUserName(result.res);
+            result.res = await this.utils.format(result.res);
 
             return result;
         }
