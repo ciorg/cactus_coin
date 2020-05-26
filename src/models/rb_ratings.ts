@@ -3,9 +3,9 @@ import DbApi from '../utils/db_api';
 const db = new DbApi('mongodb://localhost/MyDatabase');
 
 const rbRatingSchema =  db.schema({
-    rb_id: String,
-    created: Date,
-    user: String,
+    rb_id: { type: String, required: true },
+    created: { type: Date, default: Date.now },
+    user: { type: String, required: true },
     branding: Number,
     after_taste: Number,
     aroma: Number,
@@ -14,8 +14,8 @@ const rbRatingSchema =  db.schema({
     flavor: Number,
     smoothness: Number,
     sweetness: Number,
-    overall: Number,
-    notes: String
+    total: Number,
+    write_up: String
 });
 
 

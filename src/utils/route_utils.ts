@@ -4,11 +4,6 @@ import multer from 'multer';
 import crypto from 'crypto';
 
 class RB {
-    formatDate(dateObj: any) {
-        console.log(dateObj);
-        console.log(Date.parse(dateObj));
-    }
-
     uniqFileName(fileName: string): string {
         const shasum = crypto.createHash('md5');
 

@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import Controller from './controller';
 import RatingModel from '../models/rb_ratings';
 
@@ -18,7 +19,7 @@ class Ratings extends Controller {
             'flavor',
             'smoothness',
             'sweetness',
-            'overall'
+            'total'
         ];
     }
 
@@ -38,6 +39,26 @@ class Ratings extends Controller {
         }
 
         return result;
+    }
+
+    async create(req: Request) {
+        const rating = this.getNewRating(req);
+    
+        return this._modelAction('create', rating);
+    }
+
+    async update(req: Request) {
+       const rating = this.getRatingUpdate(req);
+
+        if (Object.keys(rating).length) {
+            try {
+                await RatingModel.updateOne({ _id: req.params.id }, rating);
+            } catch (e) {
+                return { error: true, res: null };
+            }
+        }
+
+        return { res: null };
     }
 
     getRatingsByRbId(rbId: String) {
@@ -65,6 +86,79 @@ class Ratings extends Controller {
         }
 
         return avgObj;
+    }
+
+    private getNewRating(req: Request) {
+        const rating: Partial<I.Rating> = this.createNewRatingObject(req);
+        this.formatRatings(rating);
+        rating.total = this.getTotal(rating);
+        
+        return rating;
+    }
+
+    private getRatingUpdate(req: Request): Partial <I.Rating> {
+        const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
+        this.formatRatings(rating);
+        rating.total = this.getTotal(rating);
+        
+        return rating;
+    }
+
+    private createRatingObjectUpdate(req: Request) {
+        const rating: Partial<I.Rating> = {
+            branding: req.body.branding,
+            after_taste: req.body.at,
+            aroma: req.body.aroma,
+            bite: req.body.bite,
+            carbonation: req.body.carb,
+            flavor: req.body.flavor,
+            smoothness: req.body.smooth,
+            sweetness: req.body.sweet
+        };
+
+        return rating;
+    }
+
+    private createNewRatingObject(req: Request) {
+        const { user }: any = req;
+    
+        const rating: Partial<I.Rating> = {
+            rb_id: req.params.id,
+            created: new Date(),
+            user: user._id,
+            branding: req.body.branding,
+            after_taste: req.body.at,
+            aroma: req.body.aroma,
+            bite: req.body.bite,
+            carbonation: req.body.carb,
+            flavor: req.body.flavor,
+            smoothness: req.body.smooth,
+            sweetness: req.body.sweet
+        };
+
+        return rating;
+    }
+
+    private formatRatings(rating: Partial<I.Rating>) {
+        for (const key of Object.keys(rating)) {
+            const value = rating[key];
+
+            if (typeof value === 'number') {
+                rating[key] = value.toFixed(1);
+            }
+        }
+    }
+
+    private getTotal(rating: Partial<I.Rating>): number {
+        let total = 0;
+
+        for (const value of Object.values(rating)) {
+            if (typeof value === 'number') {
+                total += value;
+            }
+        }
+    
+        return total;
     }
 
 }

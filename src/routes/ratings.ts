@@ -1,11 +1,44 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import permissions from '../utils/permissions';
+import Rating from '../controllers/ratings';
 
-import rbModel from '../models/rb';
-import ratingsModel from '../models/rb_ratings';
 
 const router = express.Router();
+const rating = new Rating();
+
+router.post(
+    '/rate/:id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+    
+        const newRating = await rating.create(req);
+
+        if (newRating.error) {
+            return res.render('pages/error');
+        }
+
+        return res.redirect(`/rb/${req.params.id}`);
+    }
+);
+
+router.post('/ratings/:id/update',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        // need to return to rootbeer page
+        // get rootbeer id from incoming params
+
+        const update = await rating.update(req);
+
+        if (update.error) {
+            return res.render('pages/error');
+        }
+
+        return res.redirect('pages/ratings');
+    }
+)
 
 router.get('/rate/:rb_id',
     connectEnsureLogin.ensureLoggedIn('/'),
@@ -19,35 +52,6 @@ router.get('/rate/:rb_id',
     }
 );
 
-router.post(
-    '/rate/:id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
-        const rating = {
-            rb_id: req.params.id,
-            created: new Date(),
-            user: req.user._id,
-            branding: req.body.branding,
-            after_taste: req.body.at,
-            aroma: req.body.aroma,
-            bite: req.body.bite,
-            carbonation: req.body.carb,
-            flavor: req.body.flavor,
-            smoothness: req.body.smooth,
-            sweetness: req.body.sweet,
-            overall: req.body.overall
-        };
-
-        try {
-            await ratingsModel.create(rating);
-        } catch (e) {
-            return res.send(e);
-        }
-
-        return res.redirect(`/rb/${req.params.id}`);
-});
-
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
@@ -58,37 +62,6 @@ router.get('/ratings',
 
         return res.render('pages/rating/view', { user, usersRatings });
 });
-
-router.post('/ratings/:id/update',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
-        const updatedRating = {
-            created: new Date(),
-            user: req.user._id,
-            branding: req.body.branding,
-            after_taste: req.body.at,
-            aroma: req.body.aroma,
-            bite: req.body.bite,
-            carbonation: req.body.carb,
-            flavor: req.body.flavor,
-            smoothness: req.body.smooth,
-            sweetness: req.body.sweet,
-            overall: req.body.overall,
-            notes: req.body.notes
-        };
-
-        if (Object.keys(updatedRating).length) {
-            try {
-                const update = await ratingsModel.updateOne({ _id: req.params.id }, updatedRating);
-                res.redirect('/ratings');
-            } catch (e) {
-                res.send(e);
-            }
-        }
-        
-    }
-)
 
 router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
     const { id } = req.params;

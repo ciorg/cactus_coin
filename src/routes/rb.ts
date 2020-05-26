@@ -110,7 +110,7 @@ router.get('/rb_every',
 
         if (every.error) {
             return res.render('pages/error');
-        } 
+        }
 
         res.render('pages/rb/display', {
             user: req.user,
