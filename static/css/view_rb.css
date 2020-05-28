@@ -1,0 +1,181 @@
+.rb_view {
+    width: 75%;
+    height: 80%;
+    margin: auto;
+    margin-top: 1%;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.rb_view_name {
+    background-color: #2cb404;
+    border-radius: 20px 20px 0px 0px;
+    color: white;
+}
+
+.rb_view_name p {
+    text-align: center;
+    margin: auto;
+    font-size: 2.0em;
+    font-weight: bolder;
+}
+
+.rb_image {
+    float: left;
+    width: 30%;
+    height: 100%;
+}
+
+.rb_image img {
+    width: 100%;
+}
+
+.rb_ratings {
+    float: right;
+    width: 70%;
+    color: #1c6404;
+}
+
+.rb_avg_ratings #category {
+    color: #1c6404;
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
+}
+
+.rb_avg_ratings table {
+    font-size: 1.1em;
+    text-align: center;
+    font-weight: 400;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#total {
+    font-size: 1.6em;
+    background-color: #1c6404;
+    color: white;
+}
+
+.rb_all_ratings table {
+    font-size: 1.1em;
+    wiDth: 100%;
+    text-align: center;
+    border: 2px solid #1c6404;
+    border-collapse: collapse;
+}
+
+.rb_all_ratings th {
+    background-color: #2cb404;
+    color: white;
+    border: 2px solid #2cb404;
+    border-collapse: collapse;
+}
+
+.rb_avg_ratings td {
+    border-collapse: collapse;
+    border: 2px solid #1c6404
+}
+
+.rb_all_ratings td {
+    border: 2px solid #2cb404;
+    border-collapse: collapse;
+}
+
+.update_section {
+    width: 80%;
+    margin: auto;
+}
+
+.update_rb_links {
+    text-align: center;
+    line-height: 2.0em;
+}
+
+.update_rb_links table {
+    width: 80%;
+    margin: auto;
+}
+
+.update_rb_links a {
+    text-decoration: none;
+    padding-left: 50px;
+}
+
+.edit_rb {
+    margin: auto;
+    height: 150px; /* 100% Full-height */
+    width: 80%; /* 0 width - change this with JavaScript */
+    background-color: #2cb404;
+    border-radius: 15px;
+}
+
+.edit_rb form {
+    color: white;
+    text-align: center;
+    line-height: 1.3em;
+    font-size: 1.3em;
+}
+
+.edit_rb input {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.edit_rb input[type=text] {
+    border-style:none;
+    width: 25%;
+    height: 1.8em;
+    font-size: 1em;
+    color: #1c6404;
+    margin-right: 30px;
+  }
+
+.edit_rb button {
+    width: 30%;
+    font-size: 1.1em;
+    color: white;
+    border-radius: 5px;
+    background-color: #1c6404;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+.edit_rb button:hover {
+    background-color: #2cb404;
+    color: white;
+}
+
+.add_rating {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    background-color: #2cb404;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.3em;
+}
+
+.add_rating table {
+    margin: auto;
+    width: 90%;
+    margin-top: 25px;
+}
+
+.add_rating tr td {
+    border: 2px solid #2cb404;
+    border-collapse: collapse;
+}
+
+.add_rating button {
+    width: 30%;
+    font-size: 1.1em;
+    color: white;
+    border-radius: 5px;
+    background-color: #1c6404;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+.add_rating button:hover {
+    background-color: #2cb404;
+}

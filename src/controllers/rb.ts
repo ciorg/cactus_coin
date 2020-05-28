@@ -124,17 +124,15 @@ class User extends Controller {
     }
 
     async viewRbInfo(req: Request) {
-        const rbId = req.params.id;
-
-        const rbResult = await this.findById(rbId);
+        const rbResult = await this.findById(req.params.id);
 
         if (rbResult.error) return rbResult;
 
-        const ratingResult = await this.ratings.getRatingsByRbId(rbId);
+        const ratingResult = await this.ratings.getRatingsByRbId(req.params.id);
 
         if (ratingResult.error) return ratingResult;
 
-        this.utils.addUserName(ratingResult.res);
+        await this.utils.prepRatings(ratingResult.res);
 
         const avg = this.ratings.avgRating(ratingResult.res);
 

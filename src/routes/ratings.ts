@@ -43,15 +43,22 @@ router.post('/ratings/:id/update',
 router.get('/rate/:rb_id',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: any) => {
-        const { user }: any = req;
+    async (req: Request, res: Response) => {
+        const ratings = await rating.getRatingsByRbId(req.params._id);
+        
+        if (ratings.error) {
+            return res.render('pages/error');
+        }
 
-        const rb = await rbModel.find({ _id: req.params.rb_id});
-
-        res.render('pages/rating/create', { user, rb: rb[0]});
+        return res.render(
+            'pages/rating/create',
+            { user: req.user, rb: req.params.rb_id}
+        );
     }
 );
 
+
+/*
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
@@ -76,5 +83,6 @@ router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
         res.send(e);
     }
 });
+*/
 
 export = router;

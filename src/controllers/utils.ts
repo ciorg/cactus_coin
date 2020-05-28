@@ -3,6 +3,7 @@ import UserModel from '../models/user';
 import Ratings from './ratings';
 import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
+import * as I from '../interface';
 
 
 class Utils extends Controller {
@@ -37,7 +38,6 @@ class Utils extends Controller {
             const year = timeStamp.getFullYear();
             
             i.created = `${this.formatMonth(month)}/${date}/${year}`;
-
         }
     }
 
@@ -49,6 +49,13 @@ class Utils extends Controller {
         await this.avgRating(rbDocs);
 
         return rbDocs;
+    }
+
+    async prepRatings(ratings: Partial<I.Rating>[]) {
+        const ratingsDocs = ratings.map((i: any) => i._doc);
+
+        await this.addUserName(ratingsDocs);
+        this.formatDate(ratingsDocs);
     }
 
     async avgRating(rbArray: any[]) {

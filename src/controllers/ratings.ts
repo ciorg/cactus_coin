@@ -42,13 +42,13 @@ class Ratings extends Controller {
     }
 
     async create(req: Request) {
-        const rating = this.getNewRating(req);
+        const rating = this.newRating(req);
     
         return this._modelAction('create', rating);
     }
 
     async update(req: Request) {
-       const rating = this.getRatingUpdate(req);
+       const rating = this.updateRating(req);
 
         if (Object.keys(rating).length) {
             try {
@@ -59,6 +59,10 @@ class Ratings extends Controller {
         }
 
         return { res: null };
+    }
+
+    getRbRatings(req: Request) {
+        return this.getRatingsByRbId(req.params.rb_id);
     }
 
     getRatingsByRbId(rbId: String) {
@@ -88,18 +92,18 @@ class Ratings extends Controller {
         return avgObj;
     }
 
-    private getNewRating(req: Request) {
+    private newRating(req: Request) {
         const rating: Partial<I.Rating> = this.createNewRatingObject(req);
-        this.formatRatings(rating);
-        rating.total = this.getTotal(rating);
+        rating.total = this.prepRatings(rating);
+
+        console.log('rating', rating);
         
         return rating;
     }
 
-    private getRatingUpdate(req: Request): Partial <I.Rating> {
+    private updateRating(req: Request): Partial <I.Rating> {
         const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
-        this.formatRatings(rating);
-        rating.total = this.getTotal(rating);
+        rating.total = this.prepRatings(rating);
         
         return rating;
     }
@@ -139,26 +143,22 @@ class Ratings extends Controller {
         return rating;
     }
 
-    private formatRatings(rating: Partial<I.Rating>) {
-        for (const key of Object.keys(rating)) {
-            const value = rating[key];
-
-            if (typeof value === 'number') {
-                rating[key] = value.toFixed(1);
-            }
-        }
-    }
-
-    private getTotal(rating: Partial<I.Rating>): number {
+    private prepRatings(rating: Partial<I.Rating>): number {
         let total = 0;
 
-        for (const value of Object.values(rating)) {
-            if (typeof value === 'number') {
-                total += value;
+        for (const [key, value] of Object.entries(rating)) {
+            if (this.ratingField(key)) {
+                const ratingValue = Number(value);
+                total += ratingValue;
+                rating[key] = ratingValue.toFixed(1);
             }
         }
     
         return total;
+    }
+
+    private ratingField(key: string) {
+        return this.rating_fields.includes(key);
     }
 
 }

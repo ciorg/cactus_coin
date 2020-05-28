@@ -9,9 +9,9 @@
 <body>
     <div class="pageBody">
         <%- include('../../partials/nav_bar'); %>
-        <p><%= user.username %> <%= rb.name %></p>
+        <p><%= user.username %></p>
         <div class="rate">
-            <form action="/rate/<%= rb._id %>" method="post">
+            <form action="/rate/<%= rb %>" method="post">
                 <table>
                     <tr>
                         <td class="rb_label">
