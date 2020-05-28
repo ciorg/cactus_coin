@@ -18,7 +18,11 @@
                 <div class="rb_avg_ratings">
                     <table>
                         <tr>
-                            <td id="total" colspan="2">Total</td>
+                            <td>Avg Total</td>
+                            <td colspan="9">Category Averages</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"  id="total"><%= avg.total %></td>
                             <td id="category">Brand</td>
                             <td ><%= avg.branding %></td>
                             <td id="category">After Taste</td>
@@ -29,7 +33,6 @@
                             <td><%= avg.sweetness %></td>
                         </tr>
                         <tr>
-                            <td colspan="2" id="total"><%= avg.total %></td>
                             <td id="category">Fizz</td>
                             <td><%= avg.carbonation %></td>
                             <td id="category">Flavor</td>
