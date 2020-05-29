@@ -1,11 +1,13 @@
 import { Request } from 'express';
 import Controller from './controller';
 import RatingModel from '../models/rb_ratings';
+import Utils from './utils';
 
 import * as I from '../interface';
 
 class Ratings extends Controller {
     rating_fields: string[];
+    utils: Utils;
 
     constructor() {
         super();
@@ -21,6 +23,8 @@ class Ratings extends Controller {
             'sweetness',
             'total'
         ];
+
+        this.utils = new Utils();
     }
 
     private async _modelAction(action: string, params: any): Promise<I.Result> {
@@ -69,6 +73,16 @@ class Ratings extends Controller {
         return this._modelAction('find', { rb_id: rbId });
     }
 
+    async ratingsByUser(req: Request) {
+        const { user }: any = req;
+
+        const ratings = await this._modelAction('find', { user: user._id });
+
+        this.utils.prepRatings(ratings.res);
+
+        return ratings;
+    }
+
     avgRating(ratings: any) {
         const numerator: number = ratings.length;
 
@@ -94,16 +108,14 @@ class Ratings extends Controller {
 
     private newRating(req: Request) {
         const rating: Partial<I.Rating> = this.createNewRatingObject(req);
-        rating.total = this.prepRatings(rating);
-
-        console.log('rating', rating);
+        rating.total = this.addRatingRotal(rating);
         
         return rating;
     }
 
     private updateRating(req: Request): Partial <I.Rating> {
         const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
-        rating.total = this.prepRatings(rating);
+        rating.total = this.addRatingRotal(rating);
         
         return rating;
     }
@@ -143,7 +155,7 @@ class Ratings extends Controller {
         return rating;
     }
 
-    private prepRatings(rating: Partial<I.Rating>): number {
+    private addRatingRotal(rating: Partial<I.Rating>): number {
         let total = 0;
 
         for (const [key, value] of Object.entries(rating)) {

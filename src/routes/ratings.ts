@@ -57,18 +57,24 @@ router.get('/rate/:rb_id',
     }
 );
 
-
-/*
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        const { user }: any = req;
+        const ratings = await rating.ratingsByUser(req);
 
-        const usersRatings = await ratingsModel.find({ rated_by: req.user._id});
+        if (ratings.error) {
+            return res.render('pages/error');
+        }
 
-        return res.render('pages/rating/view', { user, usersRatings });
+        return res.render(
+            'pages/rating/view',
+            { user: req.user, ratings: ratings.res }
+        );
 });
+
+
+/*
 
 router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
     const { id } = req.params;

@@ -1,6 +1,6 @@
 .rb_view {
-    width: 75%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
     margin: auto;
     margin-top: 1%;
     background-color: white;
@@ -23,7 +23,7 @@
 .rb_image {
     float: left;
     width: 30%;
-    height: 100%;
+    background-color: #2cb404;
 }
 
 .rb_image img {
@@ -34,6 +34,10 @@
     float: right;
     width: 70%;
     color: #1c6404;
+}
+
+.rb_avg_ratings {
+    border: 2px solid #1c6404;
 }
 
 .rb_avg_ratings #category {
@@ -56,11 +60,14 @@
     color: white;
 }
 
+.rb_all_ratings {
+    border: 2px solid #1c6404;
+}
+
 .rb_all_ratings table {
     font-size: 1.1em;
     wiDth: 100%;
     text-align: center;
-    border: 2px solid #1c6404;
     border-collapse: collapse;
 }
 
@@ -94,18 +101,26 @@
 .update_rb_links table {
     width: 80%;
     margin: auto;
+    text-align: center;
 }
 
 .update_rb_links a {
     text-decoration: none;
     padding-left: 50px;
+    color: #1c6404;
+}
+
+.update_rb_links a:hover {
+    color: #facc04;
 }
 
 .edit_rb {
     margin: auto;
-    height: 150px; /* 100% Full-height */
-    width: 80%; /* 0 width - change this with JavaScript */
+    z-index: 1; /* Stay on top */
+    height: 0; /* 100% Full-height */
+    width: 90%; /* 0 width - change this with JavaScript */
     background-color: #2cb404;
+    overflow-y: hidden; /* Disable horizontal scroll */
     border-radius: 15px;
 }
 
@@ -113,7 +128,7 @@
     color: white;
     text-align: center;
     line-height: 1.3em;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 .edit_rb input {
@@ -123,11 +138,10 @@
 
 .edit_rb input[type=text] {
     border-style:none;
-    width: 25%;
+    width: 60%;
     height: 1.8em;
     font-size: 1em;
     color: #1c6404;
-    margin-right: 30px;
   }
 
 .edit_rb button {
@@ -146,19 +160,22 @@
 }
 
 .add_rating {
-    width: 80%;
+    height: 0;
+    width: 90%;
+    z-index: 1; /* Stay on top */
+    overflow-y: hidden; /* Disable horizontal scroll */
     margin: auto;
     text-align: center;
     background-color: #2cb404;
     border-radius: 15px;
     color: white;
-    font-size: 1.3em;
+    font-size: 1.2vw;
 }
 
 .add_rating table {
+    padding-top: 20px;
     margin: auto;
-    width: 90%;
-    margin-top: 25px;
+    width: 100%;
 }
 
 .add_rating tr td {

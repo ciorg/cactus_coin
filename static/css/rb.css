@@ -101,8 +101,8 @@
     margin: auto;
     height: 0; /* 100% Full-height */
     z-index: 1; /* Stay on top */
+    transition: 0.2s; 
     overflow-y: hidden; /* Disable horizontal scroll */
-    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
     width: 840px;
     margin: auto;
     text-align: center;

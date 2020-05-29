@@ -37,7 +37,7 @@
                     <th>Edit</th>
                     <td>Delete</td>
                 </tr>
-                <% for (const rating of usersRatings) { %>
+                <% for (const rating of ratings) { %>
                 <tr>
                     <td><%- rating.rb_id %></td>
                     <form action="/ratings/<%= rating._id %>/update" method="post">
