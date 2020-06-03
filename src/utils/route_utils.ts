@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import path from 'path';
 import multer from 'multer';
 import crypto from 'crypto';

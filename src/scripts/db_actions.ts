@@ -1,6 +1,6 @@
 import UserModel from '../models/user';
 import RbModel from '../models/rb';
-import RatingModel from '../models/rb_ratings';
+import RatingModel from '../models/rating';
 import bunyan from 'bunyan';
 
 class DBTools {

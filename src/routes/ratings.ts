@@ -40,6 +40,7 @@ router.post('/ratings/:id/update',
     }
 )
 
+/*
 router.get('/rate/:rb_id',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
@@ -56,6 +57,7 @@ router.get('/rate/:rb_id',
         );
     }
 );
+*/
 
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),
@@ -73,22 +75,14 @@ router.get('/ratings',
         );
 });
 
-
-/*
-
 router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const deleteRating = await rating.delete(req);
 
-    try {
-        const response = await ratingsModel.deleteOne({ _id: id });
-
-        console.log(response);
-
-        res.redirect('/ratings');
-    } catch (e) {
-        res.send(e);
+    if (deleteRating.error) {
+        return res.render('pages/error');
     }
+
+    return res.redirect('/ratings');
 });
-*/
 
 export = router;

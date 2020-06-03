@@ -1,8 +1,8 @@
-import { Request, response } from 'express';
-import Controller from './controller';
+import { Request } from 'express';
+import Controller from './lib/controller';
 import Ratings from './ratings';
 import RbModel from '../models/rb';
-import Utils from './utils';
+import Utils from './lib/utils';
 import * as I from '../interface';
 
 class User extends Controller {
@@ -85,7 +85,6 @@ class User extends Controller {
 
     async getUsersRb(req: Request) {
         const { user }: any = req;
-        // const result = await this.search('user', user._id);
         const result = await this._modelAction('find', { user: user._id });
 
         if (result.error) return result;
@@ -128,7 +127,9 @@ class User extends Controller {
 
         if (rbResult.error) return rbResult;
 
-        const ratingResult = await this.ratings.getRatingsByRbId(req.params.id);
+        const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
+
+        console.log(ratingResult);
 
         if (ratingResult.error) return ratingResult;
 

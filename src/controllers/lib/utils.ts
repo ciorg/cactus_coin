@@ -1,12 +1,21 @@
-import Controller from './controller';
-import UserModel from '../models/user';
+import UserModel from '../../models/user';
+import RBModel from '../../models/rb';
+import RatingModel from '../../models/rating';
 import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
-import * as I from '../interface';
-import Ratings from './ratings';
+import * as I from '../../interface';
+import Actions from './actions';
 
 
-class Utils extends Controller {
+class Utils {
+    rbActions: Actions;
+    ratingActions: Actions;
+
+    constructor() {
+        this.rbActions = new Actions(RBModel);
+        this.ratingActions = new Actions(RatingModel);
+    }
+
     async addUserName(objArray: any[]) {
         for (const i of objArray) {
             const user = await UserModel.findById(i.user);
@@ -44,18 +53,26 @@ class Utils extends Controller {
         return rbDocs;
     }
 
+    getDocs(docArray: any[]) {
+        return docArray.map((i: any) => i._doc);
+    }
+
     async prepRatings(ratings: Partial<I.Rating>[]) {
-        const ratingsDocs = ratings.map((i: any) => i._doc);
+        const ratingsDocs = this.getDocs(ratings);
 
         await this.addUserName(ratingsDocs);
         this.formatDate(ratingsDocs);
+    }
+
+    async getRatingsByRbId(rbId: string) {
+        console.log('rb id', rbId);
+        return await this.ratingActions.search('rb_id', rbId);
     }
 
     async avgRating(rbArray: any[]) {
         for (const rb of rbArray) {
             // const ratings = await this.ratings.getRatingsByRbId(rb._id);
 
-            
             /*
             if (ratings.error) {
                 rb.avg = null;
@@ -107,6 +124,16 @@ class Utils extends Controller {
         }
 
         return null;
+    }
+
+    async addRbName(docArray: any[], field: string) {
+        for (const i of docArray) {
+            const result = await this.rbActions.search('_id', i[field]);
+
+            if (result.error) continue;
+
+            i.rb_name = result.res.name;
+        }
     }
 
 }

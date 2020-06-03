@@ -1,4 +1,4 @@
-import Controller from './controller';
+import Controller from './lib/controller';
 import { Request } from 'express';
 import userModel from '../models/user';
 import * as I from '../interface';
