@@ -35,16 +35,18 @@ class Actions {
     };
 
     async update(id: string, params: any): Promise<I.Result> {
+        const result: I.Result = { res: null };
+
         if (Object.keys(params).length) {
             try {
-                await this.model.updateOne({ _id: id }, params);
+                result.res = await this.model.updateOne({ _id: id }, params);
             } catch (e) {
                 this.log.error(e.message);
-                return { error: true, res: null };
+                result.error = true;
             }
         }
 
-        return { res: null };
+        return result;
     }
 
     delete(id: string) {
@@ -53,6 +55,14 @@ class Actions {
 
     search(field: string, value: any) {
         return this._modelAction('find', { [field]: value });
+    }
+
+    searchById(id: string) {
+        return this._modelAction('findById', id);
+    }
+
+    getAll() {
+        return this._modelAction('find', {});
     }
 }
 

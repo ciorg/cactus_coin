@@ -65,30 +65,43 @@ class Utils {
     }
 
     async getRatingsByRbId(rbId: string) {
-        console.log('rb id', rbId);
         return await this.ratingActions.search('rb_id', rbId);
     }
 
-    async avgRating(rbArray: any[]) {
-        for (const rb of rbArray) {
-            // const ratings = await this.ratings.getRatingsByRbId(rb._id);
+    avgRating(ratings: any) {
+        const numerator: number = ratings.length;
 
-            /*
-            if (ratings.error) {
-                rb.avg = null;
-                this.log.error(`could not get rating for ${rb._id}`);
-                continue;
+        const avgObj: { [propname: string]: any } = {};
+
+        const ratingFields = [
+            'branding',
+            'after_taste',
+            'aroma',
+            'bite',
+            'carbonation',
+            'flavor',
+            'smoothness',
+            'sweetness',
+            'total'
+        ];
+
+
+        for (const rating of ratings) {
+            for (const field of ratingFields) {
+                if(avgObj[field]) {
+                    avgObj[field] += rating[field];
+                } else {
+                    avgObj[field] = rating[field];
+                }
             }
-
-            if (ratings.res.length === 0) {
-                rb.avg = 5;
-                continue;
-            }
-            */
-
-            // rb.avg = this.getAvg(ratings.res);
-            rb.avg = 5;
         }
+
+        for (const [key, total] of Object.entries(avgObj)) {
+            const avg = total / numerator;
+            avgObj[key] = avg.toFixed(1);
+        }
+
+        return avgObj;
     }
 
     getAvg(rbRatings: any[]): number {
@@ -128,11 +141,12 @@ class Utils {
 
     async addRbName(docArray: any[], field: string) {
         for (const i of docArray) {
+    
             const result = await this.rbActions.search('_id', i[field]);
 
             if (result.error) continue;
 
-            i.rb_name = result.res.name;
+            i.rb_name = result.res[0].name;
         }
     }
 

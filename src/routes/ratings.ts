@@ -27,37 +27,15 @@ router.post('/ratings/:id/update',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        // need to return to rootbeer page
-        // get rootbeer id from incoming params
-
         const update = await rating.update(req);
 
         if (update.error) {
             return res.render('pages/error');
         }
 
-        return res.redirect('pages/ratings');
+        return res.redirect('/ratings');
     }
 )
-
-/*
-router.get('/rate/:rb_id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: Request, res: Response) => {
-        const ratings = await rating.getRatingsByRbId(req.params._id);
-        
-        if (ratings.error) {
-            return res.render('pages/error');
-        }
-
-        return res.render(
-            'pages/rating/create',
-            { user: req.user, rb: req.params.rb_id}
-        );
-    }
-);
-*/
 
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),

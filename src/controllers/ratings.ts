@@ -36,11 +36,11 @@ class Ratings {
     async update(req: Request) {
        const rating = this.updateRating(req);
 
-       return this.action.update(req.params._id, rating);
+       return this.action.update(req.params.id, rating);
     }
 
     async delete(req: Request) {
-        return this.action.delete(req.params._id);
+        return this.action.delete(req.params.id);
     }
 
     getRbRatings(req: Request) {
@@ -53,33 +53,14 @@ class Ratings {
         const ratings = await this.action.search('user', user._id);
 
         const ratingsDocs = this.utils.getDocs(ratings.res);
+
         this.utils.formatDate(ratingsDocs);
-        ratings.res = this.utils.addRbName(ratingsDocs, 'rb_id');
+
+        await this.utils.addRbName(ratingsDocs, 'rb_id');
+
+        ratings.res = ratingsDocs;
 
         return ratings;
-    }
-
-    avgRating(ratings: any) {
-        const numerator: number = ratings.length;
-
-        const avgObj: { [propname: string]: any } = {};
-
-        for (const rating of ratings) {
-            for (const field of this.rating_fields) {
-                if(avgObj[field]) {
-                    avgObj[field] += rating[field];
-                } else {
-                    avgObj[field] = rating[field];
-                }
-            }
-        }
-
-        for (const [key, total] of Object.entries(avgObj)) {
-            const avg = total / numerator;
-            avgObj[key] = avg.toFixed(1);
-        }
-
-        return avgObj;
     }
 
     private newRating(req: Request) {
