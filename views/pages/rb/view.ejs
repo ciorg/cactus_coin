@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <%- include('./ll_partials/header') %>
+    <link rel="stylesheet" type="text/css" href="../css/view_rb.css">
 </head>
 <body>
-    <div class="pageBody">
+    <div class="display_page_body">
         <%- include('./ll_partials/nav_bar') %>
         <div class="rb_view">
             <div class="rb_view_name">
@@ -17,51 +18,53 @@
                 <div class="rb_avg_ratings">
                     <table>
                         <tr>
-                            <td id="category">Overall</td>
-                            <td><%= avg.overall %></td>
-                            <td id="category">Branding</td>
+                            <td>Avg Score</td>
+                            <td colspan="9">Category Averages</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"  id="total"><%= avg.total %></td>
+                            <td id="category">Brand</td>
                             <td ><%= avg.branding %></td>
                             <td id="category">After Taste</td>
                             <td><%= avg.after_taste %></td>
-                        </tr>
-                        <tr>
                             <td id="category">Aroma</td>
                             <td><%= avg.aroma %></td>
-                            <td id="category">Bite</td>
-                            <td><%= avg.bite %></td>
-                            <td id="category">Carbonation</td>
-                            <td><%= avg.carbonation %></td>
+                            <td id="category">Sweet</td>
+                            <td><%= avg.sweetness %></td>
                         </tr>
                         <tr>
+                            <td id="category">Fizz</td>
+                            <td><%= avg.carbonation %></td>
                             <td id="category">Flavor</td>
-                            <td><%= avg.flavor %></td> 
-                            <td id="category">Smoothness</td>
+                            <td><%= avg.flavor %></td>
+                            <td id="category">Bite</td>
+                            <td><%= avg.bite %></td> 
+                            <td id="category">Smooth</td>
                             <td><%= avg.smoothness %></td>
-                            <td id="category">Sweetness</td>
-                            <td><%= avg.sweetness %></td>
                         </tr>
                     </table>
                 </div>
+            </br>
                 <div class="rb_all_ratings">
                     <table>
                         <tr>
-                            <th>Rated By</th>
+                            <th>Rater</th>
                             <th>Date</th>
-                            <th>Overall</th>
-                            <th>Branding</th>
+                            <th>Total</th>
+                            <th>Brand</th>
                             <th>After Taste</th>
                             <th>Aroma</th>
                             <th>Bite</th>
-                            <th>Carbonation</th>
+                            <th>Fizz</th>
                             <th>Flavor</th>
-                            <th>Smoothness</th>
-                            <th>Sweetness</th>
+                            <th>Smooth</th>
+                            <th>Sweet</th>
                         </tr>
                         <% for (const rating of ratings) {%>
                         <tr>
-                            <td><%- rating.rated_by %></td>
-                            <td><%- rating.date %></td>
-                            <td><%- rating.overall %></td>
+                            <td><%- rating.user %></td>
+                            <td><%- rating.created %></td>
+                            <td><%- rating.total %></td>
                             <td><%- rating.branding %></td>
                             <td><%- rating.after_taste %></td>
                             <td><%- rating.aroma %></td>
@@ -74,23 +77,24 @@
                         <% } %>
                     </table>
                 </div>
-            </div>
-            <div class="rb_links">
-                <a href="/rate/<%=rb._id%>">Add Rating</a>
-            </div>
-            <div class="edit_rb" id="edit_rb" >
-                <form action="/rb_update/<%=rb._id%>" method="post" enctype="multipart/form-data">
-                    <label >Change Name</label> 
-                    <input type="text" name="rb_brand_name" value="<%- rb.name %>" required />
-                    <label>Update Image</label>
-                    <input type="file" name="rb_image" id="rb_image" accept=".png, .jpg, .jpeg" />
-                    <button type="submit" value="rootbeer" class="add_rb_button" required >
-                        Update
-                    </button>
-                </form>
+                <div class="update_rb_links">
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="slide('edit_rb', 'height', 175)">Update Rootbeer Info</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="update_sections">
+                    <%- include('./ll_partials/update_rb') %>
+                    <%- include('./ll_partials/add_rating') %>
+                </div>
             </div>
         </div>
-        <%- include('./ll_partials/footer') %>
     </div>
 
     <script src="../javascript/portal.js"></script>  

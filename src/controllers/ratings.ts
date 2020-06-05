@@ -1,15 +1,16 @@
 import { Request } from 'express';
-import Controller from './controller';
-import RatingModel from '../models/rb_ratings';
+import Actions from './lib/actions';
+import RatingModel from '../models/rating';
+import Utils from './lib/utils';
 
 import * as I from '../interface';
 
-class Ratings extends Controller {
+class Ratings {
     rating_fields: string[];
+    utils: Utils;
+    action: Actions;
 
     constructor() {
-        super();
-
         this.rating_fields = [
             'branding',
             'after_taste',
@@ -21,85 +22,57 @@ class Ratings extends Controller {
             'sweetness',
             'total'
         ];
-    }
 
-    private async _modelAction(action: string, params: any): Promise<I.Result> {
-        const result: I.Result = { res: null };
-    
-        try {
-            const res = await RatingModel[action](params);
-
-            this.log.info(res);
-
-            result.res = res;
-        } catch(e) {
-            this.errorHandler(e);
-
-            result.error = true;
-        }
-
-        return result;
+        this.utils = new Utils();
+        this.action = new Actions(RatingModel);
     }
 
     async create(req: Request) {
-        const rating = this.getNewRating(req);
+        const rating = this.newRating(req);
     
-        return this._modelAction('create', rating);
+        return this.action.create(rating);
     }
 
     async update(req: Request) {
-       const rating = this.getRatingUpdate(req);
+       const rating = this.updateRating(req);
 
-        if (Object.keys(rating).length) {
-            try {
-                await RatingModel.updateOne({ _id: req.params.id }, rating);
-            } catch (e) {
-                return { error: true, res: null };
-            }
-        }
-
-        return { res: null };
+       return this.action.update(req.params.id, rating);
     }
 
-    getRatingsByRbId(rbId: String) {
-        return this._modelAction('find', { rb_id: rbId });
+    async delete(req: Request) {
+        return this.action.delete(req.params.id);
     }
 
-    avgRating(ratings: any) {
-        const numerator: number = ratings.length;
-
-        const avgObj: { [propname: string]: any } = {};
-
-        for (const rating of ratings) {
-            for (const field of this.rating_fields) {
-                if(avgObj[field]) {
-                    avgObj[field] += rating[field];
-                } else {
-                    avgObj[field] = rating[field];
-                }
-            }
-        }
-
-        for (const [key, total] of Object.entries(avgObj)) {
-            const avg = total / numerator;
-            avgObj[key] = avg.toFixed(1);
-        }
-
-        return avgObj;
+    getRbRatings(req: Request) {
+        return this.action.search('rb_id', req.params.rb_id);
     }
 
-    private getNewRating(req: Request) {
+    async ratingsByUser(req: Request) {
+        const { user }: any = req;
+
+        const ratings = await this.action.search('user', user._id);
+
+        const ratingsDocs = this.utils.getDocs(ratings.res);
+
+        this.utils.formatDate(ratingsDocs);
+
+        await this.utils.addRbName(ratingsDocs, 'rb_id');
+
+        ratings.res = ratingsDocs;
+
+        return ratings;
+    }
+
+    private newRating(req: Request) {
         const rating: Partial<I.Rating> = this.createNewRatingObject(req);
-        this.formatRatings(rating);
-        rating.total = this.getTotal(rating);
+        rating.total = this.addRatingTotal(rating);
         
         return rating;
     }
 
-    private getRatingUpdate(req: Request): Partial <I.Rating> {
+    private updateRating(req: Request): Partial <I.Rating> {
         const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
-        this.formatRatings(rating);
-        rating.total = this.getTotal(rating);
+        rating.total = this.addRatingTotal(rating);
         
         return rating;
     }
@@ -139,26 +112,22 @@ class Ratings extends Controller {
         return rating;
     }
 
-    private formatRatings(rating: Partial<I.Rating>) {
-        for (const key of Object.keys(rating)) {
-            const value = rating[key];
-
-            if (typeof value === 'number') {
-                rating[key] = value.toFixed(1);
-            }
-        }
-    }
-
-    private getTotal(rating: Partial<I.Rating>): number {
+    private addRatingTotal(rating: Partial<I.Rating>): number {
         let total = 0;
 
-        for (const value of Object.values(rating)) {
-            if (typeof value === 'number') {
-                total += value;
+        for (const [key, value] of Object.entries(rating)) {
+            if (this.isRatingField(key)) {
+                const ratingValue = Number(value);
+                total += ratingValue;
+                rating[key] = ratingValue.toFixed(1);
             }
         }
     
         return total;
+    }
+
+    private isRatingField(key: string) {
+        return this.rating_fields.includes(key);
     }
 
 }

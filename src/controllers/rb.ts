@@ -1,44 +1,25 @@
-import { Request, response } from 'express';
-import Controller from './controller';
+import { Request } from 'express';
+import Actions from './lib/actions';
 import Ratings from './ratings';
 import RbModel from '../models/rb';
-import Utils from './utils';
+import Utils from './lib/utils';
 import * as I from '../interface';
 
-class User extends Controller {
+class User {
     utils: Utils;
     ratings: Ratings;
+    rb_actions: Actions;
 
     constructor() {
-        super();
+        this.rb_actions = new Actions(RbModel);
         this.utils = new Utils();
         this.ratings = new Ratings();
     }
 
     private _addImagePath(req: Request, rbInfo: Partial<I.RootBeer>) {
         if (req.file && req.file.filename) {
-            console.log(req.file);
             rbInfo.image = `rb_imgs/${req.file.filename}`;
         }
-    }
-
-    private async _modelAction(action: string, params: any): Promise<I.Result> {
-        console.log(params);
-        const result: I.Result = { res: null };
-    
-        try {
-            const res = await RbModel[action](params);
-
-            this.log.info(res);
-
-            result.res = res;
-        } catch(e) {
-            this.errorHandler(e);
-
-            result.error = true;
-        }
-
-        return result;
     }
 
     async create(req: Request) {
@@ -52,7 +33,7 @@ class User extends Controller {
 
         this._addImagePath(req, rbInfo);
     
-        return this._modelAction('create', rbInfo);
+        return this.rb_actions.create(rbInfo);
     }
 
     async update(req: Request): Promise<I.Result> {
@@ -64,29 +45,12 @@ class User extends Controller {
             updateFields.name = req.body.rb_brand_name;
         }
 
-        if (Object.keys(updateFields).length) {
-            try {
-                await RbModel.updateOne({ _id: req.params.id }, updateFields);
-            } catch (e) {
-                return { res: null, error: true } 
-            }
-        }
-
-        return { res: null };
-    }
-
-    async search(field: string, search: string | RegExp) {
-        return this._modelAction('find', { [field]: search });
-    }
-
-    async findById(id: string) {
-        return this._modelAction('findById', id);
+        return this.rb_actions.update(req.params.id, updateFields);
     }
 
     async getUsersRb(req: Request) {
         const { user }: any = req;
-        // const result = await this.search('user', user._id);
-        const result = await this._modelAction('find', { user: user._id });
+        const result = await this.rb_actions.search('user', user._id);
 
         if (result.error) return result;
 
@@ -96,7 +60,7 @@ class User extends Controller {
     }
 
     async getEveryRb(req: Request) {
-        const result = await this._modelAction('find', {});
+        const result = await this.rb_actions.getAll();
 
         if (result.error) return result;
 
@@ -110,8 +74,7 @@ class User extends Controller {
         const searchTerms = this.utils.makeRegex(req.body.rb_search);
 
         if (searchTerms) {
-            // const result = await this.search(field, searchTerms);
-            const result = await this._modelAction('find', { [field]: searchTerms })
+            const result = await this.rb_actions.search(field, searchTerms)
 
             if (result.error) return result;
 
@@ -124,19 +87,17 @@ class User extends Controller {
     }
 
     async viewRbInfo(req: Request) {
-        const rbId = req.params.id;
-
-        const rbResult = await this.findById(rbId);
+        const rbResult = await this.rb_actions.searchById(req.params.id);
 
         if (rbResult.error) return rbResult;
 
-        const ratingResult = await this.ratings.getRatingsByRbId(rbId);
+        const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
 
         if (ratingResult.error) return ratingResult;
 
-        this.utils.addUserName(ratingResult.res);
+        await this.utils.prepRatings(ratingResult.res);
 
-        const avg = this.ratings.avgRating(ratingResult.res);
+        const avg = this.utils.avgRating(ratingResult.res);
 
         const res = {
             rb: rbResult.res,

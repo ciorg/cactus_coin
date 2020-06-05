@@ -27,54 +27,40 @@ router.post('/ratings/:id/update',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        // need to return to rootbeer page
-        // get rootbeer id from incoming params
-
         const update = await rating.update(req);
 
         if (update.error) {
             return res.render('pages/error');
         }
 
-        return res.redirect('pages/ratings');
+        return res.redirect('/ratings');
     }
 )
-
-router.get('/rate/:rb_id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: any) => {
-        const { user }: any = req;
-
-        const rb = await rbModel.find({ _id: req.params.rb_id});
-
-        res.render('pages/rating/create', { user, rb: rb[0]});
-    }
-);
 
 router.get('/ratings',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        const { user }: any = req;
+        const ratings = await rating.ratingsByUser(req);
 
-        const usersRatings = await ratingsModel.find({ rated_by: req.user._id});
+        if (ratings.error) {
+            return res.render('pages/error');
+        }
 
-        return res.render('pages/rating/view', { user, usersRatings });
+        return res.render(
+            'pages/rating/view',
+            { user: req.user, ratings: ratings.res }
+        );
 });
 
 router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const deleteRating = await rating.delete(req);
 
-    try {
-        const response = await ratingsModel.deleteOne({ _id: id });
-
-        console.log(response);
-
-        res.redirect('/ratings');
-    } catch (e) {
-        res.send(e);
+    if (deleteRating.error) {
+        return res.render('pages/error');
     }
+
+    return res.redirect('/ratings');
 });
 
 export = router;

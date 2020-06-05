@@ -1,4 +1,4 @@
-import DbApi from '../utils/db_api';
+import DbApi from './lib/db_api';
 
 const db = new DbApi('mongodb://localhost/MyDatabase');
 
