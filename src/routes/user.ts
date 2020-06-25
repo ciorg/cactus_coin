@@ -31,8 +31,8 @@ router.post(
     permissions(['king']),
     [
         check('username').trim().escape().stripLow(),
-        check('reg_password').trim().escape().stripLow(),
-        check('con_password').trim().escape().stripLow()
+        check('password').trim().escape().stripLow(),
+        check('confirm_password').trim().escape().stripLow()
     ],
     async (req: Request, res: Response) => {
         const result: I.Result = await user.create(req);
@@ -50,6 +50,33 @@ router.get(
     connectEnsureLogin.ensureLoggedIn('/'),
     async (req: Request, res: Response) => {
         return res.render('pages/user_info', { user: req.user });        
+    }
+)
+
+router.post(
+    '/set_pass',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    [
+        check('new_password').trim().escape().stripLow()
+    ],
+    async (req: Request, res: Response) => {
+        let message;
+
+        const result: I.Result = await user.resetPassword(req);
+
+        if (result.error) {
+            return res.render('pages/error');
+        }
+
+        message = result.res;
+
+        return res.render(
+            'pages/user_info',
+            {
+                user: req.user,
+                message 
+            }
+        );        
     }
 )
 

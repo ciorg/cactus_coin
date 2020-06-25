@@ -7,19 +7,52 @@
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
-            <p>Username <%- user.username %></p>
-            <p>Role <%- user.role %></p>
-            <p>Created <%- user.created %></p>
-            <form action="/set_pass" method="post">
-                <label>Reset Passord:</label>
-                <input type="password" name="password" id="password" size=10 required />
-                <button type="submit" value="setpass" class="setPass_button" >
-                    Reset Password
-                </button>
-            </form>
+            <div class="user_info" style="margin:auto; width: 80%;">
+                <p>Username: <%- user.username %></p>
+                <p>Role: <%- user.role %></p>
+                <p>Created: <%- user.created %></p>
+                <form action="/set_pass" method="post">
+                    <table>
+                        <tr>
+                            <td>
+                                <label>Reset Passord:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="new_password" id="new_password" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Confirm Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' required />
+                            </td>
+                        </tr>
+                    </table>
+                    <span id='message'></span>
+                    <button id="submit" type="submit" value="setpass" class="setPass_button" >
+                        Reset Password
+                    </button>
+                </form>
+            </div>
             <footer>
                 <%- include('../partials/footer'); %>
             </footer>
         </div>
+        <script>
+            var check = function() {
+                if (document.getElementById('new_password').value ==
+                    document.getElementById('confirm_password').value) {
+                    document.getElementById('message').style.color = 'green';
+                    document.getElementById('message').innerHTML = 'matching';
+                    document.getElementById('submit').disabled = false;
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'not matching';
+                    document.getElementById('submit').disabled = true;
+                }
+            }
+        </script>
     </body>
 </html>

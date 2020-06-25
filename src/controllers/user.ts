@@ -39,6 +39,31 @@ class User {
         return result;
     }
 
+    async resetPassword(req: Request): Promise<I.Result> {
+        const result: I.Result = {
+            res: null
+        };
+    
+        const { new_password } = req.body;
+
+        const { user }: any = req;
+
+        try {
+            const userM = userModel.findByUsername(user.username);
+    
+            await userM.setPassword(new_password);
+            await userM.save();
+
+            result.res = 'password reset successfully';
+
+        } catch(e) {
+            result.error = true;
+            this.log.error(e.message)
+        }
+
+        return result;
+    }
+
 }
 
 export = User;
