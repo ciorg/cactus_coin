@@ -12,7 +12,7 @@
                 <p>#10 - <%= rb.name %></p>
             </div>
             <div class="rb_image">
-                <img src="../<%= rb.image %>">
+                <img src="../<%= rb.image %>" />
             </div>
             <div class="rb_ratings">
                 <div class="rb_avg_ratings">
@@ -44,7 +44,22 @@
                         </tr>
                     </table>
                 </div>
-            </br>
+            <div class="update_sections">
+                <%- include('./ll_partials/update_rb') %>
+                <%- include('./ll_partials/add_rating') %>
+            </div>
+            <div class="update_rb_links">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="slide('edit_rb', 'height', 175)">Update Rootbeer Info</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
                 <div class="rb_all_ratings">
                     <table>
                         <tr>
@@ -76,22 +91,6 @@
                         </tr>
                         <% } %>
                     </table>
-                </div>
-                <div class="update_rb_links">
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
-                            </td>
-                            <td>
-                                <a href="#" onclick="slide('edit_rb', 'height', 175)">Update Rootbeer Info</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="update_sections">
-                    <%- include('./ll_partials/update_rb') %>
-                    <%- include('./ll_partials/add_rating') %>
                 </div>
             </div>
         </div>

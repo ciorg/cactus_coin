@@ -45,4 +45,12 @@ router.post(
     }
 );
 
+router.get(
+    '/user_info',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    async (req: Request, res: Response) => {
+        return res.render('pages/user_info', { user: req.user });        
+    }
+)
+
 export = router;

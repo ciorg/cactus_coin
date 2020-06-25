@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); -%>
+    </head>
+
+    <body>
+        <div class="pageBody">
+            <%- include('../partials/nav_bar'); %>
+            <p>Username <%- user.username %></p>
+            <p>Role <%- user.role %></p>
+            <p>Created <%- user.created %></p>
+            <form action="/set_pass" method="post">
+                <label>Reset Passord:</label>
+                <input type="password" name="password" id="password" size=10 required />
+                <button type="submit" value="setpass" class="setPass_button" >
+                    Reset Password
+                </button>
+            </form>
+            <footer>
+                <%- include('../partials/footer'); %>
+            </footer>
+        </div>
+    </body>
+</html>

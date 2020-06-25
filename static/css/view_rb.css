@@ -3,6 +3,8 @@
     height: 85%;
     margin: auto;
     margin-top: 1%;
+    overflow: auto;
+    border:2px solid red;
     background-color: white;
     border-radius: 20px;
 }
