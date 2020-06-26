@@ -49,7 +49,7 @@ router.get(
     '/user_info',
     connectEnsureLogin.ensureLoggedIn('/'),
     async (req: Request, res: Response) => {
-        return res.render('pages/user_info', { user: req.user });        
+        return res.render('pages/user_info', { user: req.user, message: undefined });        
     }
 )
 
@@ -60,21 +60,17 @@ router.post(
         check('new_password').trim().escape().stripLow()
     ],
     async (req: Request, res: Response) => {
-        let message;
-
         const result: I.Result = await user.resetPassword(req);
 
         if (result.error) {
             return res.render('pages/error');
         }
 
-        message = result.res;
-
         return res.render(
             'pages/user_info',
             {
                 user: req.user,
-                message 
+                message: result.res
             }
         );        
     }

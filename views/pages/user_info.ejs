@@ -15,6 +15,14 @@
                     <table>
                         <tr>
                             <td>
+                                <label>Current Passord:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="current_password" id="current_password" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <label>Reset Passord:</label>
                             </td>
                             <td>
@@ -35,6 +43,9 @@
                         Reset Password
                     </button>
                 </form>
+                <% if (message) { %>
+                    <p style="color: green"><%= message %></p>
+                  <% } %>
             </div>
             <footer>
                 <%- include('../partials/footer'); %>
