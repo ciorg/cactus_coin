@@ -4,7 +4,7 @@
         <%- include('../partials/head'); -%>
     </head>
 
-    <body>
+    <body onload="passResetM()">
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
             <div class="user_info" style="margin:auto; width: 80%;">
@@ -34,7 +34,7 @@
                                 <label>Confirm Password:</label>
                             </td>
                             <td>
-                                <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' required />
+                                <input type="password" name="confirm_password" id="confirm_password" onkeyup='passCheck();' required />
                             </td>
                         </tr>
                     </table>
@@ -43,27 +43,12 @@
                         Reset Password
                     </button>
                 </form>
-                <% if (message) { %>
-                    <p style="color: green"><%= message %></p>
-                  <% } %>
+                <p id="resetM"><%= message %></p>
             </div>
             <footer>
                 <%- include('../partials/footer'); %>
             </footer>
         </div>
-        <script>
-            var check = function() {
-                if (document.getElementById('new_password').value ==
-                    document.getElementById('confirm_password').value) {
-                    document.getElementById('message').style.color = 'green';
-                    document.getElementById('message').innerHTML = 'matching';
-                    document.getElementById('submit').disabled = false;
-                } else {
-                    document.getElementById('message').style.color = 'red';
-                    document.getElementById('message').innerHTML = 'not matching';
-                    document.getElementById('submit').disabled = true;
-                }
-            }
-        </script>
+        <script src="javascript/view.js"></script>
     </body>
 </html>

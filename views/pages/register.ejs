@@ -22,7 +22,7 @@
                             <label>Password:</label>
                         </td>
                         <td class="reg_input">
-                            <input type="password" name="password" id="password" required />
+                            <input type="password" name="password" id="new_password" required />
                         </td>
                     </tr>
                     <tr>
@@ -30,7 +30,7 @@
                             <label>Confirm Password:</label>
                         </td>
                         <td class="reg_input">
-                            <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();' required />
+                            <input type="password" name="confirm_password" id="confirm_password" onkeyup='passCheck();' required />
                         </td>
                     </tr>
                     <tr>
@@ -65,18 +65,5 @@
         </div>
     </div>
 
-    <script>
-        var check = function() {
-            if (document.getElementById('password').value ==
-                document.getElementById('confirm_password').value) {
-                document.getElementById('message').style.color = 'green';
-                document.getElementById('message').innerHTML = 'matching';
-                document.getElementById('submit').disabled = false;
-            } else {
-                document.getElementById('message').style.color = 'red';
-                document.getElementById('message').innerHTML = 'not matching';
-                document.getElementById('submit').disabled = true;
-            }
-        }
-    </script>
+    <script src="javascript/view.js"></script>
 </body>

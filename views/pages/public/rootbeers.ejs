@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../../partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="css/rb.css">
+</head>
+<body>
+    <div class="display_page_body">
+        <h1>Rootbeers go here</h1>
+        <% for( const rb of rbs ) { %>
+            <p><%- rb.name %></p>
+        <% } %>
+        <div class="bottom_padding">
+        </div>
+    </div>
+</body>
