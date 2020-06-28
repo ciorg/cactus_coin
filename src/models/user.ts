@@ -10,10 +10,6 @@ const userDetail =  db.schema({
         unique: true,
         index: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     role: {
         type: String,
         required: true

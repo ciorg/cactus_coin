@@ -106,7 +106,7 @@ router.get('/rb_every',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        const every = await rb.getEveryRb(req);
+        const every = await rb.getEveryRb();
 
         if (every.error) {
             return res.render('pages/error');

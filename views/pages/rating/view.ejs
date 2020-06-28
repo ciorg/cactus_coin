@@ -30,28 +30,28 @@
                     <td><%- rating.created %></td>
                     <form action="/ratings/<%= rating._id %>/update" method="post">
                         <td> 
-                            <input type="number" name="branding" min="0" max="10" value="<%- rating.branding %>"/>
+                            <input type="number" name="branding" min="0" max="10" size=5 value="<%- rating.branding %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="at" min="0" max="10" value="<%- rating.after_taste %>"/>
+                            <input type="number" name="at" min="0" max="10" size=5 value="<%- rating.after_taste %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="aroma" min="0" max="10" value="<%- rating.aroma %>"/>
+                            <input type="number" name="aroma" min="0" max="10" size=5 value="<%- rating.aroma %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="bite" min="0" max="10" value="<%- rating.bite %>"/>
+                            <input type="number" name="bite" min="0" max="10" size=5 value="<%- rating.bite %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="carb" min="0" max="10" value="<%- rating.carbonation %>"/>
+                            <input type="number" name="carb" min="0" max="10" size=5 value="<%- rating.carbonation %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="flavor" min="0" max="10" value="<%- rating.flavor %>"/>
+                            <input type="number" name="flavor" min="0" max="10" size=5 value="<%- rating.flavor %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="smooth" min="0" max="10" value="<%- rating.smoothness %>"/>
+                            <input type="number" name="smooth" min="0" max="10" size=5 value="<%- rating.smoothness %>"/>
                         </td>
                         <td class="rb_input"> 
-                            <input type="number" name="sweet" min="0" max="10" value="<%- rating.sweetness %>"/>
+                            <input type="number" name="sweet" min="0" max="10" size=5 value="<%- rating.sweetness %>"/>
                         </td>
                         <td>
                             <button type="submit" value="rating" class="rate_button" required >Update</button>
@@ -65,6 +65,5 @@
         <div class="userLogo">
             <img src="imgs/cc_logo.png"/>
         </div>
-        <%- include('../../partials/footer') %>
     </div>
 </body>

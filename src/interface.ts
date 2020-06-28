@@ -1,8 +1,12 @@
 export interface RootBeer {
+    _id: string;
     name: string;
     created: Date;
     user: string;
     image?: string;
+    rating?: number;
+    rank?: number;
+    popular?: number;
 }
 
 export interface User {

@@ -5,7 +5,7 @@ import RbModel from '../models/rb';
 import Utils from './lib/utils';
 import * as I from '../interface';
 
-class User {
+class Rootbeer {
     utils: Utils;
     ratings: Ratings;
     rb_actions: Actions;
@@ -25,7 +25,7 @@ class User {
     async create(req: Request) {
         const { user }: any = req;
 
-        const rbInfo: I.RootBeer = {
+        const rbInfo: Partial<I.RootBeer> = {
             name: req.body.rb_brand_name,
             created: new Date(),
             user: user._id
@@ -59,7 +59,7 @@ class User {
         return result;
     }
 
-    async getEveryRb(req: Request) {
+    async getEveryRb() {
         const result = await this.rb_actions.getAll();
 
         if (result.error) return result;
@@ -109,4 +109,4 @@ class User {
     }
 }
 
-export = User;
+export = Rootbeer;

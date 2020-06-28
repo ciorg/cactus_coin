@@ -1,10 +1,10 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import passport from 'passport';
 
 const router = express.Router();
 
 router.get('/',
-    (req, res, next) => {
+    (req: Request, res: Response) => {
         res.render('pages/portal');
 });
 

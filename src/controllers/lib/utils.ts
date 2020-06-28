@@ -48,7 +48,8 @@ class Utils {
     
         await this.addUserName(rbDocs);
         this.formatDate(rbDocs);
-        await this.avgRating(rbDocs);
+        await this.getTotalAvg(rbDocs);
+        this.rank(rbDocs);
 
         return rbDocs;
     }
@@ -66,6 +67,40 @@ class Utils {
 
     async getRatingsByRbId(rbId: string) {
         return await this.ratingActions.search('rb_id', rbId);
+    }
+
+    async getTotalAvg(rbDocs: I.RootBeer[]) {
+        for (const rb of rbDocs) {
+            const results  = await this.getRatingsByRbId(rb._id);
+            rb.rating = this.totalAvg(results.res);
+            rb.popular = results.res.length;
+        }
+    }
+
+    totalAvg(ratings: any[]) {
+        if (ratings.length) {
+            const sum = ratings.reduce((total: number, rating: any) => {
+                total += rating.total;
+
+                return total;
+            }, 0)
+
+            return Math.round(sum / ratings.length);
+        }
+
+        return 5;
+    }
+
+    rank(rbDocs: I.RootBeer[]) {
+        rbDocs.sort((a, b) => {
+            const r1 = a.rating ? a.rating : 0;
+            const r2 = b.rating ? b.rating : 0;
+            return r2 - r1;
+        });
+
+        rbDocs.forEach((doc, i) => {
+            doc.rank = i + 1;
+        });
     }
 
     avgRating(ratings: any) {
@@ -103,18 +138,7 @@ class Utils {
 
         return avgObj;
     }
-
-    getAvg(rbRatings: any[]): number {
-        const count = rbRatings.length;
-
-        const total = rbRatings.reduce((tc: number, rating: any) => {
-            tc += rating.overall;
-            return tc;
-        }, 0);
-
-        return Math.round(count / total);
-    }
-
+    
     sanitizeRegex(search: string) {
         const escaped = escapeString(search); 
 
