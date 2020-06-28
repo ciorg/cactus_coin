@@ -4,7 +4,6 @@
     margin: auto;
     margin-top: 1%;
     overflow: auto;
-    border:2px solid red;
     background-color: white;
     border-radius: 20px;
 }
@@ -24,17 +23,22 @@
 
 .rb_image {
     float: left;
-    width: 30%;
+    width: 20%;
     background-color: #2cb404;
 }
 
 .rb_image img {
-    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: 150px;
+    justify-content: center;
 }
 
 .rb_ratings {
     float: right;
-    width: 70%;
+    width: 80%;
     color: #1c6404;
 }
 
@@ -49,10 +53,11 @@
 }
 
 .rb_avg_ratings table {
-    font-size: 1.1em;
+    font-size: 1.2em;
     text-align: center;
     font-weight: 400;
     width: 100%;
+    height: 148px;
     border-collapse: collapse;
 }
 
@@ -61,13 +66,19 @@
     border: 2px solid #1c6404
 }
 
+.rb_avg_ratings th {
+    border-collapse: collapse;
+    border: 2px solid #1c6404
+}
+
 #total {
-    font-size: 1.6em;
+    font-size: 2.5em;
     background-color: #1c6404;
     color: white;
 }
 
 .rb_all_ratings {
+    clear: both;
     border: 2px solid #1c6404;
 }
 
@@ -97,19 +108,14 @@
 
 .update_rb_links {
     text-align: center;
-    line-height: 2.0em;
-}
-
-.update_rb_links table {
-    width: 80%;
-    margin: auto;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
 .update_rb_links a {
     text-decoration: none;
     padding-left: 50px;
     color: #1c6404;
+    font-size: 1.3em;
 }
 
 .update_rb_links a:hover {
@@ -117,7 +123,9 @@
 }
 
 .edit_rb {
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
     z-index: 1; /* Stay on top */
     height: 0; /* 100% Full-height */
     width: 90%; /* 0 width - change this with JavaScript */
@@ -140,10 +148,11 @@
 
 .edit_rb input[type=text] {
     border-style:none;
-    width: 60%;
+    width: 30%;
     height: 1.8em;
     font-size: 1em;
     color: #1c6404;
+    margin-right: 10px;
   }
 
 .edit_rb button {
@@ -152,8 +161,7 @@
     color: white;
     border-radius: 5px;
     background-color: #1c6404;
-    margin-top: 1%;
-    margin-bottom: 3%;
+    margin-left: 10px;
 }
 
 .edit_rb button:hover {
@@ -166,7 +174,9 @@
     width: 90%;
     z-index: 1; /* Stay on top */
     overflow-y: hidden; /* Disable horizontal scroll */
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
     text-align: center;
     background-color: #2cb404;
     border-radius: 15px;
@@ -175,8 +185,9 @@
 }
 
 .add_rating table {
-    padding-top: 20px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -192,7 +203,6 @@
     border-radius: 5px;
     background-color: #1c6404;
     margin-top: 1%;
-    margin-bottom: 3%;
 }
 
 .add_rating button:hover {

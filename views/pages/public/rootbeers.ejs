@@ -6,11 +6,50 @@
 </head>
 <body>
     <div class="display_page_body">
-        <h1>Rootbeers go here</h1>
-        <% for( const rb of rbs ) { %>
-            <p><%- rb.name %></p>
-        <% } %>
-        <div class="bottom_padding">
+        <div class="userLogo">
+            <a href='/'>
+                <img src="imgs/cc_logo.png"/>
+            </a>
         </div>
+        <div class="rb_home">
+            <div class="rb_home_links" >
+                <a href="/">Home</a>
+                <a href="/public_rbs">Reset Search</a>
+            </div>
+            <div class="rb_home_search">
+                <form action="/pub_search" method="post">
+                    <label>Search:</label>
+                    <input type="search" name="rb_search" required />
+                </form>
+            </div>
+        </div>
+        <div class='search_results'>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Rootbeer</th>
+                    <th>Date Added</th>
+                    <th>Rating</th>
+                    <th># Ratings</th>
+                </tr>
+                <% for( const rb of rbs ) { %>
+                    <tr>
+                        <td><%- rb.rank %></td>
+                        <td><a href="/public_rb/<%-rb._id %>"><%- rb.name %></a></td>
+                        <td><%- rb.created %></td>
+                        <td><%- rb.rating %></td>
+                        <td><%- rb.popular %></td>
+                    </tr>
+                    <% } %>
+            </table>
+        </div>
+        <div class="short">
+            <img src="imgs/short_landscape.png"/>
+        </div>
+        <div class="long">
+            <img src="imgs/long_landscape.png"/>
+        </div>
+       
     </div>
 </body>
+</html>

@@ -7,7 +7,7 @@ class Actions {
 
     constructor(model: any) {
         this.log = bunyan.createLogger({
-            name: 'rating_actions'
+            name: 'actions'
         });
 
         this.model = model;
@@ -19,7 +19,7 @@ class Actions {
         try {
             const res = await this.model[action](params);
             
-            this.log.info(res);
+            this.log.info(`successfully completed ${action} for ${JSON.stringify(params)}`);
             
             result.res = res;
         } catch(e) {

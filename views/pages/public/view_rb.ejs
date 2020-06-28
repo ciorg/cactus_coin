@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./ll_partials/header') %>
+    <%- include('../rb/ll_partials/header') %>
     <link rel="stylesheet" type="text/css" href="../css/view_rb.css">
 </head>
 <body>
     <div class="display_page_body">
-        <%- include('./ll_partials/nav_bar') %>
+        <div class="navLinks" >
+            <ul id="navLinks">
+                <li>
+                    <a href="/">Home </a>
+                </li>
+                <li>
+                    <a href="/public_rbs">Rootbeers</a>
+                </li>
+            </ul>
+            <div class="userLogo">
+                <a href='/'>
+                    <img src="../imgs/cc_logo.png"/>
+                </a>
+            </div>
+        </div>
         <div class="rb_view">
             <div class="rb_view_name">
-                <p><%= rb.name %></p>
+                <p><%= rb.name %></p>   
             </div>
             <div class="rb_image">
                 <img src="../<%= rb.image %>" />
@@ -50,17 +64,9 @@
                 </div>
             </div>
             <div class="rb_all_ratings">
-                <div class="update_sections">
-                    <%- include('./ll_partials/update_rb') %>
-                    <%- include('./ll_partials/add_rating') %>
-                </div>
-                <div class="update_rb_links">
-                    <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
-                    <a href="#" onclick="slide('edit_rb', 'height', 150)">Update Rootbeer Info</a>
-                </div>
+                <p style="text-align: center;">All Ratings</p>
                 <table>
                     <tr>
-                        <th>Rated By</th>
                         <th>Date</th>
                         <th>Total</th>
                         <th>Brand</th>
@@ -74,7 +80,6 @@
                     </tr>
                     <% for (const rating of ratings) {%>
                     <tr>
-                        <td><%- rating.user %></td>
                         <td><%- rating.created %></td>
                         <td><%- rating.total %></td>
                         <td><%- rating.branding %></td>
@@ -89,9 +94,12 @@
                     <% } %>
                 </table>
             </div>
+            <div class="rb_all_write_ups">
+                <p style="text-align: center">All Write Ups</p>
+            </div>
         </div>
+        
     </div>
-
-    <script src="../javascript/portal.js"></script>  
+    <script src="../javascript/portal.js"></script>
 </body>
 </html>

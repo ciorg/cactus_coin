@@ -25,7 +25,7 @@ class Rootbeer {
     async create(req: Request) {
         const { user }: any = req;
 
-        const rbInfo: I.RootBeer = {
+        const rbInfo: Partial<I.RootBeer> = {
             name: req.body.rb_brand_name,
             created: new Date(),
             user: user._id

@@ -16,4 +16,34 @@ router.get('/public_rbs', async (req: Request, res: Response) => {
     res.render('pages/public/rootbeers', { rbs: result.res });
 });
 
+router.post('/pub_search',
+    async (req: Request, res: Response) => {
+        const result = await rb.webSearch(req, 'name');
+
+        if (result.error) {
+            return res.render('pages/error');
+        }
+    
+        res.render('pages/public/rootbeers', {
+            rbs: result.res
+        });
+    }
+);
+
+router.get('/public_rb/:id', 
+    async (req: Request, res: Response) => {
+        const view = await rb.viewRbInfo(req);
+
+        if (view.error) {
+            res.render('pages/error');
+        }
+
+        res.render('pages/public/view_rb', {
+            user: req.user,
+            rb: view.res.rb,
+            ratings: view.res.ratings,
+            avg: view.res.avg
+        });
+});
+
 export = router;
