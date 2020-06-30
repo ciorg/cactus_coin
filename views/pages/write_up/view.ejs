@@ -17,21 +17,21 @@
                     <th></th>
                     <th></th>
                 </tr>
-                <% for (const wu of write_ups) { %>
+                <% write_ups.forEach((wu, i) => { %>
                 <tr>
-                    <td><a href="/rb/<%-ru.rb_id %>"><%- ru.rb_name %></a></td>
-                    <td><%- ru.created %></td>
-                    <form action="/write_up/<%= ru._id %>/update" method="post">
+                    <td><a href="/rb/<%-wu.rb_id %>"><%- wu.rb_name %></a></td>
+                    <td><%- wu.created %></td>
+                    <form action="/write_up/<%= wu._id %>/update" method="post" id="write_up_<%- i %>">
                         <td> 
-                            <textarea rows="7" cols="100" name="write_up", form="write_up" value="<%- wu.write_up %>">/textarea>
+                            <textarea rows="7" cols="100" name="write_up", form="write_up_<%- i %>"><%- wu.write_up %></textarea>
                         </td>
                         <td>
                             <button type="submit" value="rating" class="rate_button" required >Update</button>
                         </td>
                     </form>
-                    <td><a href="/ratings/<%- rating._id %>/delete">Delete</a></td>
+                    <td><a href="/write_up/<%- wu._id %>/delete">Delete</a></td>
                 </tr>
-                <% } %>
+                <% }); %>
             </table>
         </div>
         <div class="userLogo">

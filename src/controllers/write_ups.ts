@@ -16,43 +16,35 @@ class WriteUps {
 
     async create(req: Request) {
         const writeUp = this.newWriteUp(req);
-
-        console.log(writeUp);
     
         return this.action.create(writeUp);
     }
 
-    /*
-    async update(req: Request) {
-       const rating = this.updateRating(req);
+    async writeUpsByUser(req: Request) {
+        const { user }: any = req;
 
-       return this.action.update(req.params.id, rating);
+        const writeUps = await this.action.search('user', user._id);
+
+        const writeUpDocs = this.utils.getDocs(writeUps.res);
+
+        this.utils.formatDate(writeUpDocs);
+
+        await this.utils.addRbName(writeUpDocs, 'rb_id');
+
+        writeUps.res = writeUpDocs;
+
+        return writeUps;
+    }
+
+    async update(req: Request) {
+       const update = { write_up: req.body.write_up };
+
+       return this.action.update(req.params.id, update);
     }
 
     async delete(req: Request) {
         return this.action.delete(req.params.id);
     }
-
-    getRbRatings(req: Request) {
-        return this.action.search('rb_id', req.params.rb_id);
-    }
-
-    async ratingsByUser(req: Request) {
-        const { user }: any = req;
-
-        const ratings = await this.action.search('user', user._id);
-
-        const ratingsDocs = this.utils.getDocs(ratings.res);
-
-        this.utils.formatDate(ratingsDocs);
-
-        await this.utils.addRbName(ratingsDocs, 'rb_id');
-
-        ratings.res = ratingsDocs;
-
-        return ratings;
-    }
-    */
 
     private newWriteUp(req: Request) {
         const { user }: any = req;
@@ -64,15 +56,6 @@ class WriteUps {
             write_up: req.body.write_up
         }
     }
-
-    /*
-    private updateRating(req: Request): Partial <I.Rating> {
-        const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
-        rating.total = this.addRatingTotal(rating);
-        
-        return rating;
-    }
-    */
 }
 
 export = WriteUps;

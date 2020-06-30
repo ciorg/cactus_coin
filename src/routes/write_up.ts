@@ -20,48 +20,47 @@ router.post(
 
         return res.redirect(`/rb/${req.params.id}`);
     }
-);
+); 
 
-/*
-router.post('/ratings/:id/update',
+router.get('/write_ups',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: any, res: Response) => {
-        const update = await rating.update(req);
+        const results = await writeUp.writeUpsByUser(req);
+
+        if (results.error) {
+            return res.render('pages/error');
+        }
+
+        return res.render(
+            'pages/write_up/view',
+            { user: req.user, write_ups: results.res }
+        );
+});
+
+router.post('/write_up/:id/update',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: any, res: Response) => {
+        const update = await writeUp.update(req);
 
         if (update.error) {
             return res.render('pages/error');
         }
 
-        return res.redirect('/ratings');
+        return res.redirect('/write_ups');
     }
 )
 
-router.get('/ratings',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
-        const ratings = await rating.ratingsByUser(req);
 
-        if (ratings.error) {
-            return res.render('pages/error');
-        }
+router.get('/write_up/:id/delete', async (req: Request, res: Response) => {
+    const deleteWU = await writeUp.delete(req);
 
-        return res.render(
-            'pages/rating/view',
-            { user: req.user, ratings: ratings.res }
-        );
-});
-
-router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
-    const deleteRating = await rating.delete(req);
-
-    if (deleteRating.error) {
+    if (deleteWU.error) {
         return res.render('pages/error');
     }
 
-    return res.redirect('/ratings');
+    return res.redirect('/write_ups');
 });
-*/
 
 export = router;

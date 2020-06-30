@@ -42,7 +42,8 @@ router.get('/public_rb/:id',
             user: req.user,
             rb: view.res.rb,
             ratings: view.res.ratings,
-            avg: view.res.avg
+            avg: view.res.avg,
+            writeUps: view.res.writeUps
         });
 });
 
