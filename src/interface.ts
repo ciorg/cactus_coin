@@ -37,3 +37,10 @@ export interface Rating {
     sweetness: number;
     total: number;
 }
+
+export interface WriteUp {
+    rb_id: string;
+    created: Date;
+    user: string;
+    write_up: string;
+}

@@ -1,6 +1,7 @@
 import UserModel from '../../models/user';
 import RBModel from '../../models/rb';
 import RatingModel from '../../models/rating';
+import WriteUpModel from '../../models/write_up';
 import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
 import * as I from '../../interface';
@@ -10,10 +11,12 @@ import Actions from './actions';
 class Utils {
     rbActions: Actions;
     ratingActions: Actions;
+    writeUpActions: Actions;
 
     constructor() {
         this.rbActions = new Actions(RBModel);
         this.ratingActions = new Actions(RatingModel);
+        this.writeUpActions = new Actions(WriteUpModel);
     }
 
     async addUserName(objArray: any[]) {
@@ -47,8 +50,8 @@ class Utils {
         const rbDocs = rbArray.map((rb) => rb._doc);
     
         await this.addUserName(rbDocs);
-        this.formatDate(rbDocs);
         await this.getTotalAvg(rbDocs);
+        this.formatDate(rbDocs);
         this.rank(rbDocs);
 
         return rbDocs;
@@ -58,15 +61,19 @@ class Utils {
         return docArray.map((i: any) => i._doc);
     }
 
-    async prepRatings(ratings: Partial<I.Rating>[]) {
-        const ratingsDocs = this.getDocs(ratings);
+    async prepData(data: Partial<I.Rating>[] | Partial<I.WriteUp>[]) {
+        const docs = this.getDocs(data);
 
-        await this.addUserName(ratingsDocs);
-        this.formatDate(ratingsDocs);
+        await this.addUserName(docs);
+        this.formatDate(docs);
     }
 
-    async getRatingsByRbId(rbId: string) {
-        return await this.ratingActions.search('rb_id', rbId);
+    getRatingsByRbId(rbId: string) {
+        return this.ratingActions.search('rb_id', rbId);
+    }
+
+    getWriteUpByRbId(rbId: string) {
+        return this.writeUpActions.search('rb_id', rbId);    
     }
 
     async getTotalAvg(rbDocs: I.RootBeer[]) {

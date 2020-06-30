@@ -187,7 +187,7 @@
 .add_rating table {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 100%;
 }
 
@@ -206,5 +206,27 @@
 }
 
 .add_rating button:hover {
+    background-color: #2cb404;
+}
+
+.add_write_up {
+    height: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    z-index: 1; /* Stay on top */
+    overflow-y: hidden; /* Disable horizontal scroll */
+}
+
+.add_write_up button {
+    width: 30%;
+    font-size: 1.1em;
+    color: white;
+    border-radius: 5px;
+    background-color: #1c6404;
+    margin-top: 1%;
+}
+
+.add_write_up button:hover {
     background-color: #2cb404;
 }

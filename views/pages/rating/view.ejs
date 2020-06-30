@@ -26,7 +26,7 @@
                 </tr>
                 <% for (const rating of ratings) { %>
                 <tr>
-                    <td><%- rating.rb_name %></td>
+                    <td><a href="/rb/<%-rating.rb_id %>"><%- rating.rb_name %></a></td>
                     <td><%- rating.created %></td>
                     <form action="/ratings/<%= rating._id %>/update" method="post">
                         <td> 
