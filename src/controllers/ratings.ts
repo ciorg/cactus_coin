@@ -65,14 +65,14 @@ class Ratings {
 
     private newRating(req: Request) {
         const rating: Partial<I.Rating> = this.createNewRatingObject(req);
-        rating.total = this.addRatingTotal(rating);
+        rating.total = this.getTotal(rating);
         
         return rating;
     }
 
     private updateRating(req: Request): Partial <I.Rating> {
         const rating: Partial<I.Rating> = this.createRatingObjectUpdate(req);
-        rating.total = this.addRatingTotal(rating);
+        rating.total = this.getTotal(rating);
         
         return rating;
     }
@@ -112,18 +112,23 @@ class Ratings {
         return rating;
     }
 
-    private addRatingTotal(rating: Partial<I.Rating>): number {
+    private getTotal(rating: Partial<I.Rating>): number {
         let total = 0;
 
         for (const [key, value] of Object.entries(rating)) {
             if (this.isRatingField(key)) {
-                const ratingValue = Number(value);
-                total += ratingValue;
-                rating[key] = ratingValue.toFixed(1);
+                total += (Number(value) * this.getMultiplier(key));
+                rating[key] = Number(value).toFixed(1);
             }
         }
     
         return total;
+    }
+
+    private getMultiplier(field: string): number {
+        if (field === 'after_taste' || field === 'aroma') return 2
+        if (field === 'flavor') return 3;
+        return 1;
     }
 
     private isRatingField(key: string) {
