@@ -95,13 +95,19 @@ class Rootbeer {
 
         if (ratingResult.error) return ratingResult;
 
-        await this.utils.prepRatings(ratingResult.res);
+        const writeUpResult = await this.utils.getWriteUpByRbId(req.params.id);
+
+        if (writeUpResult.error) return writeUpResult;
+
+        await this.utils.prepData(ratingResult.res);
+        await this.utils.prepData(writeUpResult.res);
 
         const avg = this.utils.avgRating(ratingResult.res);
 
         const res = {
             rb: rbResult.res,
             ratings: ratingResult.res,
+            writeUps: writeUpResult.res,
             avg
         }
 

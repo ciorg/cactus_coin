@@ -53,14 +53,19 @@
                 <div class="update_sections">
                     <%- include('./ll_partials/update_rb') %>
                     <%- include('./ll_partials/add_rating') %>
+                    <%- include('./ll_partials/add_write_up') %>
                 </div>
                 <div class="update_rb_links">
+                    <a href="#" onclick="slide('edit_rb', 'height', 150)">Update Info</a>
                     <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
-                    <a href="#" onclick="slide('edit_rb', 'height', 150)">Update Rootbeer Info</a>
+                    <a href="#" onclick="slide('add_write_up', 'height', 175)">Add Write Up</a>
                 </div>
                 <table>
                     <tr>
-                        <th>Rated By</th>
+                        <th colspan=11 style="background-color: #184709;">Ratings</th>
+                    </tr>
+                    <tr>
+                        <th>User</th>
                         <th>Date</th>
                         <th>Total</th>
                         <th>Brand</th>
@@ -85,6 +90,23 @@
                         <td><%- rating.flavor %></td>
                         <td><%- rating.smoothness %></td>
                         <td><%- rating.sweetness %></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan=11 style="background-color: #184709;">Write Ups</th>
+                    </tr>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Content</th>
+                    </tr>
+                    <% for (const writeUp of writeUps) {%>
+                    <tr>
+                        <td><%- writeUp.user %></td>
+                        <td><%- writeUp.created %></td>
+                        <td style="text-align: left;"><%- writeUp.write_up %></td>
                     </tr>
                     <% } %>
                 </table>

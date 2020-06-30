@@ -32,7 +32,7 @@ router.post(
             return res.render('pages/error');
         }
 
-        res.redirect('/rootbeer');
+        res.redirect(`/rb/${create.res._id}`);
 });
 
 router.post(
@@ -81,7 +81,8 @@ router.get('/rb/:id',
             user: req.user,
             rb: view.res.rb,
             ratings: view.res.ratings,
-            avg: view.res.avg
+            avg: view.res.avg,
+            writeUps: view.res.writeUps
         });
 });
 

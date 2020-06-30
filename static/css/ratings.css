@@ -23,3 +23,13 @@
     border: 2px solid #2cb404;
     border-collapse: collapse;
 }
+
+.view_ratings a {
+    font-family: 'Varela';
+    font-size: 1em;
+    color: #184709;
+}
+
+.view_ratings a:hover {
+    font-weight: bold;
+}

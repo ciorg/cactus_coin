@@ -64,9 +64,13 @@
                 </div>
             </div>
             <div class="rb_all_ratings">
-                <p style="text-align: center;">All Ratings</p>
+            </br>
                 <table>
                     <tr>
+                        <th colspan=11 style="background-color: #184709;">Ratings</th>
+                    </tr>
+                    <tr>
+                        <th>User</th>
                         <th>Date</th>
                         <th>Total</th>
                         <th>Brand</th>
@@ -80,6 +84,7 @@
                     </tr>
                     <% for (const rating of ratings) {%>
                     <tr>
+                        <td><%- rating.user %></td>
                         <td><%- rating.created %></td>
                         <td><%- rating.total %></td>
                         <td><%- rating.branding %></td>
@@ -93,9 +98,23 @@
                     </tr>
                     <% } %>
                 </table>
-            </div>
-            <div class="rb_all_write_ups">
-                <p style="text-align: center">All Write Ups</p>
+                <table>
+                    <tr>
+                        <th colspan=11 style="background-color: #184709;">Write Ups</th>
+                    </tr>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Content</th>
+                    </tr>
+                    <% for (const writeUp of writeUps) {%>
+                    <tr>
+                        <td><%- writeUp.user %></td>
+                        <td><%- writeUp.created %></td>
+                        <td style="text-align: left;"><%- writeUp.write_up %></td>
+                    </tr>
+                    <% } %>
+                </table>
             </div>
         </div>
         
