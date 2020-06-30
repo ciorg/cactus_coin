@@ -47,4 +47,8 @@ router.get('/public_rb/:id',
         });
 });
 
+router.get('/rb_about',(req: Request, res: Response) => {
+    res.render('pages/public/about');
+});
+
 export = router;
