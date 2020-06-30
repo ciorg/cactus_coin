@@ -7,15 +7,14 @@ const rbRatingSchema =  db.schema({
     created: { type: Date, default: Date.now },
     user: { type: String, required: true },
     branding: Number,
-    after_taste: Number,
+    flavor: Number,
     aroma: Number,
+    after_taste: Number,
     bite: Number,
     carbonation: Number,
-    flavor: Number,
-    smoothness: Number,
     sweetness: Number,
-    total: Number,
-    write_up: String
+    smoothness: Number,
+    total: Number
 });
 
 
