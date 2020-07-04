@@ -38,7 +38,7 @@ router.post(
         const result: I.Result = await user.create(req);
 
         if (result.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
     
         return res.render('pages/home', { user: req.user });
@@ -63,7 +63,7 @@ router.post(
         const result: I.Result = await user.resetPassword(req);
 
         if (result.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.render(

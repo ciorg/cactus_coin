@@ -16,7 +16,7 @@ router.post(
         const newRating = await rating.create(req);
 
         if (newRating.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.redirect(`/rb/${req.params.id}`);
@@ -30,7 +30,7 @@ router.post('/ratings/:id/update',
         const update = await rating.update(req);
 
         if (update.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.redirect('/ratings');
@@ -44,7 +44,7 @@ router.get('/ratings',
         const ratings = await rating.ratingsByUser(req);
 
         if (ratings.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.render(
@@ -57,7 +57,7 @@ router.get('/ratings/:id/delete', async (req: Request, res: Response) => {
     const deleteRating = await rating.delete(req);
 
     if (deleteRating.error) {
-        return res.render('pages/error');
+        return res.redirect('pages/error');
     }
 
     return res.redirect('/ratings');
