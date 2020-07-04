@@ -9,11 +9,11 @@ const router = express.Router();
 const MongoStore = MongoDBStore(session);
 
 const store = new MongoStore({
-    uri: 'mongodb://localhost:27017/MyDatabase',
-    collection: 'mySessions'
-},
-(error) => {console.log('error1', error) }
-);
+        uri: 'mongodb://localhost:27017/MyDatabase',
+        collection: 'mySessions'
+    },
+        (error) => {console.log('error1', error) }
+    );
 
 store.on('error', (error) => console.log('error2', error));
 

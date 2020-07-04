@@ -20,6 +20,11 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
     height: 300px;
 }
 
+.portalContent p {
+    font-size: 1.7;
+    color: white;
+}
+
 .portalLogo {
   height: 100%;
   width: 175px;

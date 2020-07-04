@@ -1,13 +1,16 @@
-function assignedRole(req: any) {
+import { Request, Response } from 'express';
+
+function assignedRole(req: Request) {
     if (req && req.user) {
-        return req.user.role;
+        const { user }: any = req;
+        return user.role;
     }
 
     return undefined;   
 }
 
 function roleCheck(roles: string[]) {
-    return (req: any, res: any, next: any) => {
+    return (req: Request, res: Response, next: any) => {
         const role = assignedRole(req);
     
         if (roles.some((r) => r === role)) {

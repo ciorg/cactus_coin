@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 class MongooseApi {
     constructor(url: string) {
-        
         mongoose.connect(
             url,
             {
