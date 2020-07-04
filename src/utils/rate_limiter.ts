@@ -1,5 +1,5 @@
 import { RateLimiterMongo, RateLimiterRes } from 'rate-limiter-flexible';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 const mongoose = require('mongoose');
 import bunyan from 'bunyan';
 
@@ -8,6 +8,7 @@ class LimiterWrapper {
     logger: bunyan;
     med: RateLimiterMongo;
     long: RateLimiterMongo;
+    search: RateLimiterMongo;
 
     constructor() {
         mongoose.connect(
@@ -36,6 +37,14 @@ class LimiterWrapper {
             keyPrefix: 'long',
             points: 100,
             duration: 86400,
+            blockDuration: 86400
+        });
+
+        this.search = new RateLimiterMongo({
+            storeClient: mongoose.connection,
+            keyPrefix: 'search',
+            points: 5,
+            duration: 10,
             blockDuration: 86400
         });
     }
@@ -70,6 +79,30 @@ class LimiterWrapper {
         return response;
     }
 
+    async searchCheck(req: Request) {
+        const response = {
+            blocked: false,
+            remaining: 0
+        };
+
+        const ip = this.getIpAddress(req);
+
+        this.logger.info('search_check', ip);
+
+        const result: RateLimiterRes | null = await this.search.get(ip);
+
+        this.logger.info('search_results', result);
+
+        if (result && result.remainingPoints && result.msBeforeNext > 0) {
+            response.blocked = true;
+            response.remaining = result.msBeforeNext;
+        }
+
+        this.logger.info('search_result', response);
+
+        return response;
+    }
+
     clear(req: Request) {
         const ip = this.getIpAddress(req);
         const user = this.getUsername(req);
@@ -88,6 +121,10 @@ class LimiterWrapper {
 
     async logAttempt(key: string) {
         return Promise.all([this.med.consume(key), this.long.consume(key)]);
+    }
+
+    async searchAttempt(req: Request) {
+        return this.search.consume(this.getIpAddress(req));
     }
 
     getIpAddress(req: Request) {
@@ -118,6 +155,13 @@ class LimiterWrapper {
 
             return maxRemaining;
         }, 0);
+    }
+
+    blockedResponse(res: Response, timeRemaining: number, message: string) {
+        return res
+            .set('Retry-After', String(Math.round(timeRemaining / 1000)))
+            .status(429)
+            .render('pages/error', { message });
     }
 }
 

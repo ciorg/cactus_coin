@@ -15,7 +15,7 @@ router.post(
         const newWriteUp = await writeUp.create(req);
 
         if (newWriteUp.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.redirect(`/rb/${req.params.id}`);
@@ -29,7 +29,7 @@ router.get('/write_ups',
         const results = await writeUp.writeUpsByUser(req);
 
         if (results.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.render(
@@ -45,7 +45,7 @@ router.post('/write_up/:id/update',
         const update = await writeUp.update(req);
 
         if (update.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         return res.redirect('/write_ups');
@@ -57,7 +57,7 @@ router.get('/write_up/:id/delete', async (req: Request, res: Response) => {
     const deleteWU = await writeUp.delete(req);
 
     if (deleteWU.error) {
-        return res.render('pages/error');
+        return res.redirect('/error');
     }
 
     return res.redirect('/write_ups');

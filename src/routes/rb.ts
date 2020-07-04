@@ -29,7 +29,7 @@ router.post(
         const create = await rb.create(req);
 
         if (create.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         res.redirect(`/rb/${create.res._id}`);
@@ -44,7 +44,7 @@ router.post(
         const update = await rb.update(req);
 
         if (update.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         res.redirect(`/rb/${req.params.id}`);
@@ -57,7 +57,7 @@ router.post('/rb_search',
         const search = await rb.webSearch(req, 'name');
 
         if (search.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
     
         res.render('pages/rb/display', {
@@ -74,7 +74,7 @@ router.get('/rb/:id',
         const view = await rb.viewRbInfo(req);
 
         if (view.error) {
-            res.render('pages/error');
+            res.redirect('/error');
         }
 
         res.render('pages/rb/view', {
@@ -93,7 +93,7 @@ router.get('/rb_mine',
         const users = await rb.getUsersRb(req);
 
         if (users.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         res.render('pages/rb/display', {
@@ -110,7 +110,7 @@ router.get('/rb_every',
         const every = await rb.getEveryRb();
 
         if (every.error) {
-            return res.render('pages/error');
+            return res.redirect('/error');
         }
 
         res.render('pages/rb/display', {

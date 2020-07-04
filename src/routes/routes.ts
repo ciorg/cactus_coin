@@ -17,7 +17,7 @@ router.use(writeUp);
 router.use(pub);
 
 router.get('/error', (req: Request, res: Response) => {
-    res.render('pages/error');
+    res.render('pages/error', { message: undefined });
 });
 
  export = router;
