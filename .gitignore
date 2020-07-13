@@ -3,3 +3,5 @@ node_modules/
 
 # dont want to save images
 static/rb_imgs/*
+config.yaml
+log.out

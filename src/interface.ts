@@ -44,3 +44,12 @@ export interface WriteUp {
     user: string;
     write_up: string;
 }
+
+export interface ConfigSettings {
+    mongo_settings: { url: string, database: string};
+    env: string;
+    log_level: string;
+    log_path: string;
+    secret: string;
+    port: number
+}
