@@ -1,7 +1,7 @@
 import passportLocalMongoose from 'passport-local-mongoose';
 import DbApi from './lib/db_api';
 
-const db = new DbApi('mongodb://localhost/MyDatabase');
+const db = new DbApi();
 
 const userDetail =  db.schema({
     username: {

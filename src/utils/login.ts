@@ -1,18 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
-import bunyan from 'bunyan';
 import RateLimiter from './rate_limiter';
+import Logger from './logger';
+import Configs from './configs';
 
 const rl = new RateLimiter();
-
-const logger = bunyan.createLogger({
-    name: 'login_actions'
-});
+const configs = new Configs();
+const { log_path } = configs.getConfigs();
+const logger = new Logger(log_path);
 
 async function login(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('local',
-    async (err, user, info) => {
+    async (err, user) => {
         const check = await rl.loginCheck(req);
+    
         if (check.blocked) return rl.blockedResponse(res, check.remaining, 'To Many Bad Requests');
 
         if (err) return handelErrors(next, err);

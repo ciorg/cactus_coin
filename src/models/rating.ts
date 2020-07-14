@@ -1,6 +1,6 @@
 import DbApi from './lib/db_api';
 
-const db = new DbApi('mongodb://localhost/MyDatabase');
+const db = new DbApi();
 
 const rbRatingSchema =  db.schema({
     rb_id: { type: String, required: true },
@@ -16,7 +16,6 @@ const rbRatingSchema =  db.schema({
     smoothness: Number,
     total: Number
 });
-
 
 const rbRatingModel = db.model('rb_rating', rbRatingSchema);
 

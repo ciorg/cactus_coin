@@ -3,8 +3,6 @@ import Actions from './lib/actions';
 import WriteUpModel from '../models/write_up';
 import Utils from './lib/utils';
 
-import * as I from '../interface';
-
 class WriteUps {
     utils: Utils;
     action: Actions;
