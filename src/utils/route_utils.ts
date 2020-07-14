@@ -6,13 +6,9 @@ import crypto from 'crypto';
 class RB {
     uniqFileName(fileName: string): string {
         const shasum = crypto.createHash('md5');
-
         const hashInput = new Date().getTime() * Math.random();
-
         shasum.update(`${hashInput}`, 'utf8');
-            
         const prefix = shasum.digest('hex');
-
         return `${prefix}_${fileName}`;
     }
 

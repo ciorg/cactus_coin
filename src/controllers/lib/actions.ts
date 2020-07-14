@@ -1,14 +1,15 @@
 import * as I from '../../interface';
-import bunyan from 'bunyan';
+import Logger from '../../utils/logger';
+import Configs from '../../utils/configs';
 
 class Actions {
-    log: bunyan;
+    log: Logger;
     model: any;
 
     constructor(model: any) {
-        this.log = bunyan.createLogger({
-            name: 'actions'
-        });
+        const configs: Configs = new Configs();
+
+        this.log = new Logger(configs.getConfigs().log_path);
 
         this.model = model;
     }

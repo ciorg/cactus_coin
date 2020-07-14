@@ -1,14 +1,24 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
+import compression from 'compression';
+import Configs from './utils/configs';
+import Logger from './utils/logger';
+
 import authenticate from './utils/authenticate';
 import routes from './routes/routes';
 
-const app = express();
-const port = process.env.PORT || 3000;
+const configs = new Configs();
+const { env, port, log_path } = configs.getConfigs();
 
+const logger = new Logger(log_path);
+
+process.env.NODE_ENV = env;
+
+const app = express();
 app.set('view engine', 'ejs');
 
+app.use(compression());
 app.use(helmet());
 app.use(express.static('static'));
 
@@ -18,8 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authenticate);
 app.use('/', routes);
 
-app.use(function(req, res, next){
-    res.status(404).send('this page does not exist');
+app.use(function(req: Request, res: Response){
+    logger.error(`invalid path ${req.path}`)
+    res.status(404).redirect('/error');
 });
   
-app.listen(port, () => console.log(`Example app listening on port:${port}`));
+app.listen(port, () => logger.info(`App listening on port:${port}`));
