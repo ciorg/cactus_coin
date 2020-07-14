@@ -2,6 +2,7 @@
   "name": "cactus_coin",
   "version": "0.1.0",
   "description": "my website and stuff",
+  "license": "UNLICENSED",
   "main": "index.js",
   "author": "ciorg",
   "scripts": {
@@ -28,11 +29,11 @@
     "helmet": "^3.23.3",
     "js-string-escape": "^1.0.1",
     "js-yaml": "^3.14.0",
-    "mongoose": "^5.9.23",
+    "mongoose": "^5.9.24",
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-local-mongoose": "^6.0.1",
-    "rate-limiter-flexible": "^2.1.7",
+    "rate-limiter-flexible": "^2.1.9",
     "safe-regex": "^2.1.1"
   },
   "devDependencies": {

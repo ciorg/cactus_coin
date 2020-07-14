@@ -6,6 +6,9 @@ import rb from './rb';
 import rate from './ratings';
 import pub from './public';
 import writeUp from './write_up';
+import Logger from '../utils/logger';
+
+const log = new Logger();
 
 const router = express.Router();
 

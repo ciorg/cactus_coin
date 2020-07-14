@@ -1,29 +1,45 @@
+import path from 'path';
 import bunyan from 'bunyan';
+import * as I from '../interface';
 
 class Logger {
     logger: bunyan
-    constructor(path: string) {
+    constructor() {
         this.logger = bunyan.createLogger({
-            name: 'rb_lvl',
+            name: 'rb_site',
             streams: [
                 {
-                    level: 'info',
+                    level: 'debug',
                     stream: process.stdout
                 },
                 {
+                    level: 'info',
+                    path: path.join(logPath, 'log.out'),
+                    type: 'rotating-file',
+                    period: '1d',
+                    count: 10
+                },
+                {
                     level: 'error',
-                    path
+                    path: path.join(logPath, 'error.out'),
+                    type: 'rotating-file',
+                    period: '1d',
+                    count: 10
                 }
             ]
         });
     }
 
-    info(msg: string) {
+    debug(msg: string, logObj: I.LogObject = { res: undefined, req: undefined }) {
+        this.logger.debug(msg);
+    }
+
+    info(msg: string, logObj: I.LogObject) {
         this.logger.info(msg);
     }
 
-    error(msg: string) {
-        this.logger.error(msg);
+    error(msg: string, errObj: I.ErrorObject) {
+        this.logger.error(errObj, msg);
     }
 }
 

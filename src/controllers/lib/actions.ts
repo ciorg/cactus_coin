@@ -20,11 +20,11 @@ class Actions {
         try {
             const res = await this.model[action](params);
             
-            this.log.info(`successfully completed ${action} for ${JSON.stringify(params)}`);
+            this.log.debug(`successfully completed ${action} for ${JSON.stringify(params)}`);
             
             result.res = res;
         } catch(e) {
-            this.log.error(e.message);
+            this.log.error(e.message, {err: e});
             result.error = true;
         }
         
@@ -42,7 +42,7 @@ class Actions {
             try {
                 result.res = await this.model.updateOne({ _id: id }, params);
             } catch (e) {
-                this.log.error(e.message);
+                this.log.error(e.message, { err: e });
                 result.error = true;
             }
         }

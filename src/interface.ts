@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 export interface RootBeer {
     _id: string;
     name: string;
@@ -52,4 +54,15 @@ export interface ConfigSettings {
     log_path: string;
     secret: string;
     port: number
+}
+
+export interface ErrorObject {
+    err: Error;
+    req?: Request;
+    res?: Response;
+}
+
+export interface LogObject {
+    req?: Request;
+    res?: Response;
 }

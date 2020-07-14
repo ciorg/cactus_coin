@@ -28,9 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authenticate);
 app.use('/', routes);
 
-app.use(function(req: Request, res: Response){
-    logger.error(`invalid path ${req.path}`)
+app.use(function(req: Request, res: Response) {
+    logger.error(`invalid path ${req.path}`, { err: new Error('bad request'), req });
     res.status(404).redirect('/error');
 });
   
-app.listen(port, () => logger.info(`App listening on port:${port}`));
+app.listen(port, () => logger.info(`App listening on port:${port}`, {}));
