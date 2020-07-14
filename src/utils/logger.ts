@@ -1,4 +1,4 @@
-import bunyan, { stdSerializers } from 'bunyan';
+import bunyan from 'bunyan';
 
 class Logger {
     logger: bunyan

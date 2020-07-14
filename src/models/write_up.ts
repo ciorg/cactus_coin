@@ -1,6 +1,6 @@
 import DbApi from './lib/db_api';
 
-const db = new DbApi('mongodb://localhost/MyDatabase');
+const db = new DbApi();
 
 const rbWriteUpSchema =  db.schema({
     rb_id: { type: String, required: true },

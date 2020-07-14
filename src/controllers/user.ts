@@ -1,13 +1,15 @@
 import { Request } from 'express';
-import bunyan from 'bunyan';
 import userModel from '../models/user';
+import Logger from '../utils/logger';
+import Configs from '../utils/configs';
 import * as I from '../interface';
 
 class User {
-    log: bunyan;
+    log: Logger;
 
     constructor() {
-        this.log = bunyan.createLogger({ name: 'user controller'})
+        const configs = new Configs;
+        this.log = new Logger(configs.getConfigs().log_path);
     }
 
     async create(req: Request) {
