@@ -20,6 +20,7 @@ router.use(writeUp);
 router.use(pub);
 
 router.get('/error', (req: Request, res: Response) => {
+    log.error('bad request', { err: new Error('bad request'), req })
     res.render('pages/error', { message: undefined });
 });
 

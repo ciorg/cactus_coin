@@ -9,9 +9,9 @@ import authenticate from './utils/authenticate';
 import routes from './routes/routes';
 
 const configs = new Configs();
-const { env, port, log_path } = configs.getConfigs();
+const { env, port } = configs.getConfigs();
 
-const logger = new Logger(log_path);
+const logger = new Logger();
 
 process.env.NODE_ENV = env;
 
