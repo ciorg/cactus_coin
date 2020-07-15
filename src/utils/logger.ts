@@ -10,28 +10,31 @@ class Logger {
     constructor() {
         this.configs = new Configs();
 
-        const { log_path } = this.configs.getConfigs();
+        const { log_path, log_level } = this.configs.getConfigs();
 
         this.logger = bunyan.createLogger({
             name: 'rb_site',
             streams: [
                 {
-                    level: 'debug',
-                    stream: process.stdout
-                },
-                {
-                    level: 'info',
-                    path: path.join(log_path, 'log.out'),
+                    level: log_level,
+                    path: path.join(log_path, 'info'),
                     type: 'rotating-file',
-                    period: '1d',
-                    count: 10
+                    period: '1m',
+                    count: 12
                 },
                 {
                     level: 'error',
-                    path: path.join(log_path, 'error.out'),
+                    path: path.join(log_path, 'error'),
                     type: 'rotating-file',
-                    period: '1d',
-                    count: 10
+                    period: '1m',
+                    count: 12
+                },
+                {
+                    level: 'fatal',
+                    path: path.join(log_path, 'fatal'),
+                    type: 'rotating-file',
+                    period: '1m',
+                    count: 12
                 }
             ]
         });
@@ -47,6 +50,11 @@ class Logger {
 
     error(msg: string, errObj: I.ErrorObject) {
         this.logger.error(errObj, msg);
+    }
+
+    fatal(msg:string, fatalObj: I.ErrorObject) {
+        this.logger.fatal(fatalObj, msg);
+        process.exit(1);
     }
 }
 

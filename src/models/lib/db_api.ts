@@ -25,9 +25,10 @@ class MongooseApi {
         const db = mongoose.connection;
 
         db.on('error', (error: Error) => { 
-            this.log.error('could not connect to db', { err: error });
-            process.exit(1);
+            this.log.fatal('could not connect to db', { err: error });
          });
+
+         db.once('open', () => { this.log.debug(`connected to ${mongo_settings.url}/${mongo_settings.database}`)});
     }
 
     schema(schema: any) {

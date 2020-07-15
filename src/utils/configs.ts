@@ -1,6 +1,6 @@
 import jsYaml from 'js-yaml';
 import path from 'path';
-import fs from 'fs-extra';
+import fs from 'fs';
 import * as I from '../interface';
 
 class Configs {

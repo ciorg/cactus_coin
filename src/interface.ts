@@ -50,7 +50,7 @@ export interface WriteUp {
 export interface ConfigSettings {
     mongo_settings: { url: string, database: string};
     env: string;
-    log_level: string;
+    log_level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | number;
     log_path: string;
     secret: string;
     port: number

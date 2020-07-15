@@ -41,8 +41,7 @@ passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
 
 function mongoError(err: Error) {
-    logger.error('could not connect to db', { err });
-    process.exit(1);
+    logger.fatal('could not connect to db', { err });
 }
 
 export = router;

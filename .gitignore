@@ -4,4 +4,6 @@ node_modules/
 # dont want to save images
 static/rb_imgs/*
 config.yaml
-*.out*
+error
+info
+fatal
