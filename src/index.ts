@@ -1,5 +1,7 @@
+import path from 'path';
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
+import favicon from 'serve-favicon';
 import helmet from 'helmet';
 import compression from 'compression';
 import Configs from './utils/configs';
@@ -9,9 +11,9 @@ import authenticate from './utils/authenticate';
 import routes from './routes/routes';
 
 const configs = new Configs();
-const { env, port, log_path } = configs.getConfigs();
+const { env, port } = configs.getConfigs();
 
-const logger = new Logger(log_path);
+const logger = new Logger();
 
 process.env.NODE_ENV = env;
 
@@ -24,13 +26,14 @@ app.use(express.static('static'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(favicon(path.join(__dirname, '..', 'static', 'imgs', 'cc_logo.ico')));
 
 app.use(authenticate);
 app.use('/', routes);
 
-app.use(function(req: Request, res: Response){
-    logger.error(`invalid path ${req.path}`)
+app.use(function(req: Request, res: Response) {
+    logger.error(`invalid path ${req.path}`, { err: new Error('bad request'), req });
     res.status(404).redirect('/error');
 });
   
-app.listen(port, () => logger.info(`App listening on port:${port}`));
+app.listen(port, () => logger.info(`App listening on port:${port}`, {}));

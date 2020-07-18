@@ -6,6 +6,9 @@ import rb from './rb';
 import rate from './ratings';
 import pub from './public';
 import writeUp from './write_up';
+import Logger from '../utils/logger';
+
+const log = new Logger();
 
 const router = express.Router();
 
@@ -17,6 +20,7 @@ router.use(writeUp);
 router.use(pub);
 
 router.get('/error', (req: Request, res: Response) => {
+    log.error('bad request', { err: new Error('bad request'), req })
     res.render('pages/error', { message: undefined });
 });
 

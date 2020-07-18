@@ -8,9 +8,9 @@ import Logger from './logger';
 
 const config = new Configs();
 
-const { secret, log_path, mongo_settings } = config.getConfigs();
+const { secret, mongo_settings } = config.getConfigs();
 
-const logger = new Logger(log_path);
+const logger = new Logger();
 
 const router = express.Router();
 
@@ -41,8 +41,7 @@ passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
 
 function mongoError(err: Error) {
-    logger.error(err.message);
-    process.exit(1);
+    logger.fatal('could not connect to db', { err });
 }
 
 export = router;

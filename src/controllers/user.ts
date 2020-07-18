@@ -1,15 +1,13 @@
 import { Request } from 'express';
 import userModel from '../models/user';
 import Logger from '../utils/logger';
-import Configs from '../utils/configs';
 import * as I from '../interface';
 
 class User {
     log: Logger;
 
     constructor() {
-        const configs = new Configs;
-        this.log = new Logger(configs.getConfigs().log_path);
+        this.log = new Logger();
     }
 
     async create(req: Request) {
@@ -31,11 +29,11 @@ class User {
                 created: new Date()
             }, password);
 
-            this.log.info(`created: ${response.username}, id: ${response._id}`);
+            this.log.debug(`created: ${response.username}, id: ${response._id}`, { req });
             result.res = response._id;
         } catch (e) {
             result.error = true;
-            this.log.error(e.message)
+            this.log.error('could not create user', { err: e, req });
         }
 
         return result;
@@ -60,6 +58,8 @@ class User {
 
             await userM.save();
 
+            this.log.debug(`updated password`, { req });
+
             result.res = 'password reset successfully';
         } catch(e) {
             if (e.message === 'Password or username is incorrect') {
@@ -69,7 +69,7 @@ class User {
             }
 
             result.error = true;
-            this.log.error(e.message)
+            this.log.error('could not update password', { err: e, req })
         }
 
         return result;

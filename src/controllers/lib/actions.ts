@@ -1,15 +1,12 @@
 import * as I from '../../interface';
 import Logger from '../../utils/logger';
-import Configs from '../../utils/configs';
 
 class Actions {
     log: Logger;
     model: any;
 
     constructor(model: any) {
-        const configs: Configs = new Configs();
-
-        this.log = new Logger(configs.getConfigs().log_path);
+        this.log = new Logger();
 
         this.model = model;
     }
@@ -20,11 +17,11 @@ class Actions {
         try {
             const res = await this.model[action](params);
             
-            this.log.info(`successfully completed ${action} for ${JSON.stringify(params)}`);
+            this.log.debug(`successfully completed ${action} for ${JSON.stringify(params)}`);
             
             result.res = res;
         } catch(e) {
-            this.log.error(e.message);
+            this.log.error(e.message, { err: e });
             result.error = true;
         }
         
@@ -41,8 +38,9 @@ class Actions {
         if (Object.keys(params).length) {
             try {
                 result.res = await this.model.updateOne({ _id: id }, params);
+                this.log.debug(`updated ${id}, ${params}`)
             } catch (e) {
-                this.log.error(e.message);
+                this.log.error(e.message, { err: e });
                 result.error = true;
             }
         }

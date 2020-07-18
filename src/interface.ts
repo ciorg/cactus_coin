@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 export interface RootBeer {
     _id: string;
     name: string;
@@ -48,8 +50,19 @@ export interface WriteUp {
 export interface ConfigSettings {
     mongo_settings: { url: string, database: string};
     env: string;
-    log_level: string;
+    log_level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | number;
     log_path: string;
     secret: string;
     port: number
+}
+
+export interface ErrorObject {
+    err: Error;
+    req?: Request;
+    res?: Response;
+}
+
+export interface LogObject {
+    req?: Request;
+    res?: Response;
 }
