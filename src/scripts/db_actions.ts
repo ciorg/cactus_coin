@@ -1,28 +1,28 @@
 import UserModel from '../models/user';
 import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
-import bunyan from 'bunyan';
+import Logger from '../utils/logger';
 
 class DBTools {
-    log: bunyan;
+    log: Logger;
 
     constructor() {
-        this.log = bunyan.createLogger({ name: 'db tools' });
+        this.log = new Logger();
     }
     
     async clearRatings() {
         const allRatings = await RatingModel.deleteMany({});
-        this.log.info(allRatings);
+        this.log.debug(allRatings);
     }
     
     async clearRbs() {
         const allRb = await RbModel.deleteMany({});
-        this.log.info(allRb);
+        this.log.debug(allRb);
     }
     
     async clearUsers() {
         const allUsers = await UserModel.deleteMany({});
-        this.log.info(allUsers);
+        this.log.debug(allUsers);
     }
     
     async clearAll() {
@@ -60,7 +60,7 @@ class DBTools {
             };
 
             const rb = await RbModel.create(rbInfo);
-            this.log.info(rb);
+            this.log.debug(rb);
         }
     }
 }
