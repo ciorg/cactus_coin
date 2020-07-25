@@ -9,6 +9,7 @@ const logger = new Logger();
 async function login(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('local',
     async (err, user) => {
+        logger.debug(user);
         const check = await rl.loginCheck(req);
     
         if (check.blocked) return rl.blockedResponse(res, check.remaining, 'To Many Bad Requests');
