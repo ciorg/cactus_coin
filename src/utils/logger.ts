@@ -9,7 +9,6 @@ class Logger {
 
     constructor() {
         this.configs = new Configs();
-
         const { log_path, log_level } = this.configs.getConfigs();
 
         this.logger = bunyan.createLogger({
