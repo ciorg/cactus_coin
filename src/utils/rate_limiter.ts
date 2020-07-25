@@ -1,18 +1,25 @@
 import { RateLimiterMongo, RateLimiterRes } from 'rate-limiter-flexible';
 import { Request, Response } from 'express';
 const mongoose = require('mongoose');
-import bunyan from 'bunyan';
+import Logger from './logger';
+import Configs from './configs';
+
 
 
 class LimiterWrapper {
-    logger: bunyan;
+    logger: Logger;
     med: RateLimiterMongo;
     long: RateLimiterMongo;
     search: RateLimiterMongo;
+    configs: Configs;
+
 
     constructor() {
+        this.configs = new Configs();
+        const { url, database} = this.configs.getConfigs().mongo_settings;
+
         mongoose.connect(
-            'mongodb://localhost/MyDatabase',
+            `mongodb://${url}/${database}`,
             {
                 useCreateIndex: true,
                 useNewUrlParser: true,
@@ -20,9 +27,7 @@ class LimiterWrapper {
             }
         );
 
-        this.logger = bunyan.createLogger({
-            name: 'rate_limiter_actions'
-        });
+        this.logger = new Logger();
 
         this.med = new RateLimiterMongo({
             storeClient: mongoose.connection,
@@ -59,17 +64,17 @@ class LimiterWrapper {
         const ip = this.getIpAddress(req);
         const user = this.getUsername(req);
 
-        this.logger.info('login_check', user, ip);
+        this.logger.info('login_check', { req });
 
         const results: (RateLimiterRes | null)[] = await Promise.all(
             [this.med.get(user), this.long.get(user), this.med.get(ip), this.long.get(ip)]
         );
 
-        this.logger.info('check_results', results);
+        this.logger.info('check_results', { req });
 
         const blockedTime = this.blockCheck(results);
 
-        this.logger.info('block_time', blockedTime);
+        this.logger.info(`block_time: ${blockedTime}`);
 
         if (blockedTime) {
             response.blocked = true;
@@ -87,18 +92,18 @@ class LimiterWrapper {
 
         const ip = this.getIpAddress(req);
 
-        this.logger.info('search_check', ip);
+        this.logger.info(`search_check: ${ip}`, { req });
 
         const result: RateLimiterRes | null = await this.search.get(ip);
 
-        this.logger.info('search_results', result);
+        this.logger.info(`search_results: ${result}`, { req });
 
         if (result && result.remainingPoints && result.msBeforeNext > 0) {
             response.blocked = true;
             response.remaining = result.msBeforeNext;
         }
 
-        this.logger.info('search_result', response);
+        this.logger.info(`search_result: ${result}`, { req });
 
         return response;
     }
@@ -109,7 +114,7 @@ class LimiterWrapper {
 
         Promise.all([
             this.med.delete(ip), this.med.delete(user), this.long.delete(ip), this.long.delete(user)
-        ]).catch((e) => this.logger.error(e.message));
+        ]).catch((e) => this.logger.error('clear rate limits', { err: e, req }));
     }
 
     async failedLogin(req: Request) {
