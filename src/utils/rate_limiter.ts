@@ -48,7 +48,7 @@ class LimiterWrapper {
         this.search = new RateLimiterMongo({
             storeClient: mongoose.connection,
             keyPrefix: 'search',
-            points: 5,
+            points: 11,
             duration: 10,
             blockDuration: 86400
         });
@@ -64,17 +64,17 @@ class LimiterWrapper {
         const ip = this.getIpAddress(req);
         const user = this.getUsername(req);
 
-        this.logger.info('login_check', { req });
+        this.logger.debug('login_check', { req });
 
         const results: (RateLimiterRes | null)[] = await Promise.all(
             [this.med.get(user), this.long.get(user), this.med.get(ip), this.long.get(ip)]
         );
 
-        this.logger.info('check_results', { req });
+        this.logger.debug('check_results', { req });
 
         const blockedTime = this.blockCheck(results);
 
-        this.logger.info(`block_time: ${blockedTime}`);
+        this.logger.debug(`block_time: ${blockedTime}`);
 
         if (blockedTime) {
             response.blocked = true;
@@ -92,18 +92,18 @@ class LimiterWrapper {
 
         const ip = this.getIpAddress(req);
 
-        this.logger.info(`search_check: ${ip}`, { req });
+        this.logger.debug(`search_check: ${ip}`, { req });
 
         const result: RateLimiterRes | null = await this.search.get(ip);
 
-        this.logger.info(`search_results: ${result}`, { req });
+        this.logger.debug(`search_results: ${result}`, { req });
 
         if (result && result.remainingPoints && result.msBeforeNext > 0) {
             response.blocked = true;
             response.remaining = result.msBeforeNext;
         }
 
-        this.logger.info(`search_result: ${result}`, { req });
+        this.logger.debug(`search_result: ${result}`, { req });
 
         return response;
     }
