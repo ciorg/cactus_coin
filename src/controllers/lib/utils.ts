@@ -26,12 +26,12 @@ class Utils {
         }
     }
 
-    formatMonth(mon: number) {
+    formatMonth(mon: number): string {
         let m = mon + 1;
 
         if (m < 10) return `0${m}`;
 
-        return m;
+        return String(m);
     }
 
     formatDate(rbArray: any[]) {
@@ -132,6 +132,7 @@ class Utils {
             for (const field of ratingFields) {
                 if(avgObj[field]) {
                     avgObj[field] += rating[field];
+
                 } else {
                     avgObj[field] = rating[field];
                 }
