@@ -1,16 +1,5 @@
 import { Request, Response } from 'express';
 
-export interface RootBeer {
-    _id: string;
-    name: string;
-    created: Date;
-    user: string;
-    image?: string;
-    rating?: number;
-    rank?: number;
-    popular?: number;
-}
-
 export interface User {
     username: string;
     password: string;
@@ -25,10 +14,25 @@ export interface Result {
     error?: boolean;
 }
 
-export interface Rating {
-    rb_id: string;
-    created: Date;
+interface RBEntity{
+    created: Date | string;
     user: string;
+}
+
+export interface RootBeer extends RBEntity {
+    _id: string;
+    name: string;
+    image?: string;
+    rating?: number;
+    rank?: number;
+    popular?: number;
+}
+
+interface RBOwned extends RBEntity {
+    rb_id: string;
+}
+
+export interface Rating extends RBOwned {
     branding: number;
     after_taste: number;
     aroma: number;
@@ -40,10 +44,7 @@ export interface Rating {
     total: number;
 }
 
-export interface WriteUp {
-    rb_id: string;
-    created: Date;
-    user: string;
+export interface WriteUp extends RBOwned {
     write_up: string;
 }
 

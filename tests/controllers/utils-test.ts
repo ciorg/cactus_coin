@@ -29,4 +29,21 @@ describe('controllers utils', () => {
             expect(month2).toBe('01');
         });
     });
+
+    describe('formatDate', () => {
+        it('should return property formated date', () => {
+            const date = new Date('2020-07-27T15:30:38.280Z');
+
+            const doc = {
+                rb_id: '12345',
+                created: date,
+                user: 'someUser',
+                write_up: 'this is a write up example'
+            };
+
+            utils.formatDate([doc]);
+
+            expect(doc.created).toBe('07/27/2020');
+        });
+    });
 });

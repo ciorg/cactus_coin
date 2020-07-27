@@ -34,7 +34,7 @@ class Utils {
         return String(m);
     }
 
-    formatDate(rbArray: any[]) {
+    formatDate(rbArray: (I.RootBeer | I.Rating | I.WriteUp)[]) {
         for (const i of rbArray) {
             const timeStamp = new Date(i.created);
 
