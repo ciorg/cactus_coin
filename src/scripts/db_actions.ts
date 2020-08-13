@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import UserModel from '../models/user';
 import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
@@ -8,6 +9,10 @@ class DBTools {
 
     constructor() {
         this.log = new Logger();
+    }
+
+    async close() {
+        await mongoose.disconnect();
     }
     
     async clearRatings() {
@@ -27,8 +32,11 @@ class DBTools {
     
     async clearAll() {
         await this.clearRatings();
+        console.log('cleared ratings');
         await this.clearRbs();
+        console.log('cleared rbs');
         await this.clearUsers();
+        console.log('cleared users');
     }
     
     async initUser() {
@@ -82,6 +90,9 @@ async function runFunction(args: string[]) {
     }
 
     await dbTools[func]();
+    await dbTools.close();
+    console.log('closing');
+    return;
 }
 
 runFunction(args);

@@ -1,8 +1,6 @@
-import DbApi from './lib/db_api';
+import mongoose, { Schema } from 'mongoose';
 
-const db = new DbApi();
-
-const rbRatingSchema =  db.schema({
+const RatingSchema = new Schema({
     rb_id: { type: String, required: true },
     created: { type: Date, default: Date.now },
     user: { type: String, required: true },
@@ -17,6 +15,6 @@ const rbRatingSchema =  db.schema({
     total: Number
 });
 
-const rbRatingModel = db.model('rb_rating', rbRatingSchema);
+const RatingModel = mongoose.model('rb_rating', RatingSchema);
 
-export = rbRatingModel;
+export = RatingModel;

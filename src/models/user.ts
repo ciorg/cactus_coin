@@ -1,9 +1,7 @@
+import mongoose, { Schema } from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
-import DbApi from './lib/db_api';
 
-const db = new DbApi();
-
-const userDetail =  db.schema({
+const UserSchema =  new Schema({
     username: {
         type: String,
         required: true,
@@ -24,8 +22,8 @@ const userDetail =  db.schema({
     }
 });
 
-userDetail.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose);
 
-const userModel = db.model('userInfo', userDetail);
+const UserModel = mongoose.model('userInfo', UserSchema);
 
-export = userModel;
+export = UserModel;
