@@ -32,7 +32,7 @@ class DB {
     }
 
     async close() {
-        await this.db.close();
+        await mongoose.disconnect();
     }
 }
 

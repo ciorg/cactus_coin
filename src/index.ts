@@ -28,6 +28,7 @@ async function main() {
     
     app.use(compression());
     app.use(helmet());
+   
     app.use(express.static('static'));
     
     app.use(bodyParser.json());
