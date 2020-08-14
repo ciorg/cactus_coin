@@ -9,7 +9,9 @@ import Logger from './utils/logger';
 
 import authenticate from './utils/authenticate';
 import routes from './routes/routes';
-import db from './utils/db';
+import DB from './utils/db';
+
+const db = new DB();
 
 const configs = new Configs();
 const { env, port } = configs.getConfigs();
@@ -43,4 +45,4 @@ async function main() {
     app.listen(port, () => logger.info(`App listening on port:${port}`, {}));
 }
 
-main();
+main(); 

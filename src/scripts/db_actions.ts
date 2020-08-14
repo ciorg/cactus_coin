@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import DB from '../utils/db';
 import UserModel from '../models/user';
 import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
@@ -10,19 +10,15 @@ class DBTools {
     constructor() {
         this.log = new Logger();
     }
-
-    async close() {
-        await mongoose.disconnect();
-    }
     
     async clearRatings() {
         const allRatings = await RatingModel.deleteMany({});
-        this.log.debug(allRatings);
+        console.log(allRatings);
     }
     
     async clearRbs() {
         const allRb = await RbModel.deleteMany({});
-        this.log.debug(allRb);
+        console.log(allRb);
     }
     
     async clearUsers() {
@@ -33,8 +29,10 @@ class DBTools {
     async clearAll() {
         await this.clearRatings();
         console.log('cleared ratings');
+
         await this.clearRbs();
         console.log('cleared rbs');
+
         await this.clearUsers();
         console.log('cleared users');
     }
@@ -68,7 +66,7 @@ class DBTools {
             };
 
             const rb = await RbModel.create(rbInfo);
-            this.log.debug(rb);
+            console.log(rb);
         }
     }
 }
@@ -78,6 +76,9 @@ const dbTools = new DBTools();
 const args = process.argv;
 
 async function runFunction(args: string[]) {
+    const db = new DB();
+    await db.connect();
+
     const func = args[2];
 
     if (func === 'addRbs') {
@@ -90,9 +91,9 @@ async function runFunction(args: string[]) {
     }
 
     await dbTools[func]();
-    await dbTools.close();
+
+    await db.close();
     console.log('closing');
-    return;
 }
 
 runFunction(args);

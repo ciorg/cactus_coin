@@ -3,29 +3,37 @@ import mongoose from 'mongoose';
 import Configs from './configs';
 import Logger from './logger';
 
-const configs = new Configs();
-const logger = new Logger();
 
-const { mongo_settings } = configs.getConfigs();
+class DB {
+    logger: Logger;
+    configs: Configs;
+    db: any;
 
-async function connect() {
-    const url = `mongodb://${mongo_settings.url}/${mongo_settings.database}`;
+    constructor() {
+        this.logger = new Logger();
+        this.configs = new Configs();
+        this.db;
+    }
 
-    const db = await mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    });
+    async connect() {
+        const { mongo_settings } = this.configs.getConfigs();
 
-    db.connection.on('error', (error: Error) => {
-        logger.fatal('could not connect to db', { err: error });
-    });
+        const url = `mongodb://${mongo_settings.url}/${mongo_settings.database}`;
 
-    db.connection.once('open', () => {
-        logger.debug(`connected to ${mongo_settings.url}/${mongo_settings.database}`);
-    });
+        try {
+            this.db = await mongoose.connect(url, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true
+            });
+        } catch(e) {
+            this.logger.fatal('could not connect to db', { err: e });
+        }
+    }
+
+    async close() {
+        await this.db.close();
+    }
 }
 
-export = {
-    connect
-}
+export = DB;
