@@ -11,7 +11,8 @@
     "test": "jest tests",
     "start-app": "pm2 start dist/index.js",
     "restart-app": "pm2 restart dist/index.js",
-    "stop-app": "pm2 stop dist/index.js"
+    "stop-app": "pm2 stop dist/index.js",
+    "add-test-data": "node dist/scripts/db_actions addTestData"
   },
   "jest": {
     "testMatch": [

@@ -127,7 +127,6 @@ async function runFunction(args: string[]) {
         if (args.length === 4) num = Number(args[3]);
 
         await dbTools[func](num);
-        return;
     }
 
     await dbTools[func]();
