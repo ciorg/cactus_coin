@@ -36,6 +36,20 @@ class DBTools {
         await this.clearUsers();
         console.log('cleared users');
     }
+
+    async addTestData() {
+        console.log('clearing');
+        await this.clearAll();
+
+        await this.initUser();
+        console.log('user added');
+
+        await this.addRbs(1);
+        console.log('rb added');
+
+        await this.addRating(1);
+        console.log('rating adding');
+    }
     
     async initUser() {
         try {
@@ -69,6 +83,32 @@ class DBTools {
             console.log(rb);
         }
     }
+
+    async addRating(num: Number) {
+        const userId = await UserModel.find({ username: 'ciorg'}, '_id');
+        const rbId = await RbModel.find({ name: 'test_0'}, '_id');
+    
+        for (let i = 0; i < num; i++) {
+            const ratingInfo = {
+                rb_id: rbId[0]._id,
+                created: Date.now(),
+                user: userId[0]._id,
+                branding: 7,
+                flavor: 7,
+                aroma: 7,
+                after_taste: 7,
+                bite: 7,
+                carbonation: 7,
+                sweetness: 7,
+                smoothness: 7,
+                total: 84
+            }
+    
+            const rating = await RatingModel.create(ratingInfo);
+            console.log(rating);
+        }
+    }
+    
 }
 
 const dbTools = new DBTools();
