@@ -46,4 +46,90 @@ describe('controllers utils', () => {
             expect(doc.created).toBe('07/27/2020');
         });
     });
+
+    describe('rank', () => {
+        it('should return sorted list and add rank to each item', () => {
+             let newR = 30;
+
+             const docs = [...new Array(10)].map(() => {
+                newR += 5;
+
+                return {
+                    created: '2020-07-29T15:01:14.807Z',
+                    user: 'test',
+                    _id: '1234',
+                    name: 'rb',
+                    rating: newR,
+                    rank: 0
+                 };
+             });
+
+             utils.rank(docs);
+
+             docs.forEach((doc, i) => {
+                expect(doc.rank).toBe(i + 1);
+             });
+        });
+    });
+
+    describe('totalAvg', () => {
+        it('should return the average total for all the ratings of a record', () => {
+            let total = 47;
+
+            const docs = [...new Array(10)].map(() => {
+                total += 5;
+
+                return {
+                    created: '2020-07-29T15:01:14.807Z',
+                    user: 'test',
+                    _id: '1234',
+                    name: 'rb',
+                    total: total,
+                    rank: 0
+                 };
+             });
+
+            const totalAvg = utils.totalAvg(docs);
+
+            expect(totalAvg).toBe(75);
+        });
+    });
+
+    describe('avgRating', () => {
+        it('should return the average ratings for all the categories of a record', () => {
+            let rating = 12;
+
+            const docs = [...new Array(10)].map(() => {
+                rating += 5;
+
+                return {
+                    rb_id: 'tester',
+                    created: '2020-07-29T15:01:14.807Z',
+                    user: 'test',
+                    _id: '1234',
+                    branding: rating,
+                    after_taste: rating + 2,
+                    aroma: rating + 4,
+                    bite: rating + 6,
+                    carbonation: rating + 8,
+                    flavor: rating + 10,
+                    smoothness: rating + 12,
+                    sweetness: rating + 14,
+                    total: rating + 16
+                 };
+             });
+
+            const avgRatings = utils.avgRating(docs);
+
+            expect(avgRatings.branding).toBe('39.5');
+            expect(avgRatings.after_taste).toBe('41.5');
+            expect(avgRatings.aroma).toBe('43.5');
+            expect(avgRatings.bite).toBe('45.5');
+            expect(avgRatings.carbonation).toBe('47.5');
+            expect(avgRatings.flavor).toBe('49.5');
+            expect(avgRatings.smoothness).toBe('51.5');
+            expect(avgRatings.sweetness).toBe('53.5');
+            expect(avgRatings.total).toBe('55.5');
+        });
+    });
 });
