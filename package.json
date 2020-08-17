@@ -17,7 +17,8 @@
     "testMatch": [
       "**/tests/controllers/*.ts?(x)"
     ],
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

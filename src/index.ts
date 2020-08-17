@@ -27,7 +27,16 @@ async function main() {
     app.set('view engine', 'ejs');
     
     app.use(compression());
-    app.use(helmet());
+    app.use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                'default-src': ["'self'", "'unsafe-inline'"],
+                'script-src-attr': ["'unsafe-inline'"],
+                'font-src': ["'self'", 'https: data:'],
+                'style-src': ["'self'", 'https:']
+            }
+        }
+    }));
    
     app.use(express.static('static'));
     
