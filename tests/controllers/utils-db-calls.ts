@@ -36,4 +36,19 @@ describe('utils', () => {
             expect(rating.user).toBe('ciorg');
         });
     });
+
+    describe('format', () => {
+        it('should format date, add username, and total to Rb docs', async () => {
+            const rb: any = await RbModel.findOne();
+            await utils.format([rb]);
+
+            const result = rb._doc;
+            
+            expect(result.user).toBe('ciorg');
+            expect(result.created).toBe('08/17/2020');
+            expect(result.rating).toBe(84);
+            expect(result.rank).toBe(1);
+            expect(result.popular).toBe(1);
+        });
+    });
 });

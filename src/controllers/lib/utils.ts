@@ -19,7 +19,7 @@ class Utils {
         this.writeUpActions = new Actions(WriteUpModel);
     }
 
-    async addUserName(objArray: any[]) {
+    async addUserName(objArray: (I.RootBeer | I.Rating | I.WriteUp)[]) {
         for (const i of objArray) {
             const user = await UserModel.findById(i.user);
             i.user = user.username;
@@ -47,7 +47,7 @@ class Utils {
     }
 
     async format(rbArray: any[]) {
-        const rbDocs = rbArray.map((rb) => rb._doc);
+        const rbDocs = this.getDocs(rbArray);
     
         await this.addUserName(rbDocs);
         await this.getTotalAvg(rbDocs);
