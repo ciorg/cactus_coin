@@ -24,10 +24,18 @@ class DBTools {
     
     async clearUsers() {
         const allUsers = await UserModel.deleteMany({});
-        this.log.debug(allUsers);
+        console.log(allUsers);
+    }
+
+    async clearWriteUps() {
+        const allWriteUps = await WriteUpModel.deleteMany({});
+        console.log(allWriteUps);
     }
     
     async clearAll() {
+        await this.clearWriteUps();
+        console.log('cleared write ups');
+
         await this.clearRatings();
         console.log('cleared ratings');
 
@@ -50,6 +58,9 @@ class DBTools {
 
         await this.addRating(1);
         console.log('rating adding');
+
+        await this.addWriteUp(1);
+        console.log('write up added');
     }
     
     async initUser() {
@@ -80,8 +91,7 @@ class DBTools {
                 user: userId[0]._id
             };
 
-            const rb = await RbModel.create(rbInfo);
-            console.log(rb);
+            await RbModel.create(rbInfo);
         }
     }
 
@@ -105,8 +115,23 @@ class DBTools {
                 total: 84
             }
     
-            const rating = await RatingModel.create(ratingInfo);
-            console.log(rating);
+            await RatingModel.create(ratingInfo);
+        }
+    }
+
+    async addWriteUp(num: Number) {
+        const userId = await UserModel.find({ username: 'ciorg'}, '_id');
+        const rbId = await RbModel.find({ name: 'test_0'}, '_id');
+
+        for (let i = 0; i < num; i++) {
+            const writeUpInfo = {
+                rb_id: rbId[0]._id,
+                created: Date.now(),
+                user: userId[0]._id,
+                write_up: 'this is a write up'
+            }
+    
+            await WriteUpModel.create(writeUpInfo);
         }
     }
     

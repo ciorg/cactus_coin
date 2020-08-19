@@ -30,6 +30,7 @@ export interface RootBeer extends RBEntity {
 
 interface RBOwned extends RBEntity {
     rb_id: string;
+    rb_name?: string;
 }
 
 export interface Rating extends RBOwned {

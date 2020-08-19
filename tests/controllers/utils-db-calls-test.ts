@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import Utils from '../../src/controllers/lib/utils';
 import RbModel from '../../src/models/rb';
-import RatingsModel from '../../src/models/rating';
 import RatingModel from '../../src/models/rating';
+import WriteUpModel from '../../src/models/write_up';
+import RootBeerModel from '../../src/models/rb';
 
 const utils = new Utils();
 
@@ -59,14 +60,28 @@ describe('utils', () => {
 
     describe('prepData', () => {
         it('should add username and format date to ratings', async () => {
-            const rb: any = await RbModel.findOne();
+            const rating: any = await RatingModel.findOne();
 
-            const [cloneDoc] = utils.getDocs([rb]);
+            const [cloneDoc] = utils.getDocs([rating]);
             utils.formatDate([cloneDoc]);
             
-            await utils.prepData([rb]);
+            await utils.prepData([rating]);
 
-            const result = rb._doc;
+            const result = rating._doc;
+            
+            expect(result.user).toBe('ciorg');
+            expect(result.created).toBe(cloneDoc.created);
+        });
+
+        it('should add username and format date to write ups', async () => {
+            const writeUp: any = await WriteUpModel.findOne();
+
+            const [cloneDoc] = utils.getDocs([writeUp]);
+            utils.formatDate([cloneDoc]);
+            
+            await utils.prepData([writeUp]);
+
+            const result = writeUp._doc;
             
             expect(result.user).toBe('ciorg');
             expect(result.created).toBe(cloneDoc.created);
@@ -74,7 +89,7 @@ describe('utils', () => {
     });
 
     describe('getRatingsById', () => {
-        it('should get ratings based on rb id', async () => {
+        it('should get ratings from rb id', async () => {
             const rb: any = await RbModel.findOne();
 
             const ratings = await utils.getRatingsByRbId(rb._id);
@@ -92,6 +107,49 @@ describe('utils', () => {
                 expect(rating.smoothness).toBeDefined();
                 expect(rating.total).toBeDefined();
             });
+        });
+    });
+
+    describe('getWriteUpsById', () => {
+        it('should get write ups from rb id', async () => {
+            const rb: any = await RbModel.findOne();
+
+            const writeUps = await utils.getWriteUpByRbId(rb._id);
+
+            writeUps.res.forEach((wp: any) => {
+                expect(wp.rb_id).toBe(String(rb._doc._id));
+                expect(wp.write_up).toBeDefined();
+            });
+        });
+    });
+
+    describe('addRbName', () => {
+        it('should add root beer name to write ups', async () => {
+            const writeUp: any = await WriteUpModel.findOne();
+
+            const rb: any = await RootBeerModel.findById(writeUp.get('rb_id'), 'name');
+
+            const writeUpDocs = utils.getDocs([writeUp]);
+
+            await utils.addRbName(writeUpDocs);
+
+            for (const doc of writeUpDocs) {
+                expect(doc.rb_name).toBe(rb.get('name'));
+            }
+        });
+
+        it('should add root beer name to ratings', async () => {
+            const rating: any = await RatingModel.findOne();
+
+            const rb: any = await RootBeerModel.findById(rating.get('rb_id'), 'name');
+
+            const ratingDoc = utils.getDocs([rating]);
+
+            await utils.addRbName(ratingDoc);
+
+            for (const doc of ratingDoc) {
+                expect(doc.rb_name).toBe(rb.get('name'));
+            }
         });
     });
 });

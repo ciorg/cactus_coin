@@ -46,7 +46,7 @@ class Utils {
         }
     }
 
-    async format(rbArray: any[]) {
+    async format(rbArray: I.RootBeer[]) {
         const rbDocs = this.getDocs(rbArray);
     
         await this.addUserName(rbDocs);
@@ -84,9 +84,9 @@ class Utils {
         }
     }
 
-    totalAvg(ratings: any[]) {
+    totalAvg(ratings: I.Rating[]) {
         if (ratings.length) {
-            const sum = ratings.reduce((total: number, rating: any) => {
+            const sum = ratings.reduce((total: number, rating) => {
                 total += rating.total;
 
                 return total;
@@ -110,7 +110,7 @@ class Utils {
         });
     }
 
-    avgRating(ratings: any) {
+    avgRating(ratings: I.Rating[]) {
         const numerator: number = ratings.length;
 
         const avgObj: { [propname: string]: any } = {};
@@ -171,10 +171,10 @@ class Utils {
         return null;
     }
 
-    async addRbName(docArray: any[], field: string) {
+    async addRbName(docArray: (I.WriteUp | I.Rating)[]) {
         for (const i of docArray) {
     
-            const result = await this.rbActions.search('_id', i[field]);
+            const result = await this.rbActions.search('_id', i.rb_id);
 
             if (result.error) continue;
 
