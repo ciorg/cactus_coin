@@ -2,6 +2,7 @@ import DB from '../utils/db';
 import UserModel from '../models/user';
 import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
+import WriteUpModel from '../models/write_up';
 import Logger from '../utils/logger';
 
 class DBTools {
