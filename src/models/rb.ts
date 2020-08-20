@@ -20,6 +20,6 @@ const RootBeerSchema =  new Schema({
     image: String
 });
 
-const RootBeerModel = mongoose.model('rb', RootBeerSchema);
+const RBModel = mongoose.model('rb', RootBeerSchema); 
 
-export = RootBeerModel;
+export = RBModel;
