@@ -27,7 +27,7 @@ class WriteUps {
 
         this.utils.formatDate(writeUpDocs);
 
-        await this.utils.addRbName(writeUpDocs, 'rb_id');
+        await this.utils.addRbName(writeUpDocs);
 
         writeUps.res = writeUpDocs;
 

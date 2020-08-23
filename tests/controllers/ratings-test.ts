@@ -4,7 +4,7 @@ import UserModel from '../../src/models/user';
 import RBModel from '../../src/models/rb';
 import RatingModel from '../../src/models/rating';
 
-fdescribe('ratings', () => {
+describe('ratings', () => {
     let ratings: Ratings;
     let connection: any;
     let user: any;
@@ -187,9 +187,9 @@ fdescribe('ratings', () => {
                 user: { _id: user._id }
             };
 
-            const rbRatings = await ratings.ratingsByUser(userReq);
+            const rbWriteUps = await ratings.ratingsByUser(userReq);
 
-            expect(rbRatings.res.length).toBe(3);
+            expect(rbWriteUps.res.length).toBe(3);
         });
     });
 });
