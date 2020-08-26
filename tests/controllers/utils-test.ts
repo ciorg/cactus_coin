@@ -76,7 +76,7 @@ describe('controllers utils', () => {
         it('should return the average total for all the ratings of a record', () => {
             let total = 47;
 
-            const docs = [...new Array(10)].map(() => {
+            const docs:any = [...new Array(10)].map(() => {
                 total += 5;
 
                 return {
