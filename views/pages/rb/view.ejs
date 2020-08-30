@@ -11,9 +11,7 @@
             <div class="rb_view_name">
                 <p><%= rb.name %></p>
             </div>
-            <div class="rb_image">
-                <img src="../<%= rb.image %>" />
-            </div>
+            <%- include('../../partials/rb_views') %>
             <div class="rb_ratings">
                 <div class="rb_avg_ratings">
                     <table>
@@ -60,43 +58,43 @@
                     <a href="#" onclick="slide('add_rating', 'height', 175)">Add Rating</a>
                     <a href="#" onclick="slide('add_write_up', 'height', 175)">Add Write Up</a>
                 </div>
+                <p>Ratings</p>
                 <table>
-                    <tr>
-                        <th colspan=11 style="background-color: #184709;">Ratings</th>
-                    </tr>
-                    <tr>
-                        <th>User</th>
-                        <th>Date</th>
-                        <th>Total</th>
-                        <th>Brand</th>
-                        <th>After Taste</th>
-                        <th>Aroma</th>
-                        <th>Bite</th>
-                        <th>Fizz</th>
-                        <th>Flavor</th>
-                        <th>Smooth</th>
-                        <th>Sweet</th>
-                    </tr>
-                    <% for (const rating of ratings) {%>
-                    <tr>
-                        <td><%- rating.user %></td>
-                        <td><%- rating.created %></td>
-                        <td><%- rating.total %></td>
-                        <td><%- rating.branding %></td>
-                        <td><%- rating.after_taste %></td>
-                        <td><%- rating.aroma %></td>
-                        <td><%- rating.bite %></td>
-                        <td><%- rating.carbonation %></td>
-                        <td><%- rating.flavor %></td>
-                        <td><%- rating.smoothness %></td>
-                        <td><%- rating.sweetness %></td>
-                    </tr>
-                    <% } %>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Brand</th>
+                            <th>After Taste</th>
+                            <th>Aroma</th>
+                            <th>Bite</th>
+                            <th>Fizz</th>
+                            <th>Flavor</th>
+                            <th>Smooth</th>
+                            <th>Sweet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const rating of ratings) {%>
+                            <tr>
+                                <td><%- rating.user %></td>
+                                <td><%- rating.created %></td>
+                                <td><%- rating.total %></td>
+                                <td><%- rating.branding %></td>
+                                <td><%- rating.after_taste %></td>
+                                <td><%- rating.aroma %></td>
+                                <td><%- rating.bite %></td>
+                                <td><%- rating.carbonation %></td>
+                                <td><%- rating.flavor %></td>
+                                <td><%- rating.smoothness %></td>
+                                <td><%- rating.sweetness %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
                 </table>
+                <p>Write Ups</p>
                 <table>
-                    <tr>
-                        <th colspan=11 style="background-color: #184709;">Write Ups</th>
-                    </tr>
                     <tr>
                         <th>User</th>
                         <th>Date</th>

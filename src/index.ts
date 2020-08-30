@@ -31,9 +31,11 @@ async function main() {
         contentSecurityPolicy: {
             directives: {
                 'default-src': ["'self'", "'unsafe-inline'"],
-                'script-src-attr': ["'unsafe-inline'"],
+                'script-src-elem': ['https:',"'unsafe-inline'", "'self'"],
+                'script-src': ['https:',"'unsafe-inline'", "'self"],
+                'script-src-attr': ["'unsafe-inline'", 'https:'],
                 'font-src': ["'self'", 'https: data:'],
-                'style-src': ["'self'", 'https:']
+                'style-src': ["'self'", 'https:', "'unsafe-inline'"]
             }
         }
     }));

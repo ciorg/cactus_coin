@@ -104,15 +104,15 @@ class DBTools {
                 rb_id: rbId[0]._id,
                 created: Date.now(),
                 user: userId[0]._id,
-                branding: 7,
-                flavor: 7,
-                aroma: 7,
-                after_taste: 7,
-                bite: 7,
-                carbonation: 7,
-                sweetness: 7,
-                smoothness: 7,
-                total: 84
+                branding: Math.round((Math.random() * 10)),
+                flavor: Math.round((Math.random() * 10)),
+                aroma: Math.round((Math.random() * 10)),
+                after_taste: Math.round((Math.random() * 10)),
+                bite: Math.round((Math.random() * 10)),
+                carbonation: Math.round((Math.random() * 10)),
+                sweetness: Math.round((Math.random() * 10)),
+                smoothness: Math.round((Math.random() * 10)),
+                total: Math.round((Math.random() * 100))
             }
     
             await RatingModel.create(ratingInfo);
@@ -152,7 +152,23 @@ async function runFunction(args: string[]) {
     
         if (args.length === 4) num = Number(args[3]);
 
-        await dbTools[func](num);
+        await dbTools.addRbs(num);
+    }
+
+    if (func === 'addRating') {
+        let num = 1;
+    
+        if (args.length === 4) num = Number(args[3]);
+
+        await dbTools.addRating(num);
+    }
+
+    if (func === 'addWriteUp') {
+        let num = 1;
+    
+        if (args.length === 4) num = Number(args[3]);
+
+        await dbTools.addWriteUp(num);
     }
 
     await dbTools[func]();

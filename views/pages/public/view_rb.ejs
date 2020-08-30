@@ -11,9 +11,7 @@
             <div class="rb_view_name">
                 <p><%= rb.name %></p>
             </div>
-            <div class="rb_image">
-                <img src="../<%= rb.image %>" />
-            </div>
+            <%- include('../../partials/rb_views') %>
             <div class="rb_ratings">
                 <div class="rb_avg_ratings">
                     <table>
@@ -51,10 +49,8 @@
             </div>
             <div class="rb_all_ratings">
             </br>
+            <p>Ratings</p>
                 <table>
-                    <tr>
-                        <th colspan=11 style="background-color: #184709;">Ratings</th>
-                    </tr>
                     <tr>
                         <th>User</th>
                         <th>Date</th>
@@ -84,10 +80,8 @@
                     </tr>
                     <% } %>
                 </table>
+                <p>Write Ups</p>
                 <table>
-                    <tr>
-                        <th colspan=11 style="background-color: #184709;">Write Ups</th>
-                    </tr>
                     <tr>
                         <th>User</th>
                         <th>Date</th>

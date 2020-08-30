@@ -80,6 +80,16 @@
 .rb_all_ratings {
     clear: both;
     border: 2px solid #1c6404;
+    padding-top: 0px;
+}
+
+.rb_all_ratings p {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2cb404;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .rb_all_ratings table {
