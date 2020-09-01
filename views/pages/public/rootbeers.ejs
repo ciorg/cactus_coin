@@ -3,8 +3,8 @@
 <head>
     <%- include('../../partials/head'); -%>
     <link rel="stylesheet" type="text/css" href="css/rb.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/data_table.css">
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 </head>
 <body>
@@ -27,12 +27,14 @@
                 </form>
             </div>
         </div>
-        <div class='search_results' style="padding-bottom: 100px;">
+        <br>
+        <div class="search_results">
             <table class="display" id="test_table">
                 <thead>
                     <tr>
                         <th>Rank</th>
                         <th>Root Beer</th>
+                        <th>Added By</th>
                         <th>Date Added</th>
                         <th>Rating</th>
                         <th># Ratings</th>
@@ -42,7 +44,8 @@
                     <% for( const rb of rbs ) { %>
                         <tr>
                             <td><%- rb.rank %></td>
-                            <td><a href="/public_rb/<%-rb._id %>"><%- rb.name %></a></td>
+                            <td><a href="/public_rb/<%-rb._id %>"><%- rb.name %></a></th>
+                            <td><%- rb.user %></td>
                             <td><%- rb.created %></td>
                             <td><%- rb.rating %></td>
                             <td><%- rb.popular %></td>
@@ -56,7 +59,10 @@
     <script>
         $(document).ready( function () {
             $('#test_table').DataTable({
-                searching: false
+                searching: false,
+                // lengthMenu: [[10, 20, 50, -1], [10, 20, 50, 'All']],
+                pageLength: 20,
+                lengthChange: false
             });
         } );
     </script>

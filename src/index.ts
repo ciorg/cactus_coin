@@ -32,7 +32,12 @@ async function main() {
             directives: {
                 'default-src': ["'self'", "'unsafe-inline'"],
                 'script-src-elem': ['https:',"'unsafe-inline'", "'self'"],
-                'script-src': ['https:',"'unsafe-inline'", "'self"],
+                'script-src': [
+                    'ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+                    'cdn.datatables.net/1.10.21/js/jquery.dataTables.js',
+                    "'unsafe-inline'",
+                    "'self'"
+                ],
                 'script-src-attr': ["'unsafe-inline'", 'https:'],
                 'font-src': ["'self'", 'https: data:'],
                 'style-src': ["'self'", 'https:', "'unsafe-inline'"]
