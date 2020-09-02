@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('../../partials/head'); -%>
+    <%- include('../../partials/table'); -%>
     <link rel="stylesheet" type="text/css" href="css/rb.css">
 </head>
 <body>
@@ -10,25 +11,29 @@
         <%- include('../../partials/rootbeer_actions'); %>
         <%- include('../../partials/add_rb'); %>
         <div class='search_results'>
-            <table>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Added</th>
-                    <th>Added By</th>
-                    <th>Rating</th>
-                    <th># Ratings</th>
-                </tr>
+            <table class="display" id="sorted_table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Added</th>
+                        <th>Added By</th>
+                        <th>Rating</th>
+                        <th># Ratings</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <% for (const result of results) { %>
-                <tr>
-                    <td><%- result.rank %></td>
-                    <td><a href="/rb/<%-result._id %>"><%- result.name %></a></td>
-                    <td><%- result.created %></td>
-                    <td><%- result.user %></td>
-                    <td><%- result.rating %></td>
-                    <td><%- result.popular %></td>
-                </tr>
-                <% } %>
+                    <tr>
+                        <td><%- result.rank %></td>
+                        <td><a href="/rb/<%-result._id %>"><%- result.name %></a></td>
+                        <td><%- result.created %></td>
+                        <td><%- result.user %></td>
+                        <td><%- result.rating %></td>
+                        <td><%- result.popular %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
             </table>
         </div>
         <div class="bottom_padding">
@@ -36,4 +41,5 @@
     </div>
    
     <script src="../javascript/portal.js"></script>
+    <script src="../javascript/table_settings.js"></script>
 </body>

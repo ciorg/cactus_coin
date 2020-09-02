@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <%- include('../../partials/head'); -%>
+    <%- include('../../partials/table'); -%>
     <link rel="stylesheet" type="text/css" href="css/rb.css">
-    <link rel="stylesheet" type="text/css" href="css/data_table.css">
-    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 </head>
 <body>
     <div class="display_page_body">
@@ -29,7 +27,7 @@
         </div>
         <br>
         <div class="search_results">
-            <table class="display" id="test_table">
+            <table class="display" id="sorted_table">
                 <thead>
                     <tr>
                         <th>Rank</th>
@@ -56,16 +54,6 @@
         </div>
        
     </div>
-    <script>
-        $(document).ready( function () {
-            $('#test_table').DataTable({
-                searching: false,
-                // lengthMenu: [[10, 20, 50, -1], [10, 20, 50, 'All']],
-                pageLength: 20,
-                lengthChange: false
-            });
-        } );
-    </script>
-    
+    <script src="javascript/table_settings.js"></script>
 </body>
 </html>

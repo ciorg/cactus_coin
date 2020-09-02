@@ -173,10 +173,10 @@ class Utils {
 
     async addRbName(docArray: (I.WriteUp | I.Rating)[]) {
         for (const i of docArray) {
-    
             const result = await this.rbActions.search('_id', i.rb_id);
 
             if (result.error) continue;
+            if (result.res.length === 0) continue;
 
             i.rb_name = result.res[0].name;
         }
