@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Document } from 'mongoose';
 
 export interface User {
     username: string;
@@ -28,8 +29,19 @@ export interface RootBeer extends RBEntity {
     popular?: number;
 }
 
+export interface RootBeerModel extends Document {
+    name: string;
+    created: string;
+    user: string;
+    image?: string;
+    rating?: number;
+    rank?: number;
+    popular?: number;
+}
+
 interface RBOwned extends RBEntity {
     rb_id: string;
+    rb_name?: string;
 }
 
 export interface Rating extends RBOwned {

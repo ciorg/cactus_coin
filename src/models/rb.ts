@@ -1,8 +1,6 @@
-import DbApi from './lib/db_api';
+import mongoose, { Schema } from 'mongoose';
 
-const db = new DbApi();
-
-const rbSchema =  db.schema({
+const RootBeerSchema =  new Schema({
     name: {
         type: String,
         required: true,
@@ -22,6 +20,6 @@ const rbSchema =  db.schema({
     image: String
 });
 
-const rbModel = db.model('rb', rbSchema);
+const RBModel = mongoose.model('rb', RootBeerSchema); 
 
-export = rbModel;
+export = RBModel;

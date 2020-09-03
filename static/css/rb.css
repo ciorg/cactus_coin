@@ -67,10 +67,12 @@
     border-radius: 10px;
     margin-top: 30px;
     color: #d44c04;
+    width: 60%;
+    margin: auto;
+    padding-bottom: 30px;
 }
 
 .search_results table {
-    width: 60%;
     margin: auto;
     text-align: center;
     background-color: white;
@@ -80,6 +82,10 @@
 .search_results th {
     background-color: #d44c04;
     color: white;
+}
+
+.search_results th:hover {
+    background-color: #ef2556;
 }
 
 .search_results table, th, tr, td {

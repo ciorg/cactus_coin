@@ -1,15 +1,12 @@
-import DbApi from './lib/db_api';
+import mongoose, { Schema } from 'mongoose';
 
-const db = new DbApi();
-
-const rbWriteUpSchema =  db.schema({
+const WriteUpSchema =  new Schema({
     rb_id: { type: String, required: true },
     created: { type: Date, default: Date.now },
     user: { type: String, required: true },
     write_up: { type: String, required: true}
 });
 
+const WriteUpModel = mongoose.model('rb_write_up', WriteUpSchema);
 
-const rbWriteUpModel = db.model('rb_write_up', rbWriteUpSchema);
-
-export = rbWriteUpModel;
+export = WriteUpModel;

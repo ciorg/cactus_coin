@@ -20,14 +20,13 @@ class Ratings {
             'flavor',
             'smoothness',
             'sweetness',
-            'total'
         ];
 
         this.utils = new Utils();
         this.action = new Actions(RatingModel);
     }
 
-    async create(req: Request) {
+    async create(req: Request) {        
         const rating = this.newRating(req);
     
         return this.action.create(rating);
@@ -56,7 +55,7 @@ class Ratings {
 
         this.utils.formatDate(ratingsDocs);
 
-        await this.utils.addRbName(ratingsDocs, 'rb_id');
+        await this.utils.addRbName(ratingsDocs);
 
         ratings.res = ratingsDocs;
 
@@ -128,6 +127,7 @@ class Ratings {
     private getMultiplier(field: string): number {
         if (field === 'after_taste' || field === 'aroma') return 2
         if (field === 'flavor') return 3;
+        if (['branding', 'sweetness', 'bite', 'carbonation'].includes(field)) return 0.5;
         return 1;
     }
 

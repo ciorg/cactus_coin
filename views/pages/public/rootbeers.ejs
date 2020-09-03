@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('../../partials/head'); -%>
+    <%- include('../../partials/table'); -%>
     <link rel="stylesheet" type="text/css" href="css/rb.css">
 </head>
 <body>
@@ -24,26 +25,35 @@
                 </form>
             </div>
         </div>
-        <div class='search_results'>
-            <table>
-                <tr>
-                    <th>Rank</th>
-                    <th>Root Beer</th>
-                    <th>Date Added</th>
-                    <th>Rating</th>
-                    <th># Ratings</th>
-                </tr>
-                <% for( const rb of rbs ) { %>
+        <br>
+        <div class="search_results">
+            <table class="display" id="sorted_table">
+                <thead>
                     <tr>
-                        <td><%- rb.rank %></td>
-                        <td><a href="/public_rb/<%-rb._id %>"><%- rb.name %></a></td>
-                        <td><%- rb.created %></td>
-                        <td><%- rb.rating %></td>
-                        <td><%- rb.popular %></td>
+                        <th>Rank</th>
+                        <th>Root Beer</th>
+                        <th>Added By</th>
+                        <th>Date Added</th>
+                        <th>Rating</th>
+                        <th># Ratings</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <% for( const rb of rbs ) { %>
+                        <tr>
+                            <td><%- rb.rank %></td>
+                            <td><a href="/public_rb/<%-rb._id %>"><%- rb.name %></a></th>
+                            <td><%- rb.user %></td>
+                            <td><%- rb.created %></td>
+                            <td><%- rb.rating %></td>
+                            <td><%- rb.popular %></td>
+                        </tr>
                     <% } %>
+                </tbody>
             </table>
         </div>
+       
     </div>
+    <script src="javascript/table_settings.js"></script>
 </body>
 </html>
