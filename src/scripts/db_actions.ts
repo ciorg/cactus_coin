@@ -4,12 +4,36 @@ import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
 import WriteUpModel from '../models/write_up';
 import Logger from '../utils/logger';
+import RatingController from '../controllers/ratings';
 
 class DBTools {
     log: Logger;
 
     constructor() {
         this.log = new Logger();
+    }
+
+    async updateRatingsTotal() {
+        const allRatings = await RatingModel.find();
+        const rating = new RatingController();
+
+        for (const r of allRatings) {
+            const req: any = {
+                params: { id: r._id },
+                body: {
+                    branding: r.get('branding'),
+                    at: r.get('after_taste'),
+                    aroma: r.get('aroma'),
+                    bite: r.get('bite'),
+                    carb: r.get('carbonation'),
+                    flavor: r.get('flavor'),
+                    smooth: r.get('smoothness'),
+                    sweet: r.get('sweetness')
+                }
+            }
+            
+            await rating.update(req);
+        }
     }
     
     async clearRatings() {

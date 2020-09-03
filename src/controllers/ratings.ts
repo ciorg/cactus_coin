@@ -76,7 +76,7 @@ class Ratings {
         return rating;
     }
 
-    private createRatingObjectUpdate(req: Request) {    
+    private createRatingObjectUpdate(req: Request) {
         const rating: Partial<I.Rating> = {
             branding: req.body.branding,
             after_taste: req.body.at,
