@@ -4,7 +4,7 @@ const utils = new Utils();
 
 
 describe('controllers utils', () => {
-    describe('formatMonth', () => {
+    describe('formatTwoDigit', () => {
         it('should return a 2 digit month', () => {
             const month1 = utils.formatMonth(4);
             const month2 = utils.formatMonth(12);
