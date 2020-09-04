@@ -29,11 +29,16 @@ class Utils {
     formatMonth(mon: number): string {
         let m = mon + 1;
 
-        if (m < 10) return `0${m}`;
-
-        return String(m);
+        return this._makeTwoDigit(m);
     }
 
+    private _makeTwoDigit(num: number): string {
+        if (num < 10) return `0${num}`;
+
+        return String(num);
+
+    }
+ 
     formatDate(rbArray: (I.RootBeer | I.Rating | I.WriteUp)[]) {
         for (const i of rbArray) {
             const timeStamp = new Date(i.created);
@@ -42,7 +47,7 @@ class Utils {
             const month = timeStamp.getMonth();
             const year = timeStamp.getFullYear();
             
-            i.created = `${this.formatMonth(month)}/${date}/${year}`;
+            i.created = `${this.formatMonth(month)}/${this._makeTwoDigit(date)}/${year}`;
         }
     }
 
