@@ -48,14 +48,14 @@ describe('ratings', () => {
                 params: { id: rb._id },
                 user: { _id: user._id },
                 body: {
-                    branding: 7,
-                    at: 4,
-                    aroma: 8,
-                    bite: 7,
-                    flavor: 5,
+                    branding: 9,
+                    at: 8,
+                    aroma: 9,
+                    bite: 6,
+                    flavor: 9,
                     smooth: 9,
-                    carb: 6,
-                    sweet: 8
+                    carb: 7,
+                    sweet: 5
                 }
             };
 
@@ -65,15 +65,15 @@ describe('ratings', () => {
                 expect(rating.res[field]).toBeDefined();
             });
 
-            expect(rating.res.branding).toBe(7);
-            expect(rating.res.after_taste).toBe(4);
-            expect(rating.res.aroma).toBe(8);
-            expect(rating.res.bite).toBe(7);
-            expect(rating.res.carbonation).toBe(6);
-            expect(rating.res.flavor).toBe(5);
+            expect(rating.res.branding).toBe(9);
+            expect(rating.res.after_taste).toBe(8);
+            expect(rating.res.aroma).toBe(9);
+            expect(rating.res.bite).toBe(6);
+            expect(rating.res.carbonation).toBe(7);
+            expect(rating.res.flavor).toBe(9);
             expect(rating.res.smoothness).toBe(9);
-            expect(rating.res.sweetness).toBe(8);
-            expect(rating.res.total).toBe(62);
+            expect(rating.res.sweetness).toBe(5);
+            expect(rating.res.total).toBe(88.6);
         });
     });
 
@@ -106,7 +106,7 @@ describe('ratings', () => {
                     aroma: 10,
                     bite: 10,
                     smooth: 10,
-                    sweet: 10
+                    sweet: 7
                 }
             }
 

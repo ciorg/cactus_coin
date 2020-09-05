@@ -4,6 +4,7 @@ import RatingModel from '../models/rating';
 import Utils from './lib/utils';
 
 import * as I from '../interface';
+import { validationResult } from 'express-validator';
 
 class Ratings {
     rating_fields: string[];
@@ -116,7 +117,7 @@ class Ratings {
 
         for (const [key, value] of Object.entries(rating)) {
             if (this.isRatingField(key)) {
-                total += (Number(value) * this.getMultiplier(key));
+                total += (this.points(key, Number(value)));
                 rating[key] = Number(value).toFixed(1);
             }
         }
@@ -124,11 +125,36 @@ class Ratings {
         return total;
     }
 
-    private getMultiplier(field: string): number {
-        if (field === 'after_taste' || field === 'aroma') return 2
-        if (field === 'flavor') return 3;
-        if (['branding', 'sweetness', 'bite', 'carbonation'].includes(field)) return 0.5;
-        return 1;
+    private points(field: string, value: number): number {
+        if (field === 'flavor') {
+            return value * 3.25;
+        } 
+
+        if (['aroma', 'smoothness', 'after_taste'].includes(field)) {
+            return value * 2;  
+        }
+
+        if (field === 'carbonation') {
+            if (value >= 6.5) return 2.5;
+            return value * 0.25;
+        }
+
+        if (field === 'bite') {
+            if (value >= 6) return 2;
+            return value * 0.25;
+        }
+
+        if (field === 'sweetness') {
+            if (value >= 5 && value <= 8) return 1.5;
+            if (value < 5) return value * 0.25;
+            if (value > 8) return 10 / value;
+        }
+
+        if (field === 'branding') {
+            return value * 0.15;
+        }
+
+        return 0;
     }
 
     private isRatingField(key: string) {
