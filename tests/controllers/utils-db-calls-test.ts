@@ -134,7 +134,7 @@ describe('utils', () => {
             await utils.addRbName(writeUpDocs);
 
             for (const doc of writeUpDocs) {
-                expect(doc.rb_name).toBe(rb.get('name'));
+                expect(doc.rb_name).toBe('Test_0');
             }
         });
 
@@ -148,7 +148,7 @@ describe('utils', () => {
             await utils.addRbName(ratingDoc);
 
             for (const doc of ratingDoc) {
-                expect(doc.rb_name).toBe(rb.get('name'));
+                expect(doc.rb_name).toBe('Test_0');
             }
         });
     });

@@ -91,6 +91,8 @@ class Rootbeer {
 
         if (rbResult.error) return rbResult;
 
+        this.utils.capitalizeName(rbResult.res._doc);
+
         const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
 
         if (ratingResult.error) return ratingResult;
