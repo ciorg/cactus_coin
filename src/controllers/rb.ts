@@ -89,9 +89,9 @@ class Rootbeer {
     async viewRbInfo(req: Request) {
         const rbResult = await this.rb_actions.searchById(req.params.id);
 
-        if (rbResult.error) return rbResult;
+	if (rbResult.error) return rbResult;
 
-        this.utils.capitalizeName(rbResult.res._doc);
+	this.utils.capitalizeName(rbResult.res._doc);
 
         const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
 
