@@ -56,6 +56,11 @@ class Utils {
     
         await this.addUserName(rbDocs);
         await this.getTotalAvg(rbDocs);
+        
+        rbDocs.forEach((doc) => {
+            doc.name = this._capitolizeFirstLetter(doc.name);
+        });
+
         this.formatDate(rbDocs);
         this.rank(rbDocs);
 
@@ -176,6 +181,10 @@ class Utils {
         return null;
     }
 
+    capitalizeName(rbDoc: I.RootBeer) {
+        rbDoc.name = this._capitolizeFirstLetter(rbDoc.name);
+    }
+
     async addRbName(docArray: (I.WriteUp | I.Rating)[]) {
         for (const i of docArray) {
             const result = await this.rbActions.search('_id', i.rb_id);
@@ -183,9 +192,15 @@ class Utils {
             if (result.error) continue;
             if (result.res.length === 0) continue;
 
-            i.rb_name = result.res[0].name;
+            i.rb_name = this._capitolizeFirstLetter(result.res[0].name);
         }
     }
+
+    private _capitolizeFirstLetter(name: string): string {
+        return name.split(' ').map((word) => {
+            return `${word[0].toUpperCase()}${word.slice(1, word.length)}`;
+        }).join(' ');
+    } 
 
 }
 
