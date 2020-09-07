@@ -56,6 +56,7 @@ class Utils {
     
         await this.addUserName(rbDocs);
         await this.getTotalAvg(rbDocs);
+
         this.formatDate(rbDocs);
         this.rank(rbDocs);
 
