@@ -1,5 +1,6 @@
 import path from 'path';
 import bunyan from 'bunyan';
+import { Request, Response } from 'express';
 import Configs from './configs';
 import * as I from '../interface';
 
@@ -39,21 +40,37 @@ class Logger {
         });
     }
 
-    debug(msg: string, logObj: I.LogObject = { res: undefined, req: undefined }) {
-        this.logger.debug(logObj, msg);
+    debug(msg: string, logObj: I.LogObject = { req: undefined }) {
+        this.logger.debug(this._makeLogData(logObj), msg);
     }
 
-    info(msg: string, logObj: I.LogObject = { res: undefined, req: undefined }) {
-        this.logger.info(logObj, msg);
+    info(msg: string, logObj: I.LogObject = { req: undefined }) {
+        this.logger.debug(this._makeLogData(logObj), msg);
     }
 
-    error(msg: string, errObj: I.ErrorObject) {
-        this.logger.error(errObj, msg);
+    error(msg: string, errObj: I.LogObject) {
+        this.logger.error(this._makeLogData(errObj), msg);
     }
 
-    fatal(msg:string, fatalObj: I.ErrorObject) {
-        this.logger.fatal(fatalObj, msg);
+    fatal(msg:string, fatalObj: I.LogObject) {
+        this.logger.error(msg, fatalObj);
         process.exit(1);
+    }
+
+    private _makeLogData(logObj: I.LogObject ): any {
+        const logData: {
+            err?: Error,
+            route?: Request['route'],
+            res?: Response
+         } = {};
+    
+        if (logObj.err) {
+            logData.err = logObj.err;
+        }
+
+        if (logObj.req) {
+            logData.route = logObj.req.route;
+        }
     }
 }
 
