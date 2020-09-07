@@ -152,9 +152,15 @@ describe('ratings', () => {
             }
 
             const testResult = await rb.viewRbInfo(testReq);
+
+            expect(testResult.res.rb._id).toStrictEqual(rbDoc.res._id);
+            expect(testResult.res.rb.name).toBe('Test Rb Info');
             expect(testResult.res.ratings.length).toBe(1);
+
             expect(testResult.res.ratings[0].get('aroma')).toBe(8);
+
             expect(testResult.res.writeUps.length).toBe(1);
+
             expect(testResult.res.writeUps[0].get('write_up')).toBe('this is some write up');
             expect(testResult.res.avg).toEqual({
                     branding: '7.0',
