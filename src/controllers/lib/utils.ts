@@ -187,6 +187,17 @@ class Utils {
         }
     }
 
+    formatRb(rb: any) {
+        const [doc] = this.getDocs([rb]);
+        doc.name = this.makeTitle(rb.get('name'));
+    }
+
+    makeTitle(name: string): string {
+        return name.split(' ').map((word) => {
+            return word[0].toUpperCase() + word.slice(1, word.length);
+        }).join(' ');
+    }
+
 }
 
 export = Utils;
