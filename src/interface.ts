@@ -69,13 +69,8 @@ export interface ConfigSettings {
     port: number
 }
 
-export interface ErrorObject {
-    err: Error;
-    req?: Request;
-    res?: Response;
-}
-
 export interface LogObject {
+    err?: Error;
     req?: Request;
     res?: Response;
 }
