@@ -1,0 +1,50 @@
+<p>Ratings</p>
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Brand</th>
+            <th>After Taste</th>
+            <th>Aroma</th>
+            <th>Bite</th>
+            <th>Fizz</th>
+            <th>Flavor</th>
+            <th>Smooth</th>
+            <th>Sweet</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for (const rating of ratings) {%>
+            <tr>
+                <td><%- rating.user %></td>
+                <td><%- rating.created %></td>
+                <td><%- rating.total %></td>
+                <td><%- rating.branding %></td>
+                <td><%- rating.after_taste %></td>
+                <td><%- rating.aroma %></td>
+                <td><%- rating.bite %></td>
+                <td><%- rating.carbonation %></td>
+                <td><%- rating.flavor %></td>
+                <td><%- rating.smoothness %></td>
+                <td><%- rating.sweetness %></td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+<p>Write Ups</p>
+<table>
+    <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Content</th>
+    </tr>
+    <% for (const writeUp of writeUps) {%>
+    <tr>
+        <td><%- writeUp.user %></td>
+        <td><%- writeUp.created %></td>
+        <td style="text-align: left;"><%- writeUp.write_up %></td>
+    </tr>
+    <% } %>
+</table>
