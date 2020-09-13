@@ -1,5 +1,11 @@
 <div class="rb_view_name">
-    <p><%= rb.name %></p>
+    <div class="rb_title">
+        <p><%= rb.name %></p>
+    </div>
+    <div class="update_rb_links">
+        <a href="#" onclick="slide('edit_rb', 'height', 150)">Update Info</a>
+        <a href="#" onclick="slide('add_rating', 'height', 350)">Add Rating</a>
+    </div>
 </div>
 <div class="rb_image">
     <% if (rb.image) { %>

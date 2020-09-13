@@ -12,7 +12,8 @@ const RatingSchema = new Schema({
     carbonation: Number,
     sweetness: Number,
     smoothness: Number,
-    total: Number
+    total: Number,
+    write_up: String
 });
 
 const RatingModel = mongoose.model('rb_rating', RatingSchema);

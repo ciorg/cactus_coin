@@ -106,7 +106,8 @@ class Ratings {
             carbonation: req.body.carb,
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
-            sweetness: req.body.sweet
+            sweetness: req.body.sweet,
+            write_up: req.body.write_up
         };
 
         return rating;

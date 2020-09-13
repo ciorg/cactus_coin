@@ -54,6 +54,7 @@ export interface Rating extends RBOwned {
     smoothness: number;
     sweetness: number;
     total: number;
+    write_up: string;
 }
 
 export interface WriteUp extends RBOwned {
