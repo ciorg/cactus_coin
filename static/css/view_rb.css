@@ -16,29 +16,23 @@
 }
 
 .rb_title {
-    float: left;
-    width: 59%;
-    font-size: 2.5em;
-    border: 2px solid red;
+    width: 100%;
+    text-align: center;
 }
 
-.rb_title p {
-    margin-left: 200px;
-    margin-top: 0;
-    margin-bottom: 0;
+#title {
     color: white;
-}
-
-.update_rb_links {
-    float: right;
-    width: 40%;
-    border: 2px solid red;
+    font-size: 2.5em;
+    margin-top: 10px;
 }
 
 .update_rb_links a {
     text-decoration: none;
-    color: #1c6404;
-    font-size: 2.5em;
+    color: white;
+    font-size: 1.5em;
+    float: right;
+    margin-right: 50px;
+    margin-top: 10px;
 }
 
 .update_rb_links a:hover {

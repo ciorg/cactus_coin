@@ -12,7 +12,6 @@ router.post(
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-        console.log(req.body);
         const newRating = await rating.create(req);
 
         if (newRating.error) {

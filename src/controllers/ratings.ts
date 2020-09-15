@@ -86,7 +86,8 @@ class Ratings {
             carbonation: req.body.carb,
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
-            sweetness: req.body.sweet
+            sweetness: req.body.sweet,
+            comment: req.body.comment
         };
 
         return rating;
@@ -107,10 +108,14 @@ class Ratings {
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
             sweetness: req.body.sweet,
-            write_up: req.body.write_up
+            comment: req.body.comment
         };
 
         return rating;
+    }
+
+    private stringifyComment(comment: string[]): string {
+        return comment.filter((i: string) => i.length > 0).join('');
     }
 
     private getTotal(rating: Partial<I.Rating>): number {

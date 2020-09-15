@@ -13,7 +13,7 @@ const RatingSchema = new Schema({
     sweetness: Number,
     smoothness: Number,
     total: Number,
-    write_up: String
+    comment: String
 });
 
 const RatingModel = mongoose.model('rb_rating', RatingSchema);
