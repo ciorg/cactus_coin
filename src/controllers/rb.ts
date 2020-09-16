@@ -31,18 +31,23 @@ class Rootbeer {
             user: user._id
         };
 
+        if (req.body.write_up) {
+            rbInfo.write_up = req.body.write_up;
+        }
+
         this._addImagePath(req, rbInfo);
     
         return this.rb_actions.create(rbInfo);
     }
 
     async update(req: Request): Promise<I.Result> {
-        const updateFields: { name?: string, image?: string } = {};
+        const updateFields: { name?: string, image?: string, write_up?: string } = {};
 
         this._addImagePath(req, updateFields);
 
-        if(req.body && req.body.rb_brand_name) {
-            updateFields.name = req.body.rb_brand_name;
+        if(req.body) {
+            if (req.body.rb_brand_name) updateFields.name = req.body.rb_brand_name;
+            if (req.body.write_up) updateFields.write_up = req.body.write_up;
         }
 
         return this.rb_actions.update(req.params.id, updateFields);
