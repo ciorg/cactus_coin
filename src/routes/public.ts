@@ -15,7 +15,7 @@ router.get('/public_rbs', async (req: Request, res: Response) => {
         res.redirect('/error');
     }
 
-    res.render('pages/public/rootbeers', { rbs: result.res });
+    res.render('pages/public/rootbeers', { user: req.user, rbs: result.res });
 });
 
 router.post('/pub_search',
@@ -40,7 +40,8 @@ router.post('/pub_search',
         }
     
         res.render('pages/public/rootbeers', {
-            rbs: result.res
+            rbs: result.res,
+            user: req.user
         });
     }
 );

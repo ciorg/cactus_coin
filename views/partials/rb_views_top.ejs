@@ -1,11 +1,13 @@
 <div class="rb_view_name">
     <div class="rb_title">
         <span id="title"><%= rb.name %></span>
-        <div class="update_rb_links">
-            <a href="#" onclick="slide('edit_rb', 'height', 150)">Update Info</a>
-            </br>
-            <a href="#" onclick="slide('add_rating', 'height', 250)">Add Rating</a>
-        </div>
+        <% if (user && user.active && (user.role === 'king' || user.role === 'rr')) { %>
+            <div class="update_rb_links">
+                <a href="#" onclick="slide('edit_rb', 'height', 250)">Update Info</a>
+                </br>
+                <a href="#" onclick="slide('add_rating', 'height', 250)">Add Rating</a>
+            </div>
+        <% } %>
     </div>
 </div>
 <div class="rb_ratings">
@@ -39,6 +41,12 @@
         </table>
     </div>
 </div>
+<% if (user && user.active && (user.role === 'king' || user.role === 'rr')) { %>
+<div class="update_section">
+    <%- include('./update_rb') %>
+    <%- include('./add_rating') %>
+</div>
+<% } %>
 <div class="rb_image">
     <% if (rb.image) { %>
     <img src="../<%= rb.image %>" />
@@ -47,6 +55,7 @@
     <% } %>
 </div>
 <div class="rb_write_up">
-      <p><%= rb %></p>
-      <%= rb.write_up %>
+  <p>
+    <%= rb.write_up %>
+  </p>
 </div>
