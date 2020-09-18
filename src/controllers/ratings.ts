@@ -87,7 +87,7 @@ class Ratings {
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
             sweetness: req.body.sweet,
-            comment: req.body.comment
+            comment: this.utils.sanitizeStrings(req.body.comment)
         };
 
         return rating;
@@ -108,7 +108,7 @@ class Ratings {
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
             sweetness: req.body.sweet,
-            comment: req.body.comment
+            comment: this.utils.sanitizeStrings(req.body.comment)
         };
 
         return rating;

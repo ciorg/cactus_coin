@@ -55,6 +55,7 @@ class Utils {
         await this.getTotalAvg(rbDocs);
 
         this.formatDate(rbDocs);
+        this.addRBTitle(rbDocs);
         this.rank(rbDocs);
 
         return rbDocs;
@@ -193,6 +194,10 @@ class Utils {
         }
 
         return null;
+    }
+
+    sanitizeStrings(input: string) {
+        return String(input).trim();
     }
 
 }
