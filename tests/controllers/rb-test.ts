@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import Rb from '../../src/controllers/rb';
 import UserModel from '../../src/models/user';
 import RatingModel from '../../src/models/rating';
-import WriteUpModel from '../../src/models/write_up';
 
 describe('ratings', () => {
     let connection: any;
@@ -39,7 +38,8 @@ describe('ratings', () => {
             const req: any = {
                 user: { _id: user._id },
                 body: {
-                    rb_brand_name: 'new test rb'
+                    rb_brand_name: 'new test rb',
+                    write_up: 'this is a write up'
                 },
                 file: {
                     filename: 'rb_file_name'
@@ -51,6 +51,7 @@ describe('ratings', () => {
             expect(result.res._id).toBeDefined();
             expect(result.res.name).toBe('new test rb');
             expect(result.res.image).toBe('rb_imgs/rb_file_name');
+            expect(result.res.write_up).toBe('this is a write up');
             expect(result.res.user).toEqual(String(user._id));
         });
     });
@@ -61,7 +62,8 @@ describe('ratings', () => {
             const req: any = {
                 user: { _id: user._id },
                 body: {
-                    rb_brand_name: 'update test rb'
+                    rb_brand_name: 'update test rb',
+                    write_up: 'this is a write up'
                 },
                 file: {
                     filename: 'update_file_name'
@@ -73,7 +75,8 @@ describe('ratings', () => {
             const updateReq: any = {
                 params: { id: result.res.get('_id') },
                 body: {
-                    rb_brand_name: 'updated rb'
+                    rb_brand_name: 'updated rb',
+                    write_up: 'this is an updated write up'
                 },
                 file: {
                     filename: 'better_pic'
@@ -116,7 +119,8 @@ describe('ratings', () => {
             const rbReq: any = {
                 user: { _id: user._id },
                 body: {
-                    rb_brand_name: 'test rb info'
+                    rb_brand_name: 'test rb info',
+                    write_up: 'this is a write up'
                 },
                 file: {
                     filename: 'rb_file_name'
@@ -140,13 +144,6 @@ describe('ratings', () => {
                 total: 78
             }); 
 
-            await WriteUpModel.create({
-                user: user._id,
-                rb_id: rbDoc.res._id,
-                created: new Date(),
-                write_up: 'this is some write up'
-            });
-
             const testReq: any = {
                 params: { id: rbDoc.res._id }
             }
@@ -154,14 +151,12 @@ describe('ratings', () => {
             const testResult = await rb.viewRbInfo(testReq);
 
             expect(testResult.res.rb._id).toStrictEqual(rbDoc.res._id);
-            expect(testResult.res.rb.name).toBe('Test Rb Info');
+            expect(testResult.res.rb.title_name).toBe('Test Rb Info');
+            expect(testResult.res.rb.write_up).toBe('this is a write up');
             expect(testResult.res.ratings.length).toBe(1);
 
             expect(testResult.res.ratings[0].get('aroma')).toBe(8);
 
-            expect(testResult.res.writeUps.length).toBe(1);
-
-            expect(testResult.res.writeUps[0].get('write_up')).toBe('this is some write up');
             expect(testResult.res.avg).toEqual({
                     branding: '7.0',
                     after_taste: '4.0',
