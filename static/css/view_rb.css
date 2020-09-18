@@ -11,34 +11,43 @@
 .rb_view_name {
     background-color: #184709;
     border-radius: 20px 20px 0px 0px;
-    color: white;
+    width: 100%;
+    height: 70px;
 }
 
-.rb_view_name p {
+.rb_title {
+    position: relative;
+    width: 100%;
     text-align: center;
-    margin: auto;
-    font-size: 2.0em;
-    font-weight: bolder;
 }
 
-.rb_image {
-    float: left;
-    width: 20%;
-    background-color: white;
+#title {
+    color: white;
+    font-size: 2.5em;
+    margin-top: 10px;
 }
 
-.rb_image img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 100%;
-    height: 150px;
-    justify-content: center;
+.update_rb_links {
+    position: absolute;
+    margin-right: 10px;
+    height: 100%;
+    top: 25%;
+    right: 1%;
+}
+
+.update_rb_links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+}
+
+.update_rb_links a:hover {
+    color: #facc04;
 }
 
 .rb_ratings {
     float: right;
-    width: 80%;
+    width: 100%;
     color: #1c6404;
 }
 
@@ -75,6 +84,36 @@
     font-size: 2.5em;
     background-color: #1c6404;
     color: white;
+}
+
+.rb_image {
+    clear: both;
+    float: left;
+    background-color: white;
+    width: 15%;
+}
+
+.rb_image img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    max-width: 100%;
+    height: 150px;
+    justify-content: center;
+}
+
+.rb_write_up {
+    width: 80%;
+    float: right;
+    height: 150px;
+    border-radius: 20px 20px 20px 20px;
+    border: 5px solid #1c6404;
+}
+
+.rb_write_up p {
+    margin-left: 10px;
+    white-space: pre-line
 }
 
 .rb_all_ratings {
@@ -114,22 +153,6 @@
 .update_section {
     width: 80%;
     margin: auto;
-}
-
-.update_rb_links {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.update_rb_links a {
-    text-decoration: none;
-    padding-left: 50px;
-    color: #1c6404;
-    font-size: 1.3em;
-}
-
-.update_rb_links a:hover {
-    color: #facc04;
 }
 
 .edit_rb {
@@ -191,7 +214,7 @@
     background-color: #2cb404;
     border-radius: 15px;
     color: white;
-    font-size: 1.2vw;
+    font-size: 1.3em;
 }
 
 .add_rating table {

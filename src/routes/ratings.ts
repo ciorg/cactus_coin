@@ -12,7 +12,6 @@ router.post(
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-    
         const newRating = await rating.create(req);
 
         if (newRating.error) {
@@ -26,7 +25,7 @@ router.post(
 router.post('/ratings/:id/update',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
+    async (req: Request, res: Response) => {
         const update = await rating.update(req);
 
         if (update.error) {

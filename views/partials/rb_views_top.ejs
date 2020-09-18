@@ -1,19 +1,21 @@
 <div class="rb_view_name">
-    <p><%= rb.name %></p>
-</div>
-<div class="rb_image">
-    <% if (rb.image) { %>
-    <img src="../<%= rb.image %>" />
-    <% } else { %>
-        <img src="../rb_imgs/rb.png" />
-    <% } %>
+    <div class="rb_title">
+        <span id="title"><%= rb.title_name %></span>
+        <% if (user && user.active && (user.role === 'king' || user.role === 'rr')) { %>
+            <div class="update_rb_links">
+                <a href="#" onclick="slide('edit_rb', 'height', 250)">Update Info</a>
+                </br>
+                <a href="#" onclick="slide('add_rating', 'height', 250)">Add Rating</a>
+            </div>
+        <% } %>
+    </div>
 </div>
 <div class="rb_ratings">
     <div class="rb_avg_ratings">
         <table>
             <tr>
                 <th>Avg Total</th>
-                <th colspan="4">Avg By Category</th>
+                <th colspan="8">Avg By Category</th>
             </tr>
             <tr>
                 <td rowspan="4"  id="total"><%= avg.total %></td>
@@ -21,8 +23,6 @@
                 <td ><%= avg.branding %></td>
                 <td id="category">After Taste</td>
                 <td><%= avg.after_taste %></td>
-            </tr>
-            <tr>
                 <td id="category">Aroma</td>
                 <td><%= avg.aroma %></td>
                 <td id="category">Sweet</td>
@@ -33,8 +33,6 @@
                 <td><%= avg.carbonation %></td>
                 <td id="category">Flavor</td>
                 <td><%= avg.flavor %></td>
-            </tr>
-            <tr>
                 <td id="category">Bite</td>
                 <td><%= avg.bite %></td> 
                 <td id="category">Smooth</td>
@@ -42,4 +40,20 @@
             </tr>
         </table>
     </div>
+</div>
+<% if (user && user.active && (user.role === 'king' || user.role === 'rr')) { %>
+<div class="update_section">
+    <%- include('./update_rb') %>
+    <%- include('./add_rating') %>
+</div>
+<% } %>
+<div class="rb_image">
+    <% if (rb.image) { %>
+    <img src="../<%= rb.image %>" />
+    <% } else { %>
+        <img src="../rb_imgs/rb.png" />
+    <% } %>
+</div>
+<div class="rb_write_up">
+  <p><%= rb.write_up %></p>
 </div>

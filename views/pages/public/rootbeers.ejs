@@ -14,6 +14,9 @@
         </div>
         <div class="rb_home">
             <div class="rb_home_links" >
+                <% if (user && user.active) { %>
+                    <a href="/home">User Page</a>
+                <% } %> 
                 <a href="/">Home</a>
                 <a href="/public_rbs">Reset Search</a>
                 <a href="/rb_about">About</a>

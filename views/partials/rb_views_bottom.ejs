@@ -1,5 +1,5 @@
 <p>Ratings</p>
-<table>
+<table class="display" id="sorted_table">
     <thead>
         <tr>
             <th>User</th>
@@ -13,6 +13,7 @@
             <th>Flavor</th>
             <th>Smooth</th>
             <th>Sweet</th>
+            <th>Comment</th>
         </tr>
     </thead>
     <tbody>
@@ -29,22 +30,8 @@
                 <td><%- rating.flavor %></td>
                 <td><%- rating.smoothness %></td>
                 <td><%- rating.sweetness %></td>
+                <td><%- rating.comment %></td>
             </tr>
         <% } %>
     </tbody>
-</table>
-<p>Write Ups</p>
-<table>
-    <tr>
-        <th>User</th>
-        <th>Date</th>
-        <th>Content</th>
-    </tr>
-    <% for (const writeUp of writeUps) {%>
-    <tr>
-        <td><%- writeUp.user %></td>
-        <td><%- writeUp.created %></td>
-        <td style="text-align: left;"><%- writeUp.write_up %></td>
-    </tr>
-    <% } %>
 </table>

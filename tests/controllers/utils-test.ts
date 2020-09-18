@@ -115,7 +115,8 @@ describe('controllers utils', () => {
                     flavor: rating + 10,
                     smoothness: rating + 12,
                     sweetness: rating + 14,
-                    total: rating + 16
+                    total: rating + 16,
+                    comment: 'hello there'
                  };
              });
 

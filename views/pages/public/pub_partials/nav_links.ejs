@@ -9,6 +9,14 @@
         <li>
             <a href="/rb_about">About</a>
         </li>
+        <% if (user && user.active) { %>
+            <li>
+                <a href="/home">User Page</a>
+            </li>
+            <li>
+                <a href="/logout">Log Out</a>
+            </li>
+        <% } %>
     </ul>
     <div class="userLogo">
         <a href='/'>

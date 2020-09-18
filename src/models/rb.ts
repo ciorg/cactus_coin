@@ -17,7 +17,8 @@ const RootBeerSchema =  new Schema({
         required: true,
         index: true
     },
-    image: String
+    image: String,
+    write_up: String
 });
 
 const RBModel = mongoose.model('rb', RootBeerSchema); 
