@@ -28,17 +28,7 @@ export interface RootBeer extends RBEntity {
     rank?: number;
     popular?: number;
     write_up?: string;
-}
-
-export interface RootBeerModel extends Document {
-    name: string;
-    created: string;
-    user: string;
-    write_up?: string;
-    image?: string;
-    rating?: number;
-    rank?: number;
-    popular?: number;
+    title?: string;
 }
 
 interface RBOwned extends RBEntity {

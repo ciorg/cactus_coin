@@ -54,7 +54,7 @@ class Utils {
         await this.addUserName(rbDocs);
         await this.getTotalAvg(rbDocs);
 
-        this.formatRBName(rbDocs);
+        this.addRBTitle(rbDocs);
         this.formatDate(rbDocs);
         this.rank(rbDocs);
 
@@ -72,9 +72,9 @@ class Utils {
         }
     }
 
-    formatRBName(rbDocs: I.RootBeer[]) {
+    addRBTitle(rbDocs: I.RootBeer[]) {
         for (const doc of rbDocs) {
-            doc.name = this.makeTitle(doc.name);
+            doc.title = this.makeTitle(doc.name);
         }
     }
 
