@@ -55,6 +55,7 @@ class Utils {
         await this.getTotalAvg(rbDocs);
 
         this.formatDate(rbDocs);
+        this.addRBTitle(rbDocs);
         this.rank(rbDocs);
 
         return rbDocs;
@@ -78,7 +79,7 @@ class Utils {
     }
 
     makeTitle(name: string): string {
-        return name.split(' ').map((word) => {
+        return name.trim().split(' ').map((word) => {
             return word[0].toUpperCase() + word.slice(1, word.length);
         }).join(' ');
     }
@@ -193,6 +194,10 @@ class Utils {
         }
 
         return null;
+    }
+
+    sanitizeStrings(input: string) {
+        return String(input).trim();
     }
 
 }
