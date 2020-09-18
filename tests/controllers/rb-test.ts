@@ -110,7 +110,7 @@ describe('ratings', () => {
             const result = await rb.webSearch(req, 'name');
 
             expect(result.res.length).toBe(1);
-            expect(result.res[0].name).toBe('Updated Rb');
+            expect(result.res[0].title).toBe('Updated Rb');
         });
     });
 
