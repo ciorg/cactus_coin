@@ -79,7 +79,7 @@ class Utils {
     }
 
     makeTitle(name: string): string {
-        return name.split(' ').map((word) => {
+        return name.trim().split(' ').map((word) => {
             return word[0].toUpperCase() + word.slice(1, word.length);
         }).join(' ');
     }
