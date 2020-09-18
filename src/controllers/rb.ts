@@ -26,13 +26,13 @@ class Rootbeer {
         const { user }: any = req;
 
         const rbInfo: Partial<I.RootBeer> = {
-            name: req.body.rb_brand_name,
+            name: this.utils.sanitizeStrings(req.body.rb_brand_name),
             created: new Date(),
             user: user._id
         };
 
         if (req.body.write_up) {
-            rbInfo.write_up = req.body.write_up;
+            rbInfo.write_up = this.utils.sanitizeStrings(req.body.write_up);
         }
 
         this._addImagePath(req, rbInfo);
@@ -46,8 +46,8 @@ class Rootbeer {
         this._addImagePath(req, updateFields);
 
         if(req.body) {
-            if (req.body.rb_brand_name) updateFields.name = req.body.rb_brand_name;
-            if (req.body.write_up) updateFields.write_up = req.body.write_up;
+            if (req.body.rb_brand_name) updateFields.name = this.utils.sanitizeStrings(req.body.rb_brand_name);
+            if (req.body.write_up) updateFields.write_up = this.utils.sanitizeStrings(req.body.write_up);
         }
 
         return this.rb_actions.update(req.params.id, updateFields);

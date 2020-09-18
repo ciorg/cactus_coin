@@ -54,6 +54,24 @@ describe('ratings', () => {
             expect(result.res.write_up).toBe('this is a write up');
             expect(result.res.user).toEqual(String(user._id));
         });
+
+        it('should remove trailing white spaces', async () => {
+
+            const req: any = {
+                user: { _id: user._id },
+                body: {
+                    rb_brand_name: 'remove spaces  ',
+                    write_up: 'this is a write up     '
+                }
+            };
+            
+            const result = await rb.create(req);
+
+            expect(result.res._id).toBeDefined();
+            expect(result.res.name).toBe('remove spaces');
+            expect(result.res.write_up).toBe('this is a write up');
+            expect(result.res.user).toEqual(String(user._id));
+        });
     });
 
     describe('update', () => {
@@ -96,7 +114,7 @@ describe('ratings', () => {
             };
             
             const result = await rb.getUsersRb(req);
-            expect(result.res.length).toBe(2);
+            expect(result.res.length).toBe(3);
         });
     });
 
