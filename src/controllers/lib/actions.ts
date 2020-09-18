@@ -1,6 +1,5 @@
 import * as I from '../../interface';
 import Logger from '../../utils/logger';
-import { Document } from 'mongoose';
 
 class Actions {
     log: Logger;

@@ -1,6 +1,6 @@
 <div class="rb_view_name">
     <div class="rb_title">
-        <span id="title"><%= rb.name %></span>
+        <span id="title"><%= rb.title_name %></span>
         <% if (user && user.active && (user.role === 'king' || user.role === 'rr')) { %>
             <div class="update_rb_links">
                 <a href="#" onclick="slide('edit_rb', 'height', 250)">Update Info</a>
@@ -55,7 +55,5 @@
     <% } %>
 </div>
 <div class="rb_write_up">
-  <p>
-    <%= rb.write_up %>
-  </p>
+  <p><%= rb.write_up %></p>
 </div>

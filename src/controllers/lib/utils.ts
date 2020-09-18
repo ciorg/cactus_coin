@@ -1,7 +1,6 @@
 import UserModel from '../../models/user';
 import RBModel from '../../models/rb';
 import RatingModel from '../../models/rating';
-import WriteUpModel from '../../models/write_up';
 import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
 import * as I from '../../interface';
@@ -11,15 +10,13 @@ import Actions from './actions';
 class Utils {
     rbActions: Actions;
     ratingActions: Actions;
-    writeUpActions: Actions;
 
     constructor() {
         this.rbActions = new Actions(RBModel);
         this.ratingActions = new Actions(RatingModel);
-        this.writeUpActions = new Actions(WriteUpModel);
     }
 
-    async addUserName(objArray: (I.RootBeer | I.Rating | I.WriteUp)[]) {
+    async addUserName(objArray: (I.RootBeer | I.Rating)[]) {
         for (const i of objArray) {
             const user = await UserModel.findById(i.user);
             i.user = user.username;
@@ -57,10 +54,34 @@ class Utils {
         await this.addUserName(rbDocs);
         await this.getTotalAvg(rbDocs);
 
+        this.formatRBName(rbDocs);
         this.formatDate(rbDocs);
         this.rank(rbDocs);
 
         return rbDocs;
+    }
+
+    async addRbName(docArray: I.Rating[]) {
+        for (const i of docArray) {
+            const result = await this.rbActions.search('_id', i.rb_id);
+
+            if (result.error) continue;
+            if (result.res.length === 0) continue;
+
+            i.rb_name = result.res[0].name;
+        }
+    }
+
+    formatRBName(rbDocs: I.RootBeer[]) {
+        for (const doc of rbDocs) {
+            doc.name = this.makeTitle(doc.name);
+        }
+    }
+
+    makeTitle(name: string): string {
+        return name.split(' ').map((word) => {
+            return word[0].toUpperCase() + word.slice(1, word.length);
+        }).join(' ');
     }
 
     getDocs(docArray: any[]) {
@@ -71,15 +92,13 @@ class Utils {
         const docs = this.getDocs(data);
 
         await this.addUserName(docs);
+
+
         this.formatDate(docs);
     }
 
     getRatingsByRbId(rbId: string) {
         return this.ratingActions.search('rb_id', rbId);
-    }
-
-    getWriteUpByRbId(rbId: string) {
-        return this.writeUpActions.search('rb_id', rbId);    
     }
 
     async getTotalAvg(rbDocs: I.RootBeer[]) {
@@ -175,28 +194,6 @@ class Utils {
         }
 
         return null;
-    }
-
-    async addRbName(docArray: (I.WriteUp | I.Rating)[]) {
-        for (const i of docArray) {
-            const result = await this.rbActions.search('_id', i.rb_id);
-
-            if (result.error) continue;
-            if (result.res.length === 0) continue;
-
-            i.rb_name = result.res[0].name;
-        }
-    }
-
-    formatRb(rb: any) {
-        const [doc] = this.getDocs([rb]);
-        doc.name = this.makeTitle(rb.get('name'));
-    }
-
-    makeTitle(name: string): string {
-        return name.split(' ').map((word) => {
-            return word[0].toUpperCase() + word.slice(1, word.length);
-        }).join(' ');
     }
 
 }

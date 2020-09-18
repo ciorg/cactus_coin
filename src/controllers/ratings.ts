@@ -114,10 +114,6 @@ class Ratings {
         return rating;
     }
 
-    private stringifyComment(comment: string[]): string {
-        return comment.filter((i: string) => i.length > 0).join('');
-    }
-
     private getTotal(rating: Partial<I.Rating>): number {
         let total = 0;
 
@@ -128,7 +124,7 @@ class Ratings {
             }
         }
     
-        return total;
+        return Math.round(total);
     }
 
     private points(field: string, value: number): number {

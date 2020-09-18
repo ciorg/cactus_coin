@@ -94,25 +94,25 @@ class Rootbeer {
     async viewRbInfo(req: Request) {
         const rbResult = await this.rb_actions.searchById(req.params.id);
 
+        const name = rbResult.res.name;
+
+        const titlized = this.utils.makeTitle(name);
+
+        rbResult.res.title_name = titlized;
+
         if (rbResult.error) return rbResult;
 
         const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
 
         if (ratingResult.error) return ratingResult;
 
-        const writeUpResult = await this.utils.getWriteUpByRbId(req.params.id);
-
-        if (writeUpResult.error) return writeUpResult;
-
         await this.utils.prepData(ratingResult.res);
-        await this.utils.prepData(writeUpResult.res);
 
         const avg = this.utils.avgRating(ratingResult.res);
 
         const res = {
             rb: rbResult.res,
             ratings: ratingResult.res,
-            writeUps: writeUpResult.res,
             avg
         }
 
