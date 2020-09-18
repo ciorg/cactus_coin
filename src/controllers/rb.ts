@@ -31,18 +31,23 @@ class Rootbeer {
             user: user._id
         };
 
+        if (req.body.write_up) {
+            rbInfo.write_up = req.body.write_up;
+        }
+
         this._addImagePath(req, rbInfo);
     
         return this.rb_actions.create(rbInfo);
     }
 
     async update(req: Request): Promise<I.Result> {
-        const updateFields: { name?: string, image?: string } = {};
+        const updateFields: { name?: string, image?: string, write_up?: string } = {};
 
         this._addImagePath(req, updateFields);
 
-        if(req.body && req.body.rb_brand_name) {
-            updateFields.name = req.body.rb_brand_name;
+        if(req.body) {
+            if (req.body.rb_brand_name) updateFields.name = req.body.rb_brand_name;
+            if (req.body.write_up) updateFields.write_up = req.body.write_up;
         }
 
         return this.rb_actions.update(req.params.id, updateFields);
@@ -89,25 +94,25 @@ class Rootbeer {
     async viewRbInfo(req: Request) {
         const rbResult = await this.rb_actions.searchById(req.params.id);
 
+        const name = rbResult.res.name;
+
+        const titlized = this.utils.makeTitle(name);
+
+        rbResult.res.title_name = titlized;
+
         if (rbResult.error) return rbResult;
 
         const ratingResult = await this.utils.getRatingsByRbId(req.params.id);
 
         if (ratingResult.error) return ratingResult;
 
-        const writeUpResult = await this.utils.getWriteUpByRbId(req.params.id);
-
-        if (writeUpResult.error) return writeUpResult;
-
         await this.utils.prepData(ratingResult.res);
-        await this.utils.prepData(writeUpResult.res);
 
         const avg = this.utils.avgRating(ratingResult.res);
 
         const res = {
             rb: rbResult.res,
             ratings: ratingResult.res,
-            writeUps: writeUpResult.res,
             avg
         }
 

@@ -86,7 +86,8 @@ class Ratings {
             carbonation: req.body.carb,
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
-            sweetness: req.body.sweet
+            sweetness: req.body.sweet,
+            comment: req.body.comment
         };
 
         return rating;
@@ -106,7 +107,8 @@ class Ratings {
             carbonation: req.body.carb,
             flavor: req.body.flavor,
             smoothness: req.body.smooth,
-            sweetness: req.body.sweet
+            sweetness: req.body.sweet,
+            comment: req.body.comment
         };
 
         return rating;
@@ -122,7 +124,7 @@ class Ratings {
             }
         }
     
-        return total;
+        return Math.round(total);
     }
 
     private points(field: string, value: number): number {

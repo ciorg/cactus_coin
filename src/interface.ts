@@ -27,12 +27,14 @@ export interface RootBeer extends RBEntity {
     rating?: number;
     rank?: number;
     popular?: number;
+    write_up?: string;
 }
 
 export interface RootBeerModel extends Document {
     name: string;
     created: string;
     user: string;
+    write_up?: string;
     image?: string;
     rating?: number;
     rank?: number;
@@ -54,6 +56,7 @@ export interface Rating extends RBOwned {
     smoothness: number;
     sweetness: number;
     total: number;
+    comment: string;
 }
 
 export interface WriteUp extends RBOwned {

@@ -73,7 +73,7 @@ describe('ratings', () => {
             expect(rating.res.flavor).toBe(9);
             expect(rating.res.smoothness).toBe(9);
             expect(rating.res.sweetness).toBe(5);
-            expect(rating.res.total).toBe(88.6);
+            expect(rating.res.total).toBe(89);
         });
     });
 

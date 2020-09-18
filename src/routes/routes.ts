@@ -5,7 +5,6 @@ import user from './user';
 import rb from './rb';
 import rate from './ratings';
 import pub from './public';
-import writeUp from './write_up';
 import Logger from '../utils/logger';
 
 const log = new Logger();
@@ -16,7 +15,6 @@ router.use(portal);
 router.use(user);
 router.use(rb);
 router.use(rate);
-router.use(writeUp);
 router.use(pub);
 
 router.get('/error', (req: Request, res: Response) => {

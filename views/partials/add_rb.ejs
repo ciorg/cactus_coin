@@ -1,5 +1,5 @@
 <div class="add_rb" id="add_rb">
-    <form action="/rb_create" method="post" enctype="multipart/form-data">
+    <form action="/rb_create" method="post" enctype="multipart/form-data" id="new_rb">
         <table>
             <tr>
                 <td class="rb_label">
@@ -18,6 +18,7 @@
                 </td>
             </tr>
         </table>
+        <textarea rows="7" cols="100" name="write_up", form="new_rb" placeholder="root beer write up"></textarea>
         <br />
         <button type="submit" value="rootbeer" class="add_rb_button" >
             Add New Rootbeer
