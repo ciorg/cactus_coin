@@ -64,7 +64,7 @@ router.get('/public_rb/:id',
 });
 
 router.get('/rb_about',(req: Request, res: Response) => {
-    res.render('pages/public/about');
+    res.render('pages/public/about', { user: req.user });
 });
 
 
