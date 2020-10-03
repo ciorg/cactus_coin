@@ -26,6 +26,7 @@ async function main() {
 
     const app = express();
     app.set('view engine', 'ejs');
+    app.set('trust proxy', true)
     
     app.use(compression());
     app.use(helmet({
