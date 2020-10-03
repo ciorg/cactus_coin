@@ -23,7 +23,7 @@ class VisitTracker {
     private _getReqData(req: Request) {
         const reqData: Partial<I.VisitDetails> = {
             timestamp: new Date(),
-            ip_address: req.ip,
+            ip_address: this._getIpAddress(req),
             hostname: req.hostname,
             path: req.path
         };
@@ -69,6 +69,22 @@ class VisitTracker {
 
             return details;
         }, []);
+    }
+
+    private _getIpAddress(req: Request) {
+        const ip = req.headers['x-forwarded-for'] || 
+            req.connection.remoteAddress || req.socket.remoteAddress;
+
+        if (Array.isArray(ip)) return ip[0].trim();
+
+        if (ip == null) return '127.0.0.1';
+
+        if (typeof ip === 'string' && ip.includes(':') && ip.includes('.')) {
+            const lastColon = ip.lastIndexOf(':');
+            return ip.slice(lastColon + 1,);
+        }
+
+        return ip.split(',')[0].trim();
     }
 }
 
