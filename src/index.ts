@@ -9,6 +9,7 @@ import Logger from './utils/logger';
 
 import authenticate from './utils/authenticate';
 import routes from './routes/routes';
+import trackVisit from './utils/record_visit';
 import DB from './utils/db';
 
 const db = new DB();
@@ -52,6 +53,7 @@ async function main() {
     app.use(favicon(path.join(__dirname, '..', 'static', 'imgs', 'cc_logo.ico')));
     
     app.use(authenticate);
+    app.use(trackVisit);
     app.use('/', routes);
     
     app.use(function(req: Request, res: Response) {

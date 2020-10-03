@@ -67,3 +67,18 @@ export interface LogObject {
     req?: Request;
     res?: Response;
 }
+
+export interface VisitDetails {
+    timestamp: Date | string;
+    ip_address?: String;
+    base_url?: String;
+    hostname?: String;
+    path?: String;
+    browser?: String;
+    version?: String;
+    os?: String;
+    platform?: String;
+    source?: String;
+    electron_version?: String;
+    details?: String[];
+}
