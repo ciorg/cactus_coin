@@ -1,5 +1,4 @@
 import { Request } from 'express';
-import crypto from 'crypto';
 import useragent from 'express-useragent';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
@@ -13,19 +12,34 @@ class VisitTracker {
     }
 
     recordVisit(req: Request): void {
-        const visitData: Partial<I.VisitDetails> = {
+        const visitData = Object.assign(
+            this._getReqData(req),
+            this._getUADetails(req)
+        );
+
+        this.visit_actions.create(visitData)
+    }
+
+    private _getReqData(req: Request) {
+        const reqData: Partial<I.VisitDetails> = {
             timestamp: new Date(),
             ip_address: req.ip,
-            base_url: req.baseUrl,
             hostname: req.hostname,
             path: req.path
         };
 
-        const uaSource = req.headers['user-agent'];
+        if (req.baseUrl) {
+            reqData.base_url = req.baseUrl;
+        }
 
-        if (uaSource) {
-            const ua = useragent.parse(uaSource);
-            const uaDetails = this._getOtherDetails(ua);
+        return reqData;
+    }
+
+    private _getUADetails(req: Request) {
+        const uaDetails: Partial<I.VisitDetails> = {};
+    
+        if (req.headers['user-agent']) {
+            const ua = useragent.parse(req.headers['user-agent']);
 
             [
                 'browser',
@@ -33,29 +47,22 @@ class VisitTracker {
                 'os',
                 'platform',
                 'source',
-                'electronVersion'
             ].forEach((field) => {
-                if (ua[field]) visitData[field] = ua[field];
+                if (ua[field]) uaDetails[field] = ua[field];
             });
 
-            if (uaDetails.length > 0) {
-                visitData.details = uaDetails;
+            const details = this._getOtherDetails(ua);
+    
+            if (details.length > 0) {
+                uaDetails.details = details;
             }
         }
 
-        const shasum = crypto.createHash('md5');
-
-        shasum.update(`${visitData.ip_address}, ${visitData.os}, ${visitData.platform}, ${visitData.browser}`, 'utf8');
-        visitData.visit_id = shasum.digest('base64');
-
-        console.log(visitData);
-        this.visit_actions.create(visitData)
+        return uaDetails;
     }
 
     private _getOtherDetails(uaDetails: useragent.Details): string[] {
-        return Object.entries(uaDetails).reduce((details: string[], entry) => {
-            const [name, value] = entry;
-
+        return Object.entries(uaDetails).reduce((details: string[], [name, value]) => {
             if (typeof value === 'boolean' && value === true) {
                 details.push(name.slice(2).toLowerCase());
             }

@@ -70,7 +70,6 @@ export interface LogObject {
 
 export interface VisitDetails {
     timestamp: Date | string;
-    visit_id: String;
     ip_address?: String;
     base_url?: String;
     hostname?: String;

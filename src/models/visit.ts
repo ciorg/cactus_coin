@@ -1,13 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 
 const VisitSchema = new Schema({
-    timestamp: Date,
+    timestamp: {
+        type: Date,
+        required: true
+    },
     browser: String,
     version: String,
     os: String,
     platform: String,
     source: String,
-    electron_version: String,
     details: [{ type: String }],
     hostname: {
         type: String,
