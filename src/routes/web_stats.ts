@@ -11,22 +11,35 @@ router.get('/web_stats',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king']),
     async (req: Request, res: Response) => {
-        const sampleData = await stats.getData(90, 'hour');
+        const [total, unique] = await stats.getData(90, 'hour');
 
-        const options = {
+        const totalOptions = {
             chart: {
               type: 'line'
             },
             series: [{
               name: 'visits',
-              data: Object.values(sampleData)
+              data: Object.values(total)
             }],
             xaxis: {
-              categories: Object.keys(sampleData)
+              categories: Object.keys(total)
             }
           }
 
-        res.render('pages/web_stats', { user: req.user, options });
+          const uniqueOptions = {
+            chart: {
+              type: 'line'
+            },
+            series: [{
+              name: 'visits',
+              data: Object.values(unique)
+            }],
+            xaxis: {
+              categories: Object.keys(unique)
+            }
+          }
+
+        res.render('pages/web_stats', { user: req.user, totalOptions, uniqueOptions });
     }
 );
 

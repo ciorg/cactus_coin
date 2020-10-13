@@ -20,11 +20,33 @@ class SiteStats {
     async getData(period: number, unit: string) {
         const startTime = this._startTime(period, unit);
         const visits = await this.totalVisits(startTime);
-        return this._countByTime(visits, unit);   
+
+        const uniqueVisits = this._uniqVisits(visits);
+
+        const uniqueVisitsByTime = this._countByTime(Object.values(uniqueVisits), unit);
+        const totalVisitsByTime = this._countByTime(visits, unit);
+
+        return [totalVisitsByTime, uniqueVisitsByTime];
     }
 
     async totalVisits(startDate: string) {
         return Visit.find( { timestamp: { $gte: startDate } });
+    }
+
+    private _uniqVisits(totalVisits: any[]) {
+        return totalVisits.reduce((deduped, visit) => {
+            const key = visit.get('ip') + visit.get('os') + visit.get('browser');
+            
+            if (deduped[key]) {
+                const mostRecent = visit.get('timestamp').getTime > deduped[key].get('timestamp').getTime ? visit : deduped[key];
+
+                deduped[key] = mostRecent;
+                return deduped;
+            }
+
+            deduped[key] = visit;
+            return deduped;
+        }, {})
     }
 
     private _startTime(period: number, unit: string) {
