@@ -2,31 +2,67 @@
 <html lang="en">
   <head>
     <%- include('../partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="css/stats.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
     <div class="pageBody">
         <%- include('../partials/nav_bar'); %>
-        <form action="/web_stats" method="post">
-            <label for="period">Time Period</label><br>
-            <input type="text" id="period" name="period" type="number" required><br>
-            <label for="time_unit">Time Unit:</label>
-            <select id="unit" name="unit">
-                <option value="month">Month</option>
-                <option value="day">Day</option>
-                <option value="hour">Hour</option>
-            </select>
-            <input type="submit" value="Submit">
-          </form>
-        <div id="chart" style="max-width:650px; margin:35px auto; background-color: white" >
+        <div class="stats_form">
+            <form action="/web_stats" method="post">
+                <label for="period">Length</label>
+                <input type="text" id="period" name="period" type="number" required>
+                <label for="time_unit">Time Unit:</label>
+                <select id="unit" name="unit">
+                    <option value="month">Month</option>
+                    <option value="day">Day</option>
+                    <option value="hour">Hour</option>
+                </select>
+                <br>
+            </form>
+            <button type="submit" value="web_stats">
+                Change Time Frame
+            </button>
         </div>
+        <div id="chart" class="stats_chart">
+        </div>
+        <div class="stats_tables">
+            <div class="by_page">
+                <table>
+                    <tr>
+                        <th>Page</th>
+                        <th>Count</th>
+                    </tr>
+                    <% for (const [page, count] of Object.entries(countByPage)) { %>
+                        <tr>
+                            <td><%- page %></td>
+                            <td><%- count %></td>
+                        </tr>
+                    <% } %> 
+                </table>
+            </div>
+            <div class="by_visitor">
+                <table>
+                    <tr>
+                        <th>Visitor</th>
+                        <th>Count</th>
+                    </tr>
+                    <% for (const [visitor, count] of Object.entries(countByVisitor)) { %>
+                        <tr>
+                            <td><%- visitor %></td>
+                            <td><%- count %></td>
+                        </tr>
+                    <% } %> 
+                </table>
+            </div>
+        </div>       
         <footer>
             <%- include('../partials/footer'); %>
         </footer>
+           
     </div>
 <script>
-
 const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(options) %>);
 chart.render();
 </script>

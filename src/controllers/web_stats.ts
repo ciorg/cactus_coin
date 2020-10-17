@@ -1,14 +1,8 @@
 import { Request } from 'express';
+import { Document } from 'mongoose';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
 import * as I from '../interface';
-
-// adustable time fram
-// total visits
-// graphed over time - every hour, day, month
-// estimated unique visits
-// by page
-// by country?
 
 class SiteStats {
     visit_actions: Actions;
@@ -21,32 +15,46 @@ class SiteStats {
         const startTime = this._startTime(period, unit);
         const visits = await this.totalVisits(startTime);
 
-        const uniqueVisits = this._uniqVisits(visits);
+        const uniqueVisits = this._uniqVisits(visits, unit);
+        const totalVisits = this._countByTime(visits, unit);
+        const tallyByPage = this._countByPage(visits);
+        const visitsByVisitor = this._countByVisitor(visits);
 
-        const uniqueVisitsByTime = this._countByTime(Object.values(uniqueVisits), unit);
-        const totalVisitsByTime = this._countByTime(visits, unit);
-
-        return [totalVisitsByTime, uniqueVisitsByTime];
+        return {
+            uniqueVisits,
+            totalVisits,
+            tallyByPage,
+            visitsByVisitor
+        }
     }
 
     async totalVisits(startDate: string) {
         return Visit.find( { timestamp: { $gte: startDate } });
     }
 
-    private _uniqVisits(totalVisits: any[]) {
-        return totalVisits.reduce((deduped, visit) => {
-            const key = visit.get('ip') + visit.get('os') + visit.get('browser');
+    private _uniqVisits(totalVisits: any[], unit: string) {
+        const uniqVisitsByDate: { [prop: string]: string[] } =  totalVisits.reduce((tally, visit) => {
+            const date = this._roundTime(visit.get('timestamp').toISOString(), unit);
+            const key = this._getVisitorKey(visit);
             
-            if (deduped[key]) {
-                const mostRecent = visit.get('timestamp').getTime > deduped[key].get('timestamp').getTime ? visit : deduped[key];
+            if (tally[date]) {
+                if (tally[date].includes(key)) return tally;
 
-                deduped[key] = mostRecent;
-                return deduped;
+                tally[date].push(key);
+                return tally;
             }
 
-            deduped[key] = visit;
-            return deduped;
-        }, {})
+            tally[date] = [key];
+            return tally;
+        }, {});
+
+        const uniqVisitsTally: { [prop: string]: number } = {};
+
+        for (const [key, value] of Object.entries(uniqVisitsByDate)) {
+            uniqVisitsTally[key] = value.length;
+        }
+
+        return uniqVisitsTally;
     }
 
     private _startTime(period: number, unit: string) {
@@ -78,7 +86,7 @@ class SiteStats {
         return `${start.split(':')[0]}:00:00`;
     }
 
-    private _countByTime(data: any[], unit: string) {
+    private _countByTime(data: any[], unit: string): { [prop: string]: number } {
         return data.reduce((tally, doc) => {
             const date = this._roundTime(doc.get('timestamp').toISOString(), unit);
             
@@ -90,6 +98,40 @@ class SiteStats {
             tally[date] = 1;
             return tally;
         }, {});
+    }
+
+    private _countByPage(data: Document[]): { [prop: string]: number} {
+        return data.reduce((tally, doc) => {
+            const page = doc.get('path');
+
+            if (tally[page]) {
+                tally[page]++;
+                return tally;
+            }
+
+            tally[page] = 1;
+
+            return tally;
+        }, {})
+    }
+
+    private _countByVisitor(data: Document[]): { [prop: string]: number } {
+        return data.reduce((tally, doc) => {
+            const key = this._getVisitorKey(doc);
+
+            if (tally[key]) {
+                tally[key]++;
+                return tally;
+            }
+
+            tally[key] = 1;
+
+            return tally;
+        }, {})
+    }
+
+    private _getVisitorKey(doc: Document) {
+        return doc.get('ip_address') + doc.get('os') + doc.get('browser');
     }
 }
 

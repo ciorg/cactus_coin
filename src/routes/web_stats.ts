@@ -11,35 +11,38 @@ router.get('/web_stats',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king']),
     async (req: Request, res: Response) => {
-        const [total, unique] = await stats.getData(90, 'hour');
+        const data = await stats.getData(30, 'days');
 
-        const totalOptions = {
+        const options = {
             chart: {
-              type: 'line'
+              type: 'line',
+              height: '400px'
             },
-            series: [{
-              name: 'visits',
-              data: Object.values(total)
-            }],
+            series: [
+                {
+                    name: 'total-visits',
+                    data: Object.values(data.totalVisits)
+                },
+                {
+                    name: 'unique-visits',
+                    data: Object.values(data.uniqueVisits)
+                }
+            ],
             xaxis: {
-              categories: Object.keys(total)
+              categories: Object.keys(data.totalVisits),
+              labels: {
+                rotate: -45
+              }
             }
           }
 
-          const uniqueOptions = {
-            chart: {
-              type: 'line'
-            },
-            series: [{
-              name: 'visits',
-              data: Object.values(unique)
-            }],
-            xaxis: {
-              categories: Object.keys(unique)
-            }
-          }
-
-        res.render('pages/web_stats', { user: req.user, totalOptions, uniqueOptions });
+          
+        res.render('pages/web_stats', {
+            user: req.user,
+            options,
+            countByPage: data.tallyByPage,
+            countByVisitor: data.visitsByVisitor
+        });
     }
 );
 
