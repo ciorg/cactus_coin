@@ -41,7 +41,7 @@ router.get('/web_stats',
             user: req.user,
             options,
             countByPage: data.tallyByPage,
-            countByVisitor: data.visitsByVisitor
+            countByVisitor: data.tallyByVisitor
         });
     }
 );

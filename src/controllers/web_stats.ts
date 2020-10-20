@@ -18,13 +18,13 @@ class SiteStats {
         const uniqueVisits = this._uniqVisits(visits, unit);
         const totalVisits = this._countByTime(visits, unit);
         const tallyByPage = this._countByPage(visits);
-        const visitsByVisitor = this._countByVisitor(visits);
+        const tallyByVisitor = this._countByVisitor(visits);
 
         return {
             uniqueVisits,
             totalVisits,
-            tallyByPage,
-            visitsByVisitor
+            tallyByPage: this._sortTallies(tallyByPage),
+            tallyByVisitor: this._sortTallies(tallyByVisitor)
         }
     }
 
@@ -132,6 +132,10 @@ class SiteStats {
 
     private _getVisitorKey(doc: Document) {
         return doc.get('ip_address') + doc.get('os') + doc.get('browser');
+    }
+
+    private _sortTallies(data: { [prop: string]: number }): [string, number][] {
+        return Object.entries(data).sort((a, b) => b[1] - a[1]);
     }
 }
 

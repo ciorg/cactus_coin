@@ -31,36 +31,49 @@
             <div class="by_page">
                 <table>
                     <tr>
+                        <th colspan="3">
+                            Counts by Page
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Rank</th>
                         <th>Page</th>
                         <th>Count</th>
                     </tr>
-                    <% for (const [page, count] of Object.entries(countByPage)) { %>
+                    <% countByPage.forEach(([page, count], i) => { %>
                         <tr>
+                            <td><%- i + 1 %></td>
                             <td><%- page %></td>
                             <td><%- count %></td>
                         </tr>
-                    <% } %> 
+                    <% }); %> 
                 </table>
             </div>
             <div class="by_visitor">
                 <table>
                     <tr>
+                        <th colspan="3">
+                            Counts by Visitor
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Rank</th>
                         <th>Visitor</th>
                         <th>Count</th>
                     </tr>
-                    <% for (const [visitor, count] of Object.entries(countByVisitor)) { %>
+                    <% countByVisitor.forEach(([visitor, count], i) => { %>
                         <tr>
+                            <td><%- i + 1 %></td>
                             <td><%- visitor %></td>
                             <td><%- count %></td>
                         </tr>
-                    <% } %> 
+                    <% }); %> 
                 </table>
             </div>
-        </div>       
+        </div>
         <footer>
             <%- include('../partials/footer'); %>
         </footer>
-           
     </div>
 <script>
 const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(options) %>);
