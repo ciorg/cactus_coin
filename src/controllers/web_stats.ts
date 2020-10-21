@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { Document } from 'mongoose';
 import Actions from './lib/actions';
 import Visit from '../models/visit';

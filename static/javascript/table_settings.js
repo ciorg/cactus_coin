@@ -5,3 +5,19 @@ $(document).ready( function () {
         lengthChange: false
     });
 });
+
+$(document).ready( function () {
+    $('#page_table').DataTable({
+        searching: false,
+        pageLength: 10,
+        lengthChange: false
+    });
+});
+
+$(document).ready( function () {
+    $('#visit_table').DataTable({
+        searching: false,
+        pageLength: 10,
+        lengthChange: false
+    });
+});

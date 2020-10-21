@@ -81,3 +81,10 @@ export interface VisitDetails {
     electron_version?: String;
     details?: String[];
 }
+
+export interface StatsData {
+    uniqueVisits: { [prop: string]: number; };
+    totalVisits: { [prop: string]: number; };
+    tallyByPage: [string, number][];
+    tallyByVisitor: [string, number][];
+}

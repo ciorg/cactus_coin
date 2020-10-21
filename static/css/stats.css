@@ -36,6 +36,13 @@
     color: #d44c04
 }
 
+.stats_chart_title {
+    width: 100%;
+    text-align: center;
+    font-size: 1.3em;
+    color: white;
+}
+
 .stats_chart {
     width: 100%;
     height: 400px;
@@ -52,7 +59,14 @@
     width: 90%;
     height: 200px;
     margin: auto;
-    margin-bottom: 100px;
+    margin-bottom: 340px;
+    text-align: center;
+}
+
+.stats_tables p {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
 }
 
 .stats_tables table {
@@ -64,13 +78,10 @@
     text-align: center;
 }
 
-.stats_table table th {
-    font-weight: bold;
-}
-
 .by_page {
     width: 50%;
     float: left;
+    height: 175px;
 }
 
 .by_page table {
@@ -79,9 +90,19 @@
     text-align: center;
 }
 
+.by_page th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.by_page th:hover {
+    background-color: #ef2556;
+}
+
 .by_visitor {
     width: 50%;
     float: right;
+    height: 175px;
 }
 
 .by_visitor table {
@@ -89,6 +110,16 @@
     border-collapse: collapse;
     text-align: center;
 }
+
+.by_visitor th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.by_visitor th:hover {
+    background-color: #ef2556;
+}
+
 
 .portalBottom {
     position: relative;
