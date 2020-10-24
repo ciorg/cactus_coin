@@ -77,7 +77,6 @@ class SiteStats {
     }
 
     private _roundTime(start: string, unit: string): string {
-        // '2020-10-09T18:01:36.274Z'
         if (unit === 'month' || unit === 'months') return start.split('-').slice(0, 2).join('-');
         
         if (unit === 'day' || unit === 'days') return start.split('T')[0];
@@ -85,7 +84,7 @@ class SiteStats {
         return `${start.split(':')[0]}:00:00`;
     }
 
-    private _countByTime(data: any[], unit: string): { [prop: string]: number } {
+    private _countByTime(data: Document[], unit: string): { [prop: string]: number } {
         return data.reduce((tally, doc) => {
             const date = this._roundTime(doc.get('timestamp').toISOString(), unit);
             
