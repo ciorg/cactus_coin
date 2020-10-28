@@ -86,5 +86,7 @@ export interface StatsData {
     uniqueVisits: { [prop: string]: number; };
     totalVisits: { [prop: string]: number; };
     tallyByPage: [string, number][];
-    tallyByVisitor: [string, number][];
+    tallyByOs: [string, number][];
+    tallyByBrowser: [string, number][];
+    tallyByIp: [string, number][];
 }
