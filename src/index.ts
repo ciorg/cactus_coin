@@ -36,6 +36,7 @@ async function main() {
                 'script-src': [
                     'ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
                     'cdn.datatables.net/1.10.21/js/jquery.dataTables.js',
+                    'cdn.jsdelivr.net/npm/apexcharts',
                     "'unsafe-inline'",
                     "'self'"
                 ],
