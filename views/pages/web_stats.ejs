@@ -30,47 +30,93 @@
         </div>
         <div id="chart" class="stats_chart"></div>
         <div class="stats_tables">
-            <div class="by_page">
-                <p>Page Visits</p>
-                <table id="page_table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Page</th>
-                            <th>Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% countByPage.forEach(([page, count], i) => { %>
+            <div class="top_tables">
+                <div class="left_table">
+                    <p>Page Visits</p>
+                    <table id="page_table">
+                        <thead>
                             <tr>
-                                <td><%- i + 1 %></td>
-                                <td><%- page %></td>
-                                <td><%- count %></td>
+                                <th>Rank</th>
+                                <th>Page</th>
+                                <th>Count</th>
                             </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <% countByPage.forEach(([page, count], i) => { %>
+                                <tr>
+                                    <td><%- i + 1 %></td>
+                                    <td><%- page %></td>
+                                    <td><%- count %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="right_table">
+                    <p>Count by IP Address</p>
+                    <table id="visit_table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Ip Address</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% countByIp.forEach(([ip, count], i) => { %>
+                                <tr>
+                                    <td><%- i + 1 %></td>
+                                    <td><%- ip %></td>
+                                    <td><%- count %></td>
+                                </tr>
+                            <% }); %> 
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="by_visitor">
-                <p>Count by Visitor</p>
-                <table id="visit_table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Visitor</th>
-                            <th>Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% countByVisitor.forEach(([visitor, count], i) => { %>
+            <div class="bottom_tables">
+                <div class="left_table">
+                    <p>Count by OS</p>
+                    <table id="os_table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>OS</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% countByOs.forEach(([os, count], i) => { %>
                             <tr>
                                 <td><%- i + 1 %></td>
-                                <td><%- visitor %></td>
+                                <td><%- os %></td>
                                 <td><%- count %></td>
                             </tr>
-                        <% }); %> 
-                    </tbody>
-                </table>
+                            <% }); %> 
+                        </tbody>
+                    </table>
+                </div>
+                <div class="right_table">
+                    <p>Count by Browser</p>
+                    <table id="browser_table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Browser</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% countByBrowser.forEach(([br, count], i) => { %>
+                                <tr>
+                                    <td><%- i + 1 %></td>
+                                    <td><%- br %></td>
+                                    <td><%- count %></td>
+                                </tr>
+                            <% }); %> 
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <footer>
@@ -79,8 +125,8 @@
     </div>
 <script src="javascript/table_settings.js"></script>
 <script>
-const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(options) %>);
-chart.render();
+    const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(options) %>);
+    chart.render();
 </script>
 </body>
 </html>

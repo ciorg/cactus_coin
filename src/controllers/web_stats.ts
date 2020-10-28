@@ -16,14 +16,18 @@ class SiteStats {
 
         const uniqueVisits = this._uniqVisits(visits, unit);
         const totalVisits = this._countByTime(visits, unit);
-        const tallyByPage = this._countByPage(visits);
-        const tallyByVisitor = this._countByVisitor(visits);
+        const tallyByPage = this._countByField(visits, 'path');
+        const tallyByOs = this._countByField(visits, 'os');
+        const tallyByBrowser = this._countByField(visits, 'browser');
+        const tallyByIp = this._countByField(visits, 'ip_address');
 
         return {
             uniqueVisits,
             totalVisits,
             tallyByPage: this._sortTallies(tallyByPage),
-            tallyByVisitor: this._sortTallies(tallyByVisitor)
+            tallyByOs: this._sortTallies(tallyByOs),
+            tallyByBrowser: this._sortTallies(tallyByBrowser),
+            tallyByIp: this._sortTallies(tallyByIp)
         }
     }
 
@@ -98,31 +102,16 @@ class SiteStats {
         }, {});
     }
 
-    private _countByPage(data: Document[]): { [prop: string]: number} {
+    private _countByField(data: Document[], countField: string): { [prop: string]: number} {
         return data.reduce((tally, doc) => {
-            const page = doc.get('path');
+            const field = doc.get(countField);
 
-            if (tally[page]) {
-                tally[page]++;
+            if (tally[field]) {
+                tally[field]++;
                 return tally;
             }
 
-            tally[page] = 1;
-
-            return tally;
-        }, {})
-    }
-
-    private _countByVisitor(data: Document[]): { [prop: string]: number } {
-        return data.reduce((tally, doc) => {
-            const key = this._getVisitorKey(doc);
-
-            if (tally[key]) {
-                tally[key]++;
-                return tally;
-            }
-
-            tally[key] = 1;
+            tally[field] = 1;
 
             return tally;
         }, {})
