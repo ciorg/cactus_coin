@@ -57,9 +57,8 @@
 
 .stats_tables {
     width: 90%;
-    height: 200px;
     margin: auto;
-    margin-bottom: 340px;
+    margin-bottom: 200px;
     text-align: center;
 }
 
@@ -78,45 +77,53 @@
     text-align: center;
 }
 
-.by_page {
-    width: 50%;
-    float: left;
-    height: 175px;
+.top_tables {
+    width: 100%;
+    clear: both
 }
 
-.by_page table {
+.bottom_tables {
+    width: 100%;
+    clear: both;
+}
+
+.left_table {
+    width: 50%;
+    float: left;
+}
+
+.left_table table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
 }
 
-.by_page th {
+.left_table th {
     background-color: #d44c04;
     color: white;
 }
 
-.by_page th:hover {
+.left_table th:hover {
     background-color: #ef2556;
 }
 
-.by_visitor {
+.right_table {
     width: 50%;
     float: right;
-    height: 175px;
 }
 
-.by_visitor table {
+.right_table table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
 }
 
-.by_visitor th {
+.right_table th {
     background-color: #d44c04;
     color: white;
 }
 
-.by_visitor th:hover {
+.right_table th:hover {
     background-color: #ef2556;
 }
 

@@ -17,7 +17,9 @@ router.get('/web_stats',
             user: req.user,
             options: makeOptions(data),
             countByPage: data.tallyByPage,
-            countByVisitor: data.tallyByVisitor
+            countByIp: data.tallyByIp,
+            countByOs: data.tallyByOs,
+            countByBrowser: data.tallyByBrowser
         });
     }
 );
@@ -36,7 +38,9 @@ router.post('/web_stats',
             user: req.user,
             options: makeOptions(data),
             countByPage: data.tallyByPage,
-            countByVisitor: data.tallyByVisitor
+            countByOs: data.tallyByOs,
+            countByBrowser: data.tallyByBrowser,
+            countByIp: data.tallyByIp
         });
     }
 )
