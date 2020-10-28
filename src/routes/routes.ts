@@ -5,6 +5,7 @@ import user from './user';
 import rb from './rb';
 import rate from './ratings';
 import pub from './public';
+import webStats from './web_stats';
 import Logger from '../utils/logger';
 
 const log = new Logger();
@@ -16,6 +17,7 @@ router.use(user);
 router.use(rb);
 router.use(rate);
 router.use(pub);
+router.use(webStats);
 
 router.get('/error', (req: Request, res: Response) => {
     log.error('bad request', { err: new Error('bad request'), req })

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Document } from 'mongoose';
 
 export interface User {
     username: string;
@@ -81,4 +80,11 @@ export interface VisitDetails {
     source?: String;
     electron_version?: String;
     details?: String[];
+}
+
+export interface StatsData {
+    uniqueVisits: { [prop: string]: number; };
+    totalVisits: { [prop: string]: number; };
+    tallyByPage: [string, number][];
+    tallyByVisitor: [string, number][];
 }

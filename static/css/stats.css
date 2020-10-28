@@ -1,0 +1,128 @@
+.pageBody {
+    overflow-y:auto;
+}
+
+.stats_form {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 75px;
+}
+
+.stats_form label {
+    color: white;
+    font-size: 1.4em;
+}
+
+.stats_form input[type=text] {
+    width: 40px;
+    height: 1.8em;
+    font-size: 1em;
+    color: #d44c04;
+}
+
+.stats_form button {
+    width: 15%;
+    font-size: 1.1em;
+    color: #facc04;
+    border-radius: 5px;
+    background-color: #d44c04;
+    margin-top: 15px;
+}
+
+.stats_form button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
+
+.stats_chart_title {
+    width: 100%;
+    text-align: center;
+    font-size: 1.3em;
+    color: white;
+}
+
+.stats_chart {
+    width: 100%;
+    height: 400px;
+}
+
+#chart {
+    max-width: 90%;
+    height: 400px;
+    background-color: white;
+    margin: 35px auto;
+}
+
+.stats_tables {
+    width: 90%;
+    height: 200px;
+    margin: auto;
+    margin-bottom: 340px;
+    text-align: center;
+}
+
+.stats_tables p {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+}
+
+.stats_tables table {
+    background-color: white;
+}
+
+.stats_table table, tr, th, td {
+    border: 2px solid black;
+    text-align: center;
+}
+
+.by_page {
+    width: 50%;
+    float: left;
+    height: 175px;
+}
+
+.by_page table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.by_page th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.by_page th:hover {
+    background-color: #ef2556;
+}
+
+.by_visitor {
+    width: 50%;
+    float: right;
+    height: 175px;
+}
+
+.by_visitor table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.by_visitor th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.by_visitor th:hover {
+    background-color: #ef2556;
+}
+
+
+.portalBottom {
+    position: relative;
+    bottom: 0;
+
+}
