@@ -1,14 +1,21 @@
 import { Request } from 'express';
 import useragent from 'express-useragent';
+import axios from 'axios';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
+import IPAddressModel from '../models/ip_address';
+import Logger from '../utils/logger';
 import * as I from '../interface';
 
 class VisitTracker {
     visit_actions: Actions;
+    ip_actions: Actions;
+    logger: Logger;
 
     constructor() {
+        this.logger = new Logger();
         this.visit_actions = new Actions(Visit);
+        this.ip_actions = new Actions(IPAddressModel);
     }
 
     recordVisit(req: Request): void {
@@ -21,9 +28,13 @@ class VisitTracker {
     }
 
     private _getReqData(req: Request) {
+        const ipAddress = this._getIpAddress(req);
+
+        this._logIpAddress(ipAddress);
+    
         const reqData: Partial<I.VisitDetails> = {
             timestamp: new Date(),
-            ip_address: this._getIpAddress(req),
+            ip_address: ipAddress,
             hostname: req.hostname,
             path: req.path
         };
@@ -85,6 +96,45 @@ class VisitTracker {
         }
 
         return ip.split(',')[0].trim();
+    }
+
+    private async _logIpAddress(ipAddress: string): Promise<void> {
+        const ipData: I.IPData | undefined = await this._getIpData(ipAddress);
+
+        if (ipData) {
+            this.ip_actions.upsert({ ip_address: ipAddress }, ipData);
+        }
+    }
+
+    private async _getIpData(ipAddress: string): Promise<I.IPData | undefined> {
+        const url = `https://ipapi.co/${ipAddress}/json`;
+    
+        try {
+            const result = await axios.get(url);
+
+            return {
+                updated: new Date(),
+                ip_address: ipAddress,
+                version: result.data.version,
+                country: result.data.country,
+                region: result.data.region,
+                region_code: result.data.region_code,
+                city: result.data.city,
+                country_name: result.data.country_name,
+                country_code: result.data.country_code,
+                country_code_iso3: result.data.country_code_iso3,
+                continent_code: result.data.continent_code,
+                latitude: result.data.latitude,
+                longitude: result.data.longitude,
+                asn: result.data.asn,
+                org: result.data.org    
+            };
+             
+        } catch(e) {
+            this.logger.error('could not collect data from ip', { err: e });
+        }
+
+        return;
     }
 }
 

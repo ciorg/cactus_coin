@@ -23,6 +23,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.14",
     "compression": "^1.7.4",

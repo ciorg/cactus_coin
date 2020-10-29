@@ -90,3 +90,21 @@ export interface StatsData {
     tallyByBrowser: [string, number][];
     tallyByIp: [string, number][];
 }
+
+export interface IPData {
+    updated: Date;
+    ip_address: String;
+    version: String;
+    region: String;
+    region_code: String;
+    city: String;
+    country: String;
+    country_name: String;
+    country_code: String;
+    country_code_iso3: String;
+    continent_code: String;
+    latitude: Number;
+    longitude: Number;
+    asn: String;
+    org: String;
+}

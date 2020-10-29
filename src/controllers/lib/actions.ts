@@ -47,6 +47,18 @@ class Actions {
         return result;
     }
 
+    async upsert(query: { [params: string]: any }, record: { [params: string]: any }) {
+        return this.model.findOneAndUpdate(
+            query,
+            record,
+            { 
+                upsert: true,
+                overwrite: true,
+                new: true
+            }
+        );
+    }
+
     delete(id: string) {
         return this._modelAction('deleteOne', { _id: id });
     }
