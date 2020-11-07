@@ -83,12 +83,16 @@ export interface VisitDetails {
 }
 
 export interface StatsData {
-    uniqueVisits: { [prop: string]: number; };
-    totalVisits: { [prop: string]: number; };
+    error: boolean;
+    uniqueVisits: number;
+    totalVisits: number;
+    uniqueVisitsOverTime: { [prop: string]: number; };
+    totalVisitsOverTime: { [prop: string]: number; };
     tallyByPage: [string, number][];
     tallyByOs: [string, number][];
     tallyByBrowser: [string, number][];
-    tallyByIp: [string, number][];
+    tallyByIp: [string, [string, number]][];
+    tallyByCountry: [string, number][];
 }
 
 export interface IPData {
@@ -98,10 +102,8 @@ export interface IPData {
     region: String;
     region_code: String;
     city: String;
-    country: String;
     country_name: String;
     country_code: String;
-    country_code_iso3: String;
     continent_code: String;
     latitude: Number;
     longitude: Number;

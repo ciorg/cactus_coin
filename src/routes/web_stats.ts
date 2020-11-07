@@ -12,6 +12,10 @@ router.get('/web_stats',
     permissions(['king']),
     async (req: Request, res: Response) => {
         const data: I.StatsData = await stats.getData(30, 'days');
+
+        if (data.error) {
+            return res.redirect('/error');
+        }
           
         res.render('pages/web_stats', {
             user: req.user,
@@ -56,16 +60,16 @@ function makeOptions(data: I.StatsData) {
         series: [
             {
                 name: 'total-visits',
-                data: Object.values(data.totalVisits)
+                data: Object.values(data.totalVisitsOverTime)
             },
             {
                 name: 'unique-visits',
-                data: Object.values(data.uniqueVisits)
+                data: Object.values(data.uniqueVisitsOverTime)
             }
         ],
         xaxis: {
             type: 'category',
-            categories: Object.keys(data.totalVisits),
+            categories: Object.keys(data.totalVisitsOverTime),
             labels: {
                 show: true,
                 rotateAlways: true,

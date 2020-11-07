@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 import * as I from '../../interface';
 import Logger from '../../utils/logger';
 
@@ -14,7 +15,7 @@ class Actions {
         const result: I.Result = { res: null };
         
         try {
-            const res = await this.model[action](params);
+            const res: Document[] = await this.model[action](params);
             
             this.log.debug(`successfully completed ${action} for ${JSON.stringify(params)}`);
             

@@ -1,38 +1,51 @@
 import { Document } from 'mongoose';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
+import Ip from '../models/ip_address';
 import * as I from '../interface';
 
 class SiteStats {
     visit_actions: Actions;
+    ip_actions: Actions;
 
     constructor() {
         this.visit_actions = new Actions(Visit);
+        this.ip_actions = new Actions(Ip);
     }
 
     async getData(period: number, unit: string) {
         const startTime = this._startTime(period, unit);
-        const visits = await this.totalVisits(startTime);
+        const results: I.Result = await this._mongoQuery(startTime);
 
-        const uniqueVisits = this._uniqVisits(visits, unit);
-        const totalVisits = this._countByTime(visits, unit);
+        const visits = results.res;
+
+        const uniqueVisitsOverTime = this._uniqVisits(visits, unit);
+        const totalVisitsOverTime = this._countByTime(visits, unit);
+    
         const tallyByPage = this._countByField(visits, 'path');
         const tallyByOs = this._countByField(visits, 'os');
         const tallyByBrowser = this._countByField(visits, 'browser');
         const tallyByIp = this._countByField(visits, 'ip_address');
+        const enhancedIp = await this._addIpCountry(tallyByIp);
+        const countByCountry = this._countByCountry(enhancedIp);
 
         return {
-            uniqueVisits,
-            totalVisits,
+            error: results.error || false,
+            uniqueVisits: this._getTotal(uniqueVisitsOverTime),
+            totalVisits: this._getTotal(totalVisitsOverTime),
+            uniqueVisitsOverTime,
+            totalVisitsOverTime,
             tallyByPage: this._sortTallies(tallyByPage),
             tallyByOs: this._sortTallies(tallyByOs),
             tallyByBrowser: this._sortTallies(tallyByBrowser),
-            tallyByIp: this._sortTallies(tallyByIp)
-        }
+            tallyByIp: enhancedIp,
+            tallyByCountry: this._sortTallies(countByCountry)        
+        };
     }
 
-    async totalVisits(startDate: string) {
-        return Visit.find( { timestamp: { $gte: startDate } });
+    private async _mongoQuery(startDate: string) {
+        return this.visit_actions.search('timestamp', { $gte: startDate })
+        // return Visit.find( { timestamp: { $gte: startDate } });
     }
 
     private _uniqVisits(totalVisits: any[], unit: string) {
@@ -114,7 +127,14 @@ class SiteStats {
             tally[field] = 1;
 
             return tally;
-        }, {})
+        }, {});
+    }
+
+    private _getTotal(tally: {[prop: string]: number}): number {
+        return Object.values(tally).reduce((total: number, value: number) => {
+            total += value;
+            return total;
+        }, 0);
     }
 
     private _getVisitorKey(doc: Document) {
@@ -123,6 +143,39 @@ class SiteStats {
 
     private _sortTallies(data: { [prop: string]: number }): [string, number][] {
         return Object.entries(data).sort((a, b) => b[1] - a[1]);
+    }
+
+    private async _addIpCountry(data: { [prop: string]: number }) {
+        const enhancedIp:{ [prop: string]: [string, number] } = {};
+    
+        for (const ip of Object.keys(data)) {
+            const result = await this.ip_actions.search('ip_address', ip);
+
+            if (result.error) continue;
+
+            const country: string = await result.res.get('country');
+
+            enhancedIp[ip] = [country, result.res.get('number')];
+        }
+
+        return Object.entries(enhancedIp).sort((a, b) => b[1][1] - a[1][1])
+    }
+
+    private _countByCountry(data: [string, [string, number]][]) {
+        const countByCountry: { [prop: string]: number} = {};
+        
+        for (const ip of Object.keys(data)) {
+            const [country, count] = data[ip];
+
+            if (countByCountry[country]) {
+                countByCountry[country] += count;
+                continue;
+            }
+
+            countByCountry[country] = count;
+        }
+
+        return countByCountry;
     }
 }
 

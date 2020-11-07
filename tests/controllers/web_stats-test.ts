@@ -1,4 +1,8 @@
+import mongoose from 'mongoose';
 import SiteStats from '../../src/controllers/web_stats';
+import IpModel from '../../src/models/ip_address';
+import Actions from '../../src/controllers/lib/actions';
+
 
 const siteStats = new SiteStats();
 
@@ -35,11 +39,11 @@ const docs = [
 ].map((d) => new Doc(d));
 
 describe('site stats', () => {
+    const siteStatProto = Object.getPrototypeOf(siteStats);
+
     describe('_uniqVisits', () => {
-        it('should return only uniq visiter for the day', () => {    
-            const exampleProto = Object.getPrototypeOf(siteStats);
-            
-            const result = exampleProto._uniqVisits(docs, 'day');
+        it('should return only uniq visiter for the day', () => {                
+            const result = siteStatProto._uniqVisits(docs, 'day');
             
             expect(result).toEqual({
                 '2020-10-21': 3,
@@ -49,10 +53,8 @@ describe('site stats', () => {
             });
         });
 
-        it('should return only uniq visiter for the hour', () => {    
-            const exampleProto = Object.getPrototypeOf(siteStats);
-            
-            const result = exampleProto._uniqVisits(docs, 'hour');
+        it('should return only uniq visiter for the hour', () => {                
+            const result = siteStatProto._uniqVisits(docs, 'hour');
 
             expect(result).toEqual({
                 "2020-10-21T01:00:00": 1,
@@ -68,9 +70,7 @@ describe('site stats', () => {
     });
 
     describe('_getTimesInSec', () => {
-        it('should return seconds for each time unit', () => {  
-            const siteStatProto = Object.getPrototypeOf(siteStats);
-            
+        it('should return seconds for each time unit', () => {              
             expect(siteStatProto._getTimesInSec('hour')).toBe(3600000);
             expect(siteStatProto._getTimesInSec('day')).toBe(86400000);
             expect(siteStatProto._getTimesInSec('month')).toBe(86400000 * 30);
@@ -79,9 +79,7 @@ describe('site stats', () => {
     });
 
     describe('_roundTime', () => {
-        it('should return time rounded to specified time unit', () => {  
-            const siteStatProto = Object.getPrototypeOf(siteStats);
-            
+        it('should return time rounded to specified time unit', () => {              
             expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'hour')).toBe('2020-10-09T18:00:00');
             expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'day')).toBe('2020-10-09');
             expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'month')).toBe('2020-10');
@@ -91,7 +89,6 @@ describe('site stats', () => {
 
     describe('_countByTime', () => {
         it('it should count docs by day', () => {
-            const siteStatProto = Object.getPrototypeOf(siteStats);
             const countByDay = siteStatProto._countByTime(docs, 'day');
             const countByHour = siteStatProto._countByTime(docs, 'hour');
             const countByMonth = siteStatProto._countByTime(docs, 'month');
@@ -125,9 +122,7 @@ describe('site stats', () => {
     });
 
     describe('_countByPage', () => {
-        const siteStatProto = Object.getPrototypeOf(siteStats);
-
-        const countByPage = siteStatProto._countByPage(docs);
+        const countByPage = siteStatProto._countByField(docs, 'path');
         expect(countByPage).toEqual({
             page1: 6,
             page2: 2,
@@ -138,35 +133,88 @@ describe('site stats', () => {
         expect(totalCounts(countByPage)).toBe(10);
     });
 
-    describe('_countByVisity', () => {
-        const siteStatProto = Object.getPrototypeOf(siteStats);
-
-        const countByVisitor = siteStatProto._countByVisitor(docs);
-        expect(countByVisitor).toEqual({
-            '1.2.3.4linuxchrome': 7,
-            '1.2.3.4macchrome': 1,
-            '1.2.3.4linuxexplorer': 1,
-            '1.2.3.5linuxchrome': 1,
-        });
-
-        expect(totalCounts(countByVisitor)).toBe(10);
-    });
-
     describe('_sortyByTally', () => {
-        const siteStatProto = Object.getPrototypeOf(siteStats);
-
-        const countByVisitor = siteStatProto._countByVisitor(docs);
+        const countByVisitor = siteStatProto._countByField(docs, 'browser');
         
         const sorted = siteStatProto._sortTallies(countByVisitor);
 
         expect(sorted).toEqual([
-            ['1.2.3.4linuxchrome', 7],
-            ['1.2.3.5linuxchrome', 1],
-            ['1.2.3.4macchrome', 1],
-            ['1.2.3.4linuxexplorer', 1]
+            ['chrome', 9],
+            ['explorer', 1]
         ]);
 
         expect(totalCounts(countByVisitor)).toBe(10);
+    });
+
+    describe('_getTotal', () => {
+        it('should get total from tally object', () => {
+            const countByPage = siteStatProto._countByField(docs, 'path');
+
+            const totalCount = siteStatProto._getTotal(countByPage);
+
+            expect(totalCount).toBe(10);
+        });
+    });
+
+    describe('_addIpCountry', () => {
+        let ipActions: Actions;
+
+        beforeAll(async () => {
+            const url = `mongodb://localhost/ip_controller`;
+    
+            await mongoose.connect(url, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true
+            });
+            
+            ipActions = new Actions(IpModel);
+        });
+    
+        afterAll(async () => {
+            await mongoose.connection.dropDatabase();
+            await mongoose.disconnect();
+        });
+
+        it('should add country to ip', async () => {
+            const ipAddress1 = {
+                updated: '2020-11-07T04:39:53.854Z',
+                ip_address: '1.2.3.4',
+                version: 'ipv4',
+                region: 'Some Region',
+                region_code: 'SR',
+                city: 'Moscow',
+                country_name: 'Russia',
+                country_code: 'RU',
+                continent_code: 'EU',
+                latitude: 37.3861,
+                longitude: 40.1231,
+                asn: 'AS15169',
+                org: 'Google LLC'   
+            };
+
+            const ipAddress2 = {
+                updated: '2020-11-07T04:39:53.854Z',
+                ip_address: '1.2.3.5',
+                version: 'ipv4',
+                region: 'Some Region',
+                region_code: 'SR',
+                city: 'Place',
+                country_name: 'United States',
+                country_code: 'US',
+                continent_code: 'NA',
+                latitude: 37.3861,
+                longitude: 40.1231,
+                asn: 'AS15169',
+                org: 'Google LLC'   
+            };
+
+            await ipActions.upsert({ ip_address: '1.2.3.4' }, ipAddress1);
+            await ipActions.upsert({ ip_address: '1.2.3.5' }, ipAddress2);
+            
+            const ipData = siteStatProto._addIpCountry(docs);
+
+        });
     });
 });
 
