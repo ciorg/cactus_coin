@@ -112,6 +112,8 @@ class VisitTracker {
         try {
             const result = await axios.get(url);
 
+            const country = ipAddress === '127.0.0.1' ? 'USA' : result.data.country_name;
+
             return {
                 updated: new Date(),
                 ip_address: ipAddress,
@@ -119,7 +121,7 @@ class VisitTracker {
                 region: result.data.region,
                 region_code: result.data.region_code,
                 city: result.data.city,
-                country_name: result.data.country_name,
+                country_name: country,
                 country_code: result.data.country_code,
                 continent_code: result.data.continent_code,
                 latitude: result.data.latitude,

@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "dbAction": "node dist/scripts/db_actions",
-    "test": "jest tests",
+    "test": "jest test",
     "start-app": "pm2 start dist/index.js",
     "restart-app": "pm2 restart dist/index.js",
     "stop-app": "pm2 stop dist/index.js",

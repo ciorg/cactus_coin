@@ -23,7 +23,10 @@ router.get('/web_stats',
             countByPage: data.tallyByPage,
             countByIp: data.tallyByIp,
             countByOs: data.tallyByOs,
-            countByBrowser: data.tallyByBrowser
+            countByBrowser: data.tallyByBrowser,
+            countyByCountry: data.tallyByCountry,
+            visitsUniq: data.uniqueVisits,
+            visitsTotal: data.totalVisits
         });
     }
 );
@@ -42,9 +45,12 @@ router.post('/web_stats',
             user: req.user,
             options: makeOptions(data),
             countByPage: data.tallyByPage,
+            countByIp: data.tallyByIp,
             countByOs: data.tallyByOs,
             countByBrowser: data.tallyByBrowser,
-            countByIp: data.tallyByIp
+            countyByCountry: data.tallyByCountry,
+            visitsUniq: data.uniqueVisits,
+            visitsTotal: data.totalVisits
         });
     }
 )

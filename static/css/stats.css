@@ -43,6 +43,20 @@
     color: white;
 }
 
+.visits_count {
+    margin: auto;
+    text-align: center;
+    width: 90%;
+}
+
+.visits_count table {
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+    background-color: white;
+    width: 50%;
+}
+
 .stats_chart {
     width: 100%;
     height: 400px;

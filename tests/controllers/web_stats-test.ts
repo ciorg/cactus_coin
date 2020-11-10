@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import SiteStats from '../../src/controllers/web_stats';
 import IpModel from '../../src/models/ip_address';
+import VisitModel from '../../src/models/visit';
 import Actions from '../../src/controllers/lib/actions';
 
 
@@ -12,9 +13,9 @@ class Doc {
     os: string;
     browser: string;
     path: string;
-    constructor(args: { time: string, ip: string, os: string, browser: string , path: string}) {
-        this.timestamp = new Date(args.time);
-        this.ip_address = args.ip;
+    constructor(args: { timestamp: string, ip_address: string, os: string, browser: string , path: string}) {
+        this.timestamp = new Date(args.timestamp);
+        this.ip_address = args.ip_address;
         this.os = args.os;
         this.browser = args.browser;
         this.path = args.path;
@@ -25,18 +26,22 @@ class Doc {
     }
 }
 
-const docs = [
-    { time: '2020-10-21T01:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { time: '2020-10-21T02:00:00.000Z', ip: '1.2.3.5', os: 'linux', browser: 'chrome', path: 'page2' },
-    { time: '2020-10-21T02:00:00.000Z', ip: '1.2.3.4', os: 'mac', browser: 'chrome', path: 'page3' },
-    { time: '2020-10-22T03:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { time: '2020-10-22T02:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { time: '2020-10-26T04:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { time: '2020-10-22T01:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page4' },
-    { time: '2020-10-21T01:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { time: '2020-10-24T01:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page2' },
-    { time: '2020-10-26T01:00:00.000Z', ip: '1.2.3.4', os: 'linux', browser: 'explorer', path: 'page1' }
-].map((d) => new Doc(d));
+const monthYear = new Date().toISOString().split('-').slice(0, 2).join('-');
+
+const rawDocs = [
+    { timestamp: `${monthYear}-21T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
+    { timestamp: `${monthYear}-21T02:00:00.000Z`, ip_address: '1.2.3.5', os: 'linux', browser: 'chrome', path: 'page2' },
+    { timestamp: `${monthYear}-21T02:00:00.000Z`, ip_address: '1.2.3.4', os: 'mac', browser: 'chrome', path: 'page3' },
+    { timestamp: `${monthYear}-22T03:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
+    { timestamp: `${monthYear}-22T02:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
+    { timestamp: `${monthYear}-26T04:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
+    { timestamp: `${monthYear}-22T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page4' },
+    { timestamp: `${monthYear}-21T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
+    { timestamp: `${monthYear}-24T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page2' },
+    { timestamp: `${monthYear}-26T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'explorer', path: 'page1' }
+];
+
+const docs = rawDocs.map((d) => new Doc(d));
 
 describe('site stats', () => {
     const siteStatProto = Object.getPrototypeOf(siteStats);
@@ -46,10 +51,10 @@ describe('site stats', () => {
             const result = siteStatProto._uniqVisits(docs, 'day');
             
             expect(result).toEqual({
-                '2020-10-21': 3,
-                '2020-10-22': 1,
-                '2020-10-24': 1,
-                '2020-10-26': 2
+                [`${monthYear}-21`]: 3,
+                [`${monthYear}-22`]: 1,
+                [`${monthYear}-24`]: 1,
+                [`${monthYear}-26`]: 2
             });
         });
 
@@ -57,14 +62,14 @@ describe('site stats', () => {
             const result = siteStatProto._uniqVisits(docs, 'hour');
 
             expect(result).toEqual({
-                "2020-10-21T01:00:00": 1,
-                "2020-10-21T02:00:00": 2,
-                "2020-10-22T01:00:00": 1,
-                "2020-10-22T02:00:00": 1,
-                "2020-10-22T03:00:00": 1,
-                "2020-10-24T01:00:00": 1,
-                "2020-10-26T01:00:00": 1,
-                "2020-10-26T04:00:00": 1
+                [`${monthYear}-21T01:00:00`]: 1,
+                [`${monthYear}-21T02:00:00`]: 2,
+                [`${monthYear}-22T01:00:00`]: 1,
+                [`${monthYear}-22T02:00:00`]: 1,
+                [`${monthYear}-22T03:00:00`]: 1,
+                [`${monthYear}-24T01:00:00`]: 1,
+                [`${monthYear}-26T01:00:00`]: 1,
+                [`${monthYear}-26T04:00:00`]: 1
             });
         });
     });
@@ -80,9 +85,9 @@ describe('site stats', () => {
 
     describe('_roundTime', () => {
         it('should return time rounded to specified time unit', () => {              
-            expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'hour')).toBe('2020-10-09T18:00:00');
-            expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'day')).toBe('2020-10-09');
-            expect(siteStatProto._roundTime('2020-10-09T18:01:36.274Z', 'month')).toBe('2020-10');
+            expect(siteStatProto._roundTime(`${monthYear}-09T18:01:36.274Z`, 'hour')).toBe(`${monthYear}-09T18:00:00`);
+            expect(siteStatProto._roundTime(`${monthYear}-09T18:01:36.274Z`, 'day')).toBe(`${monthYear}-09`);
+            expect(siteStatProto._roundTime(`${monthYear}-09T18:01:36.274Z`, 'month')).toBe(`${monthYear}`);
             
         });
     });
@@ -94,25 +99,25 @@ describe('site stats', () => {
             const countByMonth = siteStatProto._countByTime(docs, 'month');
 
             expect(countByDay).toEqual({
-                '2020-10-21': 4,
-                '2020-10-22': 3,
-                '2020-10-26': 2,
-                '2020-10-24': 1
+                [`${monthYear}-21`]: 4,
+                [`${monthYear}-22`]: 3,
+                [`${monthYear}-26`]: 2,
+                [`${monthYear}-24`]: 1
             });
 
             expect(countByHour).toEqual({
-                '2020-10-21T01:00:00': 2,
-                '2020-10-21T02:00:00': 2,
-                '2020-10-22T01:00:00': 1,
-                '2020-10-22T02:00:00': 1,
-                '2020-10-22T03:00:00': 1,
-                '2020-10-24T01:00:00': 1,
-                '2020-10-26T01:00:00': 1,
-                '2020-10-26T04:00:00': 1
+                [`${monthYear}-21T01:00:00`]: 2,
+                [`${monthYear}-21T02:00:00`]: 2,
+                [`${monthYear}-22T01:00:00`]: 1,
+                [`${monthYear}-22T02:00:00`]: 1,
+                [`${monthYear}-22T03:00:00`]: 1,
+                [`${monthYear}-24T01:00:00`]: 1,
+                [`${monthYear}-26T01:00:00`]: 1,
+                [`${monthYear}-26T04:00:00`]: 1
             });
 
             expect(countByMonth).toEqual({
-                '2020-10': 10
+                [`${monthYear}`]: 10
             });
 
             expect(totalCounts(countByDay)).toBe(10);
@@ -155,28 +160,23 @@ describe('site stats', () => {
             expect(totalCount).toBe(10);
         });
     });
+});
 
+describe('site stats', () => {
     describe('_addIpCountry', () => {
-        let ipActions: Actions;
-
         beforeAll(async () => {
             const url = `mongodb://localhost/ip_controller`;
     
             await mongoose.connect(url, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
-                useCreateIndex: true
+                useCreateIndex: true,
+                useFindAndModify: false
             });
             
-            ipActions = new Actions(IpModel);
-        });
-    
-        afterAll(async () => {
-            await mongoose.connection.dropDatabase();
-            await mongoose.disconnect();
-        });
+            const ipActions = new Actions(IpModel);
+            const visitActions = new Actions(VisitModel);
 
-        it('should add country to ip', async () => {
             const ipAddress1 = {
                 updated: '2020-11-07T04:39:53.854Z',
                 ip_address: '1.2.3.4',
@@ -208,12 +208,46 @@ describe('site stats', () => {
                 asn: 'AS15169',
                 org: 'Google LLC'   
             };
+ 
+            await Promise.all([
+                ipActions.upsert({ ip_address: '1.2.3.4' }, ipAddress1),
+                ipActions.upsert({ ip_address: '1.2.3.5' }, ipAddress2)
+            ]);
 
-            await ipActions.upsert({ ip_address: '1.2.3.4' }, ipAddress1);
-            await ipActions.upsert({ ip_address: '1.2.3.5' }, ipAddress2);
+            await Promise.all(rawDocs.map((doc) => visitActions.create(doc)));
+        });
+    
+        afterAll(async () => {
+            await mongoose.connection.dropDatabase();
+            await mongoose.disconnect();
+        });
+
+        it('should add country to ip', async () => {
+            const results = await siteStats.getData(12, 'month');
             
-            const ipData = siteStatProto._addIpCountry(docs);
+            const {
+                error,
+                uniqueVisits,
+                totalVisits,
+                uniqueVisitsOverTime,
+                totalVisitsOverTime,
+                tallyByPage,
+                tallyByOs,
+                tallyByBrowser,
+                tallyByIp,
+                tallyByCountry
+            } = results;
 
+            expect(error).toBe(false);
+            expect(uniqueVisits).toBe(4);
+            expect(totalVisits).toBe(10);
+            expect(uniqueVisitsOverTime).toEqual({ [`${monthYear}`]: 4 });
+            expect(totalVisitsOverTime).toEqual({ [`${monthYear}`]: 10 });
+            expect(tallyByPage).toEqual([['page1', 6], ['page2', 2], ['page3', 1], ['page4', 1]]);
+            expect(tallyByOs).toEqual([['linux', 9], ['mac', 1]]);
+            expect(tallyByBrowser).toEqual([['chrome', 9], ['explorer', 1]]);
+            expect(tallyByIp).toEqual([['1.2.3.4', ['Russia', 9]], [ '1.2.3.5', ['United States', 1 ]]]);
+            expect(tallyByCountry).toEqual([['Russia', 9], ['United States', 1 ]]);
         });
     });
 });

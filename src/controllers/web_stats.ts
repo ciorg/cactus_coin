@@ -15,11 +15,12 @@ class SiteStats {
 
     async getData(period: number, unit: string) {
         const startTime = this._startTime(period, unit);
+
         const results: I.Result = await this._mongoQuery(startTime);
 
         const visits = results.res;
 
-        const uniqueVisitsOverTime = this._uniqVisits(visits, unit);
+        const uniqueVisitsOverTime = this._uniqVisitsOverTime(visits, unit);
         const totalVisitsOverTime = this._countByTime(visits, unit);
     
         const tallyByPage = this._countByField(visits, 'path');
@@ -48,7 +49,7 @@ class SiteStats {
         // return Visit.find( { timestamp: { $gte: startDate } });
     }
 
-    private _uniqVisits(totalVisits: any[], unit: string) {
+    private _uniqVisitsOverTime(totalVisits: any[], unit: string) {
         const uniqVisitsByDate: { [prop: string]: string[] } =  totalVisits.reduce((tally, visit) => {
             const date = this._roundTime(visit.get('timestamp').toISOString(), unit);
             const key = this._getVisitorKey(visit);
@@ -151,11 +152,10 @@ class SiteStats {
         for (const ip of Object.keys(data)) {
             const result = await this.ip_actions.search('ip_address', ip);
 
-            if (result.error) continue;
+            if (result.error || result.res.length === 0) continue;
 
-            const country: string = await result.res.get('country');
-
-            enhancedIp[ip] = [country, result.res.get('number')];
+            const country: string = result.res[0].country_name;
+            enhancedIp[ip] = [country, data[ip]];
         }
 
         return Object.entries(enhancedIp).sort((a, b) => b[1][1] - a[1][1])
@@ -164,8 +164,8 @@ class SiteStats {
     private _countByCountry(data: [string, [string, number]][]) {
         const countByCountry: { [prop: string]: number} = {};
         
-        for (const ip of Object.keys(data)) {
-            const [country, count] = data[ip];
+        for (const ipData of data) {
+            const [, [country, count]] = ipData;
 
             if (countByCountry[country]) {
                 countByCountry[country] += count;
