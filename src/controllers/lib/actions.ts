@@ -49,15 +49,24 @@ class Actions {
     }
 
     async upsert(query: { [params: string]: any }, record: { [params: string]: any }) {
-        return this.model.findOneAndUpdate(
-            query,
-            record,
-            { 
-                upsert: true,
-                overwrite: true,
-                new: true
-            }
-        );
+        const result: I.Result = { res: null };
+
+        try {
+            result.res = await this.model.findOneAndUpdate(
+                query,
+                record,
+                { 
+                    upsert: true,
+                    overwrite: true,
+                    new: true
+                }
+            );
+        } catch (e) {
+            this.log.error(e.message, { err: e });
+            result.error = true;
+        }
+
+        return result;
     }
 
     delete(id: string) {

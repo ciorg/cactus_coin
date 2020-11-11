@@ -22,7 +22,7 @@ class IpAddress {
         const ipData: I.IPData | undefined = await this._getIpData(ipAddress);
 
         if (ipData) {
-            this.ip_actions.upsert({ ip_address: ipAddress }, ipData);
+            await this.ip_actions.upsert({ ip_address: ipAddress }, ipData);
         }
     }
 

@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
 import Ip from '../models/ip_address';
-import Bot from './lib/bot_detector';
+import Bot from '../utils/bot_detector';
 import * as I from '../interface';
 
 class SiteStats {

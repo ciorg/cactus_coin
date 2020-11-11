@@ -17,7 +17,8 @@
   },
   "jest": {
     "testMatch": [
-      "**/tests/controllers/*.ts?(x)"
+      "**/tests/controllers/*-test.ts",
+      "**/tests/utils/*-test.ts"
     ],
     "preset": "ts-jest",
     "testEnvironment": "node"
