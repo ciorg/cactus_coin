@@ -57,6 +57,11 @@
     width: 50%;
 }
 
+.visits_count th {
+    background-color: #d44c04;
+    color: white;
+}
+
 .stats_chart {
     width: 100%;
     height: 400px;
@@ -86,7 +91,7 @@
     background-color: white;
 }
 
-.stats_table table, tr, th, td {
+.stats_tables table, tr, th, td {
     border: 2px solid black;
     text-align: center;
 }

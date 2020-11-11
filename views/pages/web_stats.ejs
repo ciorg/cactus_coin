@@ -132,6 +132,29 @@
                     </table>
                 </div>
             </div>
+            <div class="bottom_tables">
+                <div class="left_table">
+                    <p>Count by Country</p>
+                    <table id="country_table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Country</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% countyByCountry.forEach(([c, count], i) => { %>
+                                <tr>
+                                    <td><%- i + 1 %></td>
+                                    <td><%- c %></td>
+                                    <td><%- count %></td>
+                                </tr>
+                            <% }); %> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <footer>
             <%- include('../partials/footer'); %>

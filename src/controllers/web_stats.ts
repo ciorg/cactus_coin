@@ -2,15 +2,18 @@ import { Document } from 'mongoose';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
 import Ip from '../models/ip_address';
+import Bot from './lib/bot_detector';
 import * as I from '../interface';
 
 class SiteStats {
     visit_actions: Actions;
     ip_actions: Actions;
+    bot: Bot;
 
     constructor() {
         this.visit_actions = new Actions(Visit);
         this.ip_actions = new Actions(Ip);
+        this.bot = new Bot();
     }
 
     async getData(period: number, unit: string) {
@@ -18,7 +21,7 @@ class SiteStats {
 
         const results: I.Result = await this._mongoQuery(startTime);
 
-        const visits = results.res;
+        const visits = this._removeBots(results.res);
 
         const uniqueVisitsOverTime = this._uniqVisitsOverTime(visits, unit);
         const totalVisitsOverTime = this._countByTime(visits, unit);
@@ -32,7 +35,7 @@ class SiteStats {
 
         return {
             error: results.error || false,
-            uniqueVisits: this._getTotal(uniqueVisitsOverTime),
+            uniqueVisits: this._uniqCount(visits),
             totalVisits: this._getTotal(totalVisitsOverTime),
             uniqueVisitsOverTime,
             totalVisitsOverTime,
@@ -47,6 +50,10 @@ class SiteStats {
     private async _mongoQuery(startDate: string) {
         return this.visit_actions.search('timestamp', { $gte: startDate })
         // return Visit.find( { timestamp: { $gte: startDate } });
+    }
+
+    private _removeBots(visits: Document[]): Document[] {
+        return visits.filter((visit) => !this.bot.isBot(visit));
     }
 
     private _uniqVisitsOverTime(totalVisits: any[], unit: string) {
@@ -176,6 +183,17 @@ class SiteStats {
         }
 
         return countByCountry;
+    }
+
+    private _uniqCount(data: Document[]) {
+        const uniq = data.reduce((uniqDocs, doc) => {
+            const key = this._getVisitorKey(doc);
+
+            uniqDocs[key] = true;
+            return uniqDocs;
+        },{});
+
+        return Object.keys(uniq).length;
     }
 }
 

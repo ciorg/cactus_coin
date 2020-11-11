@@ -3,6 +3,7 @@ import SiteStats from '../../src/controllers/web_stats';
 import IpModel from '../../src/models/ip_address';
 import VisitModel from '../../src/models/visit';
 import Actions from '../../src/controllers/lib/actions';
+import visitData from '../fixtures/visits_data';
 
 
 const siteStats = new SiteStats();
@@ -26,29 +27,18 @@ class Doc {
     }
 }
 
-const monthYear = new Date().toISOString().split('-').slice(0, 2).join('-');
+const monthYear = visitData.monthYear;
 
-const rawDocs = [
-    { timestamp: `${monthYear}-21T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { timestamp: `${monthYear}-21T02:00:00.000Z`, ip_address: '1.2.3.5', os: 'linux', browser: 'chrome', path: 'page2' },
-    { timestamp: `${monthYear}-21T02:00:00.000Z`, ip_address: '1.2.3.4', os: 'mac', browser: 'chrome', path: 'page3' },
-    { timestamp: `${monthYear}-22T03:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { timestamp: `${monthYear}-22T02:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { timestamp: `${monthYear}-26T04:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { timestamp: `${monthYear}-22T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page4' },
-    { timestamp: `${monthYear}-21T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page1' },
-    { timestamp: `${monthYear}-24T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'chrome', path: 'page2' },
-    { timestamp: `${monthYear}-26T01:00:00.000Z`, ip_address: '1.2.3.4', os: 'linux', browser: 'explorer', path: 'page1' }
-];
+const rawDocs = visitData.data;
 
 const docs = rawDocs.map((d) => new Doc(d));
 
 describe('site stats', () => {
     const siteStatProto = Object.getPrototypeOf(siteStats);
 
-    describe('_uniqVisits', () => {
+    describe('_uniqVisitsOverTime', () => {
         it('should return only uniq visiter for the day', () => {                
-            const result = siteStatProto._uniqVisits(docs, 'day');
+            const result = siteStatProto._uniqVisitsOverTime(docs, 'day');
             
             expect(result).toEqual({
                 [`${monthYear}-21`]: 3,
@@ -59,7 +49,7 @@ describe('site stats', () => {
         });
 
         it('should return only uniq visiter for the hour', () => {                
-            const result = siteStatProto._uniqVisits(docs, 'hour');
+            const result = siteStatProto._uniqVisitsOverTime(docs, 'hour');
 
             expect(result).toEqual({
                 [`${monthYear}-21T01:00:00`]: 1,
