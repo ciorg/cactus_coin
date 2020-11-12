@@ -23,8 +23,9 @@ class DB {
         try {
             this.db = await mongoose.connect(url, {
                 useNewUrlParser: true,
-                useUnifiedTopology: true,
-                useCreateIndex: true
+                useUnifiedTopology: true,   
+                useCreateIndex: true,
+                useFindAndModify: false
             });
         } catch(e) {
             this.logger.fatal('could not connect to db', { err: e });

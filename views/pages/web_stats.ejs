@@ -25,6 +25,18 @@
                 </button>
             </form>
         </div>
+        <div class="visits_count">
+            <table>
+                <tr>
+                    <th>Total Visists</th>
+                    <th>Unique Visits</th>
+                </tr>
+                <tr>
+                    <td><%- visitsTotal %></td>
+                    <td><%- visitsUniq %></td>
+                </tr>
+            </table>
+        </div>
         <div class="stats_chart_title">
             <p>Total and Unique Visits per Time Period</p>
         </div>
@@ -59,14 +71,16 @@
                             <tr>
                                 <th>Rank</th>
                                 <th>Ip Address</th>
+                                <th>Country</th>
                                 <th>Count</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% countByIp.forEach(([ip, count], i) => { %>
+                            <% countByIp.forEach(([ip, [country, count]], i) => { %>
                                 <tr>
                                     <td><%- i + 1 %></td>
                                     <td><%- ip %></td>
+                                    <td><%- country %></td>
                                     <td><%- count %></td>
                                 </tr>
                             <% }); %> 
@@ -111,6 +125,29 @@
                                 <tr>
                                     <td><%- i + 1 %></td>
                                     <td><%- br %></td>
+                                    <td><%- count %></td>
+                                </tr>
+                            <% }); %> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="bottom_tables">
+                <div class="left_table">
+                    <p>Count by Country</p>
+                    <table id="country_table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Country</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% countyByCountry.forEach(([c, count], i) => { %>
+                                <tr>
+                                    <td><%- i + 1 %></td>
+                                    <td><%- c %></td>
                                     <td><%- count %></td>
                                 </tr>
                             <% }); %> 

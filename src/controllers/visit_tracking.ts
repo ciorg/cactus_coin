@@ -2,13 +2,16 @@ import { Request } from 'express';
 import useragent from 'express-useragent';
 import Actions from './lib/actions';
 import Visit from '../models/visit';
+import IpAddress from '../utils/ip_address';
 import * as I from '../interface';
 
 class VisitTracker {
     visit_actions: Actions;
+    ip_address: IpAddress;
 
     constructor() {
         this.visit_actions = new Actions(Visit);
+        this.ip_address = new IpAddress();
     }
 
     recordVisit(req: Request): void {
@@ -21,9 +24,13 @@ class VisitTracker {
     }
 
     private _getReqData(req: Request) {
+        const ipAddress = this._getIpAddress(req);
+
+        this.ip_address.save(ipAddress);
+    
         const reqData: Partial<I.VisitDetails> = {
             timestamp: new Date(),
-            ip_address: this._getIpAddress(req),
+            ip_address: ipAddress,
             hostname: req.hostname,
             path: req.path
         };

@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 import * as I from '../../interface';
 import Logger from '../../utils/logger';
 
@@ -14,7 +15,7 @@ class Actions {
         const result: I.Result = { res: null };
         
         try {
-            const res = await this.model[action](params);
+            const res: Document[] = await this.model[action](params);
             
             this.log.debug(`successfully completed ${action} for ${JSON.stringify(params)}`);
             
@@ -42,6 +43,27 @@ class Actions {
                 this.log.error(e.message, { err: e });
                 result.error = true;
             }
+        }
+
+        return result;
+    }
+
+    async upsert(query: { [params: string]: any }, record: { [params: string]: any }) {
+        const result: I.Result = { res: null };
+
+        try {
+            result.res = await this.model.findOneAndUpdate(
+                query,
+                record,
+                { 
+                    upsert: true,
+                    overwrite: true,
+                    new: true
+                }
+            );
+        } catch (e) {
+            this.log.error(e.message, { err: e });
+            result.error = true;
         }
 
         return result;
