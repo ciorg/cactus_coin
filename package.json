@@ -1,6 +1,6 @@
 {
   "name": "cactus_coin",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "my website and stuff",
   "license": "UNLICENSED",
   "main": "index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "dbAction": "node dist/scripts/db_actions",
-    "test": "jest tests",
+    "test": "jest test",
     "start-app": "pm2 start dist/index.js",
     "restart-app": "pm2 restart dist/index.js",
     "stop-app": "pm2 stop dist/index.js",
@@ -17,12 +17,14 @@
   },
   "jest": {
     "testMatch": [
-      "**/tests/controllers/*.ts?(x)"
+      "**/tests/controllers/*-test.ts",
+      "**/tests/utils/*-test.ts"
     ],
     "preset": "ts-jest",
     "testEnvironment": "node"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.14",
     "compression": "^1.7.4",

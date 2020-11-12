@@ -6,34 +6,18 @@ $(document).ready( function () {
     });
 });
 
-$(document).ready( function () {
-    $('#page_table').DataTable({
-        searching: false,
-        pageLength: 10,
-        lengthChange: false
-    });
-});
-
-$(document).ready( function () {
-    $('#visit_table').DataTable({
-        searching: false,
-        pageLength: 10,
-        lengthChange: false
-    });
-});
-
-$(document).ready( function () {
-    $('#browser_table').DataTable({
-        searching: false,
-        pageLength: 10,
-        lengthChange: false
-    });
-});
-
-$(document).ready( function () {
-    $('#os_table').DataTable({
-        searching: false,
-        pageLength: 10,
-        lengthChange: false
+[
+    'page_table',
+    'visit_table',
+    'browser_table',
+    'os_table',
+    'country_table'
+].forEach((table) => {
+    $(document).ready( function () {
+        $(`#${table}`).DataTable({
+            searching: false,
+            pageLength: 10,
+            lengthChange: false
+        });
     });
 });

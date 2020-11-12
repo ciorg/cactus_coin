@@ -3,14 +3,18 @@ import UserModel from '../models/user';
 import RbModel from '../models/rb';
 import RatingModel from '../models/rating';
 import WriteUpModel from '../models/write_up';
+import VisitModel from '../models/visit';
 import Logger from '../utils/logger';
 import RatingController from '../controllers/ratings';
+import IPAddress from '../utils/ip_address';
 
 class DBTools {
     log: Logger;
+    ipAddress: IPAddress;
 
     constructor() {
         this.log = new Logger();
+        this.ipAddress = new IPAddress();
     }
 
     async updateRatingsTotal() {
@@ -157,6 +161,22 @@ class DBTools {
     
             await WriteUpModel.create(writeUpInfo);
         }
+    }
+
+    async saveIps() {
+        const allVisits = await VisitModel.find();
+
+        console.log(allVisits);
+
+        const ips: string[] = allVisits.map((visit) => visit.get('ip_address'));
+
+        console.log(ips);
+
+        const uniqIps = [...new Set([...ips])];
+
+        console.log(uniqIps);
+
+        await Promise.all(uniqIps.map((ip) => this.ipAddress.save(ip)));
     }
     
 }
