@@ -1,0 +1,48 @@
+.crypto_market {
+    width: 80%;
+    height: 500px;
+    margin: auto;
+}
+
+.crypto_market table {
+    color: #8d3606;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    background-color:  white;
+}
+
+.crypto_market table, th, tr, td {
+    border: 2px solid #d44c04;
+    border-collapse: collapse;
+}
+
+.crypto_market th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.crypto_market th:hover {
+    background-color: #ef2556;
+}
+
+.portalBottom {
+    clear: both;
+    bottom: 0;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    margin-top: 50px;
+}
+  
+.short img {
+    height: 100px;
+    width: 20%;
+    float: right;
+}
+
+.long img {
+    height: 100px;
+    width: 80%;
+    float: left;
+}
