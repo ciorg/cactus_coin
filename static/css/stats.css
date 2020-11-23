@@ -101,9 +101,14 @@
     clear: both
 }
 
+.mid_tables {
+    width: 100%;
+    clear: both;
+}
+
+
 .bottom_tables {
     width: 100%;
-    height: 100px;
     clear: both;
 }
 
@@ -150,6 +155,7 @@
 
 .portalBottom {
     position: relative;
+    clear: both;
     bottom: 0;
 
 }
