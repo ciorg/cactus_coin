@@ -106,7 +106,6 @@
     clear: both;
 }
 
-
 .bottom_tables {
     width: 100%;
     clear: both;
@@ -154,6 +153,7 @@
 
 
 .portalBottom {
+    clear: both;
     position: relative;
     clear: both;
     bottom: 0;
