@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
+    <link rel="stylesheet" type="text/css" href="../../css/rb.css">
+    <link rel="stylesheet" type="text/css" href="../css/data_table.css">
+    <link rel="stylesheet" type="text/css" href="../../css/crypto.css">
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <title>Cactus Coin</title>
+</head>
+<body>
+    <div class="display_page_body">
+        <%- include('../pub_partials/nav_links') %>
+        <div class="crypto_market">
+            <table id="market_table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>% Change Last 24hr</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((i, n) => { %>
+                    <tr>
+                        <td><%- n + 1 %></td>
+                        <td><%-i.name %></td>
+                        <td><%-i.symbol %></td>
+                        <td><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
+                        <% if (i.change_per > 0) { %>
+                            <td id="up"><%-Number(i.change_per).toFixed(4) %></td>
+                        <% } else { %>
+                            <td id="down"><%-Number(i.change_per).toFixed(4) %></td>
+                        <% } %>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        </div>
+        <footer>
+            <div class="portalBottom">
+                <div class="short">
+                <img src="../imgs/short_landscape.png"/>
+                </div>
+                <div class="long">
+                <img src="../imgs/long_landscape.png"/>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="../javascript/crypto_tables.js"></script>
+    <script>
+        function updatePercent() {
+
+        }
+    </script>
+</body>
+</html>
