@@ -32,7 +32,11 @@
                         <td><%-i.name %></td>
                         <td><%-i.symbol %></td>
                         <td><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
-                        <td><%-Number(i.change_per).toFixed(4) %></td>
+                        <% if (i.change_per > 0) { %>
+                            <td id="up"><%-Number(i.change_per).toFixed(4) %></td>
+                        <% } else { %>
+                            <td id="down"><%-Number(i.change_per).toFixed(4) %></td>
+                        <% } %>
                     </tr>
                 <% }); %>
                 </tbody>
@@ -50,5 +54,10 @@
         </footer>
     </div>
     <script src="../javascript/crypto_tables.js"></script>
+    <script>
+        function updatePercent() {
+
+        }
+    </script>
 </body>
 </html>

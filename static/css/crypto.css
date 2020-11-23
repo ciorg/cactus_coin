@@ -46,3 +46,11 @@
     width: 80%;
     float: left;
 }
+
+#up {
+    background-color: rgb(127, 235, 127);
+}
+
+#down {
+    background-color: rgb(235, 157, 157);
+}
