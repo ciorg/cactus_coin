@@ -3,25 +3,29 @@
 function updatePrices(data) {
     for (const d of data) {
         const newPrice = d.current_price;
+
         const priceElement = document.getElementById(`${d.symbol}_price`);
 
-        const currentPrice = priceElement.innerText.slice(1, 100).split(',').join('');
-
-        const priceChange = evalPrice(newPrice, currentPrice);
-
-        priceElement.classList.remove('priceHigher', 'priceLower');
-
-        if (priceChange === 'higher') {
-            priceElement.classList.add('priceHigher');
+        if (priceElement) {
+            const currentPrice = priceElement.innerText.slice(1, 100).split(',').join('');
+            
+            const priceChange = evalPrice(newPrice, currentPrice);
+            
+            priceElement.classList.remove('priceHigher', 'priceLower');
+            
+            if (priceChange === 'higher') {
+                priceElement.classList.add('priceHigher');
+            }
+            
+            if (priceChange === 'lower') {
+                priceElement.classList.add('priceLower');
+            }
+                        
+            
+            priceElement.innerText = asCurrency(d.current_price);
+            
+            document.getElementById(`${d.symbol}_dper`).innerText = toFixed(d.price_change_percentage_24h);
         }
-
-        if (priceChange === 'lower') {
-            priceElement.classList.add('priceLower');
-        }
-
-        priceElement.innerText = asCurrency(d.current_price);
-
-        document.getElementById(`${d.symbol}_dper`).innerText = toFixed(d.price_change_percentage_24h);
     }
 }
 
