@@ -1,5 +1,6 @@
 .crypto_market {
     width: 80%;
+    height: 100%;
     margin: auto;
 }
 
@@ -55,8 +56,8 @@
 .priceHigher {
     background-color: rgb(127, 235, 127);
     animation-name: goesUp;
-    animation-duration: 2s;
-    animation-iteration-count: 3;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
 }
 
 @keyframes goesUp {
@@ -67,8 +68,8 @@
 .priceLower {
     background-color: rgb(235, 157, 157);
     animation-name: goesDown;
-    animation-duration: 2s;
-    animation-iteration-count: 3;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
 }
 
 @keyframes goesDown {
