@@ -66,12 +66,12 @@
 
 .priceLower {
     background-color: rgb(235, 157, 157);
-    animation-name: goesUp;
+    animation-name: goesDown;
     animation-duration: 2s;
     animation-iteration-count: 3;
 }
 
-@keyframes goesUp {
+@keyframes goesDown {
     from {background-color:rgb(235, 157, 157);}
     to {background-color: white;}
 }
