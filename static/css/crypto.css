@@ -1,6 +1,5 @@
 .crypto_market {
     width: 80%;
-    height: 500px;
     margin: auto;
 }
 
@@ -28,10 +27,8 @@
 
 .portalBottom {
     clear: both;
-    bottom: 0;
     width: 100%;
     position: relative;
-    bottom: 0;
     margin-top: 50px;
 }
   
@@ -47,10 +44,35 @@
     float: left;
 }
 
-#up {
+.up {
     background-color: rgb(127, 235, 127);
 }
 
-#down {
+.down {
     background-color: rgb(235, 157, 157);
 }
+
+.priceHigher {
+    background-color: rgb(127, 235, 127);
+    animation-name: goesUp;
+    animation-duration: 2s;
+    animation-iteration-count: 3;
+}
+
+@keyframes goesUp {
+    from {background-color:rgb(127, 235, 127);}
+    to {background-color: white;}
+}
+
+.priceLower {
+    background-color: rgb(235, 157, 157);
+    animation-name: goesDown;
+    animation-duration: 2s;
+    animation-iteration-count: 3;
+}
+
+@keyframes goesDown {
+    from {background-color:rgb(235, 157, 157);}
+    to {background-color: white;}
+}
+
