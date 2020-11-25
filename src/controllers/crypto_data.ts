@@ -28,7 +28,7 @@ class CryptoData {
         return result;   
     }
 
-    private async _byMarketValue(currency: string, size = 20) {
+    private async _byMarketValue(currency: string, size = 100) {
         const extention = '/coins/markets';
 
         const options = {
