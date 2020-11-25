@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/crypto.css">
     <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Cactus Coin</title>
 </head>
 <body>
@@ -31,16 +32,17 @@
                         <td><%- n + 1 %></td>
                         <td><%-i.name %></td>
                         <td><%-i.symbol %></td>
-                        <td><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
+                        <td id="<%- i.symbol %>_price"><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
                         <% if (i.change_per > 0) { %>
-                            <td id="up"><%-Number(i.change_per).toFixed(4) %></td>
+                            <td class="up" id="<%-i.symbol%>_dper"><%-Number(i.change_per).toFixed(4) %></td>
                         <% } else { %>
-                            <td id="down"><%-Number(i.change_per).toFixed(4) %></td>
+                            <td class="down" id="<%-i.symbol%>_dper"><%-Number(i.change_per).toFixed(4) %></td>
                         <% } %>
                     </tr>
                 <% }); %>
                 </tbody>
             </table>
+            <button onclick="getPrices()">Update Prices</button>
         </div>
         <footer>
             <div class="portalBottom">
@@ -54,10 +56,6 @@
         </footer>
     </div>
     <script src="../javascript/crypto_tables.js"></script>
-    <script>
-        function updatePercent() {
-
-        }
-    </script>
+    <script src="../javascript/update_prices.js"></script>
 </body>
 </html>

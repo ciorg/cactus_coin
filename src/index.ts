@@ -31,12 +31,13 @@ async function main() {
     app.use(helmet({
         contentSecurityPolicy: {
             directives: {
-                'default-src': ["'self'", "'unsafe-inline'"],
+                'default-src': ["'self'", "'unsafe-inline'", 'api.coingecko.com/api/v3/coins/'],
                 'script-src-elem': ['https:',"'unsafe-inline'", "'self'"],
                 'script-src': [
                     'ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
                     'cdn.datatables.net/1.10.21/js/jquery.dataTables.js',
                     'cdn.jsdelivr.net/npm/apexcharts',
+                    'cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
                     "'unsafe-inline'",
                     "'self'"
                 ],
