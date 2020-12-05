@@ -26,11 +26,24 @@
     background-color: #ef2556;
 }
 
+.crypto_market button {
+    margin-top: 10px;
+    width: 20%;
+    font-size: 1.1em;
+    color: #facc04;
+    border-radius: 5px;
+    background-color: #d44c04;
+}
+
+.crypto_market button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
+
 .portalBottom {
     clear: both;
     width: 100%;
     position: relative;
-    margin-top: 50px;
 }
   
 .short img {

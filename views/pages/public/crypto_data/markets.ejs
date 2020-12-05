@@ -16,6 +16,7 @@
     <div class="display_page_body">
         <%- include('../pub_partials/nav_links') %>
         <div class="crypto_market">
+            <button onclick="getPrices()">Update Prices</button>
             <table id="market_table">
                 <thead>
                     <tr>
@@ -42,7 +43,6 @@
                 <% }); %>
                 </tbody>
             </table>
-            <button onclick="getPrices()">Update Prices</button>
         </div>
         <footer>
             <div class="portalBottom">
