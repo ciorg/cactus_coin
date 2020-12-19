@@ -20,8 +20,7 @@ function updatePrices(data) {
             if (priceChange === 'lower') {
                 priceElement.classList.add('priceLower');
             }
-                        
-            
+
             priceElement.innerText = asCurrency(d.current_price);
             
             document.getElementById(`${d.symbol}_dper`).innerText = toFixed(d.price_change_percentage_24h);
