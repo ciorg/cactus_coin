@@ -28,11 +28,12 @@
 
 .crypto_market button {
     margin-top: 10px;
-    width: 20%;
+    width: 6%;
     font-size: 1.1em;
-    color: #facc04;
+    color: white;
     border-radius: 5px;
     background-color: #d44c04;
+    border-color: #d44c04;
 }
 
 .crypto_market button:hover {

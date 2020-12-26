@@ -110,3 +110,18 @@ export interface IPData {
     asn: String;
     org: String;
 }
+
+export interface CoinMarketData {
+    name: string;
+    symbol: string;
+    homepage: string;
+    image: string;
+    start_date: string;
+    current_price: number;
+    ath: number;
+    ath_date: string;
+    market_cap: number;
+    rank: number;
+    high_24h: number;
+    low_24h: number
+}

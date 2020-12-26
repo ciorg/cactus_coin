@@ -112,6 +112,8 @@ class DBTools {
 
         this.log.info(userId);
 
+        const docs = [];
+
         for (let i = 0; i < num; i++) {
             const rbInfo = {
                 name: `test_${i}`,
@@ -119,13 +121,16 @@ class DBTools {
                 user: userId[0]._id
             };
 
-            await RbModel.create(rbInfo);
+            docs.push(rbInfo);
         }
+        await RbModel.insertMany(docs);
     }
 
     async addRating(num: Number) {
         const userId = await UserModel.find({ username: 'ciorg'}, '_id');
         const rbId = await RbModel.find({ name: 'test_0'}, '_id');
+
+        const docs = [];
     
         for (let i = 0; i < num; i++) {
             const ratingInfo = {
@@ -143,13 +148,17 @@ class DBTools {
                 total: Math.round((Math.random() * 100))
             }
     
-            await RatingModel.create(ratingInfo);
+            docs.push(ratingInfo);
         }
+
+        await RatingModel.insertMany(docs);
     }
 
     async addWriteUp(num: Number) {
         const userId = await UserModel.find({ username: 'ciorg'}, '_id');
         const rbId = await RbModel.find({ name: 'test_0'}, '_id');
+
+        const docs = [];
 
         for (let i = 0; i < num; i++) {
             const writeUpInfo = {
@@ -158,9 +167,11 @@ class DBTools {
                 user: userId[0]._id,
                 write_up: 'this is a write up'
             }
-    
-            await WriteUpModel.create(writeUpInfo);
+
+            docs.push(writeUpInfo);
         }
+
+        await WriteUpModel.insertMany(docs);
     }
 
     async saveIps() {
