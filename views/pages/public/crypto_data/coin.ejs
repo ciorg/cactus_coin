@@ -5,28 +5,92 @@
     <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
     <link rel="stylesheet" type="text/css" href="../../css/rb.css">
-    <link rel="stylesheet" type="text/css" href="../css/data_table.css">
-    <link rel="stylesheet" type="text/css" href="../../css/crypto.css">
-    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/coin_data.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Cactus Coin</title>
 </head>
 <body>
     <div class="display_page_body">
-        <%- include('../pub_partials/nav_links') %>
+        <div class="navLinks" >
+            <ul id="navLinks">
+                <li>
+                    <a href="/">Home </a>
+                </li>
+                <li>
+                    <a href="/public_rbs">Root Beers</a>
+                </li>
+                <li>
+                    <a href="/rb_about">About</a>
+                </li>
+                <li>
+                    <a href="/crypto/markets">Crypto</a>
+                </li>
+                <% if (user && user.active) { %>
+                    <li>
+                        <a href="/home">User Page</a>
+                    </li>
+                    <li>
+                        <a href="/logout">Log Out</a>
+                    </li>
+                <% } %>
+            </ul>
+            <div class="userLogo">
+                <a href='/'>
+                    <img src="../../imgs/cc_logo.png"/>
+                </a>
+            </div>
+        </div>
+        <div class="coin_data">
+            <img src="<%-market_data.image%>"/>
+            <h1><%-market_data.name %> (<%-market_data.symbol%>)</h1>
+            <a href="<%-market_data.homepage%>"><%-market_data.name%> homepage</a>
+            <h2>Current Price: <%-market_data.current_price%></h2>
+            <table>
+                <tr>
+                    <td>Genesis Date</td>
+                    <td><%- market_data.start_date %></td>
+                </tr>
+                <tr>
+                    <td>All Time High</td>
+                    <td><%- market_data.ath %></td>
+                </tr>
+                <tr>
+                    <td>All Time High Date</td>
+                    <td><%- market_data.ath_date %></td>
+                </tr>
+                <tr>
+                    <td>Marketcap</td>
+                    <td><%- market_data.market_cap %></td>
+                </tr>
+                <tr>
+                    <td>Rank</td>
+                    <td><%- market_data.rank %></td>
+                </tr>
+                <tr>
+                    <td>24 hr High</td>
+                    <td><%- market_data.high_24h %></td>
+                </tr>
+                <tr>
+                    <td>24 hr Low</td>
+                    <td><%- market_data.low_24h %></td>
+                </tr>
+            </table>
+            <div id="chart" class="price_chart"></div>
+        </div>
         <footer>
             <div class="portalBottom">
                 <div class="short">
-                <img src="../imgs/short_landscape.png"/>
+                <img src="../../imgs/short_landscape.png"/>
                 </div>
                 <div class="long">
-                <img src="../imgs/long_landscape.png"/>
+                <img src="../../imgs/long_landscape.png"/>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="../javascript/crypto_tables.js"></script>
-    <script src="../javascript/update_prices.js"></script>
+    <script>
+        const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
+        chart.render();
+    </script>
 </body>
 </html>
