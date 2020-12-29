@@ -41,40 +41,58 @@
             </div>
         </div>
         <div class="coin_data">
-            <img src="<%-market_data.image%>"/>
-            <h1><%-market_data.name %> (<%-market_data.symbol%>)</h1>
-            <a href="<%-market_data.homepage%>"><%-market_data.name%> homepage</a>
-            <h2>Current Price: <%-market_data.current_price%></h2>
-            <table>
-                <tr>
-                    <td>Genesis Date</td>
-                    <td><%- market_data.start_date %></td>
-                </tr>
-                <tr>
-                    <td>All Time High</td>
-                    <td><%- market_data.ath %></td>
-                </tr>
-                <tr>
-                    <td>All Time High Date</td>
-                    <td><%- market_data.ath_date %></td>
-                </tr>
-                <tr>
-                    <td>Marketcap</td>
-                    <td><%- market_data.market_cap %></td>
-                </tr>
-                <tr>
-                    <td>Rank</td>
-                    <td><%- market_data.rank %></td>
-                </tr>
-                <tr>
-                    <td>24 hr High</td>
-                    <td><%- market_data.high_24h %></td>
-                </tr>
-                <tr>
-                    <td>24 hr Low</td>
-                    <td><%- market_data.low_24h %></td>
-                </tr>
-            </table>
+            <div class="coin_header">
+                <div class="main">
+                  <div class="coin_img">
+                        <a href="<%-market_data.homepage%>">
+                            <img src="<%-market_data.image%>"/>
+                        </a>
+                  </div>
+                  <div class="coin_name">
+                      <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
+                  </div>
+                  <div class="coin_price">
+                      <table>
+                          <tr>
+                              <th>
+                                  Current Price
+                              </th>
+                          </tr>
+                          <tr>
+                              <td>
+                                  $<%-market_data.current_price%>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+                </div>
+                <div class="meta_data">
+                    <table>
+                        <tr>
+                            <td>Marketcap</td>
+                            <td><%- market_data.market_cap %></td>
+                            <td>Rank</td>
+                            <td><%- market_data.rank %></td>
+                        </tr>
+                        <tr>
+                            <td>All Time High</td>
+                            <td><%- market_data.ath %></td>
+                            <td>Date</td>
+                            <td><%- market_data.ath_date %></td>
+                        </tr>
+                        <tr>
+                            <td>24 hr High</td>
+                            <td><%- market_data.high_24h %></td>
+                            <td>24 hr Low</td>
+                            <td><%- market_data.low_24h %></td>
+                        </tr>
+                        <tr>
+                            <td>Genesis</td>
+                            <td><%- market_data.start_date %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <div id="chart" class="price_chart"></div>
         </div>
         <footer>
