@@ -59,7 +59,7 @@ class CryptoData {
         if (marketData && priceHistory) {
             result.res = {
                 market_data: marketData,
-                price_history: priceHistory
+                chart_options: this._makeChartOptions(priceHistory)
             }
 
             return result;
@@ -87,19 +87,50 @@ class CryptoData {
 
         return {
             name: data.name,
-            symbol: data.symbol,
+            symbol: data.symbol.toUpperCase(),
             homepage: data.links.homepage[0],
             image: data.image.large,
-            start_date: data.genesis_date,
-            current_price: data.market_data.current_price.usd,
-            ath: data.market_data.ath.usd,
-            ath_date: data.market_data.ath_date.usd,
-            market_cap: data.market_data.market_cap.usd,
+            start_date: this._formatDate(data.genesis_date),
+            current_price: this._formatNum(data.market_data.current_price.usd),
+            ath: this._formatNum(data.market_data.ath.usd),
+            ath_date: this._formatDate(data.market_data.ath_date.usd),
+            market_cap: this._marketCap(data.market_data.market_cap.usd),
             rank: data.market_data.market_cap_rank,
-            high_24h: data.market_data.high_24h.usd, 
-            low_24h: data.market_data.low_24h.usd
+            high_24h: this._formatNum(data.market_data.high_24h.usd), 
+            low_24h: this._formatNum(data.market_data.low_24h.usd)
         }
     }
+
+    private _marketCap(value: number): string {
+        const toString = Number(value).toFixed(0);
+    
+        const length = toString.length;
+    
+        if (length > 6 && length < 10) {
+            return `${toString.slice(0, length - 6)} M`;
+        }
+    
+        if (length > 9) {
+            return `${toString.slice(0, length - 9)} B`;
+        }
+    
+        return `${toString.slice(0, 3)} Th`;
+    }
+
+    private _formatDate(value: string): string {
+        if (value) {
+            const [year, month, date] = value.split('-');
+        
+            return `${month}/${date.split('T')[0]}/${year}`;
+        }
+
+        return 'na';
+    }
+
+    private _formatNum(value: number) {
+        return Number(value).toLocaleString('en');
+    }
+    
 
     private async coinHistory(symbol: string, days: number): Promise<number[][]> {
         const histOpts = {
@@ -170,6 +201,69 @@ class CryptoData {
                 params: options
             }
         );
+    }
+
+    private _makeChartOptions(priceHistory: number[][]) {
+        return {
+            series: [{
+                name: 'USD',
+                data: priceHistory
+            }],
+            chart: {
+                type: 'area',
+                stacked: false,
+                height: 500,
+                zoom: {
+                    type: 'x',
+                    enabled: true,
+                    autoScaleYaxis: true
+                },
+                    toolbar: {
+                    autoSelected: 'zoom'
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.5,
+                    opacityTo: 0,
+                    stops: [0, 90, 100]
+                },
+            },
+            yaxis: {
+                decimalsInFloat: 2,
+                labels: {
+                    show: true
+                },
+                title: {
+                    text: undefined
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+                labels: {
+                    format: 'MM/dd/yy',
+                    rotate: 45,
+                    rotateAlways: true,
+                    offsetY: 20
+                }
+            },
+            tooltip: {
+                shared: false,
+                x: {
+                    type: 'datetime',
+                    format: 'MM/dd/yy HH:mm:ss'
+                }  
+            }
+        };
     }
 }
 

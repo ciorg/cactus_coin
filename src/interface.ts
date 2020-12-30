@@ -117,11 +117,11 @@ export interface CoinMarketData {
     homepage: string;
     image: string;
     start_date: string;
-    current_price: number;
-    ath: number;
+    current_price: string;
+    ath: string;
     ath_date: string;
-    market_cap: number;
+    market_cap: string;
     rank: number;
-    high_24h: number;
-    low_24h: number
+    high_24h: string;
+    low_24h: string
 }

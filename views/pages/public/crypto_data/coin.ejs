@@ -43,52 +43,42 @@
         <div class="coin_data">
             <div class="coin_header">
                 <div class="main">
-                  <div class="coin_img">
-                        <a href="<%-market_data.homepage%>">
-                            <img src="<%-market_data.image%>"/>
-                        </a>
-                  </div>
-                  <div class="coin_name">
-                      <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
-                  </div>
-                  <div class="coin_price">
-                      <table>
-                          <tr>
-                              <th>
-                                  Current Price
-                              </th>
-                          </tr>
-                          <tr>
-                              <td>
-                                  $<%-market_data.current_price%>
-                              </td>
-                          </tr>
-                      </table>
-                  </div>
+                    <div class="coin_img">
+                            <a href="<%-market_data.homepage%>">
+                                <img src="<%-market_data.image%>"/>
+                            </a>
+                    </div>
+                    <div class="coin_name">
+                        <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
+                    </div>
                 </div>
                 <div class="meta_data">
                     <table>
                         <tr>
-                            <td>Marketcap</td>
+                            <td id="cprice_title"> Current Price</td>
+                            <td id="title">Symbol</td>
+                            <td><%- market_data.symbol %></td>
+                            <td id="title">Genesis</td>
+                            <td><%- market_data.start_date %></td>
+                        </tr>
+                        <tr>
+                            <td rowspan=3 id="cprice">$<%-market_data.current_price%></td>
+                            <td id="title">Marketcap</td>
                             <td><%- market_data.market_cap %></td>
-                            <td>Rank</td>
+                            <td id="title">Rank</td>
                             <td><%- market_data.rank %></td>
                         </tr>
                         <tr>
-                            <td>All Time High</td>
+                            <td id="title">All Time High</td>
                             <td><%- market_data.ath %></td>
-                            <td>Date</td>
+                            <td id="title">Date</td>
                             <td><%- market_data.ath_date %></td>
                         </tr>
                         <tr>
-                            <td>24 hr High</td>
+                            <td id="title">24 hr High</td>
                             <td><%- market_data.high_24h %></td>
-                            <td>24 hr Low</td>
+                            <td id="title">24 hr Low</td>
                             <td><%- market_data.low_24h %></td>
-                        </tr>
-                        <tr>
-                            <td>Genesis</td>
-                            <td><%- market_data.start_date %></td>
                         </tr>
                     </table>
                 </div>

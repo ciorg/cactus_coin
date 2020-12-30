@@ -1,7 +1,7 @@
 .coin_data {
     margin: auto;
     margin-top: 5px;
-    width: 90%;
+    width: 80%;
     height: 100%;
     background-color: white;
 }
@@ -9,13 +9,13 @@
 .coin_header {
     margin: auto;
     width: 100%;
-    height: 100px;
+    margin-bottom: 25px;
 }
 
 .coin_header a {
     text-decoration: none;
     font-size: 3.0em;
-    color: #d44c04;
+    color: #26389ca4;
 }
 
 .coin_header a:hover {
@@ -23,12 +23,12 @@
 }
 
 .main {
-    float: left;
     display:grid;
-    grid-template-columns: 10% 58% 30%;
+    margin: auto;
+    grid-template-columns: 40% 80%;
     grid-auto-rows: 1fr;
     grid-column-gap: 10px;
-    width:30%;
+    width:25%;
 }
 
 
@@ -38,7 +38,7 @@
 }
 
 .coin_img {
-    text-align: center;
+    text-align: right;
 }
 
 .coin_img img {
@@ -46,20 +46,51 @@
     margin-top: 15px;
 }
 
-.coin_price th {
-    background-color: #d44c04;
+.coin_name {
+    text-align: left;
 }
 
-.coin_price td {
+.meta_data {
+    height: 150px;
+}
+
+.meta_data table {
+    height: 150px;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 1.3em;
+    color: #5081ca;
+}
+
+.meta_data table td {
+    border: 2px solid black; 
+}
+
+#title, #cprice_title {
+    background-color: #26389ca4;
+    color: white;
+}
+
+#cprice {
     font-size: 2.5em;
 }
 
-.coin_price table, tr, th, td {
-    border: 2px solid black;
-    border-collapse: collapse;
+.portalBottom {
+    clear: both;
+    width: 100%;
+    position: relative;
 }
-   
 
-.meta_data table {
- 
+.short img {
+    height: 100px;
+    width: 20%;
+    float: right;
+}
+
+.long img {
+    height: 100px;
+    width: 80%;
+    float: left;
 }
