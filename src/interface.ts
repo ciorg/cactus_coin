@@ -112,6 +112,7 @@ export interface IPData {
 }
 
 export interface CoinMarketData {
+    id: string;
     name: string;
     symbol: string;
     homepage: string;
@@ -124,4 +125,10 @@ export interface CoinMarketData {
     rank: number;
     high_24h: string;
     low_24h: string
+}
+
+export interface CoinOpts {
+    id: string;
+    unit: string;
+    value: number
 }

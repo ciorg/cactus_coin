@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import Logger from '../utils/logger';
 import * as I from '../interface';
+import * as fs from 'fs-extra';
+import path from 'path';
 
 class CryptoData {
     base_url: string;
@@ -11,14 +13,32 @@ class CryptoData {
         this.logger = new Logger();
     }
 
-    async getData(type: string) {
-        
+    async getData(type: string, opts: I.CoinOpts = { id: 'na', value: 0, unit: 'days' }) {
         const result: I.Result = {
             res: undefined
         };
 
-       const data = await this._byMarketValue('usd');
+        let data: any;
+
+        if (type === 'market') {
+            data = await this._byMarketValue('usd');
+        }
         
+
+        if (type === 'coin') {
+            const marketData = await this.coinMarket(opts.id);
+            const priceHistory = await this._coinHistory(opts);
+
+            // const tData = fs.readJsonSync(path.join(process.cwd(), 'tests', 'fixtures', 'coin_resp.json'));
+            // const marketData = tData.market_data;
+            // const priceHistory = tData.price_history;
+
+            data = {
+                market_data: marketData,
+                chart_options: this._makeChartOptions(priceHistory)
+            }
+        }
+       
         if (data) {
             result.res = data;
             return result;
@@ -26,48 +46,6 @@ class CryptoData {
 
         result.error = true;
         return result;   
-    }
-
-    async coin(symbol: string, days: number) {
-        // all time high /coins/{id}
-        // ath date /coins/{id}
-        // atl /coins/{id}
-        // atl date /coins/{id}
-        // 24 hr high /coins/markets
-        // 24 hr low /coins/markets
-        // max supply /coins/markets
-        // circulating supply /coins/markets
-        // 52 week high
-        // 52 week low
-        // time series price last 7 days
-        // start day /coins/{id}
-        // link to site /coins/{id}
-        // image /coins/markets
-        // marketcap /coins/markets
-        // marketcap rank /coins/markets
-        // current price  /coins/markets
-        // 30, 60, 90, yr % change /coins/{id}
-        // 30 days by hour
-
-        const result: I.Result = {
-            res: undefined
-        }
-        
-        const marketData = await this.coinMarket(symbol);
-        const priceHistory = await this.coinHistory(symbol, days);
-
-        if (marketData && priceHistory) {
-            result.res = {
-                market_data: marketData,
-                chart_options: this._makeChartOptions(priceHistory)
-            }
-
-            return result;
-        }
-
-        result.error = true;
-
-        return result;
     }
 
     private async coinMarket(symbol: string): Promise<I.CoinMarketData> {
@@ -86,6 +64,7 @@ class CryptoData {
         const data = await this._getData(extention, marketOpts);
 
         return {
+            id: symbol,
             name: data.name,
             symbol: data.symbol.toUpperCase(),
             homepage: data.links.homepage[0],
@@ -132,21 +111,51 @@ class CryptoData {
     }
     
 
-    private async coinHistory(symbol: string, days: number): Promise<number[][]> {
+    private async _coinHistory(opts: I.CoinOpts): Promise<number[][]> {
         const histOpts = {
-            id: symbol,
+            id: opts.id,
             vs_currency: 'usd',
-            days,
-            interval: 'hourly'
+            days: this._makeDays(opts),
+            interval: this._getInterval(opts)
         };
 
-        const histExt = `/coins/${symbol}/market_chart`;
+        const histExt = `/coins/${opts.id}/market_chart`;
 
         const data: { [field: string]: number[][] } = await this._getData(histExt, histOpts);
 
         if (data == null) return [];
 
         return data.prices;
+    }
+
+    _makeDays(opts: I.CoinOpts) {
+        if (opts.unit === 'years') {
+            return opts.value * 365;
+        }
+
+        if (opts.unit === 'weeks') {
+            return opts.value * 7;
+        }
+
+        if (opts.unit === 'months') {
+            return opts.value * 30;
+        }
+
+        return opts.value;
+    }
+
+    private _getInterval(opts: I.CoinOpts): string {
+        if (opts.unit === 'days' && opts.value === 1) {
+            return 'minutely';
+        }
+
+        if ((opts.unit === 'days' && opts.value < 31)
+            || (opts.unit === 'months' && opts.value < 2)
+            || (opts.unit === 'weeks' && opts.value < 5)) {
+            return 'hourly';
+        }
+
+        return 'daily';
     }
 
     private async _byMarketValue(currency: string, size = 100) {

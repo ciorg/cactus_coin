@@ -83,6 +83,23 @@
                     </table>
                 </div>
             </div>
+            <div class="coin_graph_form">
+                <form action="/crypto/coin/<%-market_data.id %>" method="post">
+                    <label for="period">Value</label>
+                    <input type="text" id="period" name="period" type="number" required>
+                    <label for="time_unit">Units:</label>
+                        <select id="unit" name="unit">
+                            <option id="tvalue" value="days">Days</option>
+                            <option id="tvalue" value="months">Months</option>
+                            <option id="tvalue" value="weeks">Weeks</option>
+                            <option id="tvalue" value="years">Years</option>
+                        </select>
+                    </br>
+                    <button type="submit" value="price_range">
+                        Change Time Frame
+                    </button>
+                </form>
+            </div>
             <div id="chart" class="price_chart"></div>
         </div>
         <footer>

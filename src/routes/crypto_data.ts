@@ -1,6 +1,4 @@
 import express, { Request, Response } from 'express';
-import * as fs from 'fs-extra';
-import path from 'path';
 import CryptoData from '../controllers/crypto_data'
 import * as I from '../interface';
 
@@ -25,10 +23,14 @@ router.get('/crypto/markets',
 router.get('/crypto/coin/:id',
     async(req: Request, res: Response) => {
         const id = req.params.id;
-    
-        const data = await cryptoData.coin(id, 30);
 
-        // const tData = fs.readJsonSync(path.join(process.cwd(), 'tests', 'fixtures', 'coin_resp.json'));
+        const opts = {
+            id,
+            unit: 'days',
+            value: 30
+        }
+    
+        const data = await cryptoData.getData('coin', opts);
 
         if (data.error) {
             return res.redirect('/error');
@@ -41,5 +43,27 @@ router.get('/crypto/coin/:id',
         });
     }
 );
+
+router.post('/crypto/coin/:id',
+    async (req: Request, res: Response) => {
+        if (!req.body && !req.body.period && !req.body.unit) {
+            res.redirect('/error');
+        }
+
+        const opts = {
+            id: req.params.id,
+            unit:req.body.unit,
+            value:  Number(req.body.period)
+        }
+
+        const data: I.Result = await cryptoData.getData('coin', opts);
+
+        res.render('pages/public/crypto_data/coin', {
+            user: req.user,
+            market_data: data.res.market_data,
+            chart_options: data.res.chart_options
+        });
+    }
+)
 
 export = router;
