@@ -48,9 +48,9 @@ class LimiterWrapper {
         this.search = new RateLimiterMongo({
             storeClient: mongoose.connection,
             keyPrefix: 'search',
-            points: 11,
+            points: 20,
             duration: 10,
-            blockDuration: 86400
+            blockDuration: 3600
         });
     }
 

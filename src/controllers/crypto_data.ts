@@ -26,12 +26,13 @@ class CryptoData {
         
 
         if (type === 'coin') {
-            const marketData = await this.coinMarket(opts.id);
-            const priceHistory = await this._coinHistory(opts);
-
-            // const tData = fs.readJsonSync(path.join(process.cwd(), 'tests', 'fixtures', 'coin_resp.json'));
-            // const marketData = tData.market_data;
-            // const priceHistory = tData.price_history;
+            const [
+                marketData,
+                priceHistory
+            ] = await Promise.all([
+                this._coinMarket(opts.id),
+                this._coinHistory(opts)
+            ]);
 
             data = {
                 market_data: marketData,
@@ -48,7 +49,7 @@ class CryptoData {
         return result;   
     }
 
-    private async coinMarket(symbol: string): Promise<I.CoinMarketData> {
+    private async _coinMarket(symbol: string): Promise<I.CoinMarketData> {
         const marketOpts = {
             id: symbol,
             localization: false,

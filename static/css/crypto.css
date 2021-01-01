@@ -26,6 +26,16 @@
     background-color: #ef2556;
 }
 
+.crypto_market a {
+    text-decoration: none;
+    color: #26389ca4;
+}
+
+.crypto_market a:hover {
+    color: #374175a4;
+    font-weight: bold;
+}
+
 .crypto_market button {
     margin-top: 10px;
     width: 6%;

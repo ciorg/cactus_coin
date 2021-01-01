@@ -1,13 +1,22 @@
 import express, { Request, Response } from 'express';
 import CryptoData from '../controllers/crypto_data'
+import RateLimiter from '../utils/rate_limiter';
+
 import * as I from '../interface';
 
 const router = express.Router();
 const cryptoData = new CryptoData();
+const rateLimiter = new RateLimiter();
 
 router.get('/crypto/markets',
     async (req: Request, res: Response) => {
         const data = await cryptoData.getData('market');
+
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
 
         if (data.error) {
             return res.redirect('/error');
@@ -22,6 +31,12 @@ router.get('/crypto/markets',
 
 router.get('/crypto/coin/:id',
     async(req: Request, res: Response) => {
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
         const id = req.params.id;
 
         const opts = {
@@ -46,6 +61,12 @@ router.get('/crypto/coin/:id',
 
 router.post('/crypto/coin/:id',
     async (req: Request, res: Response) => {
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
         if (!req.body && !req.body.period && !req.body.unit) {
             res.redirect('/error');
         }
