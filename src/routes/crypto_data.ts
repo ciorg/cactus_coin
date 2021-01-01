@@ -1,21 +1,90 @@
 import express, { Request, Response } from 'express';
 import CryptoData from '../controllers/crypto_data'
+import RateLimiter from '../utils/rate_limiter';
+
+import * as I from '../interface';
 
 const router = express.Router();
 const cryptoData = new CryptoData();
+const rateLimiter = new RateLimiter();
 
 router.get('/crypto/markets',
     async (req: Request, res: Response) => {
-    const data = await cryptoData.getData('market');
+        const data = await cryptoData.getData('market');
 
-    if (data.error) {
-        return res.redirect('/error');
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
+        if (data.error) {
+            return res.redirect('/error');
+        }
+
+        res.render('pages/public/crypto_data/markets', {
+            user: req.user,
+            data: data.res
+        });
     }
+);
 
-    res.render('pages/public/crypto_data/markets', {
-        user: req.user,
-        data: data.res
-    });
-});
+router.get('/crypto/coin/:id',
+    async(req: Request, res: Response) => {
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
+        const id = req.params.id;
+
+        const opts = {
+            id,
+            unit: 'days',
+            value: 30
+        }
+    
+        const data = await cryptoData.getData('coin', opts);
+
+        if (data.error) {
+            return res.redirect('/error');
+        }
+
+        res.render('pages/public/crypto_data/coin', {
+            user: req.user,
+            market_data: data.res.market_data,
+            chart_options: data.res.chart_options
+        });
+    }
+);
+
+router.post('/crypto/coin/:id',
+    async (req: Request, res: Response) => {
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
+        if (!req.body && !req.body.period && !req.body.unit) {
+            res.redirect('/error');
+        }
+
+        const opts = {
+            id: req.params.id,
+            unit:req.body.unit,
+            value:  Number(req.body.period)
+        }
+
+        const data: I.Result = await cryptoData.getData('coin', opts);
+
+        res.render('pages/public/crypto_data/coin', {
+            user: req.user,
+            market_data: data.res.market_data,
+            chart_options: data.res.chart_options
+        });
+    }
+)
 
 export = router;

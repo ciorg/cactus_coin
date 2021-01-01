@@ -1,0 +1,142 @@
+.coin_data {
+    margin: auto;
+    margin-top: 5px;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+}
+
+.coin_header {
+    margin: auto;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.coin_header a {
+    text-decoration: none;
+    font-size: 3.0em;
+    color: #26389ca4;
+}
+
+.coin_header a:hover {
+    font-weight: 600;
+}
+
+.main {
+    display:grid;
+    margin: auto;
+    grid-template-columns: 40% 80%;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 10px;
+    width:25%;
+}
+
+
+.coin_img, .coin_name {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.coin_img {
+    text-align: right;
+}
+
+.coin_img img {
+    height: 60px; 
+    margin-top: 15px;
+}
+
+.coin_name {
+    text-align: left;
+}
+
+.meta_data {
+    height: 150px;
+}
+
+.meta_data table {
+    height: 150px;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 1.3em;
+    color: #5081ca;
+}
+
+.meta_data table td {
+    border: 2px solid #26389ca4; 
+}
+
+#title, #cprice_title {
+    background-color: #26389ca4;
+    color: white;
+}
+
+#cprice {
+    font-size: 2.5em;
+}
+
+.coin_graph_form {
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    height: 75px;
+}
+
+.coin_graph_form label {
+    color: #5081ca;
+    font-size: 1.4em;
+    margin-left: 10px;
+}
+
+.coin_graph_form input[type=text] {
+    width: 40px;
+    height: 1.8em;
+    font-size: 1em;
+    border-radius: 6px;
+    color: #5081ca;
+}
+
+.coin_graph_form button {
+    width: 200px;
+    font-size: 1.1em;
+    color: white;
+    border-radius: 5px;
+    background-color: #26389ca4;
+    margin-top: 15px;
+}
+
+.coin_graph_form select {
+    background: #fff;
+    font-size: 1.1em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #5081ca;
+}
+
+#tvalue {
+    background: #fff;
+    font-size: 1.1em;
+    color: #5081ca;
+}
+
+.portalBottom {
+    clear: both;
+    width: 100%;
+    position: relative;
+}
+
+.short img {
+    height: 100px;
+    width: 20%;
+    float: right;
+}
+
+.long img {
+    height: 100px;
+    width: 80%;
+    float: left;
+}

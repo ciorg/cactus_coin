@@ -31,7 +31,12 @@ async function main() {
     app.use(helmet({
         contentSecurityPolicy: {
             directives: {
-                'default-src': ["'self'", "'unsafe-inline'", 'api.coingecko.com/api/v3/coins/'],
+                'default-src': [
+                    "'self'",
+                    "'unsafe-inline'",
+                    'api.coingecko.com/api/v3/coins/',
+                    'assets.coingecko.com/coins/images/'
+                ],
                 'script-src-elem': ['https:',"'unsafe-inline'", "'self'"],
                 'script-src': [
                     'ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',

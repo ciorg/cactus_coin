@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
+    <link rel="stylesheet" type="text/css" href="../../css/rb.css">
+    <link rel="stylesheet" type="text/css" href="../../css/coin_data.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <title>Cactus Coin</title>
+</head>
+<body>
+    <div class="display_page_body">
+        <div class="navLinks" >
+            <ul id="navLinks">
+                <li>
+                    <a href="/">Home </a>
+                </li>
+                <li>
+                    <a href="/public_rbs">Root Beers</a>
+                </li>
+                <li>
+                    <a href="/rb_about">About</a>
+                </li>
+                <li>
+                    <a href="/crypto/markets">Crypto</a>
+                </li>
+                <% if (user && user.active) { %>
+                    <li>
+                        <a href="/home">User Page</a>
+                    </li>
+                    <li>
+                        <a href="/logout">Log Out</a>
+                    </li>
+                <% } %>
+            </ul>
+            <div class="userLogo">
+                <a href='/'>
+                    <img src="../../imgs/cc_logo.png"/>
+                </a>
+            </div>
+        </div>
+        <div class="coin_data">
+            <div class="coin_header">
+                <div class="main">
+                    <div class="coin_img">
+                            <a href="<%-market_data.homepage%>">
+                                <img src="<%-market_data.image%>"/>
+                            </a>
+                    </div>
+                    <div class="coin_name">
+                        <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
+                    </div>
+                </div>
+                <div class="meta_data">
+                    <table>
+                        <tr>
+                            <td id="cprice_title"> Current Price</td>
+                            <td id="title">Symbol</td>
+                            <td><%- market_data.symbol %></td>
+                            <td id="title">Genesis</td>
+                            <td><%- market_data.start_date %></td>
+                        </tr>
+                        <tr>
+                            <td rowspan=3 id="cprice">$<%-market_data.current_price%></td>
+                            <td id="title">Marketcap</td>
+                            <td><%- market_data.market_cap %></td>
+                            <td id="title">Rank</td>
+                            <td><%- market_data.rank %></td>
+                        </tr>
+                        <tr>
+                            <td id="title">All Time High</td>
+                            <td><%- market_data.ath %></td>
+                            <td id="title">Date</td>
+                            <td><%- market_data.ath_date %></td>
+                        </tr>
+                        <tr>
+                            <td id="title">24 hr High</td>
+                            <td><%- market_data.high_24h %></td>
+                            <td id="title">24 hr Low</td>
+                            <td><%- market_data.low_24h %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="coin_graph_form">
+                <form action="/crypto/coin/<%-market_data.id %>" method="post">
+                    <label for="period">Value</label>
+                    <input type="text" id="period" name="period" type="number" required>
+                    <label for="time_unit">Units:</label>
+                        <select id="unit" name="unit">
+                            <option id="tvalue" value="days">Days</option>
+                            <option id="tvalue" value="months">Months</option>
+                            <option id="tvalue" value="weeks">Weeks</option>
+                            <option id="tvalue" value="years">Years</option>
+                        </select>
+                    </br>
+                    <button type="submit" value="price_range">
+                        Change Time Frame
+                    </button>
+                </form>
+            </div>
+            <div id="chart" class="price_chart"></div>
+        </div>
+        <footer>
+            <div class="portalBottom">
+                <div class="short">
+                <img src="../../imgs/short_landscape.png"/>
+                </div>
+                <div class="long">
+                <img src="../../imgs/long_landscape.png"/>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script>
+        const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
+        chart.render();
+    </script>
+</body>
+</html>
