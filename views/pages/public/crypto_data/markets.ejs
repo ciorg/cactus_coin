@@ -16,7 +16,6 @@
     <div class="display_page_body">
         <%- include('../pub_partials/nav_links') %>
         <div class="crypto_market">
-            <button onclick="getPrices()">Update Prices</button>
             <table id="market_table">
                 <thead>
                     <tr>
@@ -31,8 +30,8 @@
                     <% data.forEach((i, n) => { %>
                     <tr>
                         <td><%- n + 1 %></td>
-                        <td><%-i.name %></td>
-                        <td><%-i.symbol %></td>
+                        <td><a href="/crypto/coin/<%-i.id%>"><%-i.name %></a></td>
+                        <td><a href="/crypto/coin/<%-i.id%>"><%-i.symbol %></a></td>
                         <td id="<%- i.symbol %>_price"><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
                         <% if (i.change_per > 0) { %>
                             <td class="up" id="<%-i.symbol%>_dper"><%-Number(i.change_per).toFixed(4) %></td>
@@ -43,6 +42,7 @@
                 <% }); %>
                 </tbody>
             </table>
+            <button onclick="getPrices()">Update</button>
         </div>
         <footer>
             <div class="portalBottom">
