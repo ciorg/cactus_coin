@@ -132,3 +132,11 @@ export interface CoinOpts {
     unit: string;
     value: number
 }
+
+export interface Note {
+    user_id: string;
+    id: string;
+    created: Date;
+    content: string;
+    tags: string[];
+}
