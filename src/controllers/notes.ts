@@ -14,20 +14,21 @@ class Notes {
         this.action = new Actions(NotesModel);
     }
 
-    async create(req: Request) {
+    async create(req: Request): Promise<I.Result> {
         const { user }: any = req;
     
         const note: Partial<I.Note> = {
-            user_id: user._id,
+            user: user._id,
             created: new Date(),
+            title: req.body.title,
             content: req.body.content,
-            tags: req.body.tags
+            tags: this._splitTags(req.body.tags)
         };
 
         return this.action.create(note);
     }
 
-    async getUsersNotes(req: Request) {
+    async getUsersNotes(req: Request): Promise<I.Result> {
         const { user }: any = req;
 
         const notes = await this.action.search('user', user._id);
@@ -41,6 +42,33 @@ class Notes {
         return {
             res: notesDocs
         };
+    }
+
+    async view(req: Request): Promise<I.Result> {
+        return this.action.searchById(req.params.id);
+    }
+
+
+    async update(req: Request): Promise<I.Result> {
+        const { user }: any = req;
+    
+        const note: Partial<I.Note> = {
+            user: user._id,
+            created: new Date(),
+            title: req.body.title,
+            content: req.body.content,
+            tags: this._splitTags(req.body.tags)
+        };
+
+        return this.action.update(req.params.id, note);
+    }
+
+    async delete(req: Request): Promise<I.Result> {
+        return this.action.delete(req.params.id);
+    }
+
+    private _splitTags(tags: string): string[] {
+        return tags.split(' ').filter((tag) => tag.trim().length > 0);
     }
 
 

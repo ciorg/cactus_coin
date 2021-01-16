@@ -134,9 +134,10 @@ export interface CoinOpts {
 }
 
 export interface Note {
-    user_id: string;
+    user: string;
     id: string;
     created: Date;
     content: string;
-    tags: string[];
+    title: string;
+    tags?: string[];
 }

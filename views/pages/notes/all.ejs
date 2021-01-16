@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../../partials/head'); -%>
+        <link rel="stylesheet" type="text/css" href="css/notes.css">
+    </head>
+
+    <body>
+        <div class="pageBody">
+            <%- include('../../partials/nav_bar'); %>
+            <div class="view_notes">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Title</th>
+                            <th>Preview</th>
+                            <th>Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const note of notes) {%>
+                            <tr>
+                                <td><%- note.created %></td>
+                                <td><%- note.title %></td>
+                                <td><%- note.content %></td>
+                                <td><%- note.tags %></td>
+                                <td><a href="/note/<%-note._id%>/view">View</a></td>
+                                <td><a href="/note/<%-note._id%>/delete">Delete</a></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="enter_note">
+                <p>Enter a Note</p>
+                <form action="/note/<%= user._id %>" method="post" id="add_note">
+                    <input type="text" name="title" placeholder="Title" id="note_title"/>
+                    <br/>      
+                    <textarea name="content" form="add_note" id="note_content" rows="10" cols="30">Note Content</textarea>
+                    <br/>
+                    <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
+                    <br/>
+                    <button type="submit" value="note" class="add_note" >
+                        Add Note
+                    </button>
+                </form>
+            </div>
+            <footer>
+                <%- include('../../partials/footer'); %>
+            </footer>
+        </div>
+    </body>
+</html>

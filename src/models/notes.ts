@@ -9,7 +9,14 @@ const NoteSchema = new Schema({
         type: String,
         required: true
     },
-    content: String,
+    title: {
+        type: String,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
     tags: [String]
 });
 

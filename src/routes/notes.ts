@@ -8,19 +8,20 @@ const notes = new Notes();
 const router = express.Router();
 
 router.post(
-    '/note/:id',
+    '/note/:user_id',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
+        const result = await notes.create(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        return res.redirect('/notes');
     }
 );
 
-router.post('/note/:id/update',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: Request, res: Response) => {
-    }
-)
 
 router.get('/notes',
     connectEnsureLogin.ensureLoggedIn('/'),
@@ -33,13 +34,54 @@ router.get('/notes',
         }
 
         return res.render(
-            'pages/notes/view',
+            'pages/notes/all',
             { user: req.user, notes: result.res }
         );
         
 });
 
-router.get('/note/:id/delete', async (req: Request, res: Response) => {
+router.get('/note/:id/view',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const result = await notes.view(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        return res.render(
+            'pages/notes/one',
+            { user: req.user, note: result.res}
+        );
+    }
+);
+
+router.post('/note/:id/update',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const result = await notes.update(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        res.redirect(`/note/${req.params.id}/view`);
+    }
+);
+
+router.get('/note/:id/delete', 
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const result = await notes.delete(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        return res.redirect('/notes');
 });
 
 export = router;
