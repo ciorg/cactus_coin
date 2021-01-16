@@ -5,7 +5,7 @@ const NoteSchema = new Schema({
         type: Date,
         required: true
     },
-    user_id: {
+    user: {
         type: String,
         required: true
     },

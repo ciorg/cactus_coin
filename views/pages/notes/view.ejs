@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../../partials/head'); -%>
+        <link rel="stylesheet" type="text/css" href="css/notes.css">
+    </head>
+
+    <body>
+        <div class="pageBody">
+            <%- include('../../partials/nav_bar'); %>
+            <div class="enter_note">
+                <p>Here is some text</p>
+                <form action="/notes/<%= user._id %>" method="post" id="add_note">
+                    <input type="text" name="title" placeholder="Title" id="note_title"/>
+                    <br/>      
+                    <textarea name="content" form="add_note" id="note_content" rows="10" cols="30">Note Content</textarea>
+                    <br/>
+                    <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
+                    <br/>
+                    <button type="submit" value="note" class="add_note" >
+                        Add Note
+                    </button>
+                </form>
+            </div>
+            <footer>
+                <%- include('../../partials/footer'); %>
+            </footer>
+        </div>
+    </body>
+</html>

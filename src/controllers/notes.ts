@@ -27,6 +27,22 @@ class Notes {
         return this.action.create(note);
     }
 
+    async getUsersNotes(req: Request) {
+        const { user }: any = req;
+
+        const notes = await this.action.search('user', user._id);
+
+        if (notes.error) return notes;
+
+        const notesDocs = this.utils.getDocs(notes.res);
+
+        this.utils.formatDate(notesDocs);
+
+        return {
+            res: notesDocs
+        };
+    }
+
 
     // add note to db
     // update note in db
