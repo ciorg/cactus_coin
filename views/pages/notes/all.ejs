@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include('../../partials/head'); -%>
+        <meta charset="utf-8">
+
+        <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/home.css">
+        <title>Cactus Coin</title>
         <link rel="stylesheet" type="text/css" href="css/notes.css">
     </head>
 
@@ -31,24 +35,27 @@
                         <% } %>
                     </tbody>
                 </table>
+                <a href="#" onclick="slide('enter_note', 'height', 500)">Add New Note</a>
             </div>
-            <div class="enter_note">
-                <p>Enter a Note</p>
-                <form action="/note/<%= user._id %>" method="post" id="add_note">
-                    <input type="text" name="title" placeholder="Title" id="note_title"/>
-                    <br/>      
-                    <textarea name="content" form="add_note" id="note_content" rows="10" cols="30">Note Content</textarea>
-                    <br/>
-                    <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
-                    <br/>
-                    <button type="submit" value="note" class="add_note" >
-                        Add Note
-                    </button>
-                </form>
+            <div class="enter_note" id="enter_note">
+                <div class="note_form">
+                    <form action="/note/<%= user._id %>" method="post" id="add_note">
+                        <input type="text" name="title" placeholder="Title" id="note_title" required="true"/>
+                        <br/>      
+                        <textarea name="content" form="add_note" id="note_content" rows="10" cols="60" placeholder="Enter Content" required="true"></textarea>
+                        <br/>
+                        <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
+                        <br/>
+                        <button type="submit" value="note" class="note_button">
+                            Save
+                        </button>
+                    </form>
+                </div>
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>
             </footer>
         </div>
+        <script src="../javascript/portal.js"></script>
     </body>
 </html>

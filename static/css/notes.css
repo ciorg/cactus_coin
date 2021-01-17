@@ -1,20 +1,93 @@
+.pageBody {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    font-family: 'Varela';
+    background-image: linear-gradient(#ef2556, #facc04);
+    position: fixed;
+}
+
+.portalBottom {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 100px;
+}
+
+.short img {
+    height: 100px;
+    width: 20%;
+    float: right;
+}
+  
+.long img {
+    height: 100px;
+    width: 80%;
+    float: left;
+}
+
 .enter_note {
     width: 50%;
-    text-align: center;
     margin: auto;
-    border: 2px solid blue;
+    background-color: white;
+    border-radius: 10px;
+    height: 0; /* 100% Full-height */
+    z-index: 1; /* Stay on top */
+    transition: 0.2s; 
+    overflow-y: hidden; /* Disable horizontal scroll */
+    background-color: white;
+    font-family: 'Varela';
+    color: #cb7519;
+    border: 2px solid #d44c04
+  }
+
+.note_form{
+    margin: auto;
+    width: 80%;
+    font-family: 'Varela';
+    font-size: 2em;
 }
 
 #note_title {
-    width: 25%;
+    width: 40%;
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 
 #note_content {
-    width: 80%;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 0.75em;
 }
 
 #note_tags {
     width: 40%;
+    margin-bottom: 15px;
+}
+
+input[type=text] {
+    height: 0.9em;
+    font-size: 0.75em;
+}
+
+
+.note_button:hover {
+    background-color: #facc04;
+    color: #d44c04
+}
+  
+.note_button {
+    width: 15%;
+    font-size: 0.75em;
+    color: #facc04;
+    border-radius: 10px;
+    background-color: #d44c04;
+    margin-top: 5%;
+}
+
+.enter_note button {
+    margin-bottom: 10px;
 }
 
 .view_notes {
