@@ -37,7 +37,6 @@ router.get('/notes',
             'pages/notes/all',
             { user: req.user, notes: result.res }
         );
-        
 });
 
 router.get('/note/:id/view',
@@ -83,5 +82,24 @@ router.get('/note/:id/delete',
 
         return res.redirect('/notes');
 });
+
+router.use('/notes/search/:tag', express.static('../../static'));
+router.get('/notes/search/:tag',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const result = await notes.searchTag(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        return res.render(
+            'pages/notes/all',
+            { user: req.user, notes: result.res }
+        );
+    }
+);
+
 
 export = router;

@@ -27,6 +27,59 @@
     float: left;
 }
 
+.view_notes {
+    width: 80%;
+    margin: auto;
+}
+
+.view_notes table {
+    color: #8d3606;
+    width: 100%;
+    margin-top: 10px;
+    background-color:  white;
+    margin-bottom: 10px;
+}
+
+.view_notes table, th, tr, td {
+    border: 2px solid #d44c04;
+    border-collapse: collapse;
+}
+
+.view_notes th {
+    background-color: #d44c04;
+    color: white;
+}
+
+.view_notes th:hover {
+    background-color: #ef2556;
+}
+
+.view_notes a {
+    text-decoration: none;
+    color: #26389ca4;
+}
+
+.view_notes a:hover {
+    color: #afb7e2a4;
+}
+
+#add_note_link {
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #d44c04;
+}
+
+#add_note_link:hover {
+    color: #d44c04;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #fff;
+
+}
+
 .enter_note {
     width: 50%;
     margin: auto;
@@ -71,7 +124,6 @@ input[type=text] {
     font-size: 0.75em;
 }
 
-
 .note_button:hover {
     background-color: #facc04;
     color: #d44c04
@@ -88,12 +140,4 @@ input[type=text] {
 
 .enter_note button {
     margin-bottom: 10px;
-}
-
-.view_notes {
-    border: 2px solid white;
-}
-
-.view_notes table {
-    margin: auto;
 }

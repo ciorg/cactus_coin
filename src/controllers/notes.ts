@@ -48,7 +48,6 @@ class Notes {
         return this.action.searchById(req.params.id);
     }
 
-
     async update(req: Request): Promise<I.Result> {
         const { user }: any = req;
     
@@ -67,16 +66,13 @@ class Notes {
         return this.action.delete(req.params.id);
     }
 
+    async searchTag(req: Request): Promise<I.Result> {
+        return this.action.search('tags', req.params.tag);
+    }
+
     private _splitTags(tags: string): string[] {
         return tags.split(' ').filter((tag) => tag.trim().length > 0);
     }
-
-
-    // add note to db
-    // update note in db
-    // read note
-    // delete note
-
 }
 
 export = Notes;
