@@ -2,15 +2,13 @@
 <html lang="en">
     <head>
         <%- include('../../partials/head'); -%>
-        <link rel="stylesheet" type="text/css" href="css/notes.css">
+        <link rel="stylesheet" type="text/css" href="/css/notes.css">
     </head>
 
     <body>
         <div class="pageBody">
             <%- include('../../partials/nav_bar'); %>
-            <div class="enter_note">
-                <p>Enter a Note</p>
-                <p><%- note._id %></p>
+            <div class="view_note">
                 <form action="/note/<%= note._id %>/update" method="post" id="update_note">
                     <input type="text" name="title" id="note_title" value="<%- note.title %>"/>
                     <br/>      

@@ -23,21 +23,20 @@
                             <th>Title</th>
                             <th>Preview</th>
                             <th>Tags</th>
-                            <th colspan="2">Links</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (const note of notes) {%>
                             <tr>
                                 <td><%- note.created %></td>
-                                <td><%- note.title %></td>
-                                <td><%- `${note.content.trim().slice(0, 50)}`%></td>
+                                <td><a href="/note/<%-note._id%>/view"><%- note.title %></a></td>
+                                <td id="lean_left"><%- `${note.content.trim().slice(0, 50)}`%></td>
                                 <td>
                                     <% for (const tag of note.tags) {%>
                                     <a href="/notes/search/<%- tag %>"><%- tag %></a>
                                     <% } %>
                                 </td>
-                                <td><a href="/note/<%-note._id%>/view">View</a></td>
                                 <td><a href="/note/<%-note._id%>/delete">Delete</a></td>
                             </tr>
                         <% } %>

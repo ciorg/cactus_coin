@@ -33,15 +33,7 @@ class Notes {
 
         const notes = await this.action.search('user', user._id);
 
-        if (notes.error) return notes;
-
-        const notesDocs = this.utils.getDocs(notes.res);
-
-        this.utils.formatDate(notesDocs);
-
-        return {
-            res: notesDocs
-        };
+        return this.formatNotes(notes);
     }
 
     async view(req: Request): Promise<I.Result> {
@@ -53,7 +45,6 @@ class Notes {
     
         const note: Partial<I.Note> = {
             user: user._id,
-            created: new Date(),
             title: req.body.title,
             content: req.body.content,
             tags: this._splitTags(req.body.tags)
@@ -67,7 +58,22 @@ class Notes {
     }
 
     async searchTag(req: Request): Promise<I.Result> {
-        return this.action.search('tags', req.params.tag);
+        const notes = await this.action.search('tags', req.params.tag);
+
+        return this.formatNotes(notes);
+    }
+
+    private formatNotes(result: I.Result): I.Result {
+        if (result.error) return result;
+
+        const asDocs = this.utils.getDocs(result.res);
+
+        this.utils.formatDate(asDocs);
+
+        return {
+            res: asDocs
+        }
+
     }
 
     private _splitTags(tags: string): string[] {

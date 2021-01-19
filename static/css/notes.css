@@ -38,6 +38,11 @@
     margin-top: 10px;
     background-color:  white;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+#lean_left {
+    text-align: left;
 }
 
 .view_notes table, th, tr, td {
@@ -140,4 +145,9 @@ input[type=text] {
 
 .enter_note button {
     margin-bottom: 10px;
+}
+
+.view_note {
+    width: 80%;
+    margin: auto;
 }

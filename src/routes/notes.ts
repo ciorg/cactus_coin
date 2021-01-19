@@ -83,7 +83,6 @@ router.get('/note/:id/delete',
         return res.redirect('/notes');
 });
 
-router.use('/notes/search/:tag', express.static('../../static'));
 router.get('/notes/search/:tag',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
