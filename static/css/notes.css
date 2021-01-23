@@ -88,6 +88,7 @@
 .enter_note {
     width: 60%;
     margin: auto;
+    margin-top: 20px;
     background-color: white;
     border-radius: 10px;
     height: 0; /* 100% Full-height */
@@ -97,12 +98,12 @@
     background-color: white;
     font-family: 'Varela';
     color: #cb7519;
-    border: 1px solid #d44c04;
     position: relative;
   }
 
 .note_form {
     margin: auto;
+    margin-left: 10px;
     width: 50%;
     font-family: 'Varela';
     font-size: 1.3em;
