@@ -19,7 +19,7 @@
     height: 100px;
     width: 20%;
     float: right;
-}
+  }
   
 .long img {
     height: 100px;
@@ -28,7 +28,7 @@
 }
 
 .view_notes {
-    width: 80%;
+    width: 60%;
     margin: auto;
 }
 
@@ -86,29 +86,31 @@
 }
 
 .enter_note {
-    width: 50%;
+    width: 60%;
     margin: auto;
     background-color: white;
     border-radius: 10px;
     height: 0; /* 100% Full-height */
-    z-index: 1; /* Stay on top */
+    z-index: 3; /* Stay on top */
     transition: 0.2s; 
     overflow-y: hidden; /* Disable horizontal scroll */
     background-color: white;
     font-family: 'Varela';
     color: #cb7519;
-    border: 2px solid #d44c04
+    border: 1px solid #d44c04;
+    position: relative;
   }
 
-.note_form{
+.note_form {
     margin: auto;
-    width: 80%;
+    width: 50%;
     font-family: 'Varela';
-    font-size: 2em;
+    font-size: 1.3em;
+    float: left;
 }
 
 #note_title {
-    width: 40%;
+    width: 60%;
     margin-top: 20px;
     margin-bottom: 15px;
 }
@@ -120,13 +122,19 @@
 }
 
 #note_tags {
-    width: 40%;
+    width: 60%;
     margin-bottom: 15px;
 }
 
-input[type=text] {
-    height: 0.9em;
+.enter_note input[type=text] {
+    height: 1.2em;
     font-size: 0.75em;
+    color: #d44c04;
+}
+
+.enter_note textarea {
+    font-size: 0.75em;
+    color: #d44c04;
 }
 
 .note_button:hover {
@@ -135,7 +143,8 @@ input[type=text] {
 }
   
 .note_button {
-    width: 15%;
+    padding: 3px;
+    width: 10%;
     font-size: 0.75em;
     color: #facc04;
     border-radius: 10px;
@@ -148,6 +157,44 @@ input[type=text] {
 }
 
 .view_note {
-    width: 80%;
+    width: 50%;
     margin: auto;
+    background-color: white;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.view_note form {
+    margin: auto;
+    width: 80%;
+}
+
+#view_note_title {
+    text-align: center;
+    font-size: 3em;
+    border: none;
+    margin: auto;
+}
+
+#view_note_content {
+    font-family: 'Varela';
+    font-size: 1.5em;
+    border: 2px solid #facc04;
+    border-radius: 10px;
+    background-color: white;
+    width: 95%;
+    resize: none;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#view_note_tags {
+    font-size: 2em;
+    border: none;
+    background-color: white;
+}
+
+.preview_note {
+    float: right;
+    width: 40%;
 }

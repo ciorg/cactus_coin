@@ -1,15 +1,13 @@
 $(document).ready(() => {
     $('#notes_table').DataTable({
         searching: true,
-        pageLength: 25,
-        lengthChange: false,
+        pageLength: 10,
+        lengthChange: true,
+        lengthMenu: [10, 20, 50, 100],
         columns: [
             { orderable: true, searchable: true },
-            { orderable: true },
-            { orderable: true },
             { orderable: true, searchable: true },
-            { orderable: true, searchable: false },
-            { orderable: true, searchable: false }
+            { orderable: false, searchable: false }
         ]
     });
 });

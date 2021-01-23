@@ -10,16 +10,18 @@
             <%- include('../../partials/nav_bar'); %>
             <div class="view_note">
                 <form action="/note/<%= note._id %>/update" method="post" id="update_note">
-                    <input type="text" name="title" id="note_title" value="<%- note.title %>"/>
-                    <br/>      
-                    <textarea name="content" form="update_note" id="note_content" rows="10" cols="30"><%- note.content %></textarea>
+                    <input type="text" name="title" id="view_note_title" value="<%- note.title %>"/>
                     <br/>
-                    <input type="text" name="tags" placeholder="Tags" id="note_tags" value="<%- note.tags %>"/>
+                    <label for="content">Content:</label>
+                    <textarea name="content" form="update_note" id="view_note_content" rows="10" cols="30"><%- note.content %></textarea>
+                    <br/>
+                    <label for="tags">Tags:</label></br>
+                    <input type="text" name="tags" placeholder="Tags" id="view_note_tags" value="<%- note.tags.join(' ') %>"/>
                     <br/>
                     <button type="submit" value="note" class="update_note">
                         Save Changes
                     </button>
-                </form>
+                </form> 
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>

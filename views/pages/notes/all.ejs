@@ -7,9 +7,10 @@
         <link rel="stylesheet" type="text/css" href="/css/data_table.css">
         <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/home.css">
-        <title>Cactus Coin</title>
         <link rel="stylesheet" type="text/css" href="/css/notes.css">
+        <title>Cactus Coin</title>
     </head>
 
     <body>
@@ -19,10 +20,8 @@
                 <table id="notes_table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Title</th>
+                            <th>Created</th>
                             <th>Preview</th>
-                            <th>Tags</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -30,11 +29,12 @@
                         <% for (const note of notes) {%>
                             <tr>
                                 <td><%- note.created %></td>
-                                <td><a href="/note/<%-note._id%>/view"><%- note.title %></a></td>
-                                <td id="lean_left"><%- `${note.content.trim().slice(0, 50)}`%></td>
-                                <td>
+                                <td id="lean_left">
+                                    <a href="/note/<%-note._id%>/view"><%- `${note.content.trim().slice(0, 20)}`%></a>
+                                    </br>
+                                    Tags:
                                     <% for (const tag of note.tags) {%>
-                                    <a href="/notes/search/<%- tag %>"><%- tag %></a>
+                                        <a href="/notes/search/<%- tag %>"><%- tag %></a>
                                     <% } %>
                                 </td>
                                 <td><a href="/note/<%-note._id%>/delete">Delete</a></td>
@@ -43,14 +43,14 @@
                     </tbody>
                 </table>
             </br>
-                <a href="#" onclick="slide('enter_note', 'height', 500)" id="add_note_link">Add New Note</a>
+                <a href="#" onclick="slide('enter_note', 'height', 400)" id="add_note_link">Add New Note</a>
             </div>
             <div class="enter_note" id="enter_note">
                 <div class="note_form">
                     <form action="/note/<%= user._id %>" method="post" id="add_note">
                         <input type="text" name="title" placeholder="Title" id="note_title" required="true"/>
                         <br/>      
-                        <textarea name="content" form="add_note" id="note_content" rows="10" cols="60" placeholder="Enter Content" required="true"></textarea>
+                        <textarea name="content" form="add_note" id="note_content" rows="10" cols="60" placeholder="Enter Content" required="true" onkeyup='preview();'></textarea>
                         <br/>
                         <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
                         <br/>
@@ -59,6 +59,8 @@
                         </button>
                     </form>
                 </div>
+                <div class="preview_note" id="preview_markdown">
+                </div>
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>
@@ -66,5 +68,10 @@
         </div>
         <script src="/javascript/portal.js"></script>
         <script src="/javascript/notes_table.js"></script>
+        <script>
+            function preview() {
+                document.getElementById('preview_markdown').innerHTML = marked(document.getElementById('note_content').value);
+            }
+        </script>
     </body>
 </html>
