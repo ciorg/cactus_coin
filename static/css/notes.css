@@ -84,21 +84,53 @@
     border-radius: 10px;
     padding: 8px;
     background-color: #fff;
-
 }
 
 .add_note_outer {
     display: none;
+    width: 60%;
+    margin: auto;
 }
 
-.add_note_outer h3 {
+.add_note_header {
+    width: 100%;
+    text-align: center;
+}
+
+.add_note_header h3 {
     text-align: center;
     color: white;
 }
 
+.add_note_header a {
+    float: left;
+}
+
+#show_notes_link {
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #d44c04;
+    text-decoration: none;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 15%;
+}
+
+#show_notes_link:hover {
+    color: #d44c04;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #fff;
+
+}
+
 .enter_note {
-    width: 60%;
-    margin: auto;
+    width: 100%;
+    background: linear-gradient(to right, white 50% ,  #fcede6 50%);
     background-color: white;
     border-radius: 10px;
     height: 80%;
@@ -112,8 +144,9 @@
   }
 
 .note_form {
+
     margin-left: 20px;
-    width: 48%;
+    width: 49%;
     font-family: 'Varela';
     font-size: 1.3em;
     float: left;
@@ -169,19 +202,18 @@
 }
 
 .preview_note {
-    float: right;
-    width: 50%;
+    width: 49.55%;
     height: 100%;
-    background-color: #d44c04;
     display: flex;
     flex-direction: column;
 }
+    
 
 #preview_title {
     margin-left: 25px;
     padding-top: 10px;
     margin-top: 10px;
-    color: white;
+    color: #d44c04;
 }
 
 .markedown_preview {
@@ -189,6 +221,7 @@
     padding-right: 10px;
     background-color: white;
     height: 100%;
+    color: #d44c04;
     overflow-y: auto;
 }
 
