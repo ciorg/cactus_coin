@@ -16,12 +16,13 @@
     <body>
         <div class="pageBody">
             <%- include('../../partials/nav_bar'); %>
-            <div class="view_notes">
+            <div class="view_notes" id="view_notes">
                 <table id="notes_table">
                     <thead>
                         <tr>
                             <th>Created</th>
-                            <th>Preview</th>
+                            <th>Title</th>
+                            <th>Tags</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -30,9 +31,9 @@
                             <tr>
                                 <td><%- note.created %></td>
                                 <td id="lean_left">
-                                    <a href="/note/<%-note._id%>/view"><%- `${note.content.trim().slice(0, 20)}`%></a>
-                                    </br>
-                                    Tags:
+                                    <a href="/note/<%-note._id%>/view"><%- `${note.title.trim().slice(0, 20)}`%></a>
+                                </td>
+                                <td>
                                     <% for (const tag of note.tags) {%>
                                         <a href="/notes/search/<%- tag %>"><%- tag %></a>
                                     <% } %>
@@ -42,35 +43,75 @@
                         <% } %>
                     </tbody>
                 </table>
-            </br>
-                <a href="#" onclick="slide('enter_note', 'height', 400)" id="add_note_link">Add New Note</a>
+                </br>
+                <a href="#" onclick="slide('view_notes', 'enter_note')" id="add_note_link">Add New Note</a>
             </div>
-            <div class="enter_note" id="enter_note">
-                <div class="note_form">
-                    <form action="/note/<%= user._id %>" method="post" id="add_note">
-                        <input type="text" name="title" placeholder="Title" id="note_title" required="true"/>
-                        <br/>      
-                        <textarea name="content" form="add_note" id="note_content" rows="10" cols="60" placeholder="Enter Content" required="true" onkeyup='preview();'></textarea>
-                        <br/>
-                        <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
-                        <br/>
-                        <button type="submit" value="note" class="note_button">
-                            Save
-                        </button>
-                    </form>
-                </div>
-                <div class="preview_note" id="preview_markdown">
+            <div class="add_note_outer" id="enter_note">
+                <h3>Add New Note</h3>
+                <div class="enter_note">
+                    <div class="note_form">
+                        <form action="/note/<%= user._id %>" method="post" id="add_note">
+                            <input type="text" name="title" placeholder="Title" id="note_title" required="true"/>
+                            <br/>      
+                            <textarea name="content" form="add_note" id="note_content" rows="58" cols="64" placeholder="Enter Content - use markdown to format" required="true" onkeyup='preview();'></textarea>
+                            <br/>
+                            <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
+                            <br/>
+                            <button type="submit" value="note" class="note_button">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                    <div class="preview_note">
+                        <p id="preview_title">Markdown Preview
+                            <a href="#" onclick="slide('view_notes', 'enter_note')" id="add_note_link">Show Notes</a>
+                        </p>
+                        <div class="markedown_preview" id="preview_content">
+                        </div>
+                    </div>
                 </div>
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>
             </footer>
         </div>
-        <script src="/javascript/portal.js"></script>
         <script src="/javascript/notes_table.js"></script>
         <script>
             function preview() {
-                document.getElementById('preview_markdown').innerHTML = marked(document.getElementById('note_content').value);
+                document.getElementById('preview_content').innerHTML = marked(document.getElementById('note_content').value);
+            }
+        </script>
+        <script>
+            function slide(viewId, createId) {
+                if (canAddNote(viewId)) {
+                    hideNewNote(viewId, createId);
+                } else {
+                    showNewNote(viewId, createId);
+                }
+            }
+
+            function canAddNote(id) {
+                if (document.getElementById(id).style.display === 'none') {
+                    return true
+                }
+
+                return false;
+            }
+
+            function showNewNote(viewId, createId) {
+                const tableDiv = document.getElementById(viewId);
+                const createDiv = document.getElementById(createId)
+                tableDiv.style.display = 'none';
+
+                createDiv.style.display = 'block';
+            }
+
+            function hideNewNote(viewId, createId) {
+                const tableDiv = document.getElementById(viewId);
+                const createDiv = document.getElementById(createId);
+                tableDiv.style.display = 'block'
+
+                createDiv.style.display = 'none';
             }
         </script>
     </body>
