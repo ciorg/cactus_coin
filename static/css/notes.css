@@ -312,12 +312,12 @@
 
 .edit_note {
     width: 50%;
-    height: 75%;
     margin: auto;
     background-color: white;
-    margin-top: 10px;
+    margin-top: 20px;
     border-radius: 10px;
     display: none;
+    text-align: center;
 }
 
 .edit_note form {
@@ -325,11 +325,22 @@
     width: 100%;
 }
 
+.edit_note label {
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+
 #update_note_title {
-    text-align: center;
-    font-size: 3em;
+    font-size: 2em;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: none;
-    margin: auto;
+}
+
+#update_note_title:focus, #update_note_content:focus, #update_note_tags:focus {
+    background-color: whitesmoke;
+    border: 1.5px solid lightblue;
 }
 
 #update_note_content {
@@ -340,9 +351,42 @@
     resize: none;
 }
 
+
 #update_note_tags {
     font-size: 1.5em;
     border: none;
     background-color: white;
+}
+
+.edit_note button {
+    color: white;
+    font-size: 1.5em;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #d44c04;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 20%;
+}
+
+.edit_note button:hover {
+    color: #d44c04;
+    border: 2px solid #d44c04;
+    background-color: #fff;
+}
+
+#return_to_note {
+    text-decoration: none;
+    color:  #d44c04;
+}
+
+#return_to_note:hover {
+    text-decoration: none;
+    color:  #d44c04;
+    font-weight: bolder;
 }
 
