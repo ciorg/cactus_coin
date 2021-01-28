@@ -76,9 +76,11 @@
             </footer>
         </div>
         <script src="/javascript/notes_table.js"></script>
+        <script src="/javascript/purify.min.js"></script>
         <script>
             function preview() {
-                document.getElementById('preview_content').innerHTML = marked(document.getElementById('note_content').value);
+                const rawMarkDown =  marked(document.getElementById('note_content').value)
+                document.getElementById('preview_content').innerHTML = DOMPurify.sanitize(rawMarkDown);
             }
         </script>
         <script>

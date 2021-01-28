@@ -3,29 +3,75 @@
     <head>
         <%- include('../../partials/head'); -%>
         <link rel="stylesheet" type="text/css" href="/css/notes.css">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     </head>
 
     <body>
         <div class="pageBody">
             <%- include('../../partials/nav_bar'); %>
-            <div class="view_note">
+            <div class="view_note" id="view_note">
+                <p id="view_title"><%- note.title %><p>
+                <div class="content_wrapper">
+                    <div class="view_content" id="view_content"></div>
+                </div>
+                <div class="view_tags">
+                    <p>Tags:&nbsp;
+                        <% for (const tag of note.tags) {%>
+                            <a href="/notes/search/<%- tag %>"><%- tag %></a>
+                        <% } %>
+                    </p>
+                </div>
+                <div class="edit_note_button_class">
+                    <a href="#" id="edit_note_button" onclick="reveal('edit_note', 'view_note')">Edit</a>
+                </div>
+            </div>
+            <div class="edit_note" id="edit_note">
                 <form action="/note/<%= note._id %>/update" method="post" id="update_note">
-                    <input type="text" name="title" id="view_note_title" value="<%- note.title %>"/>
+                    <input type="text" name="title" id="update_note_title" value="<%- note.title %>"/>
+                    <div class="content_wrapper">
+                        <div class="view_content">
+                            <textarea name="content" form="update_note" id="update_note_content" rows="25" cols="30"><%- note.content %></textarea>
+                        </div>
+                    </div>
                     <br/>
-                    <label for="content">Content:</label>
-                    <textarea name="content" form="update_note" id="view_note_content" rows="10" cols="30"><%- note.content %></textarea>
-                    <br/>
-                    <label for="tags">Tags:</label></br>
-                    <input type="text" name="tags" placeholder="Tags" id="view_note_tags" value="<%- note.tags.join(' ') %>"/>
+                    <label for="tags">Tags:</label>
+                    <input type="text" name="tags" placeholder="Tags" id="update_note_tags" value="<%- note.tags.join(' ') %>"/>
                     <br/>
                     <button type="submit" value="note" class="update_note">
-                        Save Changes
+                        Save 
                     </button>
                 </form> 
+                <div class="return_to_note">
+                    <a href="#" id="return_to_note" onclick="reveal('view_note', 'edit_note')">Return To Note</a>
+                </div>
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>
             </footer>
+            <script src="/javascript/purify.min.js"></script>
+            <script>
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    toMarkDown();
+                });
+
+                function toMarkDown(){
+                    document.getElementById('view_content').innerHTML = marked(<%-JSON.stringify(note.content)%>);
+                }
+            </script>
+            <script>
+                function reveal(showId, hideId) {
+                    const hideDiv = document.getElementById(hideId);
+                    const showDiv = document.getElementById(showId);
+
+                    hideDiv.style.display = 'none';
+                    showDiv.style.display = 'block';
+                }
+            </script>
         </div>
+            <!-- see view note div
+            content in note div is html markdown
+            initial view is from serve side 
+            on edit click/ or preview update the view note inner html with whats been edited
+            save -->
     </body>
 </html>
