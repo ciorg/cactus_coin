@@ -1,7 +1,10 @@
 .crypto_market {
-    width: 80%;
+    width: 50%;
     height: 100%;
     margin: auto;
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
 }
 
 .crypto_market table {
@@ -38,8 +41,9 @@
 
 .crypto_market button {
     margin-top: 10px;
-    width: 6%;
     font-size: 1.1em;
+    padding: 10px;
+    width: 100px;
     color: white;
     border-radius: 5px;
     background-color: #d44c04;

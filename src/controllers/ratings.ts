@@ -4,7 +4,6 @@ import RatingModel from '../models/rating';
 import Utils from './lib/utils';
 
 import * as I from '../interface';
-import { validationResult } from 'express-validator';
 
 class Ratings {
     rating_fields: string[];
