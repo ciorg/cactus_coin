@@ -7,6 +7,7 @@ import rate from './ratings';
 import pub from './public';
 import webStats from './web_stats';
 import cryptoData from './crypto_data';
+import notes from './notes';
 import Logger from '../utils/logger';
 
 const log = new Logger();
@@ -20,6 +21,7 @@ router.use(rate);
 router.use(pub);
 router.use(webStats);
 router.use(cryptoData);
+router.use(notes);
 
 router.get('/error', (req: Request, res: Response) => {
     log.error('bad request', { err: new Error('bad request'), req })

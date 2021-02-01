@@ -43,6 +43,7 @@ async function main() {
                     'cdn.datatables.net/1.10.21/js/jquery.dataTables.js',
                     'cdn.jsdelivr.net/npm/apexcharts',
                     'cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+                    'cdn.jsdelivr.net/npm/marked/marked.min.js',
                     "'unsafe-inline'",
                     "'self'"
                 ],
