@@ -22,7 +22,7 @@
                     </p>
                 </div>
                 <div class="edit_note_button_class">
-                    <a href="#" id="edit_note_button" onclick="reveal('edit_note', 'view_note')">Edit</a>
+                    <a href="#" id="edit_note_button" onclick="showHide('edit_note', 'view_note')">Edit</a>
                 </div>
             </div>
             <div class="edit_note" id="edit_note">
@@ -42,12 +42,13 @@
                         Save Changes
                     </button>
                 </form> 
-                    <a href="#" id="return_to_note" onclick="reveal('view_note', 'edit_note')">Return To Note</a>
+                    <a href="#" id="return_to_note" onclick="showHide('view_note', 'edit_note')">Return To Note</a>
             </div>
             <footer>
                 <%- include('../../partials/footer'); %>
             </footer>
             <script src="/javascript/purify.min.js"></script>
+            <script src="/javascript/notes_one.js"></script>
             <script>
                 window.addEventListener('DOMContentLoaded', (event) => {
                     toMarkDown();
@@ -55,15 +56,6 @@
 
                 function toMarkDown(){
                     document.getElementById('view_content').innerHTML = marked(<%-JSON.stringify(note.content)%>);
-                }
-            </script>
-            <script>
-                function reveal(showId, hideId) {
-                    const hideDiv = document.getElementById(hideId);
-                    const showDiv = document.getElementById(showId);
-
-                    hideDiv.style.display = 'none';
-                    showDiv.style.display = 'block';
                 }
             </script>
         </div>

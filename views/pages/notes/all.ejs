@@ -44,12 +44,9 @@
                     </tbody>
                 </table>
                 </br>
-                <a href="#" onclick="slide('view_notes', 'enter_note')" id="add_note_link">Add New Note</a>
+                <a href="#" onclick="showHide('enter_note', 'view_notes')" id="add_note_link">Add New Note</a>
             </div>
             <div class="add_note_outer" id="enter_note">
-                <div class="add_note_header">
-                    <a href="#" onclick="slide('view_notes', 'enter_note')" id="show_notes_link">Back to Notes</a>
-                </div>
                 <div class="enter_note">
                     <div class="note_form">
                         <form action="/note/<%= user._id %>" method="post" id="add_note">
@@ -66,8 +63,9 @@
                     </div>
                     <div class="preview_note">
                         <p id="preview_title">Markdown Preview</p>
-                        <div class="markedown_preview" id="preview_content">
+                        <div class="markdown_preview" id="preview_content">
                         </div>
+                        <a href="#" onclick="showHide('view_notes', 'enter_note')" id="show_notes_link">Back to Notes</a>
                     </div>
                 </div>
             </div>
@@ -77,44 +75,7 @@
         </div>
         <script src="/javascript/notes_table.js"></script>
         <script src="/javascript/purify.min.js"></script>
-        <script>
-            function preview() {
-                const rawMarkDown =  marked(document.getElementById('note_content').value)
-                document.getElementById('preview_content').innerHTML = DOMPurify.sanitize(rawMarkDown);
-            }
-        </script>
-        <script>
-            function slide(viewId, createId) {
-                if (canAddNote(viewId)) {
-                    hideNewNote(viewId, createId);
-                } else {
-                    showNewNote(viewId, createId);
-                }
-            }
-
-            function canAddNote(id) {
-                if (document.getElementById(id).style.display === 'none') {
-                    return true
-                }
-
-                return false;
-            }
-
-            function showNewNote(viewId, createId) {
-                const tableDiv = document.getElementById(viewId);
-                const createDiv = document.getElementById(createId)
-                tableDiv.style.display = 'none';
-
-                createDiv.style.display = 'block';
-            }
-
-            function hideNewNote(viewId, createId) {
-                const tableDiv = document.getElementById(viewId);
-                const createDiv = document.getElementById(createId);
-                tableDiv.style.display = 'block'
-
-                createDiv.style.display = 'none';
-            }
-        </script>
+        <script src="/javascript/notes_all.js"></script>
+        <script src="/javascript/notes_one.js"></script>
     </body>
 </html>

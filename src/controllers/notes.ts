@@ -8,15 +8,26 @@ import * as I from '../interface';
 class Notes {
     utils: Utils;
     action: Actions;
+    conjunctions: string[];
 
     constructor() {
+        this.conjunctions = [
+            'for',
+            'and',
+            'nor',
+            'but',
+            'or',
+            'yet',
+            'so'
+        ];
+
         this.utils = new Utils();
         this.action = new Actions(NotesModel);
     }
 
     async create(req: Request): Promise<I.Result> {
         const { user }: any = req;
-    
+
         const note: Partial<I.Note> = {
             user: user._id,
             created: new Date(),
@@ -77,7 +88,8 @@ class Notes {
     }
 
     private _splitTags(tags: string): string[] {
-        return tags.split(' ').filter((tag) => tag.trim().length > 0);
+        return tags.split(' ').map((tag) => tag.trim())
+            .filter((tag) => tag.length > 0 && !this.conjunctions.includes(tag));
     }
 }
 

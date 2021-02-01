@@ -7,22 +7,6 @@ const notes = new Notes();
 
 const router = express.Router();
 
-router.post(
-    '/note/:user_id',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: Request, res: Response) => {
-        const result = await notes.create(req);
-
-        if (result.error) {
-            return res.redirect('/error');
-        }
-
-        return res.redirect('/notes');
-    }
-);
-
-
 router.get('/notes',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
@@ -53,6 +37,21 @@ router.get('/note/:id/view',
             'pages/notes/one',
             { user: req.user, note: result.res}
         );
+    }
+);
+
+router.post(
+    '/note/:user_id',
+    connectEnsureLogin.ensureLoggedIn('/'),
+    permissions(['king', 'rr']),
+    async (req: Request, res: Response) => {
+        const result = await notes.create(req);
+
+        if (result.error) {
+            return res.redirect('/error');
+        }
+
+        return res.redirect(`/note/${result.res._id}/view`)
     }
 );
 
