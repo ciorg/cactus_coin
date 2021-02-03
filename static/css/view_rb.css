@@ -263,3 +263,35 @@
 .add_write_up button:hover {
     background-color: #2cb404;
 }
+
+@media (max-width: 600px) {
+    .rb_view {
+        width: 100%;
+        margin-top: 0%;
+        border-radius: none;
+    }
+    
+    .rb_view_name {
+        width: 100%;
+        height: 90px;
+        border-radius: none;
+    }
+
+    .rb_title {
+        border-radius: none;
+    }
+    
+    #title {
+        color: white;
+        font-size: 1.5em;
+    }
+
+    .update_rb_links {
+        position: relative;
+    }
+
+    .update_rb_links a {
+        font-size: 1em;
+    }
+   
+}
