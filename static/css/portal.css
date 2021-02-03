@@ -13,15 +13,12 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 }
 
 .portalContent {
-    position: absolute;
     margin-top: 20%;
     margin-left: 55%;
-    width: 400px;
-    height: 300px;
 }
 
 .portalContent p {
-    font-size: 1.7;
+    font-size: 1.7em;
     color: white;
 }
 
@@ -34,7 +31,7 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 
 .portalLogo img{
     margin-top: 15px;
-    width: 150px;
+    width: 90%;
     border-radius: 50%;
     border: 2px solid #1c6404;
 }
@@ -105,6 +102,7 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
   border-radius: 5px;
   background-color: #d44c04;
   margin-top: 5%;
+  margin-bottom: 20px;
 }
 
 .loginUsername {
@@ -114,6 +112,17 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 .loginPassword {
   margin-bottom: 6%;
 }
+
+.loginForm a {
+    color: #d44c04;
+    text-decoration: none;
+    font-size: 1em;
+    line-height: 2em;
+  }
+  
+  .loginForm a:hover{
+    color: #ef2556;
+  }
   
 input[type=text] {
   border-style:none;
@@ -138,7 +147,7 @@ input[type=password] {
 }
 
 .sideBar {
-  height: 50%; /* 100% Full-height */
+  height: 30%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
@@ -151,8 +160,38 @@ input[type=password] {
   border: 2px solid #ef2556;
 }
 
-@media screen and (max-height: 450px) {
-  .sideBar {padding-top: 15px;}
-  .sideBar a {font-size: 18px;}
+@media (max-width: 600px) {
+    .portalContent {
+        margin-top: 20%;
+        margin-left: 15%;
+    }
+
+    .portalLogo {
+        height: 100%;
+        width: 150px;
+        float: left;
+        shape-outside: circle(50%);
+    }
+
+    .portalLogo img {
+        margin-top: 0px;
+    }
+
+    .portalLinks a {
+        color: white;
+        font-size: 1em;
+    }
+
+    .portalLinks ul{
+        padding: 0.1em 0;
+        list-style: none;
+        line-height: 1.5em;
+    }
+
+    .sideBar {
+        padding-top: 15px;
+        height: 50%;
+    }
+    .sideBar a {font-size: 18px;}
 }
 

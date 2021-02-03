@@ -1,5 +1,17 @@
+.display_page_body {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    font-family: 'Varela';
+    background-image: linear-gradient(#ef2556, #facc04);
+    overflow-y: scroll;
+    position: absolute;
+  }
+
+
 .rb_home {
-    width: 950px;
+    width: 40%;
     height: 125px;
     margin: auto;
     text-align: center;
@@ -28,7 +40,7 @@
 }
 
 .rb_home_search {
-    margin-top: 30px;
+    margin-top: 2.5%;
 }
 
 .rb_home_search label {
@@ -154,17 +166,107 @@
     color: #d44c04;
   }
 
-  .display_page_body {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    font-family: 'Varela';
-    background-image: linear-gradient(#ef2556, #facc04);
-    overflow-y: scroll;
-    position: absolute;
-  }
 
   .bottom_padding {
       height: 150px;
   }
+
+
+@media (max-width: 600px) {
+    .rb_home {
+        width: 100%;
+        height: 100px;
+        text-align: center;
+        background-color: white;
+        border-radius: 25px;
+    }
+
+    .search_results {
+        width: 100%;
+    }
+
+    .userLogo {
+        display: none;
+    }
+
+    .rb_home_links {
+        height: 3em;
+    }
+    
+    .rb_home_links a {
+        font-size: 1em;
+    }
+
+    .rb_home_search {
+        margin-top: 15px;
+    }
+
+    .rb_home_search label {
+        font-size: 1em;
+    }
+    
+    .rb_home_search input[type=search] {
+        border: 1px solid #cb7519;
+        width: 60%;
+        height: 2em;
+        font-size: 0.8em;
+      }
+
+    .search_results table {
+        font-size: 0.75em;
+    }
+
+    .search_results table, th, tr, td {
+        border: 1px solid white;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+    .rb_home {
+        width: 80%;
+        height: 100px;
+        text-align: center;
+        background-color: white;
+        border-radius: 25px;
+    }
+
+    .search_results {
+        width: 80%;
+    }
+
+    .userLogo {
+        display: none;
+    }
+
+    .rb_home_links {
+        height: 2em;
+    }
+    
+    .rb_home_links a {
+        font-size: 1em;
+    }
+
+    .rb_home_search {
+        margin-top: 15px;
+    }
+
+    .rb_home_search label {
+        font-size: 1em;
+    }
+    
+    .rb_home_search input[type=search] {
+        border: 1px solid #cb7519;
+        width: 60%;
+        height: 2em;
+        font-size: 0.8em;
+      }
+
+    .search_results table {
+        font-size: 0.75em;
+    }
+
+    .search_results table, th, tr, td {
+        border: 1px solid white;
+    }
+}
+
