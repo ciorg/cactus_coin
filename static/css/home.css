@@ -107,3 +107,9 @@
     background-color: #facc04;
     color: #d44c04
 }
+
+@media (max-width: 600px) {
+    .userLogo {
+       display: none;
+    }
+}

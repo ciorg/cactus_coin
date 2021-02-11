@@ -342,4 +342,31 @@
     .rb_all_ratings {
         display: none
     }
+
+    .add_rating {
+        width: 100%;
+    }
+    
+    .add_rating table {
+        width: 100%;
+    }
+    
+    .add_rating button {
+        width: 50%;
+    }
+
+    .edit_rb {
+        width: 100%;
+    }
+    
+    .edit_rb form {
+        line-height: 1.1em;
+        font-size: 1em;
+    }
+    
+    
+    .edit_rb input[type=text] {
+        width: 50%;
+        height: 1.4em;
+      }
 }

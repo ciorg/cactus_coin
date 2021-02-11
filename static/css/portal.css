@@ -68,14 +68,12 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
 
 .short img {
   height: 100px;
-  width: 20%;
-  float: right;
+  width: 100%;
 }
 
 .long img {
   height: 100px;
-  width: 80%;
-  float: left;
+  width: 100%;
 }
 
 .loginForm {
