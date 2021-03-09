@@ -16,7 +16,7 @@ class CoinGeckoApi {
         this.base_url = this.configs.base_url;
     }
 
-    async marketCapList(args: I.marketCapListArgs) {
+    async marketCapList(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
         const options = {
             vs_currency: args.vs,
             order: 'market_cap_desc',
@@ -28,29 +28,46 @@ class CoinGeckoApi {
 
         const data = await this._getData('/coins/markets', options);
 
-        if (data == null) return;
-
-        return data.map((coin: any) => {
-            const info = {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol,
-                price: coin.current_price,
-                market_cap: coin.market_cap,
-                change_per: coin.price_change_percentage_24h
-            };
-
-            return info;
-        });
+        if (data == null) [];
         
+        return data;
     }
 
-    coinData(id: string) {
+    async coinData(symbol: string): Promise<I.CoinDataRes | {}> {
+        const marketOpts = {
+            id: symbol,
+            localization: false,
+            tickers: true,
+            market_data: true,
+            community_data: false,
+            developer_data: false,
+            sparkline: false
+        }
 
+        const data = await this._getData(`/coins/${symbol}`, marketOpts);
+
+        if (data == null) return {};
+
+        return data;
     }
 
-    priceHistory(id: string) {
+    async coinMarketHistory(args: I.CoinMarketHistoryArgs): Promise<I.CoinMarketHistoryResp> {
+        const opts = {
+            id: args.id,
+            vs_currency: args.vs,
+            days: args.days,
+            interval: args.interval
+        };
 
+        const data = await this._getData(`/coins/${opts.id}/market_chart`, opts);
+
+        if (data == null) return {
+            prices: [],
+            market_caps: [],
+            total_volumes: []
+        };
+
+        return data;
     }
 
     private async _getData(extention: string, options = {}) {

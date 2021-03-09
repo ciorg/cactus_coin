@@ -1,2 +1,2 @@
 export * from './configs';
-export * from './coin_geck_api';
+export * from './coin_gecko_api';

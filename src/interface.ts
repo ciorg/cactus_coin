@@ -69,17 +69,17 @@ export interface LogObject {
 
 export interface VisitDetails {
     timestamp: Date | string;
-    ip_address?: String;
-    base_url?: String;
-    hostname?: String;
-    path?: String;
-    browser?: String;
-    version?: String;
-    os?: String;
-    platform?: String;
-    source?: String;
-    electron_version?: String;
-    details?: String[];
+    ip_address?: string;
+    base_url?: string;
+    hostname?: string;
+    path?: string;
+    browser?: string;
+    version?: string;
+    os?: string;
+    platform?: string;
+    source?: string;
+    electron_version?: string;
+    details?: string[];
 }
 
 export interface StatsData {
@@ -97,18 +97,18 @@ export interface StatsData {
 
 export interface IPData {
     updated: Date;
-    ip_address: String;
-    version: String;
-    region: String;
-    region_code: String;
-    city: String;
-    country_name: String;
-    country_code: String;
-    continent_code: String;
+    ip_address: string;
+    version: string;
+    region: string;
+    region_code: string;
+    city: string;
+    country_name: string;
+    country_code: string;
+    continent_code: string;
     latitude: Number;
     longitude: Number;
-    asn: String;
-    org: String;
+    asn: string;
+    org: string;
 }
 
 export interface CoinMarketData {
