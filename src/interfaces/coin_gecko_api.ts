@@ -37,7 +37,7 @@ export interface MarketCapListRes {
     max_supply: number;
     ath: number;
     ath_change_percentage: number;
-    ath_date: Date | string;
+    ath_date: string;
     atl: number;
     atl_change_percentage: number;
     atl_date: string;
@@ -65,7 +65,7 @@ export interface CoinDataRes {
     links: CoinDataLinks;
     image: CoinDataImage;
     country_origin: string;
-    genesis_date: Date | string;
+    genesis_date: string;
     sentiment_votes_up_percentage: number;
     sentiment_votes_down_percentage: number;
     market_cap_rank: number;
@@ -99,7 +99,7 @@ interface CoinDataMarketData {
     current_price: TargetCoins;
     ath: TargetCoins;
     ath_change_percentage: TargetCoins;
-    ath_date: TargetCoins
+    ath_date: TargetCoinsString;
     market_cap: TargetCoins;
     market_cap_rank: number;
     high_24h: TargetCoins;
@@ -120,8 +120,13 @@ interface CoinDataMarketData {
 }
 
 interface TargetCoins {
-    usd: number | string;
-    eth: number | string;
+    usd: number;
+    eth: number;
+}
+
+interface TargetCoinsString {
+    usd: string;
+    eth: string;
 }
 
 interface CoinDataTickers {

@@ -1,69 +1,79 @@
-import axios, { AxiosResponse } from 'axios';
+import CoinGeckoApi from '../utils/coingecko_api';
 import Logger from '../utils/logger';
 import * as I from '../interface';
+import * as GeckoI from '../interfaces';
 
 class CryptoData {
-    base_url: string;
     logger: Logger;
+    api: CoinGeckoApi;
 
     constructor() {
-        this.base_url = 'https://api.coingecko.com/api/v3';
+        this.api = new CoinGeckoApi();
         this.logger = new Logger();
     }
 
-    async getData(type: string, opts: I.CoinOpts = { id: 'na', value: 0, unit: 'days' }) {
+    async getCoinList(vs = 'usd', size = 100): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
 
-        let data: any;
+        const data = await this.api.marketCapList({ vs, size });
 
-        if (type === 'market') {
-            data = await this._byMarketValue('usd');
+        const preppedData = this._prepCoinListData(data);
+
+        if (preppedData.length) {
+            result.res = preppedData;
+            return result;
         }
-        
 
-        if (type === 'coin') {
-            const [
-                marketData,
-                priceHistory
-            ] = await Promise.all([
-                this._coinMarket(opts.id),
-                this._coinHistory(opts)
-            ]);
+        result.error = true;
+        return result;
+    }
 
-            data = {
-                market_data: marketData,
-                chart_options: this._makeChartOptions(priceHistory)
-            }
-        }
-       
-        if (data) {
+    async getCoinData(coinId: string, historyOpts: { id: string, unit: string, value: number }): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        };
+
+        const formatedHistoryOpts = this._formatHistoryOpts(historyOpts);
+
+        const [marketData, priceHistory] = await Promise.all([
+            this.api.coinData(coinId),
+            this.api.coinMarketHistory(formatedHistoryOpts)
+        ]);
+
+        if (marketData && priceHistory) {
+            const data = {
+                market_data: this._formatCoinMarketData(marketData),
+                chart_options: this._makeChartOptions(priceHistory.prices)
+            };
+
             result.res = data;
             return result;
         }
 
         result.error = true;
-        return result;   
+        return result;
     }
 
-    private async _coinMarket(symbol: string): Promise<I.CoinMarketData> {
-        const marketOpts = {
-            id: symbol,
-            localization: false,
-            tickers: false,
-            market_data: true,
-            community_data: false,
-            developer_data: false,
-            sparkline: false
-        }
+    private _prepCoinListData(data: GeckoI.MarketCapListRes[]) {
+        return data.map((coin: any) => {
+            const info = {
+                id: coin.id,
+                name: coin.name,
+                symbol: coin.symbol,
+                price: coin.current_price,
+                market_cap: coin.market_cap,
+                change_per: coin.price_change_percentage_24h
+            };
 
-        const extention = `/coins/${symbol}`;
+            return info;
+        });
+    }
 
-        const data = await this._getData(extention, marketOpts);
-
+    private async _formatCoinMarketData(data: GeckoI.CoinDataRes): Promise<I.CoinMarketData> {
         return {
-            id: symbol,
+            id: data.symbol,
             name: data.name,
             symbol: data.symbol.toUpperCase(),
             homepage: data.links.homepage[0],
@@ -110,21 +120,13 @@ class CryptoData {
     }
     
 
-    private async _coinHistory(opts: I.CoinOpts): Promise<number[][]> {
-        const histOpts = {
+    private _formatHistoryOpts(opts: I.CoinOpts): GeckoI.CoinMarketHistoryArgs {
+        return {
             id: opts.id,
-            vs_currency: 'usd',
+            vs: 'usd',
             days: this._makeDays(opts),
             interval: this._getInterval(opts)
         };
-
-        const histExt = `/coins/${opts.id}/market_chart`;
-
-        const data: { [field: string]: number[][] } = await this._getData(histExt, histOpts);
-
-        if (data == null) return [];
-
-        return data.prices;
     }
 
     _makeDays(opts: I.CoinOpts) {
@@ -155,60 +157,6 @@ class CryptoData {
         }
 
         return 'daily';
-    }
-
-    private async _byMarketValue(currency: string, size = 100) {
-        const extention = '/coins/markets';
-
-        const options = {
-            vs_currency: currency,
-            order: 'market_cap_desc',
-            per_page: size,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: '24h'
-        };
-
-        const data = await this._getData(extention, options);
-
-        if (data == null) return;
-
-        return data.map((coin: any) => {
-            const info = {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol,
-                price: coin.current_price,
-                market_cap: coin.market_cap,
-                change_per: coin.price_change_percentage_24h
-            };
-
-            return info;
-        });
-    }
-
-    private async _getData(extention: string, options = {}) {
-        try {
-            const axiosRes = await this._apiCall(extention, options);
-
-            if (axiosRes.status !== 200) {
-                this.logger.error(`crypto api returned with ${axiosRes.status}`, {});
-                return;
-            }
-            
-            return axiosRes.data;
-        } catch (e) {
-            this.logger.error(e.message, e);
-        }
-    }
-
-    private async _apiCall(extention: string, options = {}): Promise<AxiosResponse> {
-        return axios.get(
-            `${this.base_url}${extention}`,
-            {
-                params: options
-            }
-        );
     }
 
     private _makeChartOptions(priceHistory: number[][]) {

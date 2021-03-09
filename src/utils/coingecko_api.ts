@@ -33,7 +33,7 @@ class CoinGeckoApi {
         return data;
     }
 
-    async coinData(symbol: string): Promise<I.CoinDataRes | {}> {
+    async coinData(symbol: string): Promise<I.CoinDataRes | null> {
         const marketOpts = {
             id: symbol,
             localization: false,
@@ -46,12 +46,12 @@ class CoinGeckoApi {
 
         const data = await this._getData(`/coins/${symbol}`, marketOpts);
 
-        if (data == null) return {};
+        if (data == null) return null;
 
         return data;
     }
 
-    async coinMarketHistory(args: I.CoinMarketHistoryArgs): Promise<I.CoinMarketHistoryResp> {
+    async coinMarketHistory(args: I.CoinMarketHistoryArgs): Promise<I.CoinMarketHistoryResp | null> {
         const opts = {
             id: args.id,
             vs_currency: args.vs,
@@ -61,11 +61,7 @@ class CoinGeckoApi {
 
         const data = await this._getData(`/coins/${opts.id}/market_chart`, opts);
 
-        if (data == null) return {
-            prices: [],
-            market_caps: [],
-            total_volumes: []
-        };
+        if (data == null) return null;
 
         return data;
     }
