@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import Logger from '../utils/logger';
 import * as I from '../interface';
-import * as fs from 'fs-extra';
-import path from 'path';
 
 class CryptoData {
     base_url: string;
