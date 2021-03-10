@@ -17,6 +17,18 @@ class Configs {
     getCoinGeckConfigs(): I.CoinGecko {
         return this.configs.coin_gecko;
     }
+
+    getWebSiteConfigs(): I.WebSite {
+        return this.configs.web_site;
+    }
+
+    getMongoConfigs(): I.Mongo {
+        return this.configs.mongo_settings;
+    }
+
+    getLogConfigs(): I.Logger {
+        return this.configs.log;
+    }
 }
 
 export = Configs;

@@ -1,7 +1,7 @@
 export interface ConfigSettings {
     mongo: Mongo;
     logger: Logger;
-    website: WebSite;
+    web_site: WebSite;
     coin_gecko: CoinGecko;
 
 }
@@ -18,8 +18,8 @@ export interface Mongo {
 }
 
 export interface Logger {
-    level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | number;
-    path: string;
+    log_level: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | number;
+    log_path: string;
 }
 
 export interface CoinGecko {

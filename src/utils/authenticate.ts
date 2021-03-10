@@ -8,7 +8,8 @@ import Logger from './logger';
 
 const config = new Configs();
 
-const { secret, mongo_settings } = config.getConfigs();
+const mongoSettings = config.getMongoConfigs();
+const { secret } = config.getWebSiteConfigs();
 
 const logger = new Logger();
 
@@ -17,7 +18,7 @@ const router = express.Router();
 const MongoStore = MongoDBStore(session);
 
 const store = new MongoStore({
-        uri: `mongodb://${mongo_settings.url}:27017/${mongo_settings.database}`,
+        uri: `mongodb://${mongoSettings.url}:27017/${mongoSettings.database}`,
         collection: 'sessions'
     },
     (error) => { if (error) mongoError(error) }

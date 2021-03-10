@@ -15,7 +15,8 @@ import DB from './utils/db';
 const db = new DB();
 
 const configs = new Configs();
-const { env, port } = configs.getConfigs();
+
+const { env, port } = configs.getWebSiteConfigs()
 
 const logger = new Logger();
 

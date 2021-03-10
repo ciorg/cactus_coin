@@ -30,7 +30,7 @@ class CryptoData {
         return result;
     }
 
-    async getCoinData(coinId: string, historyOpts: { id: string, unit: string, value: number }): Promise<I.Result> {
+    async getCoinData(historyOpts: { id: string, unit: string, value: number }): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
@@ -38,9 +38,12 @@ class CryptoData {
         const formatedHistoryOpts = this._formatHistoryOpts(historyOpts);
 
         const [marketData, priceHistory] = await Promise.all([
-            this.api.coinData(coinId),
+            this.api.coinData(historyOpts.id),
             this.api.coinMarketHistory(formatedHistoryOpts)
         ]);
+
+        console.log(historyOpts);
+        console.log(marketData);
 
         if (marketData && priceHistory) {
             const data = {
@@ -71,9 +74,9 @@ class CryptoData {
         });
     }
 
-    private async _formatCoinMarketData(data: GeckoI.CoinDataRes): Promise<I.CoinMarketData> {
+    private _formatCoinMarketData(data: GeckoI.CoinDataRes) {
         return {
-            id: data.symbol,
+            id: data.id,
             name: data.name,
             symbol: data.symbol.toUpperCase(),
             homepage: data.links.homepage[0],
@@ -85,7 +88,10 @@ class CryptoData {
             market_cap: this._marketCap(data.market_data.market_cap.usd),
             rank: data.market_data.market_cap_rank,
             high_24h: this._formatNum(data.market_data.high_24h.usd), 
-            low_24h: this._formatNum(data.market_data.low_24h.usd)
+            low_24h: this._formatNum(data.market_data.low_24h.usd),
+            categories: data.categories,
+            description: data.description.en,
+            exchanges: this._getCoinExchanges(data.tickers)
         }
     }
 
@@ -103,6 +109,32 @@ class CryptoData {
         }
     
         return `${toString.slice(0, 3)} Th`;
+    }
+
+    private _getCoinExchanges(tickers: GeckoI.CoinDataTickers[]) {
+        const targets = [
+            'btc',
+            'usdt',
+            'usd',
+            'usdc',
+            'eth',
+            'xbt'
+        ];
+
+        return tickers.reduce((exchanges: GeckoI.ExchangeInfo[], ticker) => {
+            if (ticker.trade_url && targets.includes(ticker.target.toLowerCase())) {
+                const exData = {
+                    ex_name: ticker.market.name,
+                    target: ticker.target,
+                    trust_score: ticker.trust_score,
+                    trade_url: ticker.trade_url
+                }
+
+                exchanges.push(exData);
+            }
+
+            return exchanges;
+        }, []);
     }
 
     private _formatDate(value: string): string {

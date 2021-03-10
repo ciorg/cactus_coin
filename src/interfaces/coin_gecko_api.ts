@@ -61,7 +61,7 @@ export interface CoinDataRes {
     block_time_in_minutes: number | null;
     hashing_algorithm: string;
     categories: string[];
-    description: string;
+    description: { en: string };
     links: CoinDataLinks;
     image: CoinDataImage;
     country_origin: string;
@@ -69,7 +69,7 @@ export interface CoinDataRes {
     sentiment_votes_up_percentage: number;
     sentiment_votes_down_percentage: number;
     market_cap_rank: number;
-    market_data: CoinDataMarketData;
+    market_data: CoinMarketData;
     tickers: CoinDataTickers[];
 }
 
@@ -95,7 +95,7 @@ interface CoinDataImage {
     large: string;
 }
 
-interface CoinDataMarketData {
+interface CoinMarketData {
     current_price: TargetCoins;
     ath: TargetCoins;
     ath_change_percentage: TargetCoins;
@@ -129,7 +129,7 @@ interface TargetCoinsString {
     eth: string;
 }
 
-interface CoinDataTickers {
+export interface CoinDataTickers {
     base: string;
     target: string;
     market: {
@@ -140,7 +140,7 @@ interface CoinDataTickers {
     last: number;
     volume: number;
     trust_score: string,
-    trade_url: string;
+    trade_url: string | null;
     coin_id: string;
     target_coin_id: string;
 }

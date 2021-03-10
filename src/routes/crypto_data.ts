@@ -45,7 +45,7 @@ router.get('/crypto/coin/:id',
             value: 30
         }
     
-        const data = await cryptoData.getCoinData('coin', opts);
+        const data = await cryptoData.getCoinData(opts);
 
         if (data.error) {
             return res.redirect('/error');
@@ -77,7 +77,7 @@ router.post('/crypto/coin/:id',
             value:  Number(req.body.period)
         }
 
-        const data: I.Result = await cryptoData.getCoinData('coin', opts);
+        const data: I.Result = await cryptoData.getCoinData(opts);
 
         res.render('pages/public/crypto_data/coin', {
             user: req.user,

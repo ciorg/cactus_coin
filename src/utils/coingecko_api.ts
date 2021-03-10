@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import Configs from './configs';
 import Logger from './logger';
 import * as I from '../interfaces';

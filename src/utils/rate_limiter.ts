@@ -16,7 +16,7 @@ class LimiterWrapper {
 
     constructor() {
         this.configs = new Configs();
-        const { url, database} = this.configs.getConfigs().mongo_settings;
+        const { url, database} = this.configs.getMongoConfigs();
 
         mongoose.connect(
             `mongodb://${url}/${database}`,
