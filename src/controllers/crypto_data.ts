@@ -42,9 +42,6 @@ class CryptoData {
             this.api.coinMarketHistory(formatedHistoryOpts)
         ]);
 
-        console.log(historyOpts);
-        console.log(marketData);
-
         if (marketData && priceHistory) {
             const data = {
                 market_data: this._formatCoinMarketData(marketData),
@@ -121,13 +118,14 @@ class CryptoData {
             'xbt'
         ];
 
-        return tickers.reduce((exchanges: GeckoI.ExchangeInfo[], ticker) => {
+        const exchanges = tickers.reduce((exchanges: GeckoI.ExchangeInfo[], ticker) => {
             if (ticker.trade_url && targets.includes(ticker.target.toLowerCase())) {
                 const exData = {
                     ex_name: ticker.market.name,
                     target: ticker.target,
                     trust_score: ticker.trust_score,
-                    trade_url: ticker.trade_url
+                    trade_url: ticker.trade_url,
+                    volume: this._formatNum(ticker.volume)
                 }
 
                 exchanges.push(exData);
@@ -135,6 +133,8 @@ class CryptoData {
 
             return exchanges;
         }, []);
+
+        return exchanges.sort((a, b) => Number(b.volume) - Number(a.volume));
     }
 
     private _formatDate(value: string): string {

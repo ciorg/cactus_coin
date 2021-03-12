@@ -123,6 +123,60 @@
     color: #5081ca;
 }
 
+.coin_graph {
+    display: none;
+}
+
+.coin_details {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+#coin_deets_header {
+    font-size: 1.3em;
+    font-weight: bolder;
+}
+
+.summary {
+    margin-left: 3%;
+}
+
+.categories {
+    margin-left: 3%;
+}
+
+.exchanges {
+    margin: auto;
+    width: 60%;
+}
+
+.exchanges table{
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.exchanges table th {
+    color: white;
+    background-color: #26389ca4;
+    border: 2px solid #26389ca4;
+}
+
+.exchanges table td {
+    border: 2px solid #26389ca4; 
+}
+
+.exchanges a {
+    text-decoration: none;
+    color: #26389ca4;   
+}
+
+.exchanges a:hover {
+    color: #5081ca;
+    font-weight: 600;
+}
+
 .portalBottom {
     clear: both;
     width: 100%;

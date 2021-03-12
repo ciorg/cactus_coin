@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
     <link rel="stylesheet" type="text/css" href="../../css/rb.css">
     <link rel="stylesheet" type="text/css" href="../../css/coin_data.css">
+    <link rel="stylesheet" type="text/css" href="../../css/data_table.css">
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Cactus Coin</title>
 </head>
@@ -100,7 +103,43 @@
                     </button>
                 </form>
             </div>
-            <div id="chart" class="price_chart"></div>
+            <div class="coin_graph">
+                <div id="chart" class="price_chart"></div>
+            </div>
+            <div class="coin_details">
+                <div class="summary">
+                    <p id="coin_deets_header">Description:</p>
+                    <p id="summary"><%- market_data.description.slice(0, 500) %></p>
+                </div>
+                <div class="categories">
+                    <p id="coin_deets_header">Categories:</p>
+                    <ul>
+                        <% for (const c of market_data.categories) { %>
+                            <li><%- c %></li>
+                            <% } %>
+                    </ul>
+                </div>
+            </div>
+            <div class="exchanges">
+                <table id="exchange_table">
+                    <thead>
+                        <tr>
+                            <th>Exchange</th>
+                            <th>Volume</th>
+                            <th>Target</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const ex of market_data.exchanges) { %>
+                            <tr id="trust-<%-ex.trust_score%>">
+                                <td><%- ex.ex_name %></td>
+                                <td><%- ex.volume %></td>
+                                <td><a href="<%- ex.trade_url %>"><%- ex.target %></a></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <footer>
             <div class="portalBottom">
@@ -117,5 +156,6 @@
         const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
         chart.render();
     </script>
+    <script src="../../javascript/exchange_table.js"></script>
 </body>
 </html>
