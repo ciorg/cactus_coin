@@ -48,9 +48,9 @@
             <div class="coin_header">
                 <div class="main">
                     <div class="coin_img">
-                            <a href="<%-market_data.homepage%>">
-                                <img src="<%-market_data.image%>"/>
-                            </a>
+                        <a href="<%-market_data.homepage%>">
+                            <img src="<%-market_data.image%>"/>
+                        </a>
                     </div>
                     <div class="coin_name">
                         <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
@@ -87,35 +87,13 @@
                     </table>
                 </div>
             </div>
-            <a class="show_charts" id="charts" href="#">Charts</a>
-            <div class="chart">
-            <div class="tradingview-widget-container">
-                <div id="tradingview_0d8de"></div>
-                <script type="text/javascript">
-                new TradingView.widget(
-                {
-                    "width": 980,
-                    "height": 610,
-                    "symbol": "BINANCE:<%-market_data.symbol%>USDT",
-                    "interval": "240",
-                    "timezone": "Etc/UTC",
-                    "theme": "light",
-                    "style": "1",
-                    "locale": "en",
-                    "toolbar_bg": "#f1f3f6",
-                    "enable_publishing": false,
-                    "withdateranges": true,
-                    "allow_symbol_change": true,
-                    "save_image": false,
-                    "studies": [
-                        "RSI@tv-basicstudies"
-                    ],
-                    "container_id": "tradingview_0d8de"
-                }
-                );
-                </script>
+            <div class="toggle">
+                <a onclick="toggleClassDisplay('chart', 'coin_details')" href="#">toggle chart</a>
             </div>
-            <div class="coin_details">    
+            <div class="chart" id="chart">
+                <div id="tradingview"></div>
+            </div>
+            <div class="coin_details" id="coin_details">    
                 <div class="exchanges">
                     <table id="exchange_table">
                         <thead>
@@ -154,14 +132,13 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        <div id="myModal" class="modal">
+            </div>
+            <div id="myModal" class="modal">
             <div class="modal-content">
               <span class="close">&times;</span>
               <p><%- market_data.description %></p>
             </div>
-          
-          </div>
+        </div>
         <footer>
             <div class="portalBottom">
                 <div class="short">
@@ -178,6 +155,7 @@
         chart.render();
     </script> -->
     <script src="../../javascript/exchange_table.js"></script>
+    <script src="../../javascript/toggle_class_display.js"></script>
     <script>
         // Get the modal
         const modal = document.getElementById("myModal");
@@ -204,6 +182,28 @@
             modal.style.display = "none";
           }
         }
-        </script>
+    </script>
+    <script type="text/javascript">
+        new TradingView.widget(
+        {
+            "height": "85%",
+            "width": "100%",
+            "symbol": "BINANCE:<%-market_data.symbol%>USDT",
+            "interval": "240",
+            "timezone": "Etc/UTC",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "withdateranges": true,
+            "allow_symbol_change": true,
+            "save_image": false,
+            "studies": [
+                "RSI@tv-basicstudies"
+            ],
+            "container_id": "tradingview"
+        });
+    </script>
 </body>
 </html>
