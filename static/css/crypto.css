@@ -105,3 +105,17 @@
     to {background-color: white;}
 }
 
+@media screen and (max-width: 1200px) {
+    .crypto_market {
+        width: 90%;
+    }
+
+    .crypto_market table {
+        height: 100%
+    }
+
+    .portalBottom {
+        display: none;
+    }
+}
+

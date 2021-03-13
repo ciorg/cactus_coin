@@ -158,3 +158,16 @@
     bottom: 0;
 
 }
+
+.short img {
+    height: 100px;
+    width: 20%;
+    float: right;
+  }
+  
+  .long img {
+    height: 100px;
+    width: 80%;
+    float: left;
+  }
+  

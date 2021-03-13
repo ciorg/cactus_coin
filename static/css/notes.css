@@ -9,18 +9,18 @@
 }
 
 .portalBottom {
+    clear: both;
     width: 100%;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    height: 100px;
 }
-
+  
 .short img {
     height: 100px;
     width: 20%;
     float: right;
-  }
-  
+}
+
 .long img {
     height: 100px;
     width: 80%;
@@ -142,7 +142,7 @@
 
 #note_content {
     width: 95%;
-    height: 80%;
+    height: 90%;
     margin-bottom: 15px;
     font-size: 0.75em;
 }
@@ -187,7 +187,7 @@
 }
 
 .preview_note {
-    height: 100%;
+    height: 90%;
     float: right;
     width: 50%;
     display: flex;
@@ -205,14 +205,14 @@
     padding-left: 10px;
     padding-right: 10px;
     background-color: white;
-    height: 835px;
+    height: 90%;
     color: #d44c04;
     overflow-y: auto;
 }
 
 .view_note {
     width: 50%;
-    height: 75%;
+    height: 70%;
     margin: auto;
     background-color: white;
     margin-top: 10px;
@@ -234,7 +234,7 @@
 }
 
 .view_content {
-    height: 100%;
+    height: 90%;
     margin: auto;
     padding-left: 20px;
     padding-right: 20px;
@@ -267,11 +267,11 @@
 }
 
 .edit_note_button_class {
+    position: relative;
     text-align: center;
     margin: auto;
     width: 100%;
     height: 50px;
-    background-color: white;
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -374,5 +374,20 @@
     text-decoration: none;
     color:  #d44c04;
     font-weight: bolder;
+}
+
+@media screen and (max-width: 600px) {
+    .view_notes {
+        width: 90%;
+    }
+
+    .short img {
+        height: 40px;
+    }
+    
+    .long img {
+        height: 40px;
+    }
+    
 }
 

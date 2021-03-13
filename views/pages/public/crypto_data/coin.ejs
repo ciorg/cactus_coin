@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
     <link rel="stylesheet" type="text/css" href="../../css/rb.css">
     <link rel="stylesheet" type="text/css" href="../../css/coin_data.css">
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/data_table.css">
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <title>Cactus Coin</title>
 </head>
 <body>
@@ -44,9 +48,9 @@
             <div class="coin_header">
                 <div class="main">
                     <div class="coin_img">
-                            <a href="<%-market_data.homepage%>">
-                                <img src="<%-market_data.image%>"/>
-                            </a>
+                        <a href="<%-market_data.homepage%>">
+                            <img src="<%-market_data.image%>"/>
+                        </a>
                     </div>
                     <div class="coin_name">
                         <a href="<%-market_data.homepage%>"><%-market_data.name %></a>
@@ -83,24 +87,65 @@
                     </table>
                 </div>
             </div>
-            <div class="coin_graph_form">
-                <form action="/crypto/coin/<%-market_data.id %>" method="post">
-                    <label for="period">Value</label>
-                    <input type="text" id="period" name="period" type="number" required>
-                    <label for="time_unit">Units:</label>
-                        <select id="unit" name="unit">
-                            <option id="tvalue" value="days">Days</option>
-                            <option id="tvalue" value="months">Months</option>
-                            <option id="tvalue" value="weeks">Weeks</option>
-                            <option id="tvalue" value="years">Years</option>
-                        </select>
-                    </br>
-                    <button type="submit" value="price_range">
-                        Change Time Frame
-                    </button>
-                </form>
+            <div class="toggle">
+                <a onclick="toggleClassDisplay(
+                    {
+                        id: 'chart',
+                        display: 'block'
+                    },
+                    {
+                        id: 'coin_details',
+                        display: 'grid'
+                    })" href="#">toggle chart</a>
             </div>
-            <div id="chart" class="price_chart"></div>
+            <div class="chart" id="chart">
+                <div id="tradingview"></div>
+            </div>
+            <div class="coin_details" id="coin_details">    
+                <div class="exchanges">
+                    <table id="exchange_table">
+                        <thead>
+                            <tr>
+                                <th>Exchange</th>
+                                <th>Volume</th>
+                                <th>Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (const ex of market_data.exchanges) { %>
+                                <tr id="trust-<%-ex.trust_score%>">
+                                    <td><%- ex.ex_name %></td>
+                                    <td><%- ex.volume %></td>
+                                    <td><a href="<%- ex.trade_url %>"><%- ex.target %></a></td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="summary">
+                        <p id="coin_deets_header">Description:</p>
+                        <p id="summary"><%- market_data.description.slice(0, 500) %></p>
+                        <% if (market_data.description.length > 500 ) { %>
+                            <a id="show_summary" href="#" onClick="showModal('myModal', 'closeInfo')">...more</a>
+                        <% } %>
+                    </div>
+                    <div class="categories">
+                        <p id="coin_deets_header">Categories:</p>
+                        <ul>
+                            <% for (const c of market_data.categories) { %>
+                                <li><%- c %></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="myModal" class="modal">
+            <div class="modal-content">
+              <span class="closeInfo">&times;</span>
+              <p><%- market_data.description %></p>
+            </div>
         </div>
         <footer>
             <div class="portalBottom">
@@ -113,9 +158,30 @@
             </div>
         </footer>
     </div>
-    <script>
-        const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
-        chart.render();
+    <script src="../../javascript/exchange_table.js"></script>
+    <script src="../../javascript/toggle_class_display.js"></script>
+    <script src="../../javascript/pop_out_window.js"></script>
+    <script type="text/javascript">
+        new TradingView.widget(
+        {
+            "height": "650px",
+            "width": "100%",
+            "symbol": "BINANCE:<%-market_data.symbol%>USDT",
+            "interval": "240",
+            "timezone": "Etc/UTC",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "withdateranges": true,
+            "allow_symbol_change": true,
+            "save_image": false,
+            "studies": [
+                "RSI@tv-basicstudies"
+            ],
+            "container_id": "tradingview"
+        });
     </script>
 </body>
 </html>
