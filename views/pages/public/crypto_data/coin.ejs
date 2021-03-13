@@ -10,7 +10,6 @@
     <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Cactus Coin</title>
 </head>
 <body>
@@ -88,7 +87,15 @@
                 </div>
             </div>
             <div class="toggle">
-                <a onclick="toggleClassDisplay('chart', 'coin_details')" href="#">toggle chart</a>
+                <a onclick="toggleClassDisplay(
+                    {
+                        id: 'chart',
+                        display: 'block'
+                    },
+                    {
+                        id: 'coin_details',
+                        display: 'grid'
+                    })" href="#">toggle chart</a>
             </div>
             <div class="chart" id="chart">
                 <div id="tradingview"></div>
@@ -119,7 +126,7 @@
                         <p id="coin_deets_header">Description:</p>
                         <p id="summary"><%- market_data.description.slice(0, 500) %></p>
                         <% if (market_data.description.length > 500 ) { %>
-                            <a id="show_summary" href="#">...more</a>
+                            <a id="show_summary" href="#" onClick="showModal('myModal', 'closeInfo')">...more</a>
                         <% } %>
                     </div>
                     <div class="categories">
@@ -135,7 +142,7 @@
             </div>
             <div id="myModal" class="modal">
             <div class="modal-content">
-              <span class="close">&times;</span>
+              <span class="closeInfo">&times;</span>
               <p><%- market_data.description %></p>
             </div>
         </div>
@@ -150,39 +157,9 @@
             </div>
         </footer>
     </div>
-    <!-- <script>
-        const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
-        chart.render();
-    </script> -->
     <script src="../../javascript/exchange_table.js"></script>
     <script src="../../javascript/toggle_class_display.js"></script>
-    <script>
-        // Get the modal
-        const modal = document.getElementById("myModal");
-        
-        // Get the button that opens the modal
-        const btn = document.getElementById("show_summary");
-        
-        // Get the <span> element that closes the modal
-        const span = document.getElementsByClassName("close")[0];
-        
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-          modal.style.display = "block";
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        }
-    </script>
+    <script src="../../javascript/pop_out_window.js"></script>
     <script type="text/javascript">
         new TradingView.widget(
         {

@@ -53,38 +53,9 @@ router.get('/crypto/coin/:id',
 
         res.render('pages/public/crypto_data/coin', {
             user: req.user,
-            market_data: data.res.market_data,
-            chart_options: data.res.chart_options
+            market_data: data.res.market_data
         });
     }
 );
-
-router.post('/crypto/coin/:id',
-    async (req: Request, res: Response) => {
-        const rateCheck = await rateLimiter.searchCheck(req);
-
-        if (rateCheck.blocked) {
-            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
-        }
-
-        if (!req.body && !req.body.period && !req.body.unit) {
-            res.redirect('/error');
-        }
-
-        const opts = {
-            id: req.params.id,
-            unit:req.body.unit,
-            value:  Number(req.body.period)
-        }
-
-        const data: I.Result = await cryptoData.getCoinData(opts);
-
-        res.render('pages/public/crypto_data/coin', {
-            user: req.user,
-            market_data: data.res.market_data,
-            chart_options: data.res.chart_options
-        });
-    }
-)
 
 export = router;

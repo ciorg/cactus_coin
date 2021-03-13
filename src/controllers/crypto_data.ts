@@ -37,15 +37,11 @@ class CryptoData {
 
         const formatedHistoryOpts = this._formatHistoryOpts(historyOpts);
 
-        const [marketData, priceHistory] = await Promise.all([
-            this.api.coinData(historyOpts.id),
-            this.api.coinMarketHistory(formatedHistoryOpts)
-        ]);
+        const marketData = await this.api.coinData(historyOpts.id);
 
-        if (marketData && priceHistory) {
+        if (marketData) {
             const data = {
                 market_data: this._formatCoinMarketData(marketData),
-                chart_options: this._makeChartOptions(priceHistory.prices)
             };
 
             result.res = data;
@@ -189,69 +185,6 @@ class CryptoData {
         }
 
         return 'daily';
-    }
-
-    private _makeChartOptions(priceHistory: number[][]) {
-        return {
-            series: [{
-                name: 'USD',
-                data: priceHistory
-            }],
-            chart: {
-                type: 'area',
-                stacked: false,
-                height: 500,
-                zoom: {
-                    type: 'x',
-                    enabled: true,
-                    autoScaleYaxis: true
-                },
-                    toolbar: {
-                    autoSelected: 'zoom'
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            markers: {
-                size: 0,
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    inverseColors: false,
-                    opacityFrom: 0.5,
-                    opacityTo: 0,
-                    stops: [0, 90, 100]
-                },
-            },
-            yaxis: {
-                decimalsInFloat: 2,
-                labels: {
-                    show: true
-                },
-                title: {
-                    text: undefined
-                },
-            },
-            xaxis: {
-                type: 'datetime',
-                labels: {
-                    format: 'MM/dd/yy',
-                    rotate: 45,
-                    rotateAlways: true,
-                    offsetY: 20
-                }
-            },
-            tooltip: {
-                shared: false,
-                x: {
-                    type: 'datetime',
-                    format: 'MM/dd/yy HH:mm:ss'
-                }  
-            }
-        };
     }
 }
 
