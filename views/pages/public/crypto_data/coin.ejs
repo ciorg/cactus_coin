@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/data_table.css">
     <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>Cactus Coin</title>
 </head>
@@ -86,61 +87,81 @@
                     </table>
                 </div>
             </div>
-            <div class="coin_graph_form">
-                <form action="/crypto/coin/<%-market_data.id %>" method="post">
-                    <label for="period">Value</label>
-                    <input type="text" id="period" name="period" type="number" required>
-                    <label for="time_unit">Units:</label>
-                        <select id="unit" name="unit">
-                            <option id="tvalue" value="days">Days</option>
-                            <option id="tvalue" value="months">Months</option>
-                            <option id="tvalue" value="weeks">Weeks</option>
-                            <option id="tvalue" value="years">Years</option>
-                        </select>
-                    </br>
-                    <button type="submit" value="price_range">
-                        Change Time Frame
-                    </button>
-                </form>
+            <a class="show_charts" id="charts" href="#">Charts</a>
+            <div class="chart">
+            <div class="tradingview-widget-container">
+                <div id="tradingview_0d8de"></div>
+                <script type="text/javascript">
+                new TradingView.widget(
+                {
+                    "width": 980,
+                    "height": 610,
+                    "symbol": "BINANCE:<%-market_data.symbol%>USDT",
+                    "interval": "240",
+                    "timezone": "Etc/UTC",
+                    "theme": "light",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "withdateranges": true,
+                    "allow_symbol_change": true,
+                    "save_image": false,
+                    "studies": [
+                        "RSI@tv-basicstudies"
+                    ],
+                    "container_id": "tradingview_0d8de"
+                }
+                );
+                </script>
             </div>
-            <div class="coin_graph">
-                <div id="chart" class="price_chart"></div>
-            </div>
-            <div class="coin_details">
-                <div class="summary">
-                    <p id="coin_deets_header">Description:</p>
-                    <p id="summary"><%- market_data.description.slice(0, 500) %></p>
-                </div>
-                <div class="categories">
-                    <p id="coin_deets_header">Categories:</p>
-                    <ul>
-                        <% for (const c of market_data.categories) { %>
-                            <li><%- c %></li>
-                            <% } %>
-                    </ul>
-                </div>
-            </div>
-            <div class="exchanges">
-                <table id="exchange_table">
-                    <thead>
-                        <tr>
-                            <th>Exchange</th>
-                            <th>Volume</th>
-                            <th>Target</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const ex of market_data.exchanges) { %>
-                            <tr id="trust-<%-ex.trust_score%>">
-                                <td><%- ex.ex_name %></td>
-                                <td><%- ex.volume %></td>
-                                <td><a href="<%- ex.trade_url %>"><%- ex.target %></a></td>
+            <div class="coin_details">    
+                <div class="exchanges">
+                    <table id="exchange_table">
+                        <thead>
+                            <tr>
+                                <th>Exchange</th>
+                                <th>Volume</th>
+                                <th>Target</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            <% for (const ex of market_data.exchanges) { %>
+                                <tr id="trust-<%-ex.trust_score%>">
+                                    <td><%- ex.ex_name %></td>
+                                    <td><%- ex.volume %></td>
+                                    <td><a href="<%- ex.trade_url %>"><%- ex.target %></a></td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="summary">
+                        <p id="coin_deets_header">Description:</p>
+                        <p id="summary"><%- market_data.description.slice(0, 500) %></p>
+                        <% if (market_data.description.length > 500 ) { %>
+                            <a id="show_summary" href="#">...more</a>
                         <% } %>
-                    </tbody>
-                </table>
-            </div>
+                    </div>
+                    <div class="categories">
+                        <p id="coin_deets_header">Categories:</p>
+                        <ul>
+                            <% for (const c of market_data.categories) { %>
+                                <li><%- c %></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p><%- market_data.description %></p>
+            </div>
+          
+          </div>
         <footer>
             <div class="portalBottom">
                 <div class="short">
@@ -152,10 +173,37 @@
             </div>
         </footer>
     </div>
-    <script>
+    <!-- <script>
         const chart = new ApexCharts(document.querySelector("#chart"), <%- JSON.stringify(chart_options) %>);
         chart.render();
-    </script>
+    </script> -->
     <script src="../../javascript/exchange_table.js"></script>
+    <script>
+        // Get the modal
+        const modal = document.getElementById("myModal");
+        
+        // Get the button that opens the modal
+        const btn = document.getElementById("show_summary");
+        
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close")[0];
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+        </script>
 </body>
 </html>
