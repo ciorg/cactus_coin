@@ -15,7 +15,9 @@
 
 .userLogo img:hover {
     opacity: 0.5;
-  }
+}
+
+.navLinks label, #hamburger { display: none; }
 
 .navLinks {
     overflow: hidden;
@@ -106,4 +108,33 @@
 .addUser_button:hover {
     background-color: #facc04;
     color: #d44c04
+}
+
+@media (max-width: 900px) {
+    .userLogo {
+       display: none;
+    }
+
+    /* Show Hamburger Icon */
+    .navLinks label { 
+        display: inline-block; 
+        color: white;
+        background: #a02620;
+        font-style: normal;
+        font-size: 1.4em;
+        padding: 10px;
+    }
+
+    label {
+        float: left;
+    }
+
+    #hiddenLinks li a {
+        display: block;
+        width: 100%;
+    }
+
+    /* Toggle Show/Hide Menu */
+    #hiddenLinks { display: none; }
+    .navLinks input:checked ~ #hiddenLinks { display: block; }
 }
