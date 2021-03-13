@@ -13,7 +13,7 @@ function toggleClassDisplay(args1, args2) {
 
 function hidden(id) {
     const { display } = document.getElementById(id).style;
-    console.log(display);
+
     if (display == null || display === 'none' || display === '') {
         return true;
     }

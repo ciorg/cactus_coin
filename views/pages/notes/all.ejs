@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/css/data_table.css">
         <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -52,7 +52,7 @@
                         <form action="/note/<%= user._id %>" method="post" id="add_note">
                             <input type="text" name="title" placeholder="Title" id="note_title" required="true"/>
                             <br/>      
-                            <textarea name="content" form="add_note" id="note_content" rows="58" cols="64" placeholder="Enter Content - use markdown to format" required="true" onkeyup='preview();'></textarea>
+                            <textarea name="content" form="add_note" id="note_content" rows="40" cols="64" placeholder="Enter Content - use markdown to format" required="true" onkeyup='preview();'></textarea>
                             <br/>
                             <input type="text" name="tags" placeholder="Tags" id="note_tags"/>
                             <br/>

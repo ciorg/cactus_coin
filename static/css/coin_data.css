@@ -4,7 +4,6 @@
     width: 80%;
     height: 100%;
     background-color: white;
-    border: 2px solid red;
 }
 
 .coin_header {
@@ -80,8 +79,10 @@
 
 .chart {
     display: none;
-    width: 90%;
+    width: 100%;
+    height: 500px;
     margin: auto;
+    background-color: white;
 }
 
 .coin_details {
@@ -90,13 +91,15 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     color: #13206ea4;
+    background-color: white;
 }
 
 .toggle {
-    width: 10%;
+    width: 20%;
     height: 2em;
     margin: auto;
     text-align: center;
+    margin-top: 50px;
     margin-bottom: 10px;
 }
 
@@ -215,4 +218,30 @@
     height: 100px;
     width: 80%;
     float: left;
+}
+
+@media screen and (max-width: 1200px) {
+    .coin_data {
+        width: 90%;
+    }
+
+    .coin_img img {
+        height: 30px; 
+        margin-top: 5px;
+    }
+
+    .coin_header {
+        margin-bottom: 20px;
+    }
+
+    .toggle {
+        width: 50%;
+        height: 2em;
+        margin-top: 50px;
+    }
+
+    .portalBottom {
+        display: none;
+    }
+    
 }

@@ -2,8 +2,6 @@ import express, { Request, Response } from 'express';
 import CryptoData from '../controllers/crypto_data'
 import RateLimiter from '../utils/rate_limiter';
 
-import * as I from '../interface';
-
 const router = express.Router();
 const cryptoData = new CryptoData();
 const rateLimiter = new RateLimiter();
