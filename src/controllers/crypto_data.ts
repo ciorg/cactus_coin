@@ -1,71 +1,75 @@
-import axios, { AxiosResponse } from 'axios';
+import CoinGeckoApi from '../utils/coingecko_api';
 import Logger from '../utils/logger';
 import * as I from '../interface';
-import * as fs from 'fs-extra';
-import path from 'path';
+import * as GeckoI from '../interfaces';
 
 class CryptoData {
-    base_url: string;
     logger: Logger;
+    api: CoinGeckoApi;
 
     constructor() {
-        this.base_url = 'https://api.coingecko.com/api/v3';
+        this.api = new CoinGeckoApi();
         this.logger = new Logger();
     }
 
-    async getData(type: string, opts: I.CoinOpts = { id: 'na', value: 0, unit: 'days' }) {
+    async getCoinList(vs = 'usd', size = 100): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
 
-        let data: any;
+        const data = await this.api.marketCapList({ vs, size });
 
-        if (type === 'market') {
-            data = await this._byMarketValue('usd');
+        const preppedData = this._prepCoinListData(data);
+
+        if (preppedData.length) {
+            result.res = preppedData;
+            return result;
         }
-        
 
-        if (type === 'coin') {
-            const [
-                marketData,
-                priceHistory
-            ] = await Promise.all([
-                this._coinMarket(opts.id),
-                this._coinHistory(opts)
-            ]);
+        result.error = true;
+        return result;
+    }
 
-            data = {
-                market_data: marketData,
-                chart_options: this._makeChartOptions(priceHistory)
-            }
-        }
-       
-        if (data) {
+    async getCoinData(historyOpts: { id: string, unit: string, value: number }): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        };
+
+        const formatedHistoryOpts = this._formatHistoryOpts(historyOpts);
+
+        const marketData = await this.api.coinData(historyOpts.id);
+
+        if (marketData) {
+            const data = {
+                market_data: this._formatCoinMarketData(marketData),
+            };
+
             result.res = data;
             return result;
         }
 
         result.error = true;
-        return result;   
+        return result;
     }
 
-    private async _coinMarket(symbol: string): Promise<I.CoinMarketData> {
-        const marketOpts = {
-            id: symbol,
-            localization: false,
-            tickers: false,
-            market_data: true,
-            community_data: false,
-            developer_data: false,
-            sparkline: false
-        }
+    private _prepCoinListData(data: GeckoI.MarketCapListRes[]) {
+        return data.map((coin: any) => {
+            const info = {
+                id: coin.id,
+                name: coin.name,
+                symbol: coin.symbol,
+                price: coin.current_price,
+                market_cap: coin.market_cap,
+                change_per: coin.price_change_percentage_24h
+            };
 
-        const extention = `/coins/${symbol}`;
+            return info;
+        });
+    }
 
-        const data = await this._getData(extention, marketOpts);
-
+    private _formatCoinMarketData(data: GeckoI.CoinDataRes) {
         return {
-            id: symbol,
+            id: data.id,
             name: data.name,
             symbol: data.symbol.toUpperCase(),
             homepage: data.links.homepage[0],
@@ -77,7 +81,10 @@ class CryptoData {
             market_cap: this._marketCap(data.market_data.market_cap.usd),
             rank: data.market_data.market_cap_rank,
             high_24h: this._formatNum(data.market_data.high_24h.usd), 
-            low_24h: this._formatNum(data.market_data.low_24h.usd)
+            low_24h: this._formatNum(data.market_data.low_24h.usd),
+            categories: data.categories,
+            description: data.description.en,
+            exchanges: this._getCoinExchanges(data.tickers)
         }
     }
 
@@ -97,6 +104,35 @@ class CryptoData {
         return `${toString.slice(0, 3)} Th`;
     }
 
+    private _getCoinExchanges(tickers: GeckoI.CoinDataTickers[]) {
+        const targets = [
+            'btc',
+            'usdt',
+            'usd',
+            'usdc',
+            'eth',
+            'xbt'
+        ];
+
+        const exchanges = tickers.reduce((exchanges: GeckoI.ExchangeInfo[], ticker) => {
+            if (ticker.trade_url && targets.includes(ticker.target.toLowerCase())) {
+                const exData = {
+                    ex_name: ticker.market.name,
+                    target: ticker.target,
+                    trust_score: ticker.trust_score,
+                    trade_url: ticker.trade_url,
+                    volume: this._formatNum(ticker.volume)
+                }
+
+                exchanges.push(exData);
+            }
+
+            return exchanges;
+        }, []);
+
+        return exchanges.sort((a, b) => Number(b.volume) - Number(a.volume));
+    }
+
     private _formatDate(value: string): string {
         if (value) {
             const [year, month, date] = value.split('-');
@@ -112,21 +148,13 @@ class CryptoData {
     }
     
 
-    private async _coinHistory(opts: I.CoinOpts): Promise<number[][]> {
-        const histOpts = {
+    private _formatHistoryOpts(opts: I.CoinOpts): GeckoI.CoinMarketHistoryArgs {
+        return {
             id: opts.id,
-            vs_currency: 'usd',
+            vs: 'usd',
             days: this._makeDays(opts),
             interval: this._getInterval(opts)
         };
-
-        const histExt = `/coins/${opts.id}/market_chart`;
-
-        const data: { [field: string]: number[][] } = await this._getData(histExt, histOpts);
-
-        if (data == null) return [];
-
-        return data.prices;
     }
 
     _makeDays(opts: I.CoinOpts) {
@@ -157,123 +185,6 @@ class CryptoData {
         }
 
         return 'daily';
-    }
-
-    private async _byMarketValue(currency: string, size = 100) {
-        const extention = '/coins/markets';
-
-        const options = {
-            vs_currency: currency,
-            order: 'market_cap_desc',
-            per_page: size,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: '24h'
-        };
-
-        const data = await this._getData(extention, options);
-
-        if (data == null) return;
-
-        return data.map((coin: any) => {
-            const info = {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol,
-                price: coin.current_price,
-                market_cap: coin.market_cap,
-                change_per: coin.price_change_percentage_24h
-            };
-
-            return info;
-        });
-    }
-
-    private async _getData(extention: string, options = {}) {
-        try {
-            const axiosRes = await this._apiCall(extention, options);
-
-            if (axiosRes.status !== 200) {
-                this.logger.error(`crypto api returned with ${axiosRes.status}`, {});
-                return;
-            }
-            
-            return axiosRes.data;
-        } catch (e) {
-            this.logger.error(e.message, e);
-        }
-    }
-
-    private async _apiCall(extention: string, options = {}): Promise<AxiosResponse> {
-        return axios.get(
-            `${this.base_url}${extention}`,
-            {
-                params: options
-            }
-        );
-    }
-
-    private _makeChartOptions(priceHistory: number[][]) {
-        return {
-            series: [{
-                name: 'USD',
-                data: priceHistory
-            }],
-            chart: {
-                type: 'area',
-                stacked: false,
-                height: 500,
-                zoom: {
-                    type: 'x',
-                    enabled: true,
-                    autoScaleYaxis: true
-                },
-                    toolbar: {
-                    autoSelected: 'zoom'
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            markers: {
-                size: 0,
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    inverseColors: false,
-                    opacityFrom: 0.5,
-                    opacityTo: 0,
-                    stops: [0, 90, 100]
-                },
-            },
-            yaxis: {
-                decimalsInFloat: 2,
-                labels: {
-                    show: true
-                },
-                title: {
-                    text: undefined
-                },
-            },
-            xaxis: {
-                type: 'datetime',
-                labels: {
-                    format: 'MM/dd/yy',
-                    rotate: 45,
-                    rotateAlways: true,
-                    offsetY: 20
-                }
-            },
-            tooltip: {
-                shared: false,
-                x: {
-                    type: 'datetime',
-                    format: 'MM/dd/yy HH:mm:ss'
-                }  
-            }
-        };
     }
 }
 

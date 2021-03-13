@@ -16,9 +16,9 @@ class DB {
     }
 
     async connect() {
-        const { mongo_settings } = this.configs.getConfigs();
+        const mongoSettings = this.configs.getMongoConfigs();
 
-        const url = `mongodb://${mongo_settings.url}/${mongo_settings.database}`;
+        const url = `mongodb://${mongoSettings.url}/${mongoSettings.database}`;
 
         try {
             this.db = await mongoose.connect(url, {

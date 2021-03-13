@@ -1,7 +1,7 @@
 import jsYaml from 'js-yaml';
 import path from 'path';
 import fs from 'fs';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class Configs {
     configs: any;
@@ -12,6 +12,22 @@ class Configs {
 
     getConfigs(): I.ConfigSettings {
             return this.configs;
+    }
+
+    getCoinGeckConfigs(): I.CoinGecko {
+        return this.configs.coin_gecko;
+    }
+
+    getWebSiteConfigs(): I.WebSite {
+        return this.configs.web_site;
+    }
+
+    getMongoConfigs(): I.Mongo {
+        return this.configs.mongo_settings;
+    }
+
+    getLogConfigs(): I.Logger {
+        return this.configs.log;
     }
 }
 

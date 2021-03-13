@@ -15,7 +15,8 @@ import DB from './utils/db';
 const db = new DB();
 
 const configs = new Configs();
-const { env, port } = configs.getConfigs();
+
+const { env, port } = configs.getWebSiteConfigs()
 
 const logger = new Logger();
 
@@ -35,7 +36,11 @@ async function main() {
                     "'self'",
                     "'unsafe-inline'",
                     'api.coingecko.com/api/v3/coins/',
+                    's3.tradingview.com/tv.js',
                     'assets.coingecko.com/coins/images/'
+                ],
+                'frame-src': [
+                    's.tradingview.com/'
                 ],
                 'script-src-elem': ['https:',"'unsafe-inline'", "'self'"],
                 'script-src': [
@@ -44,6 +49,7 @@ async function main() {
                     'cdn.jsdelivr.net/npm/apexcharts',
                     'cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
                     'cdn.jsdelivr.net/npm/marked/marked.min.js',
+                    's3.tradingview.com/tv.js',
                     "'unsafe-inline'",
                     "'self'"
                 ],
