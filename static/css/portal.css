@@ -158,7 +158,7 @@ input[type=password] {
   border: 2px solid #ef2556;
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .portalContent {
         margin-top: 20%;
         margin-left: 15%;
@@ -190,6 +190,7 @@ input[type=password] {
         padding-top: 15px;
         height: 50%;
     }
+
     .sideBar a {font-size: 18px;}
 }
 
