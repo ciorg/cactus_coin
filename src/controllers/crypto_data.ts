@@ -12,7 +12,7 @@ class CryptoData {
         this.logger = new Logger();
     }
 
-    async getCoinList(vs = 'usd', size = 100): Promise<I.Result> {
+    async getCoinList(vs = 'usd', size = 500): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };

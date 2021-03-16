@@ -4,6 +4,7 @@ export interface MarketCapListArgs {
     vs: string;
     size: number;
     per_price_change?: changeDuration[];
+    per_page?: number;
 }
 
 enum changeDuration {

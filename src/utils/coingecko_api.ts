@@ -17,18 +17,37 @@ class CoinGeckoApi {
     }
 
     async marketCapList(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
-        const options = {
-            vs_currency: args.vs,
-            order: 'market_cap_desc',
-            per_page: args.size,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: args.per_price_change || '24h'
-        };
+        const perPage = args.per_page || 100;
+    
+        const requests = Math.ceil(args.size / perPage);
 
-        const data = await this._getData('/coins/markets', options);
+        const optionArray = [];
 
-        if (data == null) [];
+        for (let i = 1; i <= requests; i++) {
+            const options = {
+                vs_currency: args.vs,
+                order: 'market_cap_desc',
+                per_page: perPage,
+                page: i,
+                sparkline: false,
+                price_change_percentage: args.per_price_change || '24h'
+            };
+
+            optionArray.push(options);
+        }
+
+        const marketDataArray: I.MarketCapListRes[][] = await Promise.all(
+            optionArray.map((opt) => this._getData('/coins/markets', opt))
+        );
+
+
+        const data = marketDataArray.reduce((flat, res) => {
+            if (res.length > 0) {
+                res.forEach((r) => flat.push(r))
+            }
+    
+            return flat
+        }, []);
         
         return data;
     }
