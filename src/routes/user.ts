@@ -3,7 +3,7 @@ import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator';
 import permissions from '../utils/permissions';
 import User from '../controllers/user';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 const user = new User();
 

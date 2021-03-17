@@ -2,7 +2,7 @@ import path from 'path';
 import bunyan from 'bunyan';
 import { Request, Response } from 'express';
 import Configs from './configs';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class Logger {
     logger: bunyan

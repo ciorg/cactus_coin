@@ -1,7 +1,6 @@
 import CoinGeckoApi from '../utils/coingecko_api';
 import Logger from '../utils/logger';
-import * as I from '../interface';
-import * as GeckoI from '../interfaces';
+import * as I from '../interfaces';
 
 class CryptoData {
     logger: Logger;
@@ -52,7 +51,7 @@ class CryptoData {
         return result;
     }
 
-    private _prepCoinListData(data: GeckoI.MarketCapListRes[]) {
+    private _prepCoinListData(data: I.MarketCapListRes[]) {
         return data.map((coin: any) => {
             const info = {
                 id: coin.id,
@@ -67,7 +66,7 @@ class CryptoData {
         });
     }
 
-    private _formatCoinMarketData(data: GeckoI.CoinDataRes) {
+    private _formatCoinMarketData(data: I.CoinDataRes) {
         return {
             id: data.id,
             name: data.name,
@@ -104,7 +103,7 @@ class CryptoData {
         return `${toString.slice(0, 3)} Th`;
     }
 
-    private _getCoinExchanges(tickers: GeckoI.CoinDataTickers[]) {
+    private _getCoinExchanges(tickers: I.CoinDataTickers[]) {
         const targets = [
             'btc',
             'usdt',
@@ -114,7 +113,7 @@ class CryptoData {
             'xbt'
         ];
 
-        const exchanges = tickers.reduce((exchanges: GeckoI.ExchangeInfo[], ticker) => {
+        const exchanges = tickers.reduce((exchanges: I.ExchangeInfo[], ticker) => {
             if (ticker.trade_url && targets.includes(ticker.target.toLowerCase())) {
                 const exData = {
                     ex_name: ticker.market.name,
@@ -148,7 +147,7 @@ class CryptoData {
     }
     
 
-    private _formatHistoryOpts(opts: I.CoinOpts): GeckoI.CoinMarketHistoryArgs {
+    private _formatHistoryOpts(opts: I.CoinOpts): I.CoinMarketHistoryArgs {
         return {
             id: opts.id,
             vs: 'usd',

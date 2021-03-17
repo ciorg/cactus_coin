@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
-import Actions from './lib/actions';
+import Actions from '../utils/db_actions';
 import Visit from '../models/visit';
 import Ip from '../models/ip_address';
 import Bot from '../utils/bot_detector';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class SiteStats {
     visit_actions: Actions;

@@ -1,0 +1,82 @@
+A	Analytics
+AI	Artificial Intelligence
+ABT	Asset-backed Tokens
+AM	Asset Manager
+AR 	Augmented Reality
+AMM	Automated Market Maker (AMM)
+AvE	Avalanche Ecosystem
+AxI	Axie Infinity
+BD	Big Data
+Bi	Binance Launchpool
+BiSCE	Binance Smart Chain Ecosystem
+BP	Business Platform
+BS	Business Services
+CEX	Centralized Exchange Token (CEX)
+Ch	Charity
+SC	CNY Stablecoin
+Com	Communication
+CpT	Compound Tokens
+CoE	Cosmos Ecosystem
+Cyp	Cryptocurrency
+DEX	Decentralized Exchange Token (DEX)
+DeFi	Decentralized Finance (DeFi)
+DeFiI	DeFi Index
+Der	Derivatives
+Ed	Education
+Engy	Energy
+Ent	Entertainment
+Stk	Eth 2.0 Staking
+SC	EUR Stablecoin
+ExBT	Exchange-based Tokens
+Fi	Finance / Banking
+Gmb	Gambling
+Gam	Gaming
+GCryp	GCryptocurrency
+Gov	Governance
+HC	Healthcare
+HeE	HECO Chain Ecosystem
+I	Index
+Infra	Infrastructure
+Ins	Insurance
+IOT	Internet of Things (IOT)
+SC	KRW Stablecoin
+Leg	Legal
+LB	Lending/Borrowing
+Mark	Marketing
+MN	Masternodes
+M	Media
+Meta	Metaverse
+MA	Mirrored Assets
+Mu	Music
+NFT	Non-Fungible Tokens (NFT)
+Opt	Options
+O	Oracle
+Oth	Other
+Perp	Perpetuals
+PokE	Polkadot Ecosystem
+PM	Prediction Markets
+PC	Privacy Coins
+Pr	Protocol
+Re	Real Estate
+ReT	Rebase Tokens
+Se	Seigniorage
+SCP	Smart Contract Platform
+SM	Social Money
+So	Software
+SolE	Solana Ecosystem
+Sp	Sports
+SC	Stablecoins
+Str	Storage
+Syth	Synthetic Issuer
+Syth	Synths
+Tech	Technology & Science
+TBTC	Tokenized BTC
+TAu	Tokenized Gold
+TP	Tokenized Products
+TS	TokenSets
+Tour	Tourism
+SC	USD Stablecoin
+WT	Wrapped-Tokens
+YrnE	Yearn Ecosystem
+YA	Yield Aggregator
+YF	Yield Farming

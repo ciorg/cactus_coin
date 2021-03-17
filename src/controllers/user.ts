@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import userModel from '../models/user';
 import Logger from '../utils/logger';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class User {
     log: Logger;
