@@ -24,6 +24,7 @@
                         <th>Name</th>
                         <th>Symbol</th>
                         <th>Price</th>
+                        <th>Categories</th>
                         <th>% Change Last 24hr</th>
                     </tr>
                 </thead>
@@ -34,6 +35,7 @@
                         <td><a href="/crypto/coin/<%-i.id%>"><%-i.name %></a></td>
                         <td><a href="/crypto/coin/<%-i.id%>"><%-i.symbol %></a></td>
                         <td id="<%- i.symbol %>_price"><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
+                        <td><%- i.categories %></td>
                         <% if (i.change_per > 0) { %>
                             <td class="up" id="<%-i.symbol%>_dper"><%-Number(i.change_per).toFixed(4) %></td>
                         <% } else { %>

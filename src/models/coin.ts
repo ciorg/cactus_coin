@@ -5,7 +5,7 @@ const CoinSchema = new Schema({
         type: Date,
         required: true
     },
-    id: {
+    coin_id: {
         type: String,
         required: true,
         unique: true
@@ -16,12 +16,12 @@ const CoinSchema = new Schema({
         unique: true
     },
     categories: {
-        type: String,
+        type: [String],
         required: true,
         unique: false
     }
 });
 
-const MarketCapModel = mongoose.model('marketCapRankings', CoinSchema);
+const CoinModel = mongoose.model('coin', CoinSchema);
 
-export = MarketCapModel;
+export = CoinModel;

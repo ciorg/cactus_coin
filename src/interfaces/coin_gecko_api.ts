@@ -51,6 +51,7 @@ export interface MarketCapListRes {
     price_change_percentage_30d_in_currency?: number;
     price_change_percentage_200d_in_currency?: number;
     price_change_percentage_1y_in_currency?: number;
+    categories: string[];
 }
 
 export interface CoinDataRes {

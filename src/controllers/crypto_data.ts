@@ -1,24 +1,32 @@
 import CoinGeckoApi from '../utils/coingecko_api';
+import CoinModel from '../models/coin';
+import CategoriesModel from '../models/crypto_category';
+import DbActions from '../utils/db_actions';
 import Logger from '../utils/logger';
+import Utils from './lib/utils';
 import * as I from '../interfaces';
 
 class CryptoData {
     logger: Logger;
     api: CoinGeckoApi;
+    dbCoins: DbActions;
+    dbCats: DbActions;
 
     constructor() {
         this.api = new CoinGeckoApi();
         this.logger = new Logger();
+        this.dbCoins = new DbActions(CoinModel);
+        this.dbCats = new DbActions(CategoriesModel);
     }
 
-    async getCoinList(vs = 'usd', size = 500): Promise<I.Result> {
+    async getCoinList(vs = 'usd', size = 5): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
 
-        const data = await this.api.marketCapList({ vs, size });
+        const data = await this.api.marketCapList({ vs, size, per_page: 5 });
 
-        const preppedData = this._prepCoinListData(data);
+        const preppedData = await this._prepCoinListData(data);
 
         if (preppedData.length) {
             result.res = preppedData;
@@ -51,19 +59,66 @@ class CryptoData {
         return result;
     }
 
-    private _prepCoinListData(data: I.MarketCapListRes[]) {
-        return data.map((coin: any) => {
+    private async _prepCoinListData(data: I.MarketCapListRes[]) {
+        const returnData = [];
+
+        for (const coin of data) {
+            const categories = await this._getCategories(coin.id);
+
             const info = {
                 id: coin.id,
                 name: coin.name,
                 symbol: coin.symbol,
                 price: coin.current_price,
                 market_cap: coin.market_cap,
-                change_per: coin.price_change_percentage_24h
+                change_per: coin.price_change_percentage_24h,
+                categories
             };
 
-            return info;
-        });
+            returnData.push(info);
+        }
+
+        return returnData;
+    }
+
+    private async _getCategories(coin_id: string): Promise<string[]> {
+        const result = await this.dbCoins.search('coin_id', coin_id);
+        
+        const coinCats: any[] = [];
+
+        if (result.res.length > 0) {
+            for (const r of result.res) {
+                const { categories } = r;
+                
+                for (const cat of categories) {
+                    const normalized = this._normalizeCategory(cat);
+
+                    const codeResult = await this.dbCats.search('key', normalized);
+
+                    if (codeResult.res.length) {
+                        const code = codeResult.res[0].code;
+        
+                        coinCats.push(code);
+                    } else {
+                        this.logger.info(`could not find code for ${cat}`);
+                    }
+                }
+            }
+        }
+
+        return coinCats.reduce((uniq, c) => {
+            if (uniq.includes(c)) {
+                return uniq;
+            }
+
+            uniq.push(c);
+
+            return uniq;
+        }, []);
+    }
+
+    private _normalizeCategory(category: string): string {
+        return category.replace(/\s|\W/g, '');
     }
 
     private _formatCoinMarketData(data: I.CoinDataRes) {

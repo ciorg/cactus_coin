@@ -8,6 +8,7 @@ $(document).ready(() => {
             { orderable: true },
             { orderable: true },
             { orderable: true, searchable: false },
+            { orderable: false, searchable: true },
             { orderable: true, searchable: false }
         ]
     });
