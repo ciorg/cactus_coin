@@ -24,7 +24,7 @@ class CryptoData {
             res: undefined
         };
 
-        const data = await this.api.marketCapList({ vs, size, per_page: 5 });
+        const data = await this.api.marketCapListLarge({ vs, size, per_page: 5 });
 
         const preppedData = await this._prepCoinListData(data);
 
@@ -79,6 +79,38 @@ class CryptoData {
         }
 
         return returnData;
+    }
+
+    async coinsByCategory(category: string) {
+        const result = await this.dbCats.search('code', category);
+
+        const fullCatNames: string[] = [];
+
+        if (result.res.length > 0) {
+            result.res.forEach((res: any) => fullCatNames.push(res.full));
+        }
+
+        const coinIds: string[] = [];
+
+        for (const fullCat of fullCatNames) {
+            const coinResult = await this.dbCoins.search('categories', fullCat);
+
+            if (result.res) {
+                coinResult.res.forEach((res: any) => coinIds.push(res.coin_id));
+            }
+        }
+
+        const marketCaps = await this.api.marketCapListSmall({ vs: 'usd', size: 100 }, coinIds.join(','));
+
+        const prepped = await this._prepCoinListData(marketCaps);
+
+        if (prepped.length) {
+            result.res = prepped;
+            return result;
+        }
+
+        result.error = true;
+        return result;
     }
 
     private async _getCategories(coin_id: string): Promise<string[]> {

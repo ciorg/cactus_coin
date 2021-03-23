@@ -16,7 +16,7 @@ class CoinGeckoApi {
         this.base_url = this.configs.base_url;
     }
 
-    async marketCapList(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
+    async marketCapListLarge(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
         const perPage = args.per_page || 100;
     
         const requests = Math.ceil(args.size / perPage);
@@ -50,6 +50,25 @@ class CoinGeckoApi {
         }, []);
         
         return data;
+    }
+
+    async marketCapListSmall(args: I.MarketCapListArgs, list: undefined | string) {
+        const perPage = args.per_page || 100;
+
+        const options: any = {
+            vs_currency: args.vs,
+            order: 'market_cap_desc',
+            per_page: perPage,
+            page: 100,
+            sparkline: false,
+            price_change_percentage: args.per_price_change || '24h'
+        };
+
+        if (list) {
+            options.ids = list;
+        }
+
+        return this._getData('/coins/markets', options);
     }
 
     async coinData(symbol: string): Promise<I.CoinDataRes | null> {
