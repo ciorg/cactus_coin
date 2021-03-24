@@ -66,7 +66,30 @@ router.get('/crypto/cat/:cat',
 
         const { cat } = req.params;
 
-        const data = await cryptoData.coinsByCategory(cat);
+        const data = await cryptoData.coinsByCatCode(cat);
+
+        if (data.error) {
+            return res.redirect('/error');
+        }
+
+        res.render('pages/public/crypto_data/markets', {
+            user: req.user,
+            data: data.res
+        });
+    }
+);
+
+router.get('/crypto/catfull/:cat',
+    async(req: Request, res: Response) => {
+        const rateCheck = await rateLimiter.searchCheck(req);
+
+        if (rateCheck.blocked) {
+            rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
+        }
+
+        const { cat } = req.params;
+
+        const data = await cryptoData.coinsByCat(cat);
 
         if (data.error) {
             return res.redirect('/error');

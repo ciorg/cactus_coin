@@ -59,7 +59,7 @@ class CoinGeckoApi {
             vs_currency: args.vs,
             order: 'market_cap_desc',
             per_page: perPage,
-            page: 100,
+            page: 1,
             sparkline: false,
             price_change_percentage: args.per_price_change || '24h'
         };
@@ -67,7 +67,7 @@ class CoinGeckoApi {
         if (list) {
             options.ids = list;
         }
-
+        
         return this._getData('/coins/markets', options);
     }
 

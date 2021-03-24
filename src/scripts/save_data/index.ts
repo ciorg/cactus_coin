@@ -1,7 +1,6 @@
 import SaveCoinData from './_lib/save_coins_data';
 import SaveCryptoCategories from './_lib/save_categories';
 
-
 async function loadCryptoCategories() {
     const saveCats = new SaveCryptoCategories();
 
@@ -14,5 +13,5 @@ async function saveCoinData() {
     const res = await scd.saveCoins();
 }
 
-saveCoinData();
+loadCryptoCategories();
 

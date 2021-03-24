@@ -1,7 +1,7 @@
 {
     "Analytics": {
         "full": "Analytics",
-        "code": "A"
+        "code": "An"
     },
     "ArtificialIntelligence": {
         "full": "Artificial Intelligence",
@@ -77,7 +77,7 @@
     },
     "Cryptocurrency": {
         "full": "Cryptocurrency",
-        "code": "C"
+        "code": "Cr"
     },
     "DecentralizedExchangeTokenDEX": {
         "full": "Decentralized Exchange Token (DEX)",
@@ -93,7 +93,7 @@
     },
     "Derivatives": {
         "full": "Derivatives",
-        "code": "D"
+        "code": "Der"
     },
     "Education": {
         "full": "Education",
@@ -149,7 +149,7 @@
     },
     "Index": {
         "full": "Index",
-        "code": "I"
+        "code": "Idx"
     },
     "Infrastructure": {
         "full": "Infrastructure",
@@ -185,11 +185,11 @@
     },
     "Media": {
         "full": "Media",
-        "code": "M"
+        "code": "Me"
     },
     "Metaverse": {
         "full": "Metaverse",
-        "code": "ME"
+        "code": "MET"
     },
     "MirroredAssets": {
         "full": "Mirrored Assets",
@@ -213,15 +213,15 @@
     },
     "Other": {
         "full": "Other",
-        "code": "O"
+        "code": "Oth"
     },
     "Perpetuals": {
         "full": "Perpetuals",
-        "code": "P"
+        "code": "Per"
     },
     "PolkadotEcosystem": {
         "full": "Polkadot Ecosystem",
-        "code": "PE"
+        "code": "PkE"
     },
     "PredictionMarkets": {
         "full": "Prediction Markets",

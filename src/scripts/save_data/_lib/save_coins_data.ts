@@ -20,7 +20,7 @@ class SaveCoinData {
         const db = new DB();
         await db.connect();
 
-        const topCoins = await this.api.marketCapList({
+        const topCoins = await this.api.marketCapListLarge({
             vs: this.vs,
             size: this.size,
             per_page: 10

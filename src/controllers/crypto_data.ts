@@ -3,7 +3,6 @@ import CoinModel from '../models/coin';
 import CategoriesModel from '../models/crypto_category';
 import DbActions from '../utils/db_actions';
 import Logger from '../utils/logger';
-import Utils from './lib/utils';
 import * as I from '../interfaces';
 
 class CryptoData {
@@ -42,8 +41,6 @@ class CryptoData {
             res: undefined
         };
 
-        const formatedHistoryOpts = this._formatHistoryOpts(historyOpts);
-
         const marketData = await this.api.coinData(historyOpts.id);
 
         if (marketData) {
@@ -81,72 +78,102 @@ class CryptoData {
         return returnData;
     }
 
-    async coinsByCategory(category: string) {
-        const result = await this.dbCats.search('code', category);
-
-        const fullCatNames: string[] = [];
-
-        if (result.res.length > 0) {
-            result.res.forEach((res: any) => fullCatNames.push(res.full));
-        }
-
-        const coinIds: string[] = [];
-
-        for (const fullCat of fullCatNames) {
-            const coinResult = await this.dbCoins.search('categories', fullCat);
-
-            if (result.res) {
-                coinResult.res.forEach((res: any) => coinIds.push(res.coin_id));
-            }
-        }
+    async coinsByCat(category: string) {
+        const coinIds = await this._getCoinIdsInCategory(category);
 
         const marketCaps = await this.api.marketCapListSmall({ vs: 'usd', size: 100 }, coinIds.join(','));
 
         const prepped = await this._prepCoinListData(marketCaps);
 
         if (prepped.length) {
-            result.res = prepped;
-            return result;
+            return {
+                res: prepped,
+                error: false
+            };
         }
 
-        result.error = true;
-        return result;
+        return {
+            error: true
+        };
+    }
+
+    async coinsByCatCode(code: string) {
+        const fullCatNames = await this._getCategoriesFromCode(code);
+
+        const pResp = await Promise.all(fullCatNames.map((cat) => this._getCoinIdsInCategory(cat)));
+
+        const coinIds = pResp.reduce((ids, id) => {
+            if (id.length) id.forEach((id) => ids.push(id));
+
+            return ids
+        }, []);
+
+        const marketCaps = await this.api.marketCapListSmall({ vs: 'usd', size: 100 }, coinIds.join(','));
+
+        const prepped = await this._prepCoinListData(marketCaps);
+
+        if (prepped.length) {
+            return {
+                res: prepped,
+                error: false
+            };
+        }
+
+        return {
+            error: true
+        };
+    }
+
+    private async _getCategoriesFromCode(code: string): Promise<string[]> {
+        const result = await this.dbCats.search('code', code);
+
+        if (result.res.length > 0) {
+            return result.res.map((res: any) => res.full);
+        }
+
+        return [];
+    }
+
+    private async _getCoinIdsInCategory(categories: string): Promise<string[]> {
+        const result = await this.dbCoins.search('categories', categories);
+
+        if (result.res.length === 0) return [];
+    
+        return result.res.map((res: any) => res.coin_id)
     }
 
     private async _getCategories(coin_id: string): Promise<string[]> {
         const result = await this.dbCoins.search('coin_id', coin_id);
         
-        const coinCats: any[] = [];
-
         if (result.res.length > 0) {
-            for (const r of result.res) {
-                const { categories } = r;
-                
-                for (const cat of categories) {
-                    const normalized = this._normalizeCategory(cat);
+            const { categories } = result.res[0]
 
-                    const codeResult = await this.dbCats.search('key', normalized);
+            const pResp: string | null[] = await Promise.all(
+                categories.map((cat: any) => this._getCodeFromCategory(cat))
+            );
 
-                    if (codeResult.res.length) {
-                        const code = codeResult.res[0].code;
-        
-                        coinCats.push(code);
-                    } else {
-                        this.logger.info(`could not find code for ${cat}`);
-                    }
+            return pResp.reduce((coinCats: string[], r: string | null) => {
+                if (r != null && !coinCats.includes(r)) {
+                    coinCats.push(r);
                 }
-            }
+
+                return coinCats;
+            }, []);
         }
 
-        return coinCats.reduce((uniq, c) => {
-            if (uniq.includes(c)) {
-                return uniq;
-            }
+        return [];
+    }
 
-            uniq.push(c);
+    private async _getCodeFromCategory(category: string): Promise<string | null> {
+        const codeResult = await this.dbCats.search('key', this._normalizeCategory(category));
 
-            return uniq;
-        }, []);
+        if (codeResult.res.length) {
+            return codeResult.res[0].code;
+        }
+        
+        this.logger.info(`could not find code for ${category}`);
+
+        return null;
     }
 
     private _normalizeCategory(category: string): string {
@@ -233,45 +260,45 @@ class CryptoData {
         return Number(value).toLocaleString('en');
     }
     
+    // Still could be use full code for historical data one day
+    // private _formatHistoryOpts(opts: I.CoinOpts): I.CoinMarketHistoryArgs {
+    //     return {
+    //         id: opts.id,
+    //         vs: 'usd',
+    //         days: this._makeDays(opts),
+    //         interval: this._getInterval(opts)
+    //     };
+    // }
 
-    private _formatHistoryOpts(opts: I.CoinOpts): I.CoinMarketHistoryArgs {
-        return {
-            id: opts.id,
-            vs: 'usd',
-            days: this._makeDays(opts),
-            interval: this._getInterval(opts)
-        };
-    }
+    // _makeDays(opts: I.CoinOpts) {
+    //     if (opts.unit === 'years') {
+    //         return opts.value * 365;
+    //     }
 
-    _makeDays(opts: I.CoinOpts) {
-        if (opts.unit === 'years') {
-            return opts.value * 365;
-        }
+    //     if (opts.unit === 'weeks') {
+    //         return opts.value * 7;
+    //     }
 
-        if (opts.unit === 'weeks') {
-            return opts.value * 7;
-        }
+    //     if (opts.unit === 'months') {
+    //         return opts.value * 30;
+    //     }
 
-        if (opts.unit === 'months') {
-            return opts.value * 30;
-        }
+    //     return opts.value;
+    // }
 
-        return opts.value;
-    }
+    // private _getInterval(opts: I.CoinOpts): string {
+    //     if (opts.unit === 'days' && opts.value === 1) {
+    //         return 'minutely';
+    //     }
 
-    private _getInterval(opts: I.CoinOpts): string {
-        if (opts.unit === 'days' && opts.value === 1) {
-            return 'minutely';
-        }
+    //     if ((opts.unit === 'days' && opts.value < 31)
+    //         || (opts.unit === 'months' && opts.value < 2)
+    //         || (opts.unit === 'weeks' && opts.value < 5)) {
+    //         return 'hourly';
+    //     }
 
-        if ((opts.unit === 'days' && opts.value < 31)
-            || (opts.unit === 'months' && opts.value < 2)
-            || (opts.unit === 'weeks' && opts.value < 5)) {
-            return 'hourly';
-        }
-
-        return 'daily';
-    }
+    //     return 'daily';
+    // }
 }
 
 export = CryptoData;

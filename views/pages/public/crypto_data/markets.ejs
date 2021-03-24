@@ -35,7 +35,10 @@
                         <td><a href="/crypto/coin/<%-i.id%>"><%-i.name %></a></td>
                         <td><a href="/crypto/coin/<%-i.id%>"><%-i.symbol %></a></td>
                         <td id="<%- i.symbol %>_price"><%-Number(i.price).toLocaleString('en-US', { style: 'currency', currency: 'USD'}) %></td>
-                        <td><%- i.categories %></td>
+                        <td><% for (const cat of i.categories) { %>
+                            <a href="/crypto/cat/<%-cat%>"><%- cat %></a>
+                            <% } %>
+                        </td>
                         <% if (i.change_per > 0) { %>
                             <td class="up" id="<%-i.symbol%>_dper"><%-Number(i.change_per).toFixed(4) %></td>
                         <% } else { %>

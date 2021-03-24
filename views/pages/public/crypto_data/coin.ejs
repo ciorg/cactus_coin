@@ -134,7 +134,7 @@
                         <p id="coin_deets_header">Categories:</p>
                         <ul>
                             <% for (const c of market_data.categories) { %>
-                                <li><%- c %></li>
+                                <li><a href="/crypto/catfull/<%-c%>"><%- c %></a></li>
                                 <% } %>
                             </ul>
                         </div>

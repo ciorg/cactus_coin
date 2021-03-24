@@ -30,6 +30,8 @@ class SaveCryptoCategories {
 
         const categories: CryptoCode = fs.readJsonSync(path.join(process.cwd(), 'crypto_cats.json'));
 
+        console.log(categories);
+
         const results = await Promise.all(
             Object.entries(categories).map(([key, value]) => this._saveToDb(key, value))
         )
