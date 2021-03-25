@@ -8,10 +8,10 @@ async function loadCryptoCategories() {
 }
 
 async function saveCoinData() {
-    const scd = new SaveCoinData('usd', 10);
+    const scd = new SaveCoinData('usd', 1000);
 
-    const res = await scd.saveCoins();
+    await scd.saveCoins();
 }
 
-loadCryptoCategories();
-
+saveCoinData();
+// loadCryptoCategories();

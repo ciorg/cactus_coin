@@ -2,18 +2,21 @@ import CoinGeckoApi from '../../../utils/coingecko_api';
 import CoinModel from '../../../models/coin';
 import DB from '../../../utils/db';
 import DbActions from '../../../utils/db_actions';
+import Logger from '../../../utils/logger';
 
 class SaveCoinData {
     vs: string;
     size: number;
     api: CoinGeckoApi;
     dbActions: DbActions;
+    logger: Logger;
 
     constructor(vs: string, size: number) {
         this.vs = vs;
         this.size = size;
         this.api = new CoinGeckoApi();
         this.dbActions = new DbActions(CoinModel);
+        this.logger = new Logger();
     }
 
     async saveCoins() {
@@ -23,13 +26,15 @@ class SaveCoinData {
         const topCoins = await this.api.marketCapListLarge({
             vs: this.vs,
             size: this.size,
-            per_page: 10
+            per_page: 100
         });
 
-        console.log(topCoins.length);
+        this.logger.info(`retrieved ${topCoins.length} from coin gecko api`);
 
         for (const coin of topCoins) {
             const categories = await this._getCoinCategories(coin.id);
+
+            if (categories == null) continue;
 
             const data = {
                 date: new Date(),
@@ -38,14 +43,15 @@ class SaveCoinData {
                 categories
             }
 
-            console.log(data);
+            await this.dbActions.upsert({ coin_id: coin.id }, data);
 
-            this.dbActions.upsert({ coin_id: coin.id }, data);
+            this.logger.info(`updated ${coin.id} with ${categories.length} categories`)
+
             await this.sleep(1000);
         }
 
         await db.close();
-        console.log('closing');
+        this.logger.info('closing');
     }
 
     async _getCoinCategories(coin: string) {

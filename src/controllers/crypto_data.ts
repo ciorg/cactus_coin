@@ -18,12 +18,12 @@ class CryptoData {
         this.dbCats = new DbActions(CategoriesModel);
     }
 
-    async getCoinList(vs = 'usd', size = 5): Promise<I.Result> {
+    async getCoinList(vs = 'usd', size = 100): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
 
-        const data = await this.api.marketCapListLarge({ vs, size, per_page: 5 });
+        const data = await this.api.marketCapListLarge({ vs, size, per_page: 100 });
 
         const preppedData = await this._prepCoinListData(data);
 

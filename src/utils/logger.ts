@@ -45,7 +45,7 @@ class Logger {
     }
 
     info(msg: string, logObj: I.LogObject = { req: undefined }) {
-        this.logger.debug(this._makeLogData(logObj), msg);
+        this.logger.info(this._makeLogData(logObj), msg);
     }
 
     error(msg: string, errObj: I.LogObject) {
