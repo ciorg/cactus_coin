@@ -197,8 +197,24 @@ class CryptoData {
             low_24h: this._formatNum(data.market_data.low_24h.usd),
             categories: data.categories,
             description: data.description.en,
-            exchanges: this._getCoinExchanges(data.tickers)
+            exchanges: this._getCoinExchanges(data.tickers),
+            max_supply: this._formatNum(this._getCoinSupply(data.market_data)),
+            circulating_supply: this._formatNum(data.market_data.circulating_supply)
         }
+    }
+
+    private _getCoinSupply(market_data: I.CoinMarketData): number {
+        const max = market_data.max_supply;
+        const total = market_data.total_supply;
+
+        if (max && total) {
+            if (max > total) return max;
+            return total;
+        }
+
+        if (max) return max;
+
+        return total;
     }
 
     private _marketCap(value: number): string {

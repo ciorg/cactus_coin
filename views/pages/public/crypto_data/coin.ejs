@@ -64,6 +64,8 @@
                             <td><%- market_data.symbol %></td>
                             <td id="title">Genesis</td>
                             <td><%- market_data.start_date %></td>
+                            <td id="title">Max</td>
+                            <td><%- market_data.max_supply %></td>
                         </tr>
                         <tr>
                             <td rowspan=3 id="cprice">$<%-market_data.current_price%></td>
@@ -71,6 +73,8 @@
                             <td><%- market_data.market_cap %></td>
                             <td id="title">Rank</td>
                             <td><%- market_data.rank %></td>
+                            <td id="title">Circulating</td>
+                            <td><%- market_data.circulating_supply %></td>
                         </tr>
                         <tr>
                             <td id="title">All Time High</td>
@@ -177,9 +181,6 @@
             "withdateranges": true,
             "allow_symbol_change": true,
             "save_image": false,
-            "studies": [
-                "RSI@tv-basicstudies"
-            ],
             "container_id": "tradingview"
         });
     </script>

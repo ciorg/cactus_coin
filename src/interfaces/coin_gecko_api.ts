@@ -97,7 +97,7 @@ interface CoinDataImage {
     large: string;
 }
 
-interface CoinMarketData {
+export interface CoinMarketData {
     current_price: TargetCoins;
     ath: TargetCoins;
     ath_change_percentage: TargetCoins;

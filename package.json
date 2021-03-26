@@ -13,7 +13,8 @@
     "restart-app": "pm2 restart dist/index.js",
     "stop-app": "pm2 stop dist/index.js",
     "add-test-data": "node dist/scripts/db_actions addTestData",
-    "init-user": "node dist/scripts/db_actions initUser"
+    "init-user": "node dist/scripts/db_actions initUser",
+    "update-coin-categories": " node dist/scripts/save_data/update-coin-cats.js"
   },
   "jest": {
     "testMatch": [
