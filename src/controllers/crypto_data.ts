@@ -27,8 +27,13 @@ class CryptoData {
 
         const preppedData = await this._prepCoinListData(data);
 
+        const categoryInfo = await this._getCategoryInfo();
+
         if (preppedData.length) {
-            result.res = preppedData;
+            result.res = {
+                preppedData,
+                categoryInfo
+            }
             return result;
         }
 
@@ -274,6 +279,32 @@ class CryptoData {
 
     private _formatNum(value: number) {
         return Number(value).toLocaleString('en');
+    }
+
+    private async _getCategoryInfo() {
+        const catInfo: { [key: string]: string[] } = {};
+
+        const result = await this.dbCats.getAll();
+
+        if (result.error) return catInfo;
+
+        for (const cat of result.res) {
+            if (catInfo[cat.code]) {
+                catInfo[cat.code].push(cat.full);
+                continue;
+            }
+
+            catInfo[cat.code] = [cat.full];
+        }
+
+        return Object.keys(catInfo).reduce((catArray: any, key) => {
+            catArray.push([key, catInfo[key]]);
+            return catArray;
+        }, []).sort((a: string, b: string) => {
+            if (a[0] < b[0]) return -1;
+            if (a[0] > b[0]) return 1;
+            return 0;
+        });
     }
     
     // Still could be use full code for historical data one day

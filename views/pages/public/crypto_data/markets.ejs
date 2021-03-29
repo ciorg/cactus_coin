@@ -24,7 +24,7 @@
                         <th>Name</th>
                         <th>Symbol</th>
                         <th>Price</th>
-                        <th>Categories <a href="#">(View)</a></th>
+                        <th>Categories <a id="show_summary" href="#" onClick="showModal('cats', 'closeInfo')">(View)</a></th>
                         <th>% Change Last 24hr</th>
                     </tr>
                 </thead>
@@ -50,6 +50,23 @@
             </table>
             <button onclick="getPrices()">Update</button>
         </div>
+        <div id="cats" class="modal">
+            <div class="modal-content">
+              <span class="closeInfo">&times;</span>
+              <table>
+                  <tr>
+                      <th>Code</th>
+                      <th>Category</th>
+                  </tr>
+                  <% for (const cat of cats) { %>
+                  <tr>
+                      <td><%- cat[0] %></td>
+                      <td><%- cat[1].join(',') %></td>
+                  </tr>
+                  <% } %>
+              </table>
+            </div>
+        </div>
         <footer>
             <div class="portalBottom">
                 <div class="short">
@@ -63,5 +80,6 @@
     </div>
     <script src="/javascript/crypto_tables.js"></script>
     <script src="/javascript/update_prices.js"></script>
+    <script src="/javascript/pop_out_window.js"></script>
 </body>
 </html>

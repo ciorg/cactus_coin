@@ -8,13 +8,13 @@ const rateLimiter = new RateLimiter();
 
 router.get('/crypto/markets',
     async (req: Request, res: Response) => {
-        const data = await cryptoData.getCoinList();
-
         const rateCheck = await rateLimiter.searchCheck(req);
 
         if (rateCheck.blocked) {
             rateLimiter.blockedResponse(res, rateCheck.remaining, 'Too Many Queries');
         }
+
+        const data = await cryptoData.getCoinList();
 
         if (data.error) {
             return res.redirect('/error');
@@ -22,7 +22,8 @@ router.get('/crypto/markets',
 
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
-            data: data.res
+            data: data.res.preppedData,
+            cats: data.res.categoryInfo
         });
     }
 );
