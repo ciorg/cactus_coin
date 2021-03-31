@@ -299,23 +299,33 @@ class CryptoData {
     }
 
     private async _getCategoryInfo() {
-        const catInfo: { [key: string]: string[] } = {};
-
         const result = await this.dbCats.getAll();
 
-        if (result.error) return catInfo;
+        const catInfo = this._gatherCategories(result.res);
 
-        for (const cat of result.res) {
-            if (catInfo[cat.code]) {
-                catInfo[cat.code].push(cat.full);
-                continue;
+        return this._sortCategories(catInfo);
+    }
+
+    private _gatherCategories(catResponse: any[]): { [key: string]: string[] }  {
+        const categories: { [key: string]: string[] } = {};
+
+        if (catResponse.length) {
+            for (const cat of catResponse) {
+                if (categories[cat.code]) {
+                    categories[cat.code].push(cat.full);
+                    continue;
+                }
+    
+                categories[cat.code] = [cat.full];
             }
-
-            catInfo[cat.code] = [cat.full];
         }
 
-        return Object.keys(catInfo).reduce((catArray: any, key) => {
-            catArray.push([key, catInfo[key]]);
+        return categories;
+    }
+
+    private _sortCategories(gatheredCats: { [key: string]: string[] }) {
+        return Object.keys(gatheredCats).reduce((catArray: any, key) => {
+            catArray.push([key, gatheredCats[key]]);
             return catArray;
         }, []).sort((a: string, b: string) => {
             if (a[0] < b[0]) return -1;
