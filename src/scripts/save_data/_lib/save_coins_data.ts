@@ -23,11 +23,7 @@ class SaveCoinData {
         const db = new DB();
         await db.connect();
 
-        const topCoins = await this.api.marketCapListLarge({
-            vs: this.vs,
-            size: this.size,
-            per_page: 100
-        });
+        const topCoins = await this.api.marketCapList();
 
         this.logger.info(`retrieved ${topCoins.length} from coin gecko api`);
 

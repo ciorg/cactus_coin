@@ -8,30 +8,39 @@ class CoinGeckoApi {
     configs: I.CoinGecko;
     base_url: string;
     logger: Logger;
+    market_cap_args: I.MarketCapArgs;
 
     constructor() {
         this.logger = new Logger();
         
         this.configs = new Configs().getCoinGeckConfigs();
         this.base_url = this.configs.base_url;
+        this.market_cap_args = this.configs.market_cap_args;
+
     }
 
-    async marketCapListLarge(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
-        const perPage = args.per_page || 100;
-    
-        const requests = Math.ceil(args.size / perPage);
+    async marketCapList(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
+        let requests = 1;
 
+        if (coinIds == null) {
+            requests = Math.ceil(this.market_cap_args.default_size / 100);
+        }
+        
         const optionArray = [];
 
         for (let i = 1; i <= requests; i++) {
-            const options = {
-                vs_currency: args.vs,
-                order: 'market_cap_desc',
-                per_page: perPage,
+            const options: I.MarketCapApiOptions = {
+                vs_currency: this.market_cap_args.vs_currency,
+                order: this.market_cap_args.order,
+                per_page: this.market_cap_args.per_page,
                 page: i,
-                sparkline: false,
-                price_change_percentage: args.per_price_change || '24h'
+                sparkline: this.market_cap_args.sparkline,
+                price_change_percentage: this.market_cap_args.price_change_percentage
             };
+
+            if (coinIds) {
+                options.ids = coinIds;
+            }
 
             optionArray.push(options);
         }
@@ -50,25 +59,6 @@ class CoinGeckoApi {
         }, []);
         
         return data;
-    }
-
-    async marketCapListSmall(args: I.MarketCapListArgs, list: undefined | string) {
-        const perPage = args.per_page || 100;
-
-        const options: any = {
-            vs_currency: args.vs,
-            order: 'market_cap_desc',
-            per_page: perPage,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: args.per_price_change || '24h'
-        };
-
-        if (list) {
-            options.ids = list;
-        }
-        
-        return this._getData('/coins/markets', options);
     }
 
     async coinData(symbol: string): Promise<I.CoinDataRes | null> {

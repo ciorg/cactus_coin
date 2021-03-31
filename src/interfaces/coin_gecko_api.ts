@@ -1,20 +1,24 @@
-import { BaseEncodingOptions } from "fs-extra"
+
+export type ChangeOptions = '1h'|'24h'|'7d'|'14d'|'30d'|'200d'|'1y';
+export type MarketCapOrderOptions = 'market_cap_desc' | 'market_cap_asc'| 'gecko_desc'| 'gecko_asc' | 'volume_asc' | 'volume_desc' | 'id_asc' | 'id_desc';
 
 export interface MarketCapListArgs {
     vs: string;
     size: number;
-    per_price_change?: changeDuration[];
+    per_price_change?: ChangeOptions;
     per_page?: number;
+    coin_list?: string;
 }
 
-enum changeDuration {
-    '1h',
-    '24h',
-    '7d',
-    '14d',
-    '30d',
-    '200d',
-    '1y' 
+export interface MarketCapApiOptions {
+    vs_currency: string;
+    ids?: string;
+    category?: string;
+    order: MarketCapOrderOptions
+    per_page: number;
+    page: number;
+    sparkline: boolean;
+    price_change_percentage: ChangeOptions
 }
 
 export interface MarketCapListRes {

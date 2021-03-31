@@ -22,7 +22,7 @@ router.get('/crypto/markets',
 
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
-            data: data.res.preppedData,
+            data: data.res.prepped,
             cats: data.res.categoryInfo
         });
     }
@@ -75,7 +75,8 @@ router.get('/crypto/cat/:cat',
 
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
-            data: data.res
+            data: data.res.prepped,
+            cats: data.res.categoryInfo
         });
     }
 );
@@ -98,7 +99,8 @@ router.get('/crypto/catfull/:cat',
 
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
-            data: data.res
+            data: data.res.prepped,
+            cats: data.res.categoryInfo
         });
     }
 );

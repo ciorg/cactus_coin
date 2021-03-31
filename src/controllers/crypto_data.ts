@@ -18,20 +18,16 @@ class CryptoData {
         this.dbCats = new DbActions(CategoriesModel);
     }
 
-    async getCoinList(vs = 'usd', size = 100): Promise<I.Result> {
+    async getCoinList(): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
         };
 
-        const data = await this.api.marketCapListLarge({ vs, size, per_page: 100 });
+        const [prepped, categoryInfo] = await this._getMarketCapPageData();
 
-        const preppedData = await this._prepCoinListData(data);
-
-        const categoryInfo = await this._getCategoryInfo();
-
-        if (preppedData.length) {
+        if (prepped.length) {
             result.res = {
-                preppedData,
+                prepped,
                 categoryInfo
             }
             return result;
@@ -84,25 +80,32 @@ class CryptoData {
     }
 
     async coinsByCat(category: string) {
+        const result: I.Result = {
+            res: undefined
+        };
+    
         const coinIds = await this._getCoinIdsInCategory(category);
 
-        const marketCaps = await this.api.marketCapListSmall({ vs: 'usd', size: 100 }, coinIds.join(','));
-
-        const prepped = await this._prepCoinListData(marketCaps);
+        const [prepped, categoryInfo] = await this._getMarketCapPageData(coinIds);
 
         if (prepped.length) {
-            return {
-                res: prepped,
-                error: false
-            };
+            result.res = {
+                prepped,
+                categoryInfo
+            }
+            return result;
         }
 
-        return {
-            error: true
-        };
+        result.error = true;
+
+        return result;
     }
 
     async coinsByCatCode(code: string) {
+        const result: I.Result = {
+            res: undefined
+        };
+    
         const fullCatNames = await this._getCategoriesFromCode(code);
 
         const pResp = await Promise.all(fullCatNames.map((cat) => this._getCoinIdsInCategory(cat)));
@@ -113,20 +116,34 @@ class CryptoData {
             return ids
         }, []);
 
-        const marketCaps = await this.api.marketCapListSmall({ vs: 'usd', size: 100 }, coinIds.join(','));
-
-        const prepped = await this._prepCoinListData(marketCaps);
+        const [prepped, categoryInfo] = await this._getMarketCapPageData(coinIds);
 
         if (prepped.length) {
-            return {
-                res: prepped,
-                error: false
-            };
+            result.res = {
+                prepped,
+                categoryInfo
+            }
+            return result;
         }
 
-        return {
-            error: true
-        };
+        result.error = true;
+
+        return result;
+    }
+
+    private async _getMarketCapPageData(coinIdList: string[] = []) {
+        let coinIds: string | undefined;
+    
+        if (coinIdList.length) {
+            coinIds = coinIdList.join(',');
+        }
+    
+        const data = await this.api.marketCapList(coinIds);
+
+        return Promise.all([
+            this._prepCoinListData(data),
+            this._getCategoryInfo()
+        ]);
     }
 
     private async _getCategoriesFromCode(code: string): Promise<string[]> {
