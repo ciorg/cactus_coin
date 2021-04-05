@@ -10,6 +10,7 @@ const api = new CoinGeckoApi();
 
 async function initializeCache(): Promise<void> {
     cache.markets = await api.marketCapList();
+    console.log(cache.markets.length);
 }
 
 async function getMarketData(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
@@ -18,9 +19,12 @@ async function getMarketData(coinIds: string | undefined = undefined): Promise<I
     }
 
     if (cache.markets) {
+        console.log('cached');
+        console.log(cache.markets.length);
         return cache.markets;
     }
 
+    console.log('not cached');
     return api.marketCapList();
 }
 

@@ -20,6 +20,7 @@ class CoinGeckoApi {
     }
 
     async marketCapList(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
+        console.log('api here');
         let requests = 1;
 
         if (coinIds == null) {

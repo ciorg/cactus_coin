@@ -7,7 +7,8 @@ class Configs {
     configs: any;
     constructor() {
         const file = fs.readFileSync(path.join(process.cwd(), 'config.yaml'), 'utf8');
-        this.configs = jsYaml.safeLoad(file);
+
+        this.configs = jsYaml.load(file);
     }
 
     getConfigs(): I.ConfigSettings {
