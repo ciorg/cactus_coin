@@ -3,6 +3,8 @@ import CoinModel from '../models/coin';
 import CategoriesModel from '../models/crypto_category';
 import DbActions from '../utils/db_actions';
 import Logger from '../utils/logger';
+import cache from '../utils/gecko_cache';
+
 import * as I from '../interfaces';
 
 class CryptoData {
@@ -10,8 +12,10 @@ class CryptoData {
     api: CoinGeckoApi;
     dbCoins: DbActions;
     dbCats: DbActions;
+    cache: typeof cache;
 
     constructor() {
+        this.cache = cache;
         this.api = new CoinGeckoApi();
         this.logger = new Logger();
         this.dbCoins = new DbActions(CoinModel);
@@ -138,7 +142,7 @@ class CryptoData {
             coinIds = coinIdList.join(',');
         }
     
-        const data = await this.api.marketCapList(coinIds);
+        const data = await this.cache.getMarketData(coinIds);
 
         return Promise.all([
             this._prepCoinListData(data),

@@ -6,6 +6,7 @@ const router = express.Router();
 const cryptoData = new CryptoData();
 const rateLimiter = new RateLimiter();
 
+
 router.get('/crypto/markets',
     async (req: Request, res: Response) => {
         const rateCheck = await rateLimiter.searchCheck(req);
