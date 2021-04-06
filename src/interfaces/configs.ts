@@ -1,10 +1,12 @@
-import { ChangeOptions, MarketCapOrderOptions } from './coin_gecko_api';
+import { MarketCapApiOptions } from './coin_gecko_api';
+import { Cache } from './cache'
 
 export interface ConfigSettings {
     mongo: Mongo;
     logger: Logger;
     web_site: WebSite;
     coin_gecko: CoinGecko;
+    cache: Cache;
 
 }
 
@@ -29,11 +31,6 @@ export interface CoinGecko {
     market_cap_args: MarketCapArgs;
 }
 
-export interface MarketCapArgs {
+export interface MarketCapArgs extends MarketCapApiOptions {
     default_size: number;
-    vs_currency:string;
-    per_page: number;
-    order: MarketCapOrderOptions;
-    price_change_percentage: ChangeOptions;
-    sparkline: boolean;
 }

@@ -6,3 +6,4 @@ export * from './note';
 export * from './rb_related';
 export * from './web_stats';
 export * from './logger';
+export * from './cache';

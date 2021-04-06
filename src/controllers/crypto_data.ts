@@ -46,7 +46,7 @@ class CryptoData {
             res: undefined
         };
 
-        const marketData = await this.api.coinData(historyOpts.id);
+        const marketData = await this.cache.getCoinData(historyOpts.id);
 
         if (marketData) {
             const data = {

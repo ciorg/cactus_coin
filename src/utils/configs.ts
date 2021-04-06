@@ -30,6 +30,10 @@ class Configs {
     getLogConfigs(): I.Logger {
         return this.configs.log;
     }
+
+    getCacheConfigs(): I.Cache {
+        return this.configs.cache;
+    }
 }
 
 export = Configs;
