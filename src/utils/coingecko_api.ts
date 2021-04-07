@@ -28,8 +28,6 @@ class CoinGeckoApi {
         
         const optionArray = [];
 
-        console.log('api request');
-
         for (let i = 1; i <= requests; i++) {
             const options: I.MarketCapApiOptions = {
                 vs_currency: this.market_cap_args.vs_currency,

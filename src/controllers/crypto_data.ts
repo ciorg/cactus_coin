@@ -27,12 +27,17 @@ class CryptoData {
             res: undefined
         };
 
-        const [prepped, categoryInfo] = await this._getMarketCapPageData();
+        const {
+            prepped,
+            categoryInfo,
+            cache_time 
+         } = await this._getMarketCapPageData();
 
         if (prepped.length) {
             result.res = {
                 prepped,
-                categoryInfo
+                categoryInfo,
+                cache_time
             }
             return result;
         }
@@ -61,28 +66,6 @@ class CryptoData {
         return result;
     }
 
-    private async _prepCoinListData(data: I.MarketCapListRes[]) {
-        const returnData = [];
-
-        for (const coin of data) {
-            const categories = await this._getCategories(coin.id);
-
-            const info = {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol,
-                price: coin.current_price,
-                market_cap: coin.market_cap,
-                change_per: coin.price_change_percentage_24h,
-                categories
-            };
-
-            returnData.push(info);
-        }
-
-        return returnData;
-    }
-
     async coinsByCat(category: string) {
         const result: I.Result = {
             res: undefined
@@ -90,12 +73,17 @@ class CryptoData {
     
         const coinIds = await this._getCoinIdsInCategory(category);
 
-        const [prepped, categoryInfo] = await this._getMarketCapPageData(coinIds);
+        const {
+            prepped,
+            categoryInfo,
+            cache_time 
+         } = await this._getMarketCapPageData(coinIds);
 
         if (prepped.length) {
             result.res = {
                 prepped,
-                categoryInfo
+                categoryInfo,
+                cache_time
             }
             return result;
         }
@@ -120,12 +108,17 @@ class CryptoData {
             return ids
         }, []);
 
-        const [prepped, categoryInfo] = await this._getMarketCapPageData(coinIds);
+        const {
+            prepped,
+            categoryInfo,
+            cache_time 
+         } = await this._getMarketCapPageData(coinIds);
 
         if (prepped.length) {
             result.res = {
                 prepped,
-                categoryInfo
+                categoryInfo,
+                cache_time
             }
             return result;
         }
@@ -142,12 +135,40 @@ class CryptoData {
             coinIds = coinIdList.join(',');
         }
     
-        const data = await this.cache.getMarketData(coinIds);
+        const { data, cache_time } = await this.cache.getMarketData(coinIds);
 
-        return Promise.all([
+        const [prepped, categoryInfo] = await Promise.all([
             this._prepCoinListData(data),
             this._getCategoryInfo()
         ]);
+
+        return {
+            prepped,
+            categoryInfo,
+            cache_time
+        };
+    }
+
+    private async _prepCoinListData(data: I.MarketCapListRes[]) {
+        const returnData = [];
+
+        for (const coin of data) {
+            const categories = await this._getCategories(coin.id);
+
+            const info = {
+                id: coin.id,
+                name: coin.name,
+                symbol: coin.symbol,
+                price: coin.current_price,
+                market_cap: coin.market_cap,
+                change_per: coin.price_change_percentage_24h,
+                categories
+            };
+
+            returnData.push(info);
+        }
+
+        return returnData;
     }
 
     private async _getCategoriesFromCode(code: string): Promise<string[]> {

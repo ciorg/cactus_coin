@@ -45,6 +45,11 @@ class Logger {
     }
 
     info(msg: string, logObj: I.LogObject = { req: undefined }) {
+        if (logObj.req == null) {
+            this.logger.info(msg);
+            return;    
+        }
+    
         this.logger.info(this._makeLogData(logObj), msg);
     }
 

@@ -16,23 +16,28 @@ async function initializeCache(): Promise<void> {
     updateMarketCaps();
 }
 
-async function getMarketData(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
-    if (coinIds) return api.marketCapList(coinIds);
+async function getMarketData(coinIds: string | undefined = undefined): Promise<I.CacheMarketsResponse> {
+    if (coinIds) {
+        const coinList = await api.marketCapList(coinIds);
 
-    if (cache.markets) return cache.markets.data;
+        return {
+            data: coinList,
+            cache_time: new Date()
+        };
+    }
 
-    return api.marketCapList();
+    return cache.markets;
 }
 
 async function setMarketData(): Promise<void> {
     const data = await api.marketCapList();
-    const time = new Date();
     
     cache.markets = {
         data,
-        cache_time: time
+        cache_time: new Date()
     };
-    logger.info(`updated market caps: ${time}`);
+
+    logger.info(`updated market caps`);
 }
 
 async function updateMarketCaps(): Promise<void> {
@@ -44,9 +49,10 @@ async function updateMarketCaps(): Promise<void> {
 
 async function getCoinData(id: string) {
     if (cache[id] && !_expired(cache[id].cache_time)) {
-        logger.info(`${id} cache expired`);
         return cache[id];
     }
+
+    logger.info(`${id} cache expired or not cached`);
 
     const data = await api.coinData(id);
 
