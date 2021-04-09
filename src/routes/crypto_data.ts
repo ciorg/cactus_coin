@@ -24,7 +24,8 @@ router.get('/crypto/markets',
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
             data: data.res.prepped,
-            cats: data.res.categoryInfo
+            cats: data.res.categoryInfo,
+            cache_time: data.res.cache_time
         });
     }
 );
@@ -102,6 +103,18 @@ router.get('/crypto/catfull/:cat',
             user: req.user,
             data: data.res.prepped,
             cats: data.res.categoryInfo
+        });
+    }
+);
+
+router.get('/crypto/cached_markets',
+    async(req: Request, res: Response) => { 
+        const data = await cryptoData.getCoinList();
+
+        res.send({
+            user: req.user,
+            data: data.res.prepped,
+            cache_time: data.res.cache_time
         });
     }
 );
