@@ -6,4 +6,11 @@ async function loadCryptoCategories() {
     await saveCats.saveCategories();
 }
 
-loadCryptoCategories();
+async function getCategories() {
+    const categories = new SaveCryptoCategories();
+
+    categories.pullCategories();
+}
+
+// loadCryptoCategories();
+getCategories();

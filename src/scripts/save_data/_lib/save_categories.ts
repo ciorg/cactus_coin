@@ -4,6 +4,7 @@ import CryptoCategoryModel from '../../../models/crypto_category';
 import DbActions from '../../../utils/db_actions';
 import DB from '../../../utils/db';
 import Logger from '../../../utils/logger';
+import { AnyNaptrRecord } from 'dns';
 
 
 interface CryptoCode {
@@ -28,9 +29,7 @@ class SaveCryptoCategories {
         const db = new DB();
         await db.connect();
 
-        const categories: CryptoCode = fs.readJsonSync(path.join(process.cwd(), 'crypto_cats.json'));
-
-        console.log(categories);
+        const categories: CryptoCode = fs.readJsonSync(path.join(process.cwd(), 'categories.json'));
 
         const results = await Promise.all(
             Object.entries(categories).map(([key, value]) => this._saveToDb(key, value))
@@ -61,8 +60,29 @@ class SaveCryptoCategories {
         });
     }
 
+    async pullCategories() {
+        const db = new DB();
+        await db.connect();
+
+        const savedCats = await this.dbActions.getAll();
+
+        const data = savedCats.res.reduce((obj: any, c: any) => {
+            obj[c.key] = {
+                full: c.full,
+                code: c.code
+            };
+
+            return obj;
+        }, {})
+
+        fs.writeJsonSync(path.join(process.cwd(), 'categories.json'), data, { spaces: 4 });
+        await db.close();
+        console.log('closing');
+    }
+
     async readCategories() {
         const incoming = path.join(process.cwd(), 'categories.txt');
+    
         const cats = path.join(process.cwd(), 'cats.txt');
     
         const data = fs.readJSONSync(incoming);
