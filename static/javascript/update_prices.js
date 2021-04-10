@@ -1,9 +1,14 @@
 'use strict';
 
-function getPrices() {   
+function eternalUpdate() {
+    setInterval(() => getPrices(), 180000);
+}
+
+function getPrices() {
     $.get("/crypto/cached_markets", (res, status) => {
         if (status === 'success') {
-            updatePrices(res.data)
+            updatePrices(res.data);
+            document.getElementById('cached_time').innerText = res.cache_time.toISOString();
         }
     });
 }

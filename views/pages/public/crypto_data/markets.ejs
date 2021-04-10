@@ -24,7 +24,7 @@
                         <th>Name</th>
                         <th>Symbol</th>
                         <th>Price</th>
-                        <th>Categories <a id="show_summary" href="#" onClick="showModal('cats', 'closeInfo')">(View)</a></th>
+                        <th><a id="show_summary" href="#" onClick="showModal('cats', 'closeInfo')">Categories (View)</a></th>
                         <th>% Change Last 24hr</th>
                     </tr>
                 </thead>
@@ -48,7 +48,7 @@
                 <% }); %>
                 </tbody>
             </table>
-            <button onclick="getPrices()">Update</button>
+            <p id="cached_time"><%-cache_time.toISOString()%></p>
         </div>
         <div id="cats" class="modal">
             <div class="modal-content">
@@ -60,8 +60,8 @@
                   </tr>
                   <% for (const cat of cats) { %>
                   <tr>
-                      <td><%- cat[0] %></td>
-                      <td><%- cat[1].join(',') %></td>
+                      <td><a href="/crypto/cat/<%-cat[0]%>"><%- cat[0] %></a></td>
+                      <td><%- cat[1].join(', ') %></td>
                   </tr>
                   <% } %>
               </table>
@@ -81,5 +81,8 @@
     <script src="/javascript/crypto_tables.js"></script>
     <script src="/javascript/update_prices.js"></script>
     <script src="/javascript/pop_out_window.js"></script>
+    <script>
+        $(document).ready(() => { eternalUpdate(); });
+    </script>
 </body>
 </html>
