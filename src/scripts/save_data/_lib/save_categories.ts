@@ -50,7 +50,7 @@ class SaveCryptoCategories {
 
         const [cat] = result.res;
 
-        if (cat.key) return;
+        if (cat && cat.key) return;
 
         return this.dbActions.create({
             date: new Date(),

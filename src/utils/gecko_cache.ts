@@ -44,7 +44,7 @@ async function updateMarketCaps(): Promise<void> {
     setInterval(() => {
         logger.info('updating market cap cache');
         setMarketData();
-    }, 60000);
+    }, cacheConfig.update_market_caps);
 }
 
 async function getCoinData(id: string) {

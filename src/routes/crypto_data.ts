@@ -78,7 +78,8 @@ router.get('/crypto/cat/:cat',
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
             data: data.res.prepped,
-            cats: data.res.categoryInfo
+            cats: data.res.categoryInfo,
+            cache_time: data.res.cache_time
         });
     }
 );
@@ -102,7 +103,8 @@ router.get('/crypto/catfull/:cat',
         res.render('pages/public/crypto_data/markets', {
             user: req.user,
             data: data.res.prepped,
-            cats: data.res.categoryInfo
+            cats: data.res.categoryInfo,
+            cache_time: data.res.cache_time
         });
     }
 );

@@ -16,7 +16,6 @@ class CoinGeckoApi {
         this.configs = new Configs().getCoinGeckConfigs();
         this.base_url = this.configs.base_url;
         this.market_cap_args = this.configs.market_cap_args;
-
     }
 
     async marketCapList(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
@@ -51,7 +50,7 @@ class CoinGeckoApi {
 
 
         const data = marketDataArray.reduce((flat, res) => {
-            if (res.length > 0) {
+            if (res != null && res.length > 0) {
                 res.forEach((r) => flat.push(r))
             }
     

@@ -5,15 +5,11 @@ import DbActions from '../../../utils/db_actions';
 import Logger from '../../../utils/logger';
 
 class SaveCoinData {
-    vs: string;
-    size: number;
     api: CoinGeckoApi;
     dbActions: DbActions;
     logger: Logger;
 
-    constructor(vs: string, size: number) {
-        this.vs = vs;
-        this.size = size;
+    constructor() {
         this.api = new CoinGeckoApi();
         this.dbActions = new DbActions(CoinModel);
         this.logger = new Logger();

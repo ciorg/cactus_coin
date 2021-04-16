@@ -63,6 +63,10 @@
         "full": "CNY Stablecoin",
         "code": "SC"
     },
+    "Collectibles": {
+        "full": "Collectibles",
+        "code": "Col"
+    },
     "Communication": {
         "full": "Communication",
         "code": "Com"
@@ -167,6 +171,10 @@
         "full": "KRW Stablecoin",
         "code": "SC"
     },
+    "Launchpad": {
+        "full": "Launchpad",
+        "code": "Lp"
+    },
     "Legal": {
         "full": "Legal",
         "code": "Lgl"
@@ -202,6 +210,10 @@
     "NonFungibleTokensNFT": {
         "full": "Non-Fungible Tokens (NFT)",
         "code": "NFT"
+    },
+    "Number": {
+        "full": "Number",
+        "code": "Num"
     },
     "Options": {
         "full": "Options",
@@ -310,6 +322,10 @@
     "USDStablecoin": {
         "full": "USD Stablecoin",
         "code": "SC"
+    },
+    "VirtualReality": {
+        "full": "Virtual Reality",
+        "code": "VR"
     },
     "WrappedTokens": {
         "full": "Wrapped-Tokens",

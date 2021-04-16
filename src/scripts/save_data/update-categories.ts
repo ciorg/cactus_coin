@@ -12,5 +12,5 @@ async function getCategories() {
     categories.pullCategories();
 }
 
-// loadCryptoCategories();
-getCategories();
+loadCryptoCategories();
+// getCategories();

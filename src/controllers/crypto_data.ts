@@ -246,7 +246,10 @@ class CryptoData {
             description: data.description.en,
             exchanges: this._getCoinExchanges(data.tickers),
             max_supply: this._formatNum(this._getCoinSupply(data.market_data)),
-            circulating_supply: this._formatNum(data.market_data.circulating_supply)
+            circulating_supply: this._formatNum(
+                data.market_data.circulating_supply,
+                { maximumFractionDigits: 0 }
+            )
         }
     }
 
@@ -265,19 +268,18 @@ class CryptoData {
     }
 
     private _marketCap(value: number): string {
-        const toString = Number(value).toFixed(0);
-    
-        const length = toString.length;
-    
-        if (length > 6 && length < 10) {
-            return `${toString.slice(0, length - 6)} M`;
+        if (value < 1000000) {
+            const thousands = value / 1000;
+            return `${this._formatNum(thousands, { maximumFractionDigits: 0 })} Th`;
         }
     
-        if (length > 9) {
-            return `${toString.slice(0, length - 9)} B`;
+        if (value < 1000000000000) {
+            const millions = value / 1000000;
+            return `${this._formatNum(millions, { maximumFractionDigits: 0 })} M`;
         }
-    
-        return `${toString.slice(0, 3)} Th`;
+
+        const billions = value / 1000000000
+        return `${this._formatNum(billions, { maximumFractionDigits: 0 })} B`;
     }
 
     private _getCoinExchanges(tickers: I.CoinDataTickers[]) {
@@ -319,8 +321,8 @@ class CryptoData {
         return 'na';
     }
 
-    private _formatNum(value: number) {
-        return Number(value).toLocaleString('en');
+    private _formatNum(value: number, options: { [key: string]: any } = {}) {
+        return Number(value).toLocaleString('en', options);
     }
 
     private async _getCategoryInfo() {

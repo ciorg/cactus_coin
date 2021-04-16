@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $('#market_table').DataTable({
         searching: true,
-        pageLength: 25,
+        pageLength: 50,
         lengthChange: false,
         columns: [
             { orderable: true, searchable: false },
