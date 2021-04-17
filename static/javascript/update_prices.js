@@ -1,14 +1,26 @@
 'use strict';
 
+function eternalUpdate() {
+    setInterval(() => getPrices(), 180000);
+}
+
+function getPrices() {
+    $.get("/crypto/cached_markets", (res, status) => {
+        if (status === 'success') {
+            updatePrices(res.data);
+            document.getElementById('cached_time').innerText = res.cache_time.toISOString();
+        }
+    });
+}
+
 function updatePrices(data) {
     for (const d of data) {
-        const newPrice = d.current_price;
-
+        const newPrice = d.price;
         const priceElement = document.getElementById(`${d.symbol}_price`);
 
         if (priceElement) {
             const currentPrice = priceElement.innerText.slice(1, 100).split(',').join('');
-            
+
             const priceChange = evalPrice(newPrice, currentPrice);
             
             priceElement.classList.remove('priceHigher', 'priceLower');
@@ -20,34 +32,12 @@ function updatePrices(data) {
             if (priceChange === 'lower') {
                 priceElement.classList.add('priceLower');
             }
-
-            priceElement.innerText = asCurrency(d.current_price);
             
-            document.getElementById(`${d.symbol}_dper`).innerText = toFixed(d.price_change_percentage_24h);
+            priceElement.innerText = asCurrency(d.price);
+            
+            document.getElementById(`${d.symbol}_dper`).innerText = toFixed(d.change_per);
         }
     }
-}
-
-function getPrices() {        
-    const options = {
-    responseType: 'json',
-    params: {
-            vs_currency: 'usd',
-            order: 'market_cap_desc',
-            per_page: 100,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: '24h'
-        }
-    };
-
-    axios.get('https://api.coingecko.com/api/v3/coins/markets', options)
-        .then((res) => {
-            if (res.status === 200) {
-                updatePrices(res.data);
-            }
-        })
-        .catch((e) => console.log(e.msg));
 }
 
 function evalPrice(n1, n2) {

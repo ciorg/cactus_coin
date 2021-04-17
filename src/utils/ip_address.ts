@@ -1,8 +1,8 @@
 import axios from 'axios';
-import Actions from '../controllers/lib/actions';
+import Actions from './db_actions';
 import IpModel from '../models/ip_address';
 import Logger from './logger';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class IpAddress {
     ip_actions: Actions;

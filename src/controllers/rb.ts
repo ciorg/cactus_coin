@@ -1,9 +1,9 @@
 import { Request } from 'express';
-import Actions from './lib/actions';
+import Actions from '../utils/db_actions';
 import Ratings from './ratings';
 import RbModel from '../models/rb';
 import Utils from './lib/utils';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class Rootbeer {
     utils: Utils;

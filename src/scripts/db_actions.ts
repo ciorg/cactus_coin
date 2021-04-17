@@ -112,10 +112,10 @@ class DBTools {
 
         this.log.info(userId);
 
-        const docs = [];
+        const docs: any[] = [];
 
         for (let i = 0; i < num; i++) {
-            const rbInfo = {
+            const rbInfo: any = {
                 name: `test_${i}`,
                 created: Date.now(),
                 user: userId[0]._id
@@ -123,6 +123,7 @@ class DBTools {
 
             docs.push(rbInfo);
         }
+
         await RbModel.insertMany(docs);
     }
 
@@ -133,7 +134,7 @@ class DBTools {
         const docs = [];
     
         for (let i = 0; i < num; i++) {
-            const ratingInfo = {
+            const ratingInfo: any = {
                 rb_id: rbId[0]._id,
                 created: Date.now(),
                 user: userId[0]._id,
@@ -161,7 +162,7 @@ class DBTools {
         const docs = [];
 
         for (let i = 0; i < num; i++) {
-            const writeUpInfo = {
+            const writeUpInfo: any = {
                 rb_id: rbId[0]._id,
                 created: Date.now(),
                 user: userId[0]._id,
@@ -233,12 +234,4 @@ async function runFunction(args: string[]) {
 }
 
 runFunction(args);
-    
-
-
-
-
-
-
-
     

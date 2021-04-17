@@ -5,3 +5,9 @@ export interface ExchangeInfo {
     trade_url: string;
     volume: string;
 }
+
+export interface CoinOpts {
+    id: string;
+    unit: string;
+    value: number
+}

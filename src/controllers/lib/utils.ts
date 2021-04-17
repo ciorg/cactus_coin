@@ -3,8 +3,8 @@ import RBModel from '../../models/rb';
 import RatingModel from '../../models/rating';
 import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
-import * as I from '../../interface';
-import Actions from './actions';
+import * as I from '../../interfaces';
+import Actions from '../../utils/db_actions';
 
 
 class Utils {

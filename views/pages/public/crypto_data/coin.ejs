@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../css/home.css"> 
-    <link rel="stylesheet" type="text/css" href="../../css/rb.css">
-    <link rel="stylesheet" type="text/css" href="../../css/coin_data.css">
-    <link rel="stylesheet" type="text/css" href="../../css/data_table.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css"> 
+    <link rel="stylesheet" type="text/css" href="/css/rb.css">
+    <link rel="stylesheet" type="text/css" href="/css/coin_data.css">
+    <link rel="stylesheet" type="text/css" href="/css/data_table.css">
     <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
@@ -40,7 +40,7 @@
             </ul>
             <div class="userLogo">
                 <a href='/'>
-                    <img src="../../imgs/cc_logo.png"/>
+                    <img src="/imgs/cc_logo.png"/>
                 </a>
             </div>
         </div>
@@ -64,24 +64,28 @@
                             <td><%- market_data.symbol %></td>
                             <td id="title">Genesis</td>
                             <td><%- market_data.start_date %></td>
+                            <td id="title">Max</td>
+                            <td><%- market_data.max_supply %></td>
                         </tr>
                         <tr>
                             <td rowspan=3 id="cprice">$<%-market_data.current_price%></td>
-                            <td id="title">Marketcap</td>
+                            <td id="title">MCap</td>
                             <td><%- market_data.market_cap %></td>
                             <td id="title">Rank</td>
                             <td><%- market_data.rank %></td>
+                            <td id="title">Circ.</td>
+                            <td><%- market_data.circulating_supply %></td>
                         </tr>
                         <tr>
-                            <td id="title">All Time High</td>
+                            <td id="title">ATH</td>
                             <td><%- market_data.ath %></td>
                             <td id="title">Date</td>
                             <td><%- market_data.ath_date %></td>
                         </tr>
                         <tr>
-                            <td id="title">24 hr High</td>
+                            <td id="title">24h H</td>
                             <td><%- market_data.high_24h %></td>
-                            <td id="title">24 hr Low</td>
+                            <td id="title">24h L</td>
                             <td><%- market_data.low_24h %></td>
                         </tr>
                     </table>
@@ -134,7 +138,7 @@
                         <p id="coin_deets_header">Categories:</p>
                         <ul>
                             <% for (const c of market_data.categories) { %>
-                                <li><%- c %></li>
+                                <li><a href="/crypto/catfull/<%-encodeURIComponent(c)%>"><%- c %></a></li>
                                 <% } %>
                             </ul>
                         </div>
@@ -142,25 +146,25 @@
                 </div>
             </div>
             <div id="myModal" class="modal">
-            <div class="modal-content">
-              <span class="closeInfo">&times;</span>
-              <p><%- market_data.description %></p>
+                <div class="modal-content">
+                    <span class="closeInfo">&times;</span>
+                    <p><%- market_data.description %></p>
+                </div>
             </div>
-        </div>
         <footer>
             <div class="portalBottom">
                 <div class="short">
-                <img src="../../imgs/short_landscape.png"/>
+                <img src="/imgs/short_landscape.png"/>
                 </div>
                 <div class="long">
-                <img src="../../imgs/long_landscape.png"/>
+                <img src="/imgs/long_landscape.png"/>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="../../javascript/exchange_table.js"></script>
-    <script src="../../javascript/toggle_class_display.js"></script>
-    <script src="../../javascript/pop_out_window.js"></script>
+    <script src="/javascript/exchange_table.js"></script>
+    <script src="/javascript/toggle_class_display.js"></script>
+    <script src="/javascript/pop_out_window.js"></script>
     <script type="text/javascript">
         new TradingView.widget(
         {
@@ -177,9 +181,6 @@
             "withdateranges": true,
             "allow_symbol_change": true,
             "save_image": false,
-            "studies": [
-                "RSI@tv-basicstudies"
-            ],
             "container_id": "tradingview"
         });
     </script>

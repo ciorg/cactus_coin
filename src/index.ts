@@ -6,11 +6,12 @@ import helmet from 'helmet';
 import compression from 'compression';
 import Configs from './utils/configs';
 import Logger from './utils/logger';
-
 import authenticate from './utils/authenticate';
-import routes from './routes/routes';
+import routes from './routes';
 import trackVisit from './utils/record_visit';
 import DB from './utils/db';
+
+import cache from './utils/gecko_cache';
 
 const db = new DB();
 
@@ -24,8 +25,10 @@ process.env.NODE_ENV = env;
 
 async function main() {
     await db.connect();
+    await cache.initializeCache();
 
     const app = express();
+
     app.set('view engine', 'ejs');
     
     app.use(compression());

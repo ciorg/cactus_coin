@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/notes',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
-    async (req: any, res: Response) => {
+    async (req: Request, res: Response) => {
         const result = await notes.getUsersNotes(req);
 
         if (result.error) {

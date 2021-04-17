@@ -1,8 +1,12 @@
+import { MarketCapApiOptions } from './coin_gecko_api';
+import { Cache } from './cache'
+
 export interface ConfigSettings {
     mongo: Mongo;
     logger: Logger;
     web_site: WebSite;
     coin_gecko: CoinGecko;
+    cache: Cache;
 
 }
 
@@ -24,4 +28,9 @@ export interface Logger {
 
 export interface CoinGecko {
     base_url: string;
+    market_cap_args: MarketCapArgs;
+}
+
+export interface MarketCapArgs extends MarketCapApiOptions {
+    default_size: number;
 }
