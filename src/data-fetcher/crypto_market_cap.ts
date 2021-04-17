@@ -5,11 +5,7 @@ const logger = new Logger();
 const url = 'https://api.coingecko.com/api/v3/coins/markets';
 
 export async function saveMarketCapData(): Promise<void> {
-// get data from coingecko
-const data = await _fetchData('usd', 100);
-// parse data
-
-// save data
+    const data = await _fetchData('usd', 100);
 }
 
 async function _fetchData(currency: string, size = 100) {
