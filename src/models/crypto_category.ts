@@ -1,27 +1,26 @@
 import mongoose, { Schema } from 'mongoose';
 
-const MarketCapSchema = new Schema({
+const CategorySchema = new Schema({
     date: {
         type: Date,
         required: true
     },
-    id: {
+    key: {
         type: String,
         required: true,
         unique: true
     },
-    symbol: {
+    code: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    rank: {
-        type: Number,
+    full: {
+        type: String,
         required: true,
         unique: false
     }
 });
 
-const MarketCapModel = mongoose.model('market_cap_ranking', MarketCapSchema);
+const CryptoCategoryModel = mongoose.model('crypto_category', CategorySchema);
 
-export = MarketCapModel;
+export = CryptoCategoryModel;

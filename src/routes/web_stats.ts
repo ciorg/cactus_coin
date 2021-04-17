@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import permissions from '../utils/permissions';
 import WebStats from '../controllers/web_stats';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 const router = express.Router();
 const stats = new WebStats();

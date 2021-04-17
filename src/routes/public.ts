@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import RateLimiter from '../utils/rate_limiter';
 import RB from '../controllers/rb';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 const router = express.Router();
 

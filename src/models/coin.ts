@@ -1,11 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
-const MarketCapSchema = new Schema({
+const CoinSchema = new Schema({
     date: {
         type: Date,
         required: true
     },
-    id: {
+    coin_id: {
         type: String,
         required: true,
         unique: true
@@ -15,13 +15,13 @@ const MarketCapSchema = new Schema({
         required: true,
         unique: true
     },
-    rank: {
-        type: Number,
+    categories: {
+        type: [String],
         required: true,
         unique: false
     }
 });
 
-const MarketCapModel = mongoose.model('market_cap_ranking', MarketCapSchema);
+const CoinModel = mongoose.model('coin', CoinSchema);
 
-export = MarketCapModel;
+export = CoinModel;

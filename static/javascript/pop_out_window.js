@@ -14,4 +14,10 @@ function showModal(modalId, modalClose) {
             modal.style.display = "none";
         }
     }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            modal.style.display = "none";
+        }
+    });
 }

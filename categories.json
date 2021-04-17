@@ -1,0 +1,346 @@
+{
+    "Analytics": {
+        "full": "Analytics",
+        "code": "An"
+    },
+    "ArtificialIntelligence": {
+        "full": "Artificial Intelligence",
+        "code": "AI"
+    },
+    "AssetbackedTokens": {
+        "full": "Asset-backed Tokens",
+        "code": "ABT"
+    },
+    "AssetManager": {
+        "full": "Asset Manager",
+        "code": "AM"
+    },
+    "AugmentedReality": {
+        "full": "Augmented Reality",
+        "code": "AR "
+    },
+    "AutomatedMarketMakerAMM": {
+        "full": "Automated Market Maker (AMM)",
+        "code": "AMM"
+    },
+    "AvalancheEcosystem": {
+        "full": "Avalanche Ecosystem",
+        "code": "AvE"
+    },
+    "AxieInfinity": {
+        "full": "Axie Infinity",
+        "code": "AxI"
+    },
+    "BigData": {
+        "full": "Big Data",
+        "code": "BD"
+    },
+    "BinanceLaunchpool": {
+        "full": "Binance Launchpool",
+        "code": "BiL"
+    },
+    "BinanceSmartChainEcosystem": {
+        "full": "Binance Smart Chain Ecosystem",
+        "code": "BiE"
+    },
+    "BusinessPlatform": {
+        "full": "Business Platform",
+        "code": "BP"
+    },
+    "BusinessServices": {
+        "full": "Business Services",
+        "code": "BS"
+    },
+    "CentralizedExchangeTokenCEX": {
+        "full": "Centralized Exchange Token (CEX)",
+        "code": "CEX"
+    },
+    "Charity": {
+        "full": "Charity",
+        "code": "Ch"
+    },
+    "CNYStablecoin": {
+        "full": "CNY Stablecoin",
+        "code": "SC"
+    },
+    "Collectibles": {
+        "full": "Collectibles",
+        "code": "Col"
+    },
+    "Communication": {
+        "full": "Communication",
+        "code": "Com"
+    },
+    "CompoundTokens": {
+        "full": "Compound Tokens",
+        "code": "CT"
+    },
+    "CosmosEcosystem": {
+        "full": "Cosmos Ecosystem",
+        "code": "CoE"
+    },
+    "Cryptocurrency": {
+        "full": "Cryptocurrency",
+        "code": "Cr"
+    },
+    "DecentralizedExchangeTokenDEX": {
+        "full": "Decentralized Exchange Token (DEX)",
+        "code": "DEX"
+    },
+    "DecentralizedFinanceDeFi": {
+        "full": "Decentralized Finance (DeFi)",
+        "code": "DeFi"
+    },
+    "DeFiIndex": {
+        "full": "DeFi Index",
+        "code": "DeFi"
+    },
+    "Derivatives": {
+        "full": "Derivatives",
+        "code": "Der"
+    },
+    "Education": {
+        "full": "Education",
+        "code": "Ed"
+    },
+    "Energy": {
+        "full": "Energy",
+        "code": "Enr"
+    },
+    "Entertainment": {
+        "full": "Entertainment",
+        "code": "Ent"
+    },
+    "Eth20Staking": {
+        "full": "Eth 2.0 Staking",
+        "code": "Stk"
+    },
+    "EURStablecoin": {
+        "full": "EUR Stablecoin",
+        "code": "SC"
+    },
+    "ExchangebasedTokens": {
+        "full": "Exchange-based Tokens",
+        "code": "ExBT"
+    },
+    "FinanceBanking": {
+        "full": "Finance / Banking",
+        "code": "Fi"
+    },
+    "Gambling": {
+        "full": "Gambling",
+        "code": "Gb"
+    },
+    "Gaming": {
+        "full": "Gaming",
+        "code": "Gm"
+    },
+    "GCryptocurrency": {
+        "full": "GCryptocurrency",
+        "code": "GC"
+    },
+    "Governance": {
+        "full": "Governance",
+        "code": "Gov"
+    },
+    "Healthcare": {
+        "full": "Healthcare",
+        "code": "HC"
+    },
+    "HECOChainEcosystem": {
+        "full": "HECO Chain Ecosystem",
+        "code": "HeE"
+    },
+    "Index": {
+        "full": "Index",
+        "code": "Idx"
+    },
+    "Infrastructure": {
+        "full": "Infrastructure",
+        "code": "Inf"
+    },
+    "Insurance": {
+        "full": "Insurance",
+        "code": "Ins"
+    },
+    "InternetofThingsIOT": {
+        "full": "Internet of Things (IOT)",
+        "code": "IOT"
+    },
+    "KRWStablecoin": {
+        "full": "KRW Stablecoin",
+        "code": "SC"
+    },
+    "Launchpad": {
+        "full": "Launchpad",
+        "code": "Lp"
+    },
+    "Legal": {
+        "full": "Legal",
+        "code": "Lgl"
+    },
+    "LendingBorrowing": {
+        "full": "Lending/Borrowing",
+        "code": "LB"
+    },
+    "Marketing": {
+        "full": "Marketing",
+        "code": "Mkt"
+    },
+    "Masternodes": {
+        "full": "Masternodes",
+        "code": "MN"
+    },
+    "Media": {
+        "full": "Media",
+        "code": "Me"
+    },
+    "Metaverse": {
+        "full": "Metaverse",
+        "code": "MET"
+    },
+    "MirroredAssets": {
+        "full": "Mirrored Assets",
+        "code": "MA"
+    },
+    "Music": {
+        "full": "Music",
+        "code": "Mu"
+    },
+    "NonFungibleTokensNFT": {
+        "full": "Non-Fungible Tokens (NFT)",
+        "code": "NFT"
+    },
+    "Number": {
+        "full": "Number",
+        "code": "Num"
+    },
+    "Options": {
+        "full": "Options",
+        "code": "Opt"
+    },
+    "Oracle": {
+        "full": "Oracle",
+        "code": "Or"
+    },
+    "Other": {
+        "full": "Other",
+        "code": "Oth"
+    },
+    "Perpetuals": {
+        "full": "Perpetuals",
+        "code": "Per"
+    },
+    "PolkadotEcosystem": {
+        "full": "Polkadot Ecosystem",
+        "code": "PkE"
+    },
+    "PredictionMarkets": {
+        "full": "Prediction Markets",
+        "code": "PM"
+    },
+    "PrivacyCoins": {
+        "full": "Privacy Coins",
+        "code": "PC"
+    },
+    "Protocol": {
+        "full": "Protocol",
+        "code": "Pr"
+    },
+    "RealEstate": {
+        "full": "Real Estate",
+        "code": "Re"
+    },
+    "RebaseTokens": {
+        "full": "Rebase Tokens",
+        "code": "ReT"
+    },
+    "Seigniorage": {
+        "full": "Seigniorage",
+        "code": "Se"
+    },
+    "SmartContractPlatform": {
+        "full": "Smart Contract Platform",
+        "code": "SCP"
+    },
+    "SocialMoney": {
+        "full": "Social Money",
+        "code": "SM"
+    },
+    "Software": {
+        "full": "Software",
+        "code": "So"
+    },
+    "SolanaEcosystem": {
+        "full": "Solana Ecosystem",
+        "code": "SE"
+    },
+    "Sports": {
+        "full": "Sports",
+        "code": "Sp"
+    },
+    "Stablecoins": {
+        "full": "Stablecoins",
+        "code": "SC"
+    },
+    "Storage": {
+        "full": "Storage",
+        "code": "Str"
+    },
+    "SyntheticIssuer": {
+        "full": "Synthetic Issuer",
+        "code": "Syth"
+    },
+    "Synths": {
+        "full": "Synths",
+        "code": "Syth"
+    },
+    "TechnologyScience": {
+        "full": "Technology & Science",
+        "code": "Tech"
+    },
+    "TokenizedBTC": {
+        "full": "Tokenized BTC",
+        "code": "TBTC"
+    },
+    "TokenizedGold": {
+        "full": "Tokenized Gold",
+        "code": "TAu"
+    },
+    "TokenizedProducts": {
+        "full": "Tokenized Products",
+        "code": "TP"
+    },
+    "TokenSets": {
+        "full": "TokenSets",
+        "code": "TS"
+    },
+    "Tourism": {
+        "full": "Tourism",
+        "code": "Tour"
+    },
+    "USDStablecoin": {
+        "full": "USD Stablecoin",
+        "code": "SC"
+    },
+    "VirtualReality": {
+        "full": "Virtual Reality",
+        "code": "VR"
+    },
+    "WrappedTokens": {
+        "full": "Wrapped-Tokens",
+        "code": "WT"
+    },
+    "YearnEcosystem": {
+        "full": "Yearn Ecosystem",
+        "code": "YrnE"
+    },
+    "YieldAggregator": {
+        "full": "Yield Aggregator",
+        "code": "YA"
+    },
+    "YieldFarming": {
+        "full": "Yield Farming",
+        "code": "YF"
+    }
+}

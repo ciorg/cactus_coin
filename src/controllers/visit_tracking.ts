@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import useragent from 'express-useragent';
-import Actions from './lib/actions';
+import Actions from '../utils/db_actions';
 import Visit from '../models/visit';
 import IpAddress from '../utils/ip_address';
-import * as I from '../interface';
+import * as I from '../interfaces';
 
 class VisitTracker {
     visit_actions: Actions;

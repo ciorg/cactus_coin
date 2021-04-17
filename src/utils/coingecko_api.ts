@@ -8,27 +8,54 @@ class CoinGeckoApi {
     configs: I.CoinGecko;
     base_url: string;
     logger: Logger;
+    market_cap_args: I.MarketCapArgs;
 
     constructor() {
         this.logger = new Logger();
         
         this.configs = new Configs().getCoinGeckConfigs();
         this.base_url = this.configs.base_url;
+        this.market_cap_args = this.configs.market_cap_args;
     }
 
-    async marketCapList(args: I.MarketCapListArgs): Promise<I.MarketCapListRes[]> {
-        const options = {
-            vs_currency: args.vs,
-            order: 'market_cap_desc',
-            per_page: args.size,
-            page: 1,
-            sparkline: false,
-            price_change_percentage: args.per_price_change || '24h'
-        };
+    async marketCapList(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
+        let requests = 1;
 
-        const data = await this._getData('/coins/markets', options);
+        if (coinIds == null) {
+            requests = Math.ceil(this.market_cap_args.default_size / 100);
+        }
+        
+        const optionArray = [];
 
-        if (data == null) [];
+        for (let i = 1; i <= requests; i++) {
+            const options: I.MarketCapApiOptions = {
+                vs_currency: this.market_cap_args.vs_currency,
+                order: this.market_cap_args.order,
+                per_page: this.market_cap_args.per_page,
+                page: i,
+                sparkline: this.market_cap_args.sparkline,
+                price_change_percentage: this.market_cap_args.price_change_percentage
+            };
+
+            if (coinIds) {
+                options.ids = coinIds;
+            }
+
+            optionArray.push(options);
+        }
+
+        const marketDataArray: I.MarketCapListRes[][] = await Promise.all(
+            optionArray.map((opt) => this._getData('/coins/markets', opt))
+        );
+
+
+        const data = marketDataArray.reduce((flat, res) => {
+            if (res != null && res.length > 0) {
+                res.forEach((r) => flat.push(r))
+            }
+    
+            return flat
+        }, []);
         
         return data;
     }
