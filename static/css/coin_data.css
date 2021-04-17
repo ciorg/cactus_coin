@@ -134,6 +134,16 @@
     margin-left: 3%;
 }
 
+.categories a {
+    text-decoration: none;
+    color: #26389ca4;
+}
+
+.categories a:hover {
+    font-weight: bold;
+    color: #26389ca4;
+}
+
 .exchanges {
     margin: auto;
     background-color: #5081ca;
