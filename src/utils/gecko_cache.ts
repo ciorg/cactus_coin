@@ -48,12 +48,37 @@ async function updateMarketCaps(): Promise<void> {
 }
 
 async function getCoinData(id: string) {
-    if (cache[id] && !_expired(cache[id].cache_time)) {
-        return cache[id];
+    const now = new Date();
+
+    if (cache[id] != null) {
+        return _cacheResponse(id, now);
     }
 
-    logger.info(`${id} cache expired or not cached`);
+    logger.info(`${id} is not cached`);
+    
+    return _coinApiCall(id);
+}
 
+async function _cacheResponse(id: string, now: Date) {
+    const cachedData = (cache[id]);
+
+    logger.info(`found ${id} in cache`);
+
+    if (_expired(now, cachedData.cache_time)) {
+        logger.info(`${id} cache expired: ${now} > ${cachedData.cache_time}`);
+        return _coinApiCall(id);
+    }
+
+
+    logger.info(`returning ${id} data from cache`);
+    return cachedData.data;
+}
+
+function _expired(now: Date, cacheTime: Date): boolean {
+    return (now.getTime() - cacheTime.getTime()) > cacheConfig.coin_expiration;
+}
+
+async function _coinApiCall(id: string) {
     const data = await api.coinData(id);
 
     cache[id] = {
@@ -62,10 +87,6 @@ async function getCoinData(id: string) {
     };
 
     return data;
-}
-
-function _expired(cacheTime: Date): boolean {
-    return new Date().getTime() - cacheTime.getTime() < cacheConfig.coin_expiration;
 }
 
 export = {
