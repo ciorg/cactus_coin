@@ -299,6 +299,10 @@
         "full": "Technology & Science",
         "code": "Tech"
     },
+    "TerraEcosystem": {
+        "full": "Terra Ecosystem",
+        "code": "TE"
+    },
     "TokenizedBTC": {
         "full": "Tokenized BTC",
         "code": "TBTC"
@@ -326,6 +330,10 @@
     "VirtualReality": {
         "full": "Virtual Reality",
         "code": "VR"
+    },
+     "Wallets": {
+        "full": "Wallets",
+        "code": "W"
     },
     "WrappedTokens": {
         "full": "Wrapped-Tokens",
