@@ -4,8 +4,6 @@ import CryptoCategoryModel from '../../../models/crypto_category';
 import DbActions from '../../../utils/db_actions';
 import DB from '../../../utils/db';
 import Logger from '../../../utils/logger';
-import { AnyNaptrRecord } from 'dns';
-
 
 interface CryptoCode {
     [key: string]: CodeValue

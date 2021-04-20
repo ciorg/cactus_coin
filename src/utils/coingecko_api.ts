@@ -109,7 +109,7 @@ class CoinGeckoApi {
             
             return res.data;
         } catch (e) {
-            this.logger.error(e.message, e);
+            this.logger.error(`${extention}: ${e.message}`, e);
         }
     }
 
