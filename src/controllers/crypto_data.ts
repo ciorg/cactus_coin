@@ -51,11 +51,11 @@ class CryptoData {
             res: undefined
         };
 
-        const marketData = await this.cache.getCoinData(historyOpts.id);
+        const marketData: I.CoinDataRes = await this.cache.getCoinData(historyOpts.id);
 
         if (marketData) {
             const data = {
-                market_data: this._formatCoinMarketData(marketData),
+                market_data: this._formatCoinMarketData(marketData)
             };
 
             result.res = data;
