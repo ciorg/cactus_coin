@@ -84,6 +84,10 @@ class Actions {
     getAll() {
         return this._modelAction('find', {});
     }
+
+    insertMany(data: any[]) {
+        return this._modelAction('insertMany', data);
+    }
 }
 
 export = Actions;
