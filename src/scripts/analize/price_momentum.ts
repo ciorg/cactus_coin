@@ -46,30 +46,17 @@ class PriceMomentum {
 
         const btcData: Response = await this.dbActions.search('coin_id', 'bitcoin');
 
-        const processed = this.prepData(btcData.res.slice(0, 11));
+        const processed = this.prepData(btcData.res);
+        this.plSimulation(processed);
+       
 
-        this.movingAvg(processed, 10);
-
-        for (const p of processed) {
-            console.log(p.price);
-        }
-
-        console.log(processed);
+        console.log(processed[processed.length - 1]);
 
         await db.close();
         this.logger.info('closing');
     }
 
     prepData(incoming: DBCoinRes[]): PriceData[] {
-        /*
-        gather by coin
-        {
-            bitcoin: [
-                [timestamp, price, marketcap, volume]
-            ]
-        }
-        */
-
         const priceData: PriceData[] = [];
 
         for (const i of incoming) {
@@ -84,10 +71,38 @@ class PriceMomentum {
         return priceData.sort((a, b) => a.timestamp - b.timestamp);
     }
 
-    calculatePL() {
-        /*
-            [timestamp, price, marketcap, volume, 10day, 2day, delta/ 10day, buysignal]
-        */
+    plSimulation(preppedData:PriceData[]): void {
+        this.movingAvg(preppedData, 15);
+        this.movingAvg(preppedData, 3);
+
+        let holding = 0;
+        let pl = 0;
+        const pDate: number[] = [];
+        const sDate: number[] = [];
+
+        for (const d of preppedData) {
+            const pm = this.momentum(d.ma_3, d.ma_15);
+            d.momentum = pm;
+
+            if (pm > 105 && holding === 0) {
+                holding = 100 / d.price;
+                pl -= 100;
+                pDate.push(d.timestamp);
+            }
+
+            if (pm < 90 && holding > 0) {
+                pl += (holding * d.price);
+                sDate.push(d.timestamp); 
+                holding = 0;
+            }
+        }
+
+        console.log(pl, holding, pDate, sDate);
+    }
+
+    momentum(ma1: number, ma2: number): number {
+        //  (1 + ((3 day moving avg - 12 day moving avg) / 12 day moving avg)) * 100
+        return (1 + ((ma1 - ma2) / ma2)) * 100
     }
 
     movingAvg(docs: PriceData[], length: number) {
