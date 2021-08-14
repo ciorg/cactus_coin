@@ -1,6 +1,5 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -65,8 +64,8 @@ async function main() {
    
     app.use(express.static('static'));
     
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use(favicon(path.join(__dirname, '..', 'static', 'imgs', 'cc_logo.ico')));
     
     app.use(authenticate);
