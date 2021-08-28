@@ -11,6 +11,17 @@ function toggleClassDisplay(args1, args2) {
     }
 }
 
+function viewHideClass(classId) {
+    const classDiv = document.getElementById(classId);
+
+    if (hidden(classId)) {
+        classDiv.style.display = "block";
+    } else {
+        classDiv.style.display = 'none';
+    }
+
+}
+
 function hidden(id) {
     const { display } = document.getElementById(id).style;
 

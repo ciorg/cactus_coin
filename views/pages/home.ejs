@@ -2,15 +2,74 @@
 <html lang="en">
     <head>
         <%- include('../partials/head'); -%>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/portfolio.css">
+
     </head>
 
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
-            <h1>There will be stuff here someday</h1>
+            <a href="#" onclick="viewHideClass('add_purchase')">Add Purchase</a>
+            <a href="#" onclick="viewHideClass('add_exchange')">Add Exchange</a>
+            <a href="#" onclick="viewHideClass('add_coin')">Add Coin</a>
+
+            <div class="add_purchase" id="add_purchase">
+                <form class="pure-form" action="/add_coin_purchase" method="post" id="add_purchase">
+                    <fieldset>
+                        <select name="coin" id="coin" required class="pure-input-1-4">
+                            <option value="Coin">Coin</option>
+                            <% for (const coin of coins) { %>
+                                <option value="<%- coin %>"><%- coin %></option>
+                            <% } %>
+                        </select>    
+                        <select name="exchange" id="exchange" required class="pure-input-1-4">
+                            <option value="Exchange">Exchange</option>
+                            <% for (const ex of exchanges) { %>
+                                <option value="<%- ex %>"><%- ex %></option>
+                            <% } %>
+                        </select>
+                        <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" >
+
+                        <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
+                        <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
+                        <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                        </br>
+                        <button type="submit" value="add_purchase" class="pure-button" id="portfolio_button" >
+                            Save Purchase
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="add_exchange" id="add_exchange">
+                <form class="pure-form" action="/add_exchange" method="post" id="add_exchange">
+                    <fieldset>
+                        <input type="text" name="exchange_name" placeholder="Exchange" required class="pure-input-1-4" />
+                        <input type="text" name="coin_gecko_id" placeholder="Coin Gecko ID" required class="pure-input-1-4"/>
+                        <input type="text" name="website" placeholder="Website" required class="pure-input-1-4"/>
+                        </br>
+                        <button type="submit" value="add_exchange" class="pure-button" >
+                            Save Exchange
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="add_coin" id="add_coin">
+                <form class="pure-form" action="/add_coin" method="post" id="add_coin">
+                    <fieldset>
+                        <input type="text" name="coin_name" placeholder="Coin" required class="pure-input-1-4" />
+                        <input type="text" name="symbol" placeholder="Symbol" required class="pure-input-1-4"/>
+                        </br>
+                        <button type="submit" value="add_coin">
+                            Save Coin
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
             <footer>
                 <%- include('../partials/footer'); %>
             </footer>
         </div>
+        <script src="javascript/toggle_class_display.js"></script>
     </body>
 </html>

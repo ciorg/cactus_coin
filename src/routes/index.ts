@@ -7,6 +7,7 @@ import rate from './ratings';
 import pub from './public';
 import webStats from './web_stats';
 import cryptoData from './crypto_data';
+import coinPurchase from './crypto_home';
 import notes from './notes';
 import Logger from '../utils/logger';
 
@@ -21,6 +22,7 @@ router.use(rate);
 router.use(pub);
 router.use(webStats);
 router.use(cryptoData);
+router.use(coinPurchase);
 router.use(notes);
 
 router.get('/error', (req: Request, res: Response) => {

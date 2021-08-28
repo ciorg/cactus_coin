@@ -3,17 +3,31 @@ import connectEnsureLogin from 'connect-ensure-login';
 import { check } from 'express-validator';
 import permissions from '../utils/permissions';
 import User from '../controllers/user';
+import CryptoData from '../controllers/crypto_data';
+
 import * as I from '../interfaces';
 
 const user = new User();
+const cryptoData = new CryptoData();
 
 const router = express.Router()
 
 router.get(
     '/home',
     connectEnsureLogin.ensureLoggedIn('/'),
-    (req: Request, res: Response) => {
-      res.render('pages/home', { user: req.user });
+    async (req: Request, res: Response) => {
+        const exchanges = await cryptoData.getExchangesNames();
+        const coins = await cryptoData.getCoinSymbols();
+
+        if (exchanges.error || coins.error) {
+            return res.redirect('/error');
+        }
+
+        res.render('pages/home', {
+            user: req.user,
+            exchanges: exchanges.res,
+            coins: coins.res
+        });
     }
 );
 

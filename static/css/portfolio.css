@@ -1,0 +1,38 @@
+.add_purchase {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    border: 2px solid blue;
+    display: none;
+}
+
+.add_purchase button {
+    margin-top: 5px;
+}
+
+.add_exchange {
+    border: 2px solid blue;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    display: none;
+
+}
+
+.add_exchange button {
+    margin-top: 5px;
+}
+
+.add_coin {
+    border: 2px solid blue;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    display: none;
+
+}
+
+.add_coin button {
+    margin-top: 5px;
+}
+
