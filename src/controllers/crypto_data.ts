@@ -66,6 +66,16 @@ class CryptoData {
         return result;
     }
 
+    async getExchangeNameById(id: string): Promise<string> {
+        const result = await this.dbExchanges.searchById(id);
+
+        if (result.res) {
+            return result.res.name;
+        }
+
+        return '';
+    }
+
     async getExchangeId(name: string): Promise<I.Result> {
         const result: I.Result = {
             res: undefined
@@ -102,6 +112,14 @@ class CryptoData {
         result.error = true;
 
         return result;
+    }
+
+    async getCoinSymbolById(id: string): Promise<string> {
+        const result = await this.dbCoins.searchById(id);
+
+        if (result.res) return result.res.coin_id;
+
+        return '';
     }
 
     async getCoinId(symbol: string): Promise<I.Result> {

@@ -11,8 +11,7 @@ const CoinPurchaseSchema = new Schema({
     },
     coin_id: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     exchange_id: {
         type: String,

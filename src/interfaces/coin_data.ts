@@ -26,3 +26,35 @@ export interface Coin {
     symbol: string;
     categories: string[];
 }
+
+export interface PurchasesByCoin {
+    [coin_id: string]: Purchase[];
+}
+
+export interface Purchase {
+    date: Date;
+    exchange: string;
+    price: number;
+    size: number;
+    fee: number;
+}
+
+export interface PurchasesWithSummary {
+    [coin_id: string]: {
+        summary: Summary;
+        purchases: any[][];
+    }
+}
+
+export interface Summary {
+    total_size: number;
+    total_spent: number;
+    avg_price: number;
+    current_price: number;
+    profit: number;
+    symbol: string;
+}
+
+export interface CurrentPrices {
+    [coin_id: string]: [number, string];
+}
