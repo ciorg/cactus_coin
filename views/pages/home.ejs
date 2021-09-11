@@ -10,9 +10,11 @@
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
-            <a href="#" onclick="viewHideClass('add_purchase')">Add Purchase</a>
-            <a href="#" onclick="viewHideClass('add_exchange')">Add Exchange</a>
-            <a href="#" onclick="viewHideClass('add_coin')">Add Coin</a>
+            <div class="portfolio_links">
+                <a href="#" onclick="viewHideClass('add_purchase')">Add Purchase</a>
+                <a href="#" onclick="viewHideClass('add_exchange')">Add Exchange</a>
+                <a href="#" onclick="viewHideClass('add_coin')">Add Coin</a>
+            </div>
 
             <div class="add_purchase" id="add_purchase">
                 <form class="pure-form" action="/add_coin_purchase" method="post" id="add_purchase">
@@ -65,6 +67,54 @@
                         </button>
                     </fieldset>
                 </form>
+            </div>
+            <div class="portfolio">
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th>Coin</th>
+                            <th>Price</th>
+                            <th>Owned</th>
+                            <th>Avg Price</th>
+                            <th>Current Value</th>
+                            <th>Profit</th>
+                            <th>Profit %</th>
+                            <th>History</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for (const p of purchases) {%>
+                        <tr>
+                            <td><%- p.summary.symbol %></td>
+                            <td><%- p.summary.current_price %></td>
+                            <td><%- p.summary.total_size %></td>
+                            <td><%- p.summary.avg_price %></td>
+                            <td><%- p.summary.current_value %></td>
+                            <td><%- p.summary.profit %></td>
+                            <td><%- p.summary.percent_growth %></td>
+                            <td> <a href="#" onclick="viewHideDivClass('hidden_<%- p.summary.symbol %>')">+</a></td>
+                        </tr>
+                        <tr class='hidden_header hidden_<%- p.summary.symbol %>' style="display:none">
+                            <th></th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Exchange</th>
+                        </tr>
+                        <% for (const y of p.purchases) {%>
+                        <tr class="hidden_rows hidden_<%- p.summary.symbol %>" style="display:none">
+                            <td></td>
+                            <td><%- y[0] %></td>
+                            <td><%- y[1] %></td>
+                            <td><%- y[2] %></td>
+                            <td><%- y[4] %></td>
+                            <td><%- y[5] %></td>
+                        </tr>
+                        <% } %>
+                    <% } %>
+                    </tbody>
+                </table>
             </div>
             <footer>
                 <%- include('../partials/footer'); %>

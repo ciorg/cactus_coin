@@ -18,6 +18,10 @@ class CoinGeckoApi {
         this.market_cap_args = this.configs.market_cap_args;
     }
 
+    async coinList(): Promise<I.CoinList[]> {
+        return this._getData('/coins/list');
+    }
+
     async marketCapList(coinIds: string | undefined = undefined): Promise<I.MarketCapListRes[]> {
         let requests = 1;
 
@@ -108,7 +112,7 @@ class CoinGeckoApi {
             }
             
             return res.data;
-        } catch (e) {
+        } catch (e: any) {
             this.logger.error(`${extention}: ${e.message}`, e);
         }
     }

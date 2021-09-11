@@ -1,9 +1,30 @@
+.portfolio_links {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.portfolio_links a {
+    font-family: 'Varela';
+    font-size: 1em;
+    text-decoration: none;
+    color: white;
+    margin-left: 1em;
+}
+
+.portfolio_links a:hover {
+    color: #ffc800;
+}
+
 .add_purchase {
     margin: auto;
     width: 50%;
     text-align: center;
-    border: 2px solid blue;
     display: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .add_purchase button {
@@ -11,12 +32,10 @@
 }
 
 .add_exchange {
-    border: 2px solid blue;
     width: 50%;
     margin: auto;
     text-align: center;
     display: none;
-
 }
 
 .add_exchange button {
@@ -24,7 +43,6 @@
 }
 
 .add_coin {
-    border: 2px solid blue;
     width: 50%;
     margin: auto;
     text-align: center;
@@ -34,5 +52,24 @@
 
 .add_coin button {
     margin-top: 5px;
+}
+
+.portfolio {
+    width: 50%;
+    margin: auto;
+}
+
+.portfolio table {
+    margin: auto;
+    text-align: center;
+    background-color: white;
+}
+
+.hidden_header {
+    background-color: red;
+}
+
+.hidden_rows {
+    background-color: blue;
 }
 

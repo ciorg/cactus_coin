@@ -2,26 +2,33 @@ import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import CoinPurchaseModel from '../models/coin_purchase';
 import CryptoData from './crypto_data';
-import Utils from './lib/utils';
+import * as useful from '../utils/useful_funcs';
 
 import * as I from '../interfaces';
 
 class CoinPurchase {
-    utils: Utils;
     action: Actions;
     cryptoData: CryptoData;
 
     constructor() {
-        this.utils = new Utils();
         this.action = new Actions(CoinPurchaseModel);
         this.cryptoData = new CryptoData();
     }
 
     async create(req: Request) {
+        // all coins will be grabbed by coingecko
+        // if not in coin gecko?
+        // price will be same as purchased
+
         const { user }: any = req;
+
+        console.log(req.body.coin);
 
         const coinId = await this.cryptoData.getCoinId(req.body.coin);
         const exchangeId = await this.cryptoData.getExchangeId(req.body.exchange);
+
+        console.log(coinId);
+        console.log(exchangeId);
        
         const coinPurchaseData = {
             date: req.body.date,
@@ -37,7 +44,7 @@ class CoinPurchase {
         return this.action.create(coinPurchaseData);
     }
 
-    async getPurchases(req: Request): Promise<[I.PurchasesWithSummary, Date]> {
+    async getPurchases(req: Request): Promise<[I.PurchasesWithSummary[], Date]> {
         const { user }: any = req;
 
         const results = await this.action.search('user_id', user._id);
@@ -46,7 +53,7 @@ class CoinPurchase {
        
         const [currentPrices, cacheTime] = await this.getCurrentPrice(Object.keys(purchasesByCoin));
 
-        console.log(currentPrices, cacheTime);
+        console.log(currentPrices);
 
         const summary = this.createSummary(purchasesByCoin, currentPrices);
 
@@ -92,8 +99,8 @@ class CoinPurchase {
         return [currentPrices, cache_time];
     }
 
-    createSummary(purchasesByCoin: I.PurchasesByCoin, currentPrices: I.CurrentPrices): I.PurchasesWithSummary {
-        const purchasesWithSummary: I.PurchasesWithSummary = {};
+    createSummary(purchasesByCoin: I.PurchasesByCoin, currentPrices: I.CurrentPrices): I.PurchasesWithSummary[] {
+        const purchasesWithSummary: I.PurchasesWithSummary[] = [];
 
         for (const [coin_id, purchases] of Object.entries(purchasesByCoin)) {
             const [totalSpent, totalSize, allPurchases] = this.tallyPurchases(purchases);
@@ -101,18 +108,26 @@ class CoinPurchase {
             const avgPrice = (totalSpent/totalSize);
             const [currentPrice, symbol] = currentPrices[coin_id];
 
-            purchasesWithSummary[coin_id] = {
+            if (currentPrice == null) continue;
+
+            const currentValue = currentPrice * totalSize;
+
+            purchasesWithSummary.push({
                 summary: {
-                    total_size: totalSize,
-                    total_spent: totalSpent,
-                    avg_price: avgPrice,
-                    current_price: currentPrice,
-                    profit: (totalSize * currentPrice) - totalSpent,
+                    total_size: useful.setDecimals(totalSize),
+                    total_spent: useful.toCurrency(totalSpent),
+                    avg_price: useful.toCurrency(avgPrice),
+                    current_price: useful.toCurrency(currentPrice),
+                    profit: useful.toCurrency(currentValue - totalSpent),
+                    current_value: useful.toCurrency(currentValue),
+                    percent_growth: useful.setDecimals(((currentValue - totalSpent)/totalSpent) * 100, 2),
                     symbol
                 },
                 purchases: allPurchases
-            }
+            });
         }
+
+        purchasesWithSummary.sort((a, b) => useful.currencyToNumber(b.summary.profit) - useful.currencyToNumber(a.summary.profit));
 
         return purchasesWithSummary;
     }
@@ -124,15 +139,18 @@ class CoinPurchase {
         const allPurchases: any[][] = [];
 
         for (const purchase of purchases) {
+            const total = (purchase.price * purchase.size) + purchase.fee;
+
             allPurchases.push([
-                purchase.date.toISOString(),
-                purchase.size,
-                purchase.price,
-                purchase.fee,
+                useful.formatDate(purchase.date),
+                useful.setDecimals(purchase.size),
+                useful.toCurrency(purchase.price),
+                useful.toCurrency(purchase.fee),
+                useful.toCurrency(total),
                 purchase.exchange
             ]);
 
-            totalSpent+= (purchase.price + purchase.fee);
+            totalSpent+= total;
             totalSize += purchase.size;
         }
 

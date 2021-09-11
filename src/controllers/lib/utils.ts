@@ -5,6 +5,7 @@ import escapeString from 'js-string-escape';
 import safe from 'safe-regex';
 import * as I from '../../interfaces';
 import Actions from '../../utils/db_actions';
+import * as useful from '../../utils/useful_funcs';
 
 
 class Utils {
@@ -22,29 +23,12 @@ class Utils {
             i.user = user.username;
         }
     }
-
-    formatMonth(mon: number): string {
-        let m = mon + 1;
-
-        return this._makeTwoDigit(m);
-    }
-
-    private _makeTwoDigit(num: number): string {
-        if (num < 10) return `0${num}`;
-
-        return String(num);
-
-    }
  
     formatDate(rbArray: (I.RootBeer | I.Rating | I.WriteUp)[]) {
         for (const i of rbArray) {
             const timeStamp = new Date(i.created);
-
-            const date = timeStamp.getDate();
-            const month = timeStamp.getMonth();
-            const year = timeStamp.getFullYear();
             
-            i.created = `${this.formatMonth(month)}/${this._makeTwoDigit(date)}/${year}`;
+            i.created = useful.formatDate(timeStamp);
         }
     }
 

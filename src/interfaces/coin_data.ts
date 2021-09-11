@@ -40,18 +40,18 @@ export interface Purchase {
 }
 
 export interface PurchasesWithSummary {
-    [coin_id: string]: {
-        summary: Summary;
-        purchases: any[][];
-    }
+    summary: Summary;
+    purchases: any[][];
 }
 
 export interface Summary {
-    total_size: number;
-    total_spent: number;
-    avg_price: number;
-    current_price: number;
-    profit: number;
+    total_size: string;
+    total_spent: string;
+    avg_price: string;
+    current_price: string;
+    profit: string;
+    current_value: string;
+    percent_growth: string;
     symbol: string;
 }
 

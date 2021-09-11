@@ -12,7 +12,7 @@ function toggleClassDisplay(args1, args2) {
 }
 
 function viewHideClass(classId) {
-    const classDiv = document.getElementById(classId);
+   const classDiv = document.getElementById(classId);
 
     if (hidden(classId)) {
         classDiv.style.display = "block";
@@ -24,6 +24,32 @@ function viewHideClass(classId) {
 
 function hidden(id) {
     const { display } = document.getElementById(id).style;
+
+    if (display == null || display === 'none' || display === '') {
+        return true;
+    }
+
+    return false;
+}
+
+function viewHideDivClass(classId) {
+    const classDiv = document.getElementsByClassName(classId);
+    console.log(classDiv);
+
+    if (hiddenClass(classId)) {
+        for (const c of classDiv) {
+            c.style.display = "table-row";
+        }
+    } else {
+        for (const c of classDiv) {
+            c.style.display = 'none';
+        }
+    }
+
+}
+
+function hiddenClass(id) {
+    const { display } = document.getElementsByClassName(id)[0].style;
 
     if (display == null || display === 'none' || display === '') {
         return true;

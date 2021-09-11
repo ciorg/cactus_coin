@@ -46,6 +46,21 @@ class SaveCoinData {
         this.logger.info('closing');
     }
 
+    async coinList() {
+        const list = await this.api.coinList();
+
+        for (const coin of list) {
+            const data = {
+                date: new Date(),
+                coin_id: coin.id,
+                symbol: coin.symbol
+            }
+
+            await this.dbActions.upsert({ coin_id: coin.id }, data);
+            this.logger.info(`added ${coin.id} to list`)
+        }
+    }
+
     async _getCoinCategories(coin: string) {
         const data = await this.api.coinData(coin);
 

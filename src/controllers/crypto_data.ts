@@ -26,10 +26,10 @@ class CryptoData {
         this.dbCats = new DbActions(CategoriesModel);
     }
 
-    async addCoin(req: Request) {       
+    async addCoin(req: Request) {
         const newCoin = {
             date: new Date().toISOString(),
-            coin_id: req.body.coin_name.toLowerCase(),
+            coin_id: this._cleanCoinId(req.body.coin_name),
             symbol: req.body.symbol
         };
     
@@ -127,6 +127,7 @@ class CryptoData {
             res: undefined
         };
     
+        console.log(symbol);
         const response = await this.dbCoins.search('symbol', symbol);
 
         const { res } = response;
@@ -478,6 +479,12 @@ class CryptoData {
             if (a[0] > b[0]) return 1;
             return 0;
         });
+    }
+
+    private _cleanCoinId(coinId: string): string {
+        let id = coinId.trim().toLowerCase();
+
+        return id.replace(/\s/g, '-');
     }
     
     // Still could be use full code for historical data one day
