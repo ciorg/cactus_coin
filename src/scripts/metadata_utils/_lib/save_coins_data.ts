@@ -35,7 +35,11 @@ class SaveCoinData {
                 categories
             }
 
-            await this.dbActions.upsert({ coin_id: coin.id }, data);
+            await this.dbActions.upsert(
+                { coin_id: coin.id },
+                data,
+                { overwrite: true }
+            );
 
             this.logger.info(`updated ${coin.id} with ${categories.length} categories`)
 
@@ -47,7 +51,14 @@ class SaveCoinData {
     }
 
     async coinList() {
+        const db = new DB();
+        await db.connect();
+
+        this.logger.info(`fetching coin list`);
+
         const list = await this.api.coinList();
+
+        this.logger.info(`retrieved ${list.length} coins from coin gecko api`);
 
         for (const coin of list) {
             const data = {
@@ -59,6 +70,9 @@ class SaveCoinData {
             await this.dbActions.upsert({ coin_id: coin.id }, data);
             this.logger.info(`added ${coin.id} to list`)
         }
+
+        await db.close();
+        this.logger.info('closing');
     }
 
     async _getCoinCategories(coin: string) {

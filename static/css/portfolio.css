@@ -18,7 +18,7 @@
     color: #ffc800;
 }
 
-.add_purchase {
+.add_transaction {
     margin: auto;
     width: 50%;
     text-align: center;
@@ -27,7 +27,19 @@
     margin-bottom: 5px;
 }
 
-.add_purchase button {
+.add_transaction input[type="text"] {
+    height: 2.8em;
+}
+
+.add_transaction input[type="date"] {
+    height: 2.2em;
+}
+
+.top_input {
+    margin-bottom: 5px;
+}
+
+.add_transaction button {
     margin-top: 5px;
 }
 
@@ -65,11 +77,11 @@
     background-color: white;
 }
 
-.hidden_header {
-    background-color: red;
+.portfolio table th {
+    text-align: center;
 }
 
-.hidden_rows {
-    background-color: blue;
+.hidden_header {
+    background-color: rgb(183, 190, 197);
 }
 

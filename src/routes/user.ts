@@ -4,7 +4,7 @@ import { check } from 'express-validator';
 import permissions from '../utils/permissions';
 import User from '../controllers/user';
 import CryptoData from '../controllers/crypto_data';
-import CryptoPurchase from '../controllers/coin_purchase';
+import CryptoPurchase from '../controllers/crypto_transaction';
 
 import * as I from '../interfaces';
 
@@ -21,7 +21,7 @@ router.get(
         const exchanges = await cryptoData.getExchangesNames();
         const coins = await cryptoData.getCoinSymbols();
         // TODO- put in error handling on this step
-        const [purchases, cacheTime] = await cryptoPurchase.getPurchases(req);
+        const [transactions, cacheTime] = await cryptoPurchase.getTransactions(req);
 
         if (exchanges.error || coins.error) {
             return res.redirect('/error');
@@ -29,9 +29,8 @@ router.get(
 
         res.render('pages/home', {
             user: req.user,
-            exchanges: exchanges.res,
             coins: coins.res,
-            purchases,
+            transactions,
             cache_time: cacheTime
         });
     }

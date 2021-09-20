@@ -11,59 +11,37 @@
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
             <div class="portfolio_links">
-                <a href="#" onclick="viewHideClass('add_purchase')">Add Purchase</a>
-                <a href="#" onclick="viewHideClass('add_exchange')">Add Exchange</a>
-                <a href="#" onclick="viewHideClass('add_coin')">Add Coin</a>
+                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
             </div>
 
-            <div class="add_purchase" id="add_purchase">
-                <form class="pure-form" action="/add_coin_purchase" method="post" id="add_purchase">
+            <div class="add_transaction" id="add_transaction">
+                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
                     <fieldset>
-                        <select name="coin" id="coin" required class="pure-input-1-4">
-                            <option value="Coin">Coin</option>
-                            <% for (const coin of coins) { %>
-                                <option value="<%- coin %>"><%- coin %></option>
-                            <% } %>
-                        </select>    
-                        <select name="exchange" id="exchange" required class="pure-input-1-4">
-                            <option value="Exchange">Exchange</option>
-                            <% for (const ex of exchanges) { %>
-                                <option value="<%- ex %>"><%- ex %></option>
-                            <% } %>
-                        </select>
-                        <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" >
+                        <div class="top_input">
+                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
+                            <datalist id="coin_symbols">
+                                <% for (const coin of coins) { %>
+                                    <option value="<%- coin %>">
+                                        <% } %>
+                                    </datalist>
+                                    
+                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
+                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
+                        </div>
 
-                        <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
-                        <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
-                        <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                        <div class"bot_input>
+                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
+                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
+                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                            <input list="types" name="type" id="type" placeholder="Type" required class="pure-input-1-4">
+                            <datalist id="types">
+                                <option value="buy">
+                                <option value="sell">
+                            </datalist>
+                        </div>
                         </br>
-                        <button type="submit" value="add_purchase" class="pure-button" id="portfolio_button" >
-                            Save Purchase
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="add_exchange" id="add_exchange">
-                <form class="pure-form" action="/add_exchange" method="post" id="add_exchange">
-                    <fieldset>
-                        <input type="text" name="exchange_name" placeholder="Exchange" required class="pure-input-1-4" />
-                        <input type="text" name="coin_gecko_id" placeholder="Coin Gecko ID" required class="pure-input-1-4"/>
-                        <input type="text" name="website" placeholder="Website" required class="pure-input-1-4"/>
-                        </br>
-                        <button type="submit" value="add_exchange" class="pure-button" >
-                            Save Exchange
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="add_coin" id="add_coin">
-                <form class="pure-form" action="/add_coin" method="post" id="add_coin">
-                    <fieldset>
-                        <input type="text" name="coin_name" placeholder="Coin" required class="pure-input-1-4" />
-                        <input type="text" name="symbol" placeholder="Symbol" required class="pure-input-1-4"/>
-                        </br>
-                        <button type="submit" value="add_coin">
-                            Save Coin
+                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" >
+                            Save Transaction
                         </button>
                     </fieldset>
                 </form>
@@ -73,43 +51,51 @@
                     <thead>
                         <tr>
                             <th>Coin</th>
-                            <th>Price</th>
+                            <th>Price Now</th>
                             <th>Owned</th>
-                            <th>Avg Price</th>
-                            <th>Current Value</th>
-                            <th>Profit</th>
-                            <th>Profit %</th>
-                            <th>History</th>
+                            <th>Avg PPrice</th>
+                            <th>% &#8710</th>
+                            <th>CV</th>
+                            <th>rP/L</th>
+                            <th>Diff</th>
+                            <th>Deets</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <% for (const p of purchases) {%>
+                    <% for (const t of transactions) {%>
                         <tr>
-                            <td><%- p.summary.symbol %></td>
-                            <td><%- p.summary.current_price %></td>
-                            <td><%- p.summary.total_size %></td>
-                            <td><%- p.summary.avg_price %></td>
-                            <td><%- p.summary.current_value %></td>
-                            <td><%- p.summary.profit %></td>
-                            <td><%- p.summary.percent_growth %></td>
-                            <td> <a href="#" onclick="viewHideDivClass('hidden_<%- p.summary.symbol %>')">+</a></td>
+                            <td><%- t.summary.symbol %></td>
+                            <td><%- t.summary.current_price %></td>
+                            <td><%- t.summary.owned %></td>
+                            <td><%- t.summary.avg_price %></td>
+                            <td><%- t.summary.percent_growth %></td>
+                            <td><%- t.summary.current_value %></td>
+                            <td><%- t.summary.realized_profit %></td>
+                            <td><%- t.summary.unrealized_profit %></td>
+                            <td> <a href="#" onclick="viewHideDivClass('hidden_<%- t.summary.symbol %>')">+</a></td>
                         </tr>
-                        <tr class='hidden_header hidden_<%- p.summary.symbol %>' style="display:none">
+                        <tr class='hidden_header hidden_<%- t.summary.symbol %>' style="display:none">
+                            <th></th>
                             <th></th>
                             <th>Date</th>
+                            <th>Exchange</th>
+                            <th>Type</th>
                             <th>Amount</th>
                             <th>Price</th>
                             <th>Total</th>
-                            <th>Exchange</th>
+                            <th></th>
                         </tr>
-                        <% for (const y of p.purchases) {%>
-                        <tr class="hidden_rows hidden_<%- p.summary.symbol %>" style="display:none">
+                        <% for (const y of t.transactions) {%>
+                        <tr class="hidden_rows hidden_<%- t.summary.symbol %>" style="display:none">
+                            <td></td>
                             <td></td>
                             <td><%- y[0] %></td>
                             <td><%- y[1] %></td>
                             <td><%- y[2] %></td>
+                            <td><%- y[3] %></td>
                             <td><%- y[4] %></td>
                             <td><%- y[5] %></td>
+                            <td></td>
                         </tr>
                         <% } %>
                     <% } %>

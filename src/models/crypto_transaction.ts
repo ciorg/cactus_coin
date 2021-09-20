@@ -13,7 +13,7 @@ const CoinPurchaseSchema = new Schema({
         type: String,
         required: true
     },
-    exchange_id: {
+    exchange: {
         type: String,
         required: true
     },
@@ -27,6 +27,10 @@ const CoinPurchaseSchema = new Schema({
     },
     fee: {
         type: Number,
+        required: true
+    },
+    type: {
+        type: String,
         required: true
     }
 });

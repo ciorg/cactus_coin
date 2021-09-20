@@ -48,18 +48,26 @@ class Actions {
         return result;
     }
 
-    async upsert(query: { [params: string]: any }, record: { [params: string]: any }) {
+    async upsert(
+        query: { [params: string]: any },
+        record: { [params: string]: any },
+        options: { [params: string]: any} = {}
+    ) {
         const result: I.Result = { res: null };
+
+        const defaultOptions = {
+            upsert: true,
+            overwrite: false,
+            new: true
+        };
+
+        const queryOptions = Object.assign({}, options, defaultOptions);
 
         try {
             result.res = await this.model.findOneAndUpdate(
                 query,
                 record,
-                { 
-                    upsert: true,
-                    overwrite: true,
-                    new: true
-                }
+                queryOptions
             );
         } catch (e: any) {
             this.log.error(e.message, { err: e });

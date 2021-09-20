@@ -1,50 +1,22 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import permissions from '../utils/permissions';
-import CoinPurchase from '../controllers/coin_purchase';
+import CryptoTransaction from '../controllers/crypto_transaction';
 import CryptoData from '../controllers/crypto_data';
 
 
 const router = express.Router();
-const coinPurchase = new CoinPurchase();
+const cryptoTransaction = new CryptoTransaction();
 const cryptoData = new CryptoData();
 
 router.post(
-    '/add_coin_purchase',
+    '/add_crypto_transaction',
     connectEnsureLogin.ensureLoggedIn('/'),
     permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
-        const purchase = await coinPurchase.create(req);
+        const transaction = await cryptoTransaction.create(req);
 
-        if (purchase.error) {
-            return res.redirect('/error');
-        }
-        
-        res.redirect(`/home`);
-});
-
-router.post(
-    '/add_exchange',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: Request, res: Response) => {
-        const response = await cryptoData.addExchange(req);
-
-        if (response.error) {
-            return res.redirect('/error');
-        }
-        
-        res.redirect(`/home`);
-});
-
-router.post(
-    '/add_coin',
-    connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
-    async (req: Request, res: Response) => {
-        const response = await cryptoData.addCoin(req);
-
-        if (response.error) {
+        if (transaction.error) {
             return res.redirect('/error');
         }
         
