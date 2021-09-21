@@ -21,7 +21,7 @@ router.get(
         const exchanges = await cryptoData.getExchangesNames();
         const coins = await cryptoData.getCoinSymbols();
         // TODO- put in error handling on this step
-        const [transactions, cacheTime] = await cryptoPurchase.getTransactions(req);
+        const [transactions, grandTally, cacheTime] = await cryptoPurchase.getTransactions(req);
 
         if (exchanges.error || coins.error) {
             return res.redirect('/error');
@@ -31,7 +31,8 @@ router.get(
             user: req.user,
             coins: coins.res,
             transactions,
-            cache_time: cacheTime
+            cache_time: cacheTime,
+            grand_tally: grandTally
         });
     }
 );

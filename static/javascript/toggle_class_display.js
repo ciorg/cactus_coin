@@ -32,15 +32,17 @@ function hidden(id) {
     return false;
 }
 
-function viewHideDivClass(classId) {
+function viewHideRows(classId, linkId) {
     const classDiv = document.getElementsByClassName(classId);
-    console.log(classDiv);
+    const byId = document.getElementById(linkId);
 
     if (hiddenClass(classId)) {
+        byId.innerHTML = '-';
         for (const c of classDiv) {
             c.style.display = "table-row";
         }
     } else {
+        byId.innerHTML = '+';
         for (const c of classDiv) {
             c.style.display = 'none';
         }

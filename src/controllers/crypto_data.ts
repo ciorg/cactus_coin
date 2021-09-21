@@ -127,7 +127,6 @@ class CryptoData {
             res: undefined
         };
     
-        console.log(symbol);
         const response = await this.dbCoins.search('symbol', symbol);
 
         const { res } = response;

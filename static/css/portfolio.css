@@ -18,13 +18,53 @@
     color: #ffc800;
 }
 
+.grand_tally {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.grand_tally table {
+    margin: auto;
+    background-color: white;
+    margin-bottom: 5px;
+}
+
+.portfolio a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #9ec8f0
+}
+
 .add_transaction {
     margin: auto;
-    width: 50%;
+    width: 40%;
     text-align: center;
     display: none;
     margin-top: 5px;
     margin-bottom: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgba(245, 236, 158, 0.4);
+}
+
+.add_transaction button{
+    background-color: white;
+}
+
+.add_transaction button:focus {
+    background-color: #ffc800;
+}
+
+.add_transaction button:hover {
+    background-color: #ffc800;
+    font-weight: bold;
+}
+
+.add_transaction input:focus {
+    color: #d44c04;
+    background-color: #ffc800;;
 }
 
 .add_transaction input[type="text"] {
@@ -36,6 +76,10 @@
 }
 
 .top_input {
+    margin-bottom: 5px;
+}
+
+.bot_input {
     margin-bottom: 5px;
 }
 
@@ -82,6 +126,17 @@
 }
 
 .hidden_header {
-    background-color: rgb(183, 190, 197);
+    background-color: rgb(197, 204, 212);
 }
 
+.hidden_rows a {
+    color: rgb(133, 133, 209);
+}
+
+.type_buy {
+    background-color: rgb(213, 243, 189);
+}
+
+.type_sell {
+    background-color: rgb(243, 200, 189);
+}

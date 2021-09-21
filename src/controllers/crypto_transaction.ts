@@ -35,7 +35,12 @@ class CoinPurchase {
         return this.action.create(coinPurchaseData);
     }
 
-    async getTransactions(req: Request): Promise<[I.TransactionsWithSummary[], Date]> {
+    async delete(req: Request) {
+        return this.action.delete(req.params.id);
+    }
+
+
+    async getTransactions(req: Request): Promise<[I.TransactionsWithSummary[], I.GrandTally, Date]> {
         const { user }: any = req;
 
         const results = await this.action.search('user_id', user._id);
@@ -46,7 +51,9 @@ class CoinPurchase {
 
         const summary = this.createSummary(transactionsByCoin, currentPrices);
 
-        return [summary, cacheTime];
+        const grandTally = this.grandTally(summary);
+
+        return [summary, grandTally, cacheTime];
     }
 
     async organizeTransactions(transactions: any[]): Promise<I.TransactionsByCoin> {
@@ -97,7 +104,7 @@ class CoinPurchase {
             if (currentValue > 0) {
                 unrealized = currentValue + transactionTally.profit_loss
                 percentGrowth = useful.setDecimals(
-                    ((currentPrice - transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100, 2
+                    ((currentPrice -transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100, 2
                 );
             }
 
@@ -171,12 +178,29 @@ class CoinPurchase {
                 useful.setDecimals(trans.size, 4),
                 useful.toCurrency(trans.price),
                 useful.toCurrency(trans.price * trans.size),
+                trans._id
             ]);
         }
 
         formatedTransactions.sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
 
         return formatedTransactions;
+    }
+
+    grandTally(summaries: I.TransactionsWithSummary[]): I.GrandTally {
+        let totalValue = 0;
+        let pL = 0;
+
+        for (const sum of summaries) {
+            totalValue += useful.currencyToNumber(sum.summary.current_value);
+            pL += useful.currencyToNumber(sum.summary.realized_profit);
+        }
+
+        return {
+            total_value: useful.toCurrency(totalValue),
+            p_l: useful.toCurrency(pL),
+            diff: useful.toCurrency(totalValue + pL)
+        };
     }
 }
 

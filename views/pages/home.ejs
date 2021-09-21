@@ -10,50 +10,32 @@
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
-            <div class="portfolio_links">
-                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
-            </div>
-
-            <div class="add_transaction" id="add_transaction">
-                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
-                    <fieldset>
-                        <div class="top_input">
-                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
-                            <datalist id="coin_symbols">
-                                <% for (const coin of coins) { %>
-                                    <option value="<%- coin %>">
-                                        <% } %>
-                                    </datalist>
-                                    
-                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
-                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
-                        </div>
-
-                        <div class"bot_input>
-                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
-                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
-                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
-                            <input list="types" name="type" id="type" placeholder="Type" required class="pure-input-1-4">
-                            <datalist id="types">
-                                <option value="buy">
-                                <option value="sell">
-                            </datalist>
-                        </div>
-                        </br>
-                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" >
-                            Save Transaction
-                        </button>
-                    </fieldset>
-                </form>
+            <div class="grand_tally">
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th>Current Value</th>
+                            <th>Realized Profit</th>
+                            <th>Diff</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><%- grand_tally.total_value %></td>
+                            <td><%- grand_tally.p_l %></td>
+                            <td><%- grand_tally.diff %></td>
+                        </tr>    
+                    </tbody>
+                </table>
             </div>
             <div class="portfolio">
                 <table class="pure-table">
                     <thead>
                         <tr>
                             <th>Coin</th>
-                            <th>Price Now</th>
+                            <th>Price</th>
                             <th>Owned</th>
-                            <th>Avg PPrice</th>
+                            <th>P.Price</th>
                             <th>% &#8710</th>
                             <th>CV</th>
                             <th>rP/L</th>
@@ -72,10 +54,14 @@
                             <td><%- t.summary.current_value %></td>
                             <td><%- t.summary.realized_profit %></td>
                             <td><%- t.summary.unrealized_profit %></td>
-                            <td> <a href="#" onclick="viewHideDivClass('hidden_<%- t.summary.symbol %>')">+</a></td>
+                            <td>
+                                <a href="#"
+                                    id="link_<%-t.summary.symbol %>"
+                                    onclick="viewHideRows('hidden_<%- t.summary.symbol %>', 'link_<%- t.summary.symbol%>')"
+                                >+</a>
+                            </td>
                         </tr>
                         <tr class='hidden_header hidden_<%- t.summary.symbol %>' style="display:none">
-                            <th></th>
                             <th></th>
                             <th>Date</th>
                             <th>Exchange</th>
@@ -84,10 +70,10 @@
                             <th>Price</th>
                             <th>Total</th>
                             <th></th>
+                            <th></th>
                         </tr>
                         <% for (const y of t.transactions) {%>
-                        <tr class="hidden_rows hidden_<%- t.summary.symbol %>" style="display:none">
-                            <td></td>
+                        <tr class="hidden_rows hidden_<%- t.summary.symbol %> type_<%-y[2]%>" style="display:none">
                             <td></td>
                             <td><%- y[0] %></td>
                             <td><%- y[1] %></td>
@@ -95,12 +81,49 @@
                             <td><%- y[3] %></td>
                             <td><%- y[4] %></td>
                             <td><%- y[5] %></td>
+                            <td><a href="/transactions/<%- y[6] %>/delete">Del</a></td>
                             <td></td>
                         </tr>
                         <% } %>
                     <% } %>
                     </tbody>
                 </table>
+            </div>
+            <div class="portfolio_links">
+                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
+            </div>
+            <div class="add_transaction" id="add_transaction">
+                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
+                    <fieldset>
+                        <div class="top_input">
+                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
+                            <datalist id="coin_symbols">
+                                <% for (const coin of coins) { %>
+                                    <option value="<%- coin %>">
+                                        <% } %>
+                                    </datalist>
+                                    
+                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
+                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
+                        </div>
+
+                        <div class="bot_input">
+                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
+                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
+                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                            <br>
+                        </div>
+                        <input list="types" name="type" id="type" placeholder="Buy or Sell" required class="pure-input-1-4">
+                        <datalist id="types">
+                            <option value="buy">
+                            <option value="sell">
+                        </datalist>
+                        <br>
+                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" required>
+                            Save Transaction
+                        </button>
+                    </fieldset>
+                </form>
             </div>
             <footer>
                 <%- include('../partials/footer'); %>

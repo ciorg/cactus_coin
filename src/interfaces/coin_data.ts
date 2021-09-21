@@ -38,6 +38,7 @@ export interface Transaction {
     size: number;
     fee: number;
     type: 'buy' | 'sell';
+    _id: string;
 }
 
 export interface TransactionsWithSummary {
@@ -70,4 +71,10 @@ export interface TransactionsTally {
     coins_owned: number;
     profit_loss: number;
     break_even_price: number;
+}
+
+export interface GrandTally {
+    total_value: string;
+    p_l: string;
+    diff: string;
 }

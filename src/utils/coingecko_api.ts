@@ -98,11 +98,13 @@ class CoinGeckoApi {
     }
 
     private async _getData(extention: string, options = {}) {
+        const config = Object.assign({ timeout: 10 }, options);
+
         try {
             const res = await axios.get(
                 `${this.base_url}${extention}`,
                 {
-                    params: options
+                    params: config
                 }
             );
            
