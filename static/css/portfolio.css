@@ -37,6 +37,12 @@
     color: #9ec8f0
 }
 
+.portfolio a:hover {
+    font-size: 1.15em;
+    font-weight: bold;
+    color: #83a9cc
+}
+
 .add_transaction {
     margin: auto;
     width: 40%;
@@ -130,13 +136,25 @@
 }
 
 .hidden_rows a {
-    color: rgb(133, 133, 209);
+    color: rgb(178, 178, 189);
 }
 
+
 .type_buy {
-    background-color: rgb(213, 243, 189);
+    background-color:rgb(217, 231, 250);
+    color: rgb(99, 99, 99);
 }
 
 .type_sell {
+    background-color: rgb(93, 96, 122);
+    color: rgb(216, 230, 250);
+}
+
+table tr td.up {
+    background-color: rgb(213, 243, 189);
+}
+
+table tr td.down {
     background-color: rgb(243, 200, 189);
 }
+

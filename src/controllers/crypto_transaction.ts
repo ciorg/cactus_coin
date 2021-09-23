@@ -96,31 +96,21 @@ class CoinPurchase {
 
             if (currentPrice == null) continue;
 
-            const currentValue = currentPrice * transactionTally.coins_owned;
-
-            let unrealized = 0;
-            let percentGrowth = '0';
-
-            if (currentValue > 0) {
-                unrealized = currentValue + transactionTally.profit_loss
-                percentGrowth = useful.setDecimals(
-                    ((currentPrice -transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100, 2
-                );
-            }
-
+            const currentValue = (currentPrice * transactionTally.coins_owned);
+            const pPriceDiff = ((currentPrice - transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100;
 
             transactionsWithSummary.push({
                 summary: {
                     owned: useful.setDecimals(transactionTally.coins_owned),
-                    total_spent: useful.toCurrency(transactionTally.total_cost),
-                    avg_price: useful.toCurrency(transactionTally.avg_purchase_price),
                     current_price: useful.toCurrency(currentPrice),
-                    realized_profit: useful.toCurrency(transactionTally.profit_loss),
-                    unrealized_profit: useful.toCurrency(unrealized),
+                    avg_price: useful.toCurrency(transactionTally.avg_purchase_price),
+                    price_diff: useful.setDecimals(pPriceDiff, 2),
                     current_value: useful.toCurrency(currentValue),
-                    percent_growth: percentGrowth,
-                    break_even_price: useful.toCurrency(transactionTally.break_even_price),
-                    symbol
+                    total_spent: useful.toCurrency(transactionTally.total_cost),
+                    sold: useful.toCurrency(transactionTally.realized_gain),
+                    diff: useful.toCurrency(currentValue - transactionTally.total_cost + transactionTally.realized_gain),
+                    symbol,
+                    coin_id
                 },
                 transactions: this.formatTransactions(transactions)
             });
@@ -151,19 +141,11 @@ class CoinPurchase {
             }
         }
 
-        const currentCoinsHeld = coinsBought - coinsSold;
-        const profitLoss =  realizedGain - cost;
-        const avgSellPrice = realizedGain > 0 ? NaN : realizedGain / coinsSold;
-        const breakEvenPrice = profitLoss < 0 ? NaN : Math.abs(profitLoss / currentCoinsHeld)
-
         return {
             realized_gain: realizedGain,
-            avg_sell_price: avgSellPrice,
             avg_purchase_price: cost / coinsBought,
             total_cost: cost,
-            coins_owned: currentCoinsHeld,
-            profit_loss: profitLoss,
-            break_even_price: breakEvenPrice
+            coins_owned: coinsBought - coinsSold
         };
     }
 
@@ -189,17 +171,23 @@ class CoinPurchase {
 
     grandTally(summaries: I.TransactionsWithSummary[]): I.GrandTally {
         let totalValue = 0;
-        let pL = 0;
+        let invested = 0;
+        let totalSold = 0;
 
         for (const sum of summaries) {
             totalValue += useful.currencyToNumber(sum.summary.current_value);
-            pL += useful.currencyToNumber(sum.summary.realized_profit);
+            invested += useful.currencyToNumber(sum.summary.total_spent);
+            totalSold += useful.currencyToNumber(sum.summary.sold);
         }
+
+        const diff = totalValue - invested + totalSold;
 
         return {
             total_value: useful.toCurrency(totalValue),
-            p_l: useful.toCurrency(pL),
-            diff: useful.toCurrency(totalValue + pL)
+            invested: useful.toCurrency(invested),
+            total_sold: useful.toCurrency(totalSold),
+            diff: useful.toCurrency(diff),
+            p_gain: useful.setDecimals((diff / invested) * 100, 2)
         };
     }
 }

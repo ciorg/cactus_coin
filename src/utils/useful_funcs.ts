@@ -29,9 +29,5 @@ export function setDecimals(value: number | string, digits = 4): string {
 }
 
 export function currencyToNumber(value: string): number {
-    if (value.includes('$')) {
-        return Number.parseFloat(value.replace('$', ''));
-    }
-
-    return Number.parseFloat(value);
+    return Number.parseFloat(value.replace(/\$|,/g, ''));
 }

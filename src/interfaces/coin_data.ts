@@ -51,12 +51,12 @@ export interface Summary {
     total_spent: string;
     avg_price: string;
     current_price: string;
-    unrealized_profit: string;
-    realized_profit: string;
     current_value: string;
-    percent_growth: string;
-    break_even_price: string;
+    price_diff: string;
+    sold: string;
+    diff: string;
     symbol: string;
+    coin_id: string;
 }
 
 export interface CurrentPrices {
@@ -65,16 +65,15 @@ export interface CurrentPrices {
 
 export interface TransactionsTally {
     realized_gain: number;
-    avg_sell_price: number;
     avg_purchase_price: number;
     total_cost: number;
     coins_owned: number;
-    profit_loss: number;
-    break_even_price: number;
 }
 
 export interface GrandTally {
     total_value: string;
-    p_l: string;
+    invested: string;
+    total_sold: string;
     diff: string;
+    p_gain: string
 }

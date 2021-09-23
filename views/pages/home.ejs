@@ -15,15 +15,27 @@
                     <thead>
                         <tr>
                             <th>Current Value</th>
-                            <th>Realized Profit</th>
-                            <th>Diff</th>
+                            <th>Invested</th>
+                            <th>Realized</th>
+                            <th>iProfit</th>
+                            <th>% &#8710</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><%- grand_tally.total_value %></td>
-                            <td><%- grand_tally.p_l %></td>
-                            <td><%- grand_tally.diff %></td>
+                            <td><%- grand_tally.invested %></td>
+                            <td><%- grand_tally.total_sold %></td>
+                            <% if (grand_tally.diff.includes('-')) { %>
+                                <td class="down"><%- grand_tally.diff %></td>
+                                <% } else {%>
+                                <td class="up"><%- grand_tally.diff %></td>
+                            <% } %>
+                            <% if (Number(grand_tally.p_gain) > 0) { %>
+                                <td class="up"><%- grand_tally.p_gain %></td>
+                                <% } else {%>
+                                <td class="down"><%- grand_tally.p_gain %></td>
+                            <% } %>
                         </tr>    
                     </tbody>
                 </table>
@@ -38,22 +50,32 @@
                             <th>P.Price</th>
                             <th>% &#8710</th>
                             <th>CV</th>
-                            <th>rP/L</th>
-                            <th>Diff</th>
+                            <th>Invested</th>
+                            <th>Realized</th>
+                            <th>iProfit</th>
                             <th>Deets</th>
                         </tr>
                     </thead>
                     <tbody>
                     <% for (const t of transactions) {%>
                         <tr>
-                            <td><%- t.summary.symbol %></td>
+                            <td><a href="/crypto/coin/<%-t.summary.coin_id%>"><%- t.summary.symbol.toUpperCase() %></a></td>
                             <td><%- t.summary.current_price %></td>
                             <td><%- t.summary.owned %></td>
                             <td><%- t.summary.avg_price %></td>
-                            <td><%- t.summary.percent_growth %></td>
+                            <% if (Number(t.summary.price_diff) > 0) { %>
+                                <td class="up"><%- t.summary.price_diff %></td>
+                                <% } else {%>
+                                <td class="down"><%- t.summary.price_diff %></td>
+                            <% } %>
                             <td><%- t.summary.current_value %></td>
-                            <td><%- t.summary.realized_profit %></td>
-                            <td><%- t.summary.unrealized_profit %></td>
+                            <td><%- t.summary.total_spent %></td>
+                            <td><%- t.summary.sold %></td>
+                            <% if (t.summary.diff.includes('-')) { %>
+                                <td class="down"><%- t.summary.diff %></td>
+                                <% } else {%>
+                                <td class="up"><%- t.summary.diff %></td>
+                            <% } %>
                             <td>
                                 <a href="#"
                                     id="link_<%-t.summary.symbol %>"
@@ -62,7 +84,7 @@
                             </td>
                         </tr>
                         <tr class='hidden_header hidden_<%- t.summary.symbol %>' style="display:none">
-                            <th></th>
+                            <th style="background-color: white;"></th>
                             <th>Date</th>
                             <th>Exchange</th>
                             <th>Type</th>
@@ -70,11 +92,10 @@
                             <th>Price</th>
                             <th>Total</th>
                             <th></th>
-                            <th></th>
                         </tr>
                         <% for (const y of t.transactions) {%>
                         <tr class="hidden_rows hidden_<%- t.summary.symbol %> type_<%-y[2]%>" style="display:none">
-                            <td></td>
+                            <td style="background-color: white;"></td>
                             <td><%- y[0] %></td>
                             <td><%- y[1] %></td>
                             <td><%- y[2] %></td>
@@ -82,7 +103,6 @@
                             <td><%- y[4] %></td>
                             <td><%- y[5] %></td>
                             <td><a href="/transactions/<%- y[6] %>/delete">Del</a></td>
-                            <td></td>
                         </tr>
                         <% } %>
                     <% } %>
