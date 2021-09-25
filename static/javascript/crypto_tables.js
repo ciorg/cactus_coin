@@ -6,7 +6,6 @@ $(document).ready(() => {
         columns: [
             { orderable: true, searchable: false },
             { orderable: true },
-            { orderable: true },
             { orderable: true, searchable: false },
             { orderable: false, searchable: true },
             { orderable: true, searchable: false }

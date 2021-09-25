@@ -4,9 +4,7 @@
         <%- include('../partials/head'); -%>
         <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="css/portfolio.css">
-
     </head>
-
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
@@ -39,6 +37,42 @@
                         </tr>    
                     </tbody>
                 </table>
+            </div>
+            <div class="portfolio_links">
+                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
+            </div>
+            <div class="add_transaction" id="add_transaction">
+                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
+                    <fieldset>
+                        <div class="top_input">
+                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
+                            <datalist id="coin_symbols">
+                                <% for (const coin of coins) { %>
+                                    <option value="<%- coin %>">
+                                        <% } %>
+                                    </datalist>
+                                    
+                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
+                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
+                        </div>
+
+                        <div class="bot_input">
+                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
+                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
+                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                            <br>
+                        </div>
+                        <input list="types" name="type" id="type" placeholder="Buy or Sell" required class="pure-input-1-4">
+                        <datalist id="types">
+                            <option value="buy">
+                            <option value="sell">
+                        </datalist>
+                        <br>
+                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" required>
+                            Save Transaction
+                        </button>
+                    </fieldset>
+                </form>
             </div>
             <div class="portfolio">
                 <table class="pure-table">
@@ -109,45 +143,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="portfolio_links">
-                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
-            </div>
-            <div class="add_transaction" id="add_transaction">
-                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
-                    <fieldset>
-                        <div class="top_input">
-                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
-                            <datalist id="coin_symbols">
-                                <% for (const coin of coins) { %>
-                                    <option value="<%- coin %>">
-                                        <% } %>
-                                    </datalist>
-                                    
-                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
-                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
-                        </div>
-
-                        <div class="bot_input">
-                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
-                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
-                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
-                            <br>
-                        </div>
-                        <input list="types" name="type" id="type" placeholder="Buy or Sell" required class="pure-input-1-4">
-                        <datalist id="types">
-                            <option value="buy">
-                            <option value="sell">
-                        </datalist>
-                        <br>
-                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" required>
-                            Save Transaction
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-            <footer>
-                <%- include('../partials/footer'); %>
-            </footer>
+            <%- include('../partials/footer'); %>
         </div>
         <script src="javascript/toggle_class_display.js"></script>
     </body>

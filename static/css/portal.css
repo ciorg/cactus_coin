@@ -2,19 +2,33 @@
 colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519, #c49c3c, #ac6404
 */
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .pageBody {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    font-family: 'Varela';
-    background-image: linear-gradient(#ef2556, #facc04);
-    position: fixed;
+  min-height:100%;
+  position:relative;
+  font-family: 'Varela';
+  background-image: linear-gradient(#ef2556, #facc04);
+}
+
+.portalBottom {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 100px;
 }
 
 .portalContent {
-    margin-top: 20%;
-    margin-left: 55%;
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  margin-top: 15%;
+  margin-left: 50%;
 }
 
 .portalContent p {
@@ -58,13 +72,6 @@ colors - #a1f113, #1c6404, #2cb404, #facc04, #fb147b, #d44c04, #238204, #cb7519,
   color: #facc04;
 }
 
-
-.portalBottom {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  height: 100px;
-}
 
 .short img {
   height: 100px;
@@ -162,13 +169,13 @@ input[type=password] {
     .portalContent {
         margin-top: 20%;
         margin-left: 15%;
+        width: 90%;
     }
 
     .portalLogo {
         height: 100%;
         width: 150px;
         float: left;
-        shape-outside: circle(50%);
     }
 
     .portalLogo img {
@@ -194,15 +201,23 @@ input[type=password] {
     .sideBar a {font-size: 18px;}
 }
 
-@media screen and (max-height: 500px) {
+
+@media screen and (max-height: 700px) {
   .sideBar {
     padding-top: 5px;
     height: 100vh;
   }
-}
 
-@media screen and (max-height: 700px) {
-  .sideBar {
-    height: 75%;
+  .portalContent {
+    margin-top: 5%;
+    margin-left: 15%;
+    width: 80%;
+    height: 80%;
   }
+
+  .portalLinks a {
+      color: white;
+      font-size: 1em;
+  }
+
 }
