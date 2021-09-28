@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 export interface LogObject {
-    err?: Error;
+    err?: any;
     req?: Request;
     res?: Response;
 }

@@ -27,7 +27,7 @@ class DB {
                 useCreateIndex: true,
                 useFindAndModify: false
             });
-        } catch(e) {
+        } catch(e: any) {
             this.logger.fatal('could not connect to db', { err: e });
         }
     }
