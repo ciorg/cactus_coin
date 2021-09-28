@@ -18,12 +18,11 @@ router.get(
     '/home',
     connectEnsureLogin.ensureLoggedIn('/'),
     async (req: Request, res: Response) => {
-        const exchanges = await cryptoData.getExchangesNames();
         const coins = await cryptoData.getCoinSymbols();
         // TODO- put in error handling on this step
         const [transactions, grandTally, cacheTime] = await cryptoPurchase.getTransactions(req);
 
-        if (exchanges.error || coins.error) {
+        if (coins.error) {
             return res.redirect('/error');
         }
 
