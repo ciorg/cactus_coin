@@ -11,6 +11,7 @@ html, body {
 
 .pageBody {
   min-height:100%;
+  min-width:100%;
   position:relative;
   font-family: 'Varela';
   background-image: linear-gradient(#ef2556, #facc04);
@@ -165,7 +166,7 @@ input[type=password] {
   border: 2px solid #ef2556;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     .portalContent {
         margin-top: 20%;
         margin-left: 15%;
@@ -183,12 +184,13 @@ input[type=password] {
     }
 
     .portalLinks a {
+        margin-right: 1vh;
         color: white;
         font-size: 1em;
     }
 
     .portalLinks ul{
-        padding: 0.1em 0;
+        float: left;
         list-style: none;
         line-height: 1.5em;
     }

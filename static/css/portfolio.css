@@ -23,6 +23,7 @@
     margin: auto;
     text-align: center;
     margin-top: 5px;
+    overflow-y: auto;
 }
 
 .grand_tally table {
@@ -108,22 +109,6 @@
     display: none;
 }
 
-.add_exchange button {
-    margin-top: 5px;
-}
-
-.add_coin {
-    width: 50%;
-    margin: auto;
-    text-align: center;
-    display: none;
-
-}
-
-.add_coin button {
-    margin-top: 5px;
-}
-
 .portfolio table {
     margin: auto;
     text-align: center;
@@ -160,5 +145,36 @@ table tr td.up {
 
 table tr td.down {
     background-color: rgb(243, 200, 189);
+}
+
+@media screen and (max-width: 800px) {
+    .grand_tally {
+        width: 100%;
+    }
+
+    .portfolio {
+        width: 100%;
+    }
+
+    .add_transaction {
+        width: 80%;
+    }
+
+    .userLogo {
+        position: relative;
+        float: right;
+        margin-top: -4em;
+        z-index: 1;
+    }
+    
+    .userLogo img{
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid #1c6404;
+    }
+    
+    .userLogo img:hover {
+        opacity: 0.5;
+    }
 }
 
