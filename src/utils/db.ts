@@ -21,13 +21,8 @@ class DB {
         const url = `mongodb://${mongoSettings.url}/${mongoSettings.database}`;
 
         try {
-            this.db = await mongoose.connect(url, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,   
-                useCreateIndex: true,
-                useFindAndModify: false
-            });
-        } catch(e) {
+            this.db = await mongoose.connect(url);
+        } catch(e: unknown) {
             this.logger.fatal('could not connect to db', { err: e });
         }
     }

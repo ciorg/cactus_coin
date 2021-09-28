@@ -31,7 +31,7 @@ class User {
 
             this.log.debug(`created: ${response.username}, id: ${response._id}`, { req });
             result.res = response._id;
-        } catch (e) {
+        } catch (e: any) {
             result.error = true;
             this.log.error('could not create user', { err: e, req });
         }
@@ -61,7 +61,7 @@ class User {
             this.log.debug(`updated password`, { req });
 
             result.res = 'password reset successfully';
-        } catch(e) {
+        } catch(e: any) {
             if (e.message === 'Password or username is incorrect') {
                 result.res = 'Current Password is incorrect';
 

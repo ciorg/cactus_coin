@@ -34,7 +34,7 @@ router.post('/pub_search',
 
         try {
             rateLimiter.searchAttempt(req);
-        } catch (e) {
+        } catch (e: any) {
             if (e instanceof Error) return res.redirect('/error');
             return rateLimiter.blockedResponse(res, e.msBeforeNext, 'To Many Bad Requests');
         }
