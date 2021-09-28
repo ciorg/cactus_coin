@@ -1,11 +1,9 @@
 import * as metadata from './metadata_utils';
 
-const args: string[] = process.argv;
+const cmd: string = process.argv[2];
 
-async function updateMetadata(args: string[]) {
-    const func = args[2];
-
-    await metadata[func]();
+async function updateMetadata(cmd: string) {
+    await metadata[cmd]();
 }
 
-updateMetadata(args);
+updateMetadata(cmd);
