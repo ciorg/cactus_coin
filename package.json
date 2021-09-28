@@ -1,6 +1,6 @@
 {
   "name": "cactus_coin",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "my website and stuff",
   "license": "UNLICENSED",
   "main": "index.js",
@@ -13,6 +13,9 @@
     "restart-app": "pm2 restart dist/index.js",
     "stop-app": "pm2 stop dist/index.js",
     "add-test-data": "node dist/scripts/db_actions addTestData",
+    "update-coin-list": "node dist/scripts/metadata_updates updateCoinList",
+    "update-coin-metadata": "node dist/scripts/metadata_updates updateCoinMetadata",
+    "update-coin-categories": "node dist/scripts/metadata_updates loadCryptoCategories",
     "init-user": "node dist/scripts/db_actions initUser"
   },
   "jest": {
