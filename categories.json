@@ -99,6 +99,10 @@
         "full": "Derivatives",
         "code": "Der"
     },
+    "DaoMakerEcosystem": {
+	"full": "DaoMaker Ecosystem",
+	"code": "DmE"
+    },
     "Education": {
         "full": "Education",
         "code": "Ed"
@@ -122,6 +126,10 @@
     "ExchangebasedTokens": {
         "full": "Exchange-based Tokens",
         "code": "ExBT"
+    },
+    "FanToken": {
+	"full": "Fan Token",
+	"code": "FT"
     },
     "FinanceBanking": {
         "full": "Finance / Banking",
@@ -183,6 +191,10 @@
         "full": "Lending/Borrowing",
         "code": "LB"
     },
+    "LeveragedToken": {
+	"full": "Leveraged Token",
+	"code": "LT"
+    },
     "Marketing": {
         "full": "Marketing",
         "code": "Mkt"
@@ -195,9 +207,17 @@
         "full": "Media",
         "code": "Me"
     },
+    "MemeTokens": {
+	"full": "Meme Tokens",
+	"code": "Meme"
+    },
     "Metaverse": {
         "full": "Metaverse",
         "code": "MET"
+    },
+    "MEV Protection": {
+	"full": "MEV Protection",
+	"code": "MP"
     },
     "MirroredAssets": {
         "full": "Mirrored Assets",
@@ -206,6 +226,10 @@
     "Music": {
         "full": "Music",
         "code": "Mu"
+    },
+    "NearProtocolEcosystem": {
+	"full": "Near Protocol Ecosystem",
+	"code": "NPE"
     },
     "NonFungibleTokensNFT": {
         "full": "Non-Fungible Tokens (NFT)",
@@ -234,6 +258,10 @@
     "PolkadotEcosystem": {
         "full": "Polkadot Ecosystem",
         "code": "PkE"
+    },
+    "PolygonEcosystem": {
+	"full": "Polygon Ecosystem",
+	"code": "PgE"
     },
     "PredictionMarkets": {
         "full": "Prediction Markets",
@@ -338,6 +366,10 @@
     "WrappedTokens": {
         "full": "Wrapped-Tokens",
         "code": "WT"
+    },
+    "xDAIEcosystem": {
+	"full": "xDAI Ecosystem",
+	"code": "xDE"
     },
     "YearnEcosystem": {
         "full": "Yearn Ecosystem",
