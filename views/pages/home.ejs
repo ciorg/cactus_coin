@@ -2,15 +2,149 @@
 <html lang="en">
     <head>
         <%- include('../partials/head'); -%>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/portfolio.css">
     </head>
-
     <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
-            <h1>There will be stuff here someday</h1>
-            <footer>
-                <%- include('../partials/footer'); %>
-            </footer>
+            <div class="grand_tally">
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th>Current Value</th>
+                            <th>Invested</th>
+                            <th>Realized</th>
+                            <th>iProfit</th>
+                            <th>% &#8710</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><%- grand_tally.total_value %></td>
+                            <td><%- grand_tally.invested %></td>
+                            <td><%- grand_tally.total_sold %></td>
+                            <% if (grand_tally.diff.includes('-')) { %>
+                                <td class="down"><%- grand_tally.diff %></td>
+                                <% } else {%>
+                                <td class="up"><%- grand_tally.diff %></td>
+                            <% } %>
+                            <% if (Number(grand_tally.p_gain) > 0) { %>
+                                <td class="up"><%- grand_tally.p_gain %></td>
+                                <% } else {%>
+                                <td class="down"><%- grand_tally.p_gain %></td>
+                            <% } %>
+                        </tr>    
+                    </tbody>
+                </table>
+            </div>
+            <div class="portfolio_links">
+                <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
+            </div>
+            <div class="add_transaction" id="add_transaction">
+                <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
+                    <fieldset>
+                        <div class="top_input">
+                            <input list="coin_symbols" name="coin" id="coin" placeholder="coin symbol" required class="pure-input-1-4">
+                            <datalist id="coin_symbols">
+                                <% for (const coin of coins) { %>
+                                    <option value="<%- coin %>">
+                                        <% } %>
+                                    </datalist>
+                                    
+                            <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
+                            <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
+                        </div>
+
+                        <div class="bot_input">
+                            <input type="number" name="size" step="0.0001" placeholder="Amount" required required class="pure-input-1-4"/>
+                            <input type="number" name="price" step="0.0001" min=0 placeholder="Price" required required class="pure-input-1-4"/>
+                            <input type="number" name="fee"  step="0.0001" min=0 placeholder="Fee" required required class="pure-input-1-4"/>
+                            <br>
+                        </div>
+                        <input list="types" name="type" id="type" placeholder="Buy or Sell" required class="pure-input-1-4">
+                        <datalist id="types">
+                            <option value="buy">
+                            <option value="sell">
+                        </datalist>
+                        <br>
+                        <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" required>
+                            Save Transaction
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="portfolio">
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th>Coin</th>
+                            <th>Price</th>
+                            <th>Owned</th>
+                            <th>P.Price</th>
+                            <th>% &#8710</th>
+                            <th>CV</th>
+                            <th>Invested</th>
+                            <th>Realized</th>
+                            <th>iProfit</th>
+                            <th>Deets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for (const t of transactions) {%>
+                        <tr>
+                            <td><a href="/crypto/coin/<%-t.summary.coin_id%>"><%- t.summary.symbol.toUpperCase() %></a></td>
+                            <td><%- t.summary.current_price %></td>
+                            <td><%- t.summary.owned %></td>
+                            <td><%- t.summary.avg_price %></td>
+                            <% if (Number(t.summary.price_diff) > 0) { %>
+                                <td class="up"><%- t.summary.price_diff %></td>
+                                <% } else {%>
+                                <td class="down"><%- t.summary.price_diff %></td>
+                            <% } %>
+                            <td><%- t.summary.current_value %></td>
+                            <td><%- t.summary.total_spent %></td>
+                            <td><%- t.summary.sold %></td>
+                            <% if (t.summary.diff.includes('-')) { %>
+                                <td class="down"><%- t.summary.diff %></td>
+                                <% } else {%>
+                                <td class="up"><%- t.summary.diff %></td>
+                            <% } %>
+                            <td>
+                                <a href="#"
+                                    id="link_<%-t.summary.symbol %>"
+                                    onclick="viewHideRows('hidden_<%- t.summary.symbol %>', 'link_<%- t.summary.symbol%>')"
+                                >+</a>
+                            </td>
+                        </tr>
+                        <tr class='hidden_header hidden_<%- t.summary.symbol %>' style="display:none">
+                            <th style="background-color: white;"></th>
+                            <th>Date</th>
+                            <th>Exchange</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                        <% for (const y of t.transactions) {%>
+                        <tr class="hidden_rows hidden_<%- t.summary.symbol %> type_<%-y[2]%>" style="display:none">
+                            <td style="background-color: white;"></td>
+                            <td><%- y[0] %></td>
+                            <td><%- y[1] %></td>
+                            <td><%- y[2] %></td>
+                            <td><%- y[3] %></td>
+                            <td><%- y[4] %></td>
+                            <td><%- y[5] %></td>
+                            <td><a href="/transactions/<%- y[6] %>/delete">Del</a></td>
+                        </tr>
+                        <% } %>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <%- include('../partials/footer'); %>
         </div>
+        <script src="javascript/toggle_class_display.js"></script>
     </body>
 </html>

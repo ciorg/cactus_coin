@@ -163,3 +163,9 @@ export interface CoinMarketHistoryResp {
     market_caps: number[][];
     total_volumes: number[][];
 }
+
+export interface CoinList {
+    id: string;
+    symbol: string;
+    name: string;
+}

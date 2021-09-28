@@ -77,8 +77,8 @@
 .stats_tables {
     width: 90%;
     margin: auto;
-    margin-bottom: 200px;
     text-align: center;
+    padding-bottom: 350px;
 }
 
 .stats_tables p {
@@ -98,7 +98,7 @@
 
 .top_tables {
     width: 100%;
-    clear: both
+    clear: both;
 }
 
 .mid_tables {
@@ -150,24 +150,3 @@
 .right_table th:hover {
     background-color: #ef2556;
 }
-
-
-.portalBottom {
-    clear: both;
-    position: relative;
-    bottom: 0;
-
-}
-
-.short img {
-    height: 100px;
-    width: 20%;
-    float: right;
-  }
-  
-  .long img {
-    height: 100px;
-    width: 80%;
-    float: left;
-  }
-  

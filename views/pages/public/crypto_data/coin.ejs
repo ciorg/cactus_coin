@@ -118,7 +118,7 @@
                         <tbody>
                             <% for (const ex of market_data.exchanges) { %>
                                 <tr id="trust-<%-ex.trust_score%>">
-                                    <td><%- ex.ex_name %></td>
+                                    <td><%- ex.name %></td>
                                     <td><%- ex.volume %></td>
                                     <td><a href="<%- ex.trade_url %>"><%- ex.target %></a></td>
                                 </tr>

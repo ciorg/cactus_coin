@@ -64,7 +64,7 @@ class Logger {
 
     private _makeLogData(logObj: I.LogObject ): any {
         const logData: {
-            err?: Error,
+            err?: unknown,
             route?: Request['route'],
             res?: Response
          } = {};

@@ -34,7 +34,7 @@
 
 .navLinks li {
     float: left;
-  }
+}
   
 .navLinks li a {
     display: block;
@@ -112,7 +112,7 @@
 
 @media (max-width: 900px) {
     .userLogo {
-       display: none;
+       margin-top: 25%;
     }
 
     /* Show Hamburger Icon */
@@ -126,6 +126,43 @@
     }
 
     label {
+        float: left;
+    }
+
+    .navLinks li {
+        float: none;
+    }
+
+    #hiddenLinks li a {
+        display: block;
+        width: 100%;
+    }
+
+    /* Toggle Show/Hide Menu */
+    #hiddenLinks { display: none; }
+    .navLinks input:checked ~ #hiddenLinks { display: block; }
+}
+
+@media (max-height: 500px) {
+    /* .userLogo {
+       display: none;
+    } */
+
+    /* Show Hamburger Icon */
+    .navLinks label { 
+        display: inline-block; 
+        color: white;
+        background: #a02620;
+        font-style: normal;
+        font-size: 1.4em;
+        padding: 10px;
+    }
+
+    label {
+        float: left;
+    }
+
+    .navLinks li {
         float: left;
     }
 

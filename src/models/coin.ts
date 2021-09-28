@@ -17,7 +17,6 @@ const CoinSchema = new Schema({
     },
     categories: {
         type: [String],
-        required: true,
         unique: false
     }
 });

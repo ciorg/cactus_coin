@@ -49,7 +49,7 @@ async function _getData(options = {}) {
         }
         
         return axiosRes.data;
-    } catch (e) {
+    } catch (e: any) {
         logger.error(e.message, e);
     }
 }

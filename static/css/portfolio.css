@@ -1,0 +1,180 @@
+.portfolio_links {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.portfolio_links a {
+    font-family: 'Varela';
+    font-size: 1em;
+    text-decoration: none;
+    color: white;
+    margin-left: 1em;
+}
+
+.portfolio_links a:hover {
+    color: #ffc800;
+}
+
+.grand_tally {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    margin-top: 5px;
+    overflow-y: auto;
+}
+
+.grand_tally table {
+    margin: auto;
+    background-color: white;
+    margin-bottom: 5px;
+}
+
+.portfolio {
+    width: 60%;
+    margin: auto;
+    overflow-y: auto;
+    padding-bottom:100px;
+}
+
+.portfolio a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #9ec8f0
+}
+
+.portfolio a:hover {
+    font-size: 1.15em;
+    font-weight: bold;
+    color: #83a9cc
+}
+
+.add_transaction {
+    margin: auto;
+    width: 40%;
+    text-align: center;
+    display: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgba(245, 236, 158, 0.4);
+}
+
+.add_transaction button{
+    background-color: white;
+}
+
+.add_transaction button:focus {
+    background-color: #ffc800;
+}
+
+.add_transaction button:hover {
+    background-color: #ffc800;
+    font-weight: bold;
+}
+
+.add_transaction input:focus {
+    color: #d44c04;
+    background-color: #ffc800;;
+}
+
+.add_transaction input[type="text"] {
+    height: 2.8em;
+}
+
+.add_transaction input[type="date"] {
+    height: 2.2em;
+}
+
+.top_input {
+    margin-bottom: 5px;
+}
+
+.bot_input {
+    margin-bottom: 5px;
+}
+
+.add_transaction button {
+    margin-top: 5px;
+}
+
+.add_exchange {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    display: none;
+}
+
+.portfolio table {
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.portfolio table th {
+    text-align: center;
+}
+
+.hidden_header {
+    background-color: rgb(197, 204, 212);
+}
+
+.hidden_rows a {
+    color: rgb(178, 178, 189);
+}
+
+
+.type_buy {
+    background-color:rgb(217, 231, 250);
+    color: rgb(99, 99, 99);
+}
+
+.type_sell {
+    background-color: rgb(93, 96, 122);
+    color: rgb(216, 230, 250);
+}
+
+table tr td.up {
+    background-color: rgb(213, 243, 189);
+}
+
+table tr td.down {
+    background-color: rgb(243, 200, 189);
+}
+
+@media screen and (max-width: 800px) {
+    .grand_tally {
+        width: 100%;
+    }
+
+    .portfolio {
+        width: 100%;
+    }
+
+    .add_transaction {
+        width: 80%;
+    }
+
+    .userLogo {
+        position: relative;
+        float: right;
+        margin-top: -4em;
+        z-index: 1;
+    }
+    
+    .userLogo img{
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid #1c6404;
+    }
+    
+    .userLogo img:hover {
+        opacity: 0.5;
+    }
+}
+

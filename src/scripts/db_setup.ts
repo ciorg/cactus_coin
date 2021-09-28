@@ -101,7 +101,7 @@ class DBTools {
             }, 'changeMe123');
             
             this.log.info('registered', user);
-        } catch (e) {
+        } catch (e: any) {
             this.log.info(e);
         }
         return;

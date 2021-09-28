@@ -1,5 +1,7 @@
+import { Request } from 'express';
 import CoinGeckoApi from '../utils/coingecko_api';
 import CoinModel from '../models/coin';
+import ExchangeModel from '../models/coin_exchange'; 
 import CategoriesModel from '../models/crypto_category';
 import DbActions from '../utils/db_actions';
 import Logger from '../utils/logger';
@@ -12,6 +14,7 @@ class CryptoData {
     api: CoinGeckoApi;
     dbCoins: DbActions;
     dbCats: DbActions;
+    dbExchanges: DbActions;
     cache: typeof cache;
 
     constructor() {
@@ -19,7 +22,123 @@ class CryptoData {
         this.api = new CoinGeckoApi();
         this.logger = new Logger();
         this.dbCoins = new DbActions(CoinModel);
+        this.dbExchanges = new DbActions(ExchangeModel);
         this.dbCats = new DbActions(CategoriesModel);
+    }
+
+    async addCoin(req: Request) {
+        const newCoin = {
+            date: new Date().toISOString(),
+            coin_id: this._cleanCoinId(req.body.coin_name),
+            symbol: req.body.symbol
+        };
+    
+        return this.dbCoins.create(newCoin);
+    }
+
+    async addExchange(req: Request) {       
+        const newExchange = {
+            date_added: new Date().toISOString(),
+            active: true,
+            name: req.body.exchange_name.toLowerCase(),
+            website_url: req.body.website,
+            coin_gecko_id: req.body.coin_gecko_id
+        };
+    
+        return this.dbExchanges.create(newExchange);
+    }
+
+    async getExchangesNames(): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        }
+
+        const response = await this.dbExchanges.getAll();
+
+        if (response.res.length) {
+            result.res = response.res.map((exchange: I.Exchange) => exchange.name)
+            .sort();
+
+            return result;
+        }
+
+        result.error = true;
+        return result;
+    }
+
+    async getExchangeNameById(id: string): Promise<string> {
+        const result = await this.dbExchanges.searchById(id);
+
+        if (result.res) {
+            return result.res.name;
+        }
+
+        return '';
+    }
+
+    async getExchangeId(name: string): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        }
+
+        const response = await this.dbExchanges.search('name', name);
+
+        const { res } = response;
+
+        if (res.length === 1) {
+            result.res = res[0]._id;
+
+            return result;
+        }
+
+        result.error = true;
+        return result;
+    }
+
+    async getCoinSymbols(): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        };
+    
+        const response = await this.dbCoins.getAll();
+
+        if (response.res.length) {
+            result.res = response.res.map((coin: I.Coin) => coin.symbol)
+            .sort();
+
+            return result;
+        }
+
+        result.error = true;
+
+        return result;
+    }
+
+    async getCoinSymbolById(id: string): Promise<string> {
+        const result = await this.dbCoins.searchById(id);
+
+        if (result.res) return result.res.coin_id;
+
+        return '';
+    }
+
+    async getCoinId(symbol: string): Promise<I.Result> {
+        const result: I.Result = {
+            res: undefined
+        };
+    
+        const response = await this.dbCoins.search('symbol', symbol);
+
+        const { res } = response;
+
+        if (res.length === 1) {
+            result.res = res[0]._id;
+
+            return result;
+        }
+
+        result.error = true;
+        return result;
     }
 
     async getCoinList(): Promise<I.Result> {
@@ -292,10 +411,10 @@ class CryptoData {
             'xbt'
         ];
 
-        const exchanges = tickers.reduce((exchanges: I.ExchangeInfo[], ticker) => {
+        const exchanges = tickers.reduce((exchanges: I.CGExchangeInfo[], ticker) => {
             if (ticker.trade_url && targets.includes(ticker.target.toLowerCase())) {
                 const exData = {
-                    ex_name: ticker.market.name,
+                    name: ticker.market.name,
                     target: ticker.target,
                     trust_score: ticker.trust_score,
                     trade_url: ticker.trade_url,
@@ -359,6 +478,12 @@ class CryptoData {
             if (a[0] > b[0]) return 1;
             return 0;
         });
+    }
+
+    private _cleanCoinId(coinId: string): string {
+        let id = coinId.trim().toLowerCase();
+
+        return id.replace(/\s/g, '-');
     }
     
     // Still could be use full code for historical data one day

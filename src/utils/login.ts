@@ -22,7 +22,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
                 const check = await rl.loginCheck(req);
                 if (check.blocked) return rl.blockedResponse(res, check.remaining, 'To Many Bad Requests');
                 return res.render('pages/portal', { message: 'Username or Password is incorrect'});
-            } catch (e) {
+            } catch (e: any) {
                 if (e instanceof Error) return handelErrors(next, e, req);
                 return rl.blockedResponse(res, e.msBeforeNext, 'To Many Bad Requests');
             }

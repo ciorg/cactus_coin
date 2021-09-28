@@ -65,8 +65,8 @@ async function main() {
    
     app.use(express.static('static'));
     
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use(favicon(path.join(__dirname, '..', 'static', 'imgs', 'cc_logo.ico')));
     
     app.use(authenticate);
