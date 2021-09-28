@@ -18,14 +18,7 @@ class LimiterWrapper {
         this.configs = new Configs();
         const { url, database} = this.configs.getMongoConfigs();
 
-        mongoose.connect(
-            `mongodb://${url}/${database}`,
-            {
-                useCreateIndex: true,
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            }
-        );
+        mongoose.connect(`mongodb://${url}/${database}`);
 
         this.logger = new Logger();
 
