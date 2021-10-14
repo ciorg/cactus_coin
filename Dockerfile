@@ -41,10 +41,17 @@ RUN yarn --production
 
 # Copy js files and change ownership to user node
 COPY --chown=node:node --from=builder /app/dist ./dist
-COPY static views categories.json config.yaml ./
+
+RUN mkdir ./static
+RUN mkdir ./views
+
+COPY static ./static
+COPY views ./views
+
+COPY categories.json config.yaml ./
 
 # Open desired port
 EXPOSE ${PORT}
 
 # Use PM2 to run the application as stated in config file
-CMD ["yarn", "start-app"]
+# CMD ["node", "./dist/index.js"]
