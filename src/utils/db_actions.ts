@@ -11,16 +11,17 @@ class Actions {
         this.model = model;
     }
 
-    protected async _modelAction(action: string, params: any): Promise<I.Result> {
+    protected async _modelAction(action: string, params: any, fields?: any): Promise<I.Result> {
         const result: I.Result = { res: null };
         
         try {
-            const res: Document[] = await this.model[action](params);
+            const res: Document[] = await this.model[action](params, fields);
             
             this.log.debug(`successfully completed ${action} for ${JSON.stringify(params)}`);
             
             result.res = res;
         } catch(e: any) {
+            console.log(JSON.stringify(e, null, 4));
             this.log.error(e.message, { err: e });
             result.error = true;
         }
@@ -28,8 +29,8 @@ class Actions {
         return result;
     }
 
-    create(params: any) {
-        return this._modelAction('create', params);
+    create(params: any, fields?: any) {
+        return this._modelAction('create', params, fields);
     };
 
     async update(id: string, params: any): Promise<I.Result> {
@@ -81,8 +82,8 @@ class Actions {
         return this._modelAction('deleteOne', { _id: id });
     }
 
-    search(field: string, value: any) {
-        return this._modelAction('find', { [field]: value });
+    search(params: {[key: string]: any }, fields = {}) {
+        return this._modelAction('find', params, fields);
     }
 
     searchById(id: string) {

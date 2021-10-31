@@ -9,6 +9,7 @@ import webStats from './web_stats';
 import cryptoData from './crypto_data';
 import coinPurchase from './crypto_home';
 import notes from './notes';
+import cactusCoin from './cactus_coin';
 import Logger from '../utils/logger';
 
 const log = new Logger();
@@ -24,6 +25,7 @@ router.use(webStats);
 router.use(cryptoData);
 router.use(coinPurchase);
 router.use(notes);
+router.use(cactusCoin);
 
 router.get('/error', (req: Request, res: Response) => {
     log.error('bad request', { err: new Error('bad request'), req })

@@ -14,6 +14,7 @@ const cryptoPurchase = new CryptoPurchase();
 
 const router = express.Router()
 
+
 router.get(
     '/home',
     connectEnsureLogin.ensureLoggedIn('/'),

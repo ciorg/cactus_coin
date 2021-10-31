@@ -1,6 +1,5 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
 import favicon from 'serve-favicon';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -40,7 +39,10 @@ async function main() {
                     "'unsafe-inline'",
                     'api.coingecko.com/api/v3/coins/',
                     's3.tradingview.com/tv.js',
-                    'assets.coingecko.com/coins/images/'
+                    'assets.coingecko.com/coins/images/',
+                    'api.mapbox.com',
+                    'events.mapbox.com',
+                    'data:'
                 ],
                 'frame-src': [
                     's.tradingview.com/'
@@ -53,12 +55,23 @@ async function main() {
                     'cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
                     'cdn.jsdelivr.net/npm/marked/marked.min.js',
                     's3.tradingview.com/tv.js',
+                    'api.mapbox.com',
                     "'unsafe-inline'",
                     "'self'"
                 ],
                 'script-src-attr': ["'unsafe-inline'", 'https:'],
                 'font-src': ["'self'", 'https: data:'],
-                'style-src': ["'self'", 'https:', "'unsafe-inline'"]
+                'style-src': [
+                    "'self'",
+                    'https:',
+                    "'unsafe-inline'",
+                    'api.mapbox.com',
+                    'mapbox://styles'
+                ],
+                'worker-src': [
+                    'blob:',
+                    'https://api.mapbox.com'
+                ]
             }
         }
     }));

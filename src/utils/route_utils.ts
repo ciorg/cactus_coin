@@ -12,10 +12,10 @@ class RB {
         return `${prefix}_${fileName}`;
     }
 
-    imgStorage() {
+    imgStorage(dirName: string) {
         return multer.diskStorage({
             destination: (req: Request, file, cb) => {
-                cb(null, path.join(process.cwd(), 'static', 'rb_imgs'));
+                cb(null, path.join(process.cwd(), 'static', dirName));
             },
             filename: (req: Request, file, cb) => {
                 cb(null, this.uniqFileName(file.originalname));

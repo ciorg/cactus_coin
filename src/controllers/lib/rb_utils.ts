@@ -8,7 +8,7 @@ import Actions from '../../utils/db_actions';
 import * as useful from '../../utils/useful_funcs';
 
 
-class Utils {
+class RbUtils {
     rbActions: Actions;
     ratingActions: Actions;
 
@@ -47,7 +47,7 @@ class Utils {
 
     async addRbName(docArray: I.Rating[]) {
         for (const i of docArray) {
-            const result = await this.rbActions.search('_id', i.rb_id);
+            const result = await this.rbActions.search({ _id: i.rb_id });
 
             if (result.error) continue;
             if (result.res.length === 0) continue;
@@ -82,7 +82,7 @@ class Utils {
     }
 
     getRatingsByRbId(rbId: string) {
-        return this.ratingActions.search('rb_id', rbId);
+        return this.ratingActions.search({ rb_id: rbId });
     }
 
     async getTotalAvg(rbDocs: I.RootBeer[]) {
@@ -186,4 +186,4 @@ class Utils {
 
 }
 
-export = Utils;
+export = RbUtils;

@@ -20,7 +20,7 @@ class DB {
         const url = `mongodb://${this.configs.url}:${this.configs.port}/${this.configs.database}`;
 
         try {
-            this.db = await mongoose.connect(url);
+            this.db = await mongoose.createConnection(url);
         } catch(e: unknown) {
             this.logger.fatal('could not connect to db', { err: e });
         }
