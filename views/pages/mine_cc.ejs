@@ -14,7 +14,7 @@
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
             <div class="cc_links">
-                <a href=# onClick="bigGeoMap('cactus_map', 'close', '<%- allCoords %>')">Cactus Map</a>
+                <a href=# onClick="bigGeoMap('big_map', 'close', '<%- allCoords %>')">Cactus Map</a>
             </br>
                 <a href="#" onclick="viewHideClass('add_cactus')">Add New Cactus</a>
             </div>
@@ -30,50 +30,39 @@
                 </form>
             </div>
             <div class="cactus_imgs">
-                <table id="cactus_table">
-                    <thead>
-                        <tr>
-                            <th>Submitted</th>
-                            <th>Taken</th>
-                            <th>Image</th>
-                            <th>Lon, Lat</th>
-                            <th>Checked</th>
-                            <th>Valid</th>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for ( const c of cacti) {%>
-                    <tr>
-                        <td><%- c.created %> </td>
-                        <td><%- c.img_date %> </td>
-                        <td>
-                            <a href="#" onClick="geoPopUp('cactus_map', 'close', '<%-c.truncated_geo %>')">
-                                <img src="data:image/jpg;charset=utf-8;base64,<%- c.image %>" alt="Cactus">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="#" onClick="geoPopUp('cactus_map', 'close', '<%-c.truncated_geo %>')">
-                                <%- c.truncated_geo.join(', ') %>
-                            </a>
-                        </td>
-                        <td><%- c.checked %></td>
-                        <td><%- c.valid %></td>
-                    </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                <% for ( const c of cacti) {%>
+                    <a href="#" onClick="geoPopUp(
+                        'cactus_map',
+                        'close',
+                        '<%-c.truncated_geo %>',
+                        '<%- c.created %>',
+                        '<%- c.checked %>',
+                        '<%- c.valid %>',
+                        '<%- c.image %>'
+                    )">
+                        <img src="data:image/jpg;charset=utf-8;base64,<%- c.image %>" alt="Cactus">
+                    </a>
+                <% } %>
             </div>
             <div id="cactus_map" class="modal">
                 <div class="modal-content"  style="text-align: center;">
                     <span class="close corner_x">&times;</span>
                     <div id="map" class="map"></div>
+                    <div class="c_side">
+                        <div id="c_data" class="c_data"></div>
+                        <div id="c_img" class="c_img"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="big_map" class="modal">
+                <div class="modal-content"  style="text-align: center;">
+                    <span class="close corner_x">&times;</span>
+                    <div id="inner_big_map" class="big_map"></div>
                 </div>
             </div>
             <%- include('../partials/footer'); %>
         </div>
         <script src="javascript/toggle_class_display.js"></script>
         <script src="javascript/pop_out_window.js"></script>
-        <script src="javascript/cactus_table.js"></script>
     </body>
 </html>

@@ -52,7 +52,7 @@
     color: #83a9cc
 }
 
-.add_transaction {
+.add_stuff {
     margin: auto;
     width: 40%;
     text-align: center;
@@ -64,29 +64,29 @@
     background-color: rgba(245, 236, 158, 0.4);
 }
 
-.add_transaction button{
+.add_stuff button{
     background-color: white;
 }
 
-.add_transaction button:focus {
+.add_stuff button:focus {
     background-color: #ffc800;
 }
 
-.add_transaction button:hover {
+.add_stuff button:hover {
     background-color: #ffc800;
     font-weight: bold;
 }
 
-.add_transaction input:focus {
+.add_stuff input:focus {
     color: #d44c04;
     background-color: #ffc800;;
 }
 
-.add_transaction input[type="text"] {
+.add_stuff input[type="text"] {
     height: 2.8em;
 }
 
-.add_transaction input[type="date"] {
+.add_stuff input[type="date"] {
     height: 2.2em;
 }
 
@@ -98,7 +98,7 @@
     margin-bottom: 5px;
 }
 
-.add_transaction button {
+.add_stuff button {
     margin-top: 5px;
 }
 

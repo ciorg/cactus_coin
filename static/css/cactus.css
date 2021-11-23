@@ -70,36 +70,15 @@ button:hover {
     margin: auto;
 }
 
-.cactus_imgs table {
-    font-size: 1.1em;
-    text-align: center;
-    background-color: white;
-}
-
-.cactus_imgs table th {
-    text-align: center;
-    background-color: #569b3f;
-    color: white;
-}
-
-.crypto_market table, th, tr, td {
-    border: 2px solid #cbcbcb;
-    border-collapse: collapse;
-}
-
-.crypto_market table tr {
-    line-height: 4em;
-}
-
 .cactus_imgs img {
     width: 100px;
     height: 100px;
     vertical-align: bottom;
-    -webkit-transform:rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    transform: rotate(90deg);
+}
+
+.cactus_imgs img:hover {
+    border: 1px solid white;
+    opacity: 80%;
 }
 
 .modal {
@@ -125,11 +104,47 @@ button:hover {
 }
 
 .map {
-    height: 85%;
+    height: 90%;
+    width: 80%;
+    float: left;
+    margin: auto;
+    margin-top: 2.5em;
+}
+
+.big_map {
+    height: 90%;
     width: 100%;
     position: relative;
     margin: auto;
-    margin-top: 2%;
+    margin-top: 2.5em;
+}
+
+.c_side {
+    height: 90%;
+    width: 19%;
+    position: relative;
+    float: right;
+}
+
+.c_data {
+    position: relative;
+    color: white;
+    font-size: 0.8em;
+    height: 30%;
+    background-color: #569b3f;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.c_img {
+    height: 100%;
+    width: 100%;
+    margin-top: 10%;
+}
+
+.c_img img {
+    height: 60%;
+    width: 100%;
 }
 
 .marker {

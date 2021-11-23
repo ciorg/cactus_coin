@@ -2,6 +2,7 @@ import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import CryptoTransactionModel from '../models/crypto_transaction';
 import CryptoData from './crypto_data';
+import Pool from './pool';
 import * as useful from '../utils/useful_funcs';
 
 import * as I from '../interfaces';
@@ -9,16 +10,19 @@ import * as I from '../interfaces';
 class CoinPurchase {
     action: Actions;
     cryptoData: CryptoData;
+    pool: Pool;
 
     constructor() {
         this.action = new Actions(CryptoTransactionModel);
         this.cryptoData = new CryptoData();
+        this.pool = new Pool();
     }
 
     async create(req: Request) {
         const { user }: any = req;
 
         const coinId = await this.cryptoData.getCoinId(req.body.coin);
+        const poolId = await this.pool.getId(req.body.pool);
        
         const coinPurchaseData = {
             date: req.body.date,
@@ -28,7 +32,8 @@ class CoinPurchase {
             size: req.body.size,
             fee: req.body.fee,
             user_id: user._id,
-            type: req.body.type
+            type: req.body.type,
+            pool_id: poolId.res
 
         };
     

@@ -22,11 +22,13 @@ function showModal(modalId, modalClose) {
     });
 }
 
-function geoPopUp(modalId, modalClose, geoPoint) {
+function geoPopUp(modalId, modalClose, geoPoint, created, checked, valid, img) {
+    console.log(created, checked, valid);
     const modal = document.getElementById(modalId);
 
     modal.style.display = "block";
     mapCactus(geoPoint);
+    addData(geoPoint, created, checked, valid, img);
 
     const span = document.getElementsByClassName(modalClose);
 
@@ -48,6 +50,23 @@ function geoPopUp(modalId, modalClose, geoPoint) {
             modal.style.display = "none";
         }
     });
+}
+
+function addData(geoPoint, created, checked, valid, img) {
+    const dataId = document.getElementById('c_data');
+    const [lon, lat] = geoPoint.split(',');
+
+    dataId.innerHTML = `
+        <p>Created: ${created}</p>
+        <p>lat: ${lat}</p>
+        <p>lon: ${lon}</p>
+        <p>Checked: ${checked}</p>
+        <p>Mined: ${valid}</p>
+    `;
+
+    const dataImgId = document.getElementById('c_img');
+
+    dataImgId.innerHTML = `<img src="data:image/jpg;charset=utf-8;base64,${img}" alt="Cactus"></img>`;
 }
 
 function mapCactus(coords) {
@@ -101,7 +120,7 @@ function mapAll(cactusData) {
     mapboxgl.accessToken = 'pk.eyJ1IjoiY2lvcmciLCJhIjoiY2t2MTVpd3U3MTdsdjJvdGMxenB3eTIxeiJ9.zxzzAN2jGN-_zAW_0H55-A';
     
     const map = new mapboxgl.Map({
-        container: 'map', // container ID
+        container: 'inner_big_map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
         center: [-111.5, 33.5], // starting position [lng, lat]
         zoom: 5.5 // starting zoom

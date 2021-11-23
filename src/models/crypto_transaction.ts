@@ -32,6 +32,10 @@ const CoinPurchaseSchema = new Schema({
     type: {
         type: String,
         required: true
+    },
+    pool_id: {
+        type: String,
+        required: true
     }
 });
 

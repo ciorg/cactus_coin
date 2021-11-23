@@ -108,10 +108,10 @@ class CactusImg {
                 return {
                     created: formatDate(r.created),
                     image: r.image.toString('base64'),
-                    valid,
-                    checked: r.checked === true ? 'yes' : 'no',
                     img_date: formatDate(r.img_date),
                     truncated_geo: r.truncated_geo,
+                    valid,
+                    checked: r.checked === true ? 'yes' : 'no',
                     id: r._id
                 }
             });

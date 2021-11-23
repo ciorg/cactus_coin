@@ -40,8 +40,9 @@
             </div>
             <div class="portfolio_links">
                 <a href="#" onclick="viewHideClass('add_transaction')">Add Transaction</a>
+                <a href="#" onclick="viewHideClass('add_pool')">Add Pool</a>
             </div>
-            <div class="add_transaction" id="add_transaction">
+            <div class="add_stuff" id="add_transaction">
                 <form class="pure-form" action="/add_crypto_transaction" method="post" id="add_transaction">
                     <fieldset>
                         <div class="top_input">
@@ -49,8 +50,8 @@
                             <datalist id="coin_symbols">
                                 <% for (const coin of coins) { %>
                                     <option value="<%- coin %>">
-                                        <% } %>
-                                    </datalist>
+                                <% } %>
+                            </datalist>
                                     
                             <input type="text" name="exchange" id="exchange" placeholder="Exchange" required required class="pure-input-1-4"/>
                             <input type="date" name="date" placeholder="Select Date of Purchase" class="pure-input-1-4" />
@@ -67,9 +68,29 @@
                             <option value="buy">
                             <option value="sell">
                         </datalist>
+                        <input list="pools" name="pool" id="pool" placeholder="Pool" required class="pure-input-1-4">
+                        <datalist id="pools">
+                            <% for (const pool of pools) { %>
+                                <option value="<%- pool %>">
+                            <% } %>
+                        </datalist>
                         <br>
                         <button type="submit" value="add_transaction" class="pure-button" id="portfolio_button" required>
                             Save Transaction
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="add_stuff" id="add_pool">
+                <form class="pure-form" action="/add_pool" method="post" id="add_pool">
+                    <fieldset>
+                        <div class="top_input">
+                            <input type="text" name="pool_name" id="pool_name" placeholder="Name" required required class="pure-input-1-4"/>
+                            <input type="text" name="pool_description" placeholder="Add A Description" class="pure-input-1-4" />
+                        </div>
+                        <br>
+                        <button type="submit" value="add_pool" class="pure-button" id="portfolio_button" required>
+                            Save Pool
                         </button>
                     </fieldset>
                 </form>
