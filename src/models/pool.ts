@@ -16,6 +16,15 @@ const PoolSchema = new Schema({
     user_id: {
         type: String,
         required: true
+    },
+    type: {
+        type: String,
+        enum: [
+            'loan',
+            'reinvestment',
+            'fiat'
+        ],
+        required: true
     }
 });
 

@@ -54,7 +54,7 @@ class CoinPurchase {
        
         const [currentPrices, cacheTime] = await this.getCurrentPrice(Object.keys(transactionsByCoin));
 
-        const summary = this.createSummary(transactionsByCoin, currentPrices);
+        const summary = await this.createSummary(transactionsByCoin, currentPrices);
 
         const grandTally = this.grandTally(summary);
 
@@ -91,33 +91,54 @@ class CoinPurchase {
         return [currentPrices, cache_time];
     }
 
-    createSummary(transactionsByCoin: I.TransactionsByCoin, currentPrices: I.CurrentPrices): I.TransactionsWithSummary[] {
+    async createSummary(
+        transactionsByCoin: I.TransactionsByCoin,
+        currentPrices: I.CurrentPrices
+        ): Promise<I.TransactionsWithSummary[]> {
         const transactionsWithSummary: I.TransactionsWithSummary[] = [];
 
         for (const [coin_id, transactions] of Object.entries(transactionsByCoin)) {
-            const transactionTally = this.tallyTransactions(transactions);
+            const transactionTally = await this.tallyTransactions(transactions);
 
             const [currentPrice, symbol] = currentPrices[coin_id];
 
             if (currentPrice == null) continue;
 
-            const currentValue = (currentPrice * transactionTally.coins_owned);
-            const pPriceDiff = ((currentPrice - transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100;
+            const {
+                loan,
+                fiat,
+                reinvestment,
+                cost,
+                own,
+                sold,
+                soldValue
+            } = transactionTally;
+
+            const currentValue = (currentPrice * own);
+
+            const avgPurchasePrice = cost > 0 ? cost / own : 0.00;
+
+            const pPriceDiff = cost > 0 ? ((currentPrice - avgPurchasePrice) / avgPurchasePrice) * 100 : 0.00;
 
             transactionsWithSummary.push({
                 summary: {
-                    owned: useful.setDecimals(transactionTally.coins_owned),
+                    own: useful.setDecimals(own),
                     current_price: useful.toCurrency(currentPrice),
-                    avg_price: useful.toCurrency(transactionTally.avg_purchase_price),
+                    avg_price: useful.toCurrency(avgPurchasePrice),
                     price_diff: useful.setDecimals(pPriceDiff, 2),
                     current_value: useful.toCurrency(currentValue),
-                    total_spent: useful.toCurrency(transactionTally.total_cost),
-                    sold: useful.toCurrency(transactionTally.realized_gain),
-                    diff: useful.toCurrency(currentValue - transactionTally.total_cost + transactionTally.realized_gain),
+                    cost: cost > 0 ? useful.toCurrency(cost) : useful.toCurrency(0),
+                    loan: useful.toCurrency(loan),
+                    fiat: useful.toCurrency(fiat),
+                    reinvestment: useful.toCurrency(reinvestment),
+                    cost_cv_diff: useful.toCurrency(currentValue - cost),
+                    sold: useful.setDecimals(sold),
+                    sold_value: useful.toCurrency(soldValue),
+                    avg_sell_price: useful.toCurrency(soldValue / sold),
                     symbol,
                     coin_id
                 },
-                transactions: this.formatTransactions(transactions)
+                transactions: await this.formatTransactions(transactions)
             });
         }
 
@@ -126,42 +147,60 @@ class CoinPurchase {
         return transactionsWithSummary;
     }
 
-    tallyTransactions(transactions: I.Transaction[]): I.TransactionsTally {
-        let realizedGain = 0;
+    async tallyTransactions(transactions: I.Transaction[]): Promise<I.TransactionsTally> {
+        let loan = 0;
+        let fiat = 0;
+        let reinvestment = 0;
         let coinsSold = 0;
         let cost = 0;
         let coinsBought = 0;
+        let soldValue = 0;
 
         for (const transaction of transactions) {
+            const poolType = await this.pool.getType(transaction.pool_id);
+
             const tValue = (transaction.price * transaction.size) - transaction.fee;
 
             if (transaction.type === 'buy') {
                 cost += tValue;
                 coinsBought += transaction.size;
+                if (poolType === 'loan') loan += tValue;
+                if (poolType === 'fiat') fiat += tValue;
+                if (poolType === 'reinvestment') reinvestment -= tValue;
             }
             
             if (transaction.type === 'sell') {
-                realizedGain += tValue;
                 coinsSold += transaction.size;
+                soldValue += tValue;
+                cost -= tValue;
+                if (poolType === 'loan') loan -= tValue;
+                if (poolType === 'fiat') fiat -= tValue;
+                if (poolType === 'reinvestment') reinvestment += tValue;
             }
         }
 
         return {
-            realized_gain: realizedGain,
-            avg_purchase_price: cost / coinsBought,
-            total_cost: cost,
-            coins_owned: coinsBought - coinsSold
+            loan,
+            fiat,
+            reinvestment,
+            cost,
+            own: coinsBought - coinsSold,
+            sold: coinsSold,
+            soldValue
         };
     }
 
-    formatTransactions(transactions: I.Transaction[]) {
+    async formatTransactions(transactions: I.Transaction[]) {
         const formatedTransactions: any[][] = [];
 
         for (const trans of transactions) {
+            const poolName = await this.pool.getName(trans.pool_id);
+
             formatedTransactions.push([
                 useful.formatDate(trans.date),
                 trans.exchange,
                 trans.type,
+                poolName,
                 useful.setDecimals(trans.size, 4),
                 useful.toCurrency(trans.price),
                 useful.toCurrency(trans.price * trans.size),
@@ -175,24 +214,29 @@ class CoinPurchase {
     }
 
     grandTally(summaries: I.TransactionsWithSummary[]): I.GrandTally {
-        let totalValue = 0;
-        let invested = 0;
-        let totalSold = 0;
+        let portfolioValue = 0;
+        let fiat = 0;
+        let loan = 0;
+        let reinvestment = 0;
 
         for (const sum of summaries) {
-            totalValue += useful.currencyToNumber(sum.summary.current_value);
-            invested += useful.currencyToNumber(sum.summary.total_spent);
-            totalSold += useful.currencyToNumber(sum.summary.sold);
+            portfolioValue += useful.currencyToNumber(sum.summary.current_value);
+            fiat += useful.currencyToNumber(sum.summary.fiat);
+            loan += useful.currencyToNumber(sum.summary.loan);
+            reinvestment += useful.currencyToNumber(sum.summary.reinvestment);
         }
 
-        const diff = totalValue - invested + totalSold;
+        const totalCost = fiat + loan;
+
+        portfolioValue += reinvestment;
 
         return {
-            total_value: useful.toCurrency(totalValue),
-            invested: useful.toCurrency(invested),
-            total_sold: useful.toCurrency(totalSold),
-            diff: useful.toCurrency(diff),
-            p_gain: useful.setDecimals((diff / invested) * 100, 2)
+            portfolio_value: useful.toCurrency(portfolioValue),
+            total_cost: useful.toCurrency(totalCost),
+            current_value: useful.toCurrency(portfolioValue - (fiat + loan)),
+            p_gain: useful.setDecimals(((portfolioValue / totalCost) - 1) * 100, 2),
+            loan: useful.toCurrency(loan),
+            reinvestment: useful.toCurrency(reinvestment)
         };
     }
 }

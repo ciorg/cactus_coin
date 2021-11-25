@@ -18,6 +18,7 @@ class Pool {
             created: new Date(),
             name: req.body.pool_name,
             description: req.body.pool_description,
+            type: req.body.pool_type,
             user_id: user._id
         };
     
@@ -26,6 +27,16 @@ class Pool {
 
     async delete(req: Request) {
         return this.action.delete(req.params.id);
+    }
+
+    async getName(id: string) {
+        const resp = await this.action.search({ _id: id }, { name: 1 });
+
+        if (resp.res) {
+            return resp.res[0].name;
+        }
+
+        throw Error('could not execute search');
     }
 
     async getId(name: string) {
@@ -45,6 +56,16 @@ class Pool {
 
         result.error = true;
         return result;
+    }
+
+    async getType(id: string): Promise<string> {
+        const resp = await this.action.search({ _id: id }, { type: 1 });
+
+        if (resp.res) {
+            return resp.res[0].type;
+        }
+
+        throw Error('could not execute search');
     }
 
 

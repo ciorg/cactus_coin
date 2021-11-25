@@ -12,28 +12,30 @@
                 <table class="pure-table">
                     <thead>
                         <tr>
-                            <th>Current Value</th>
-                            <th>Invested</th>
-                            <th>Realized</th>
-                            <th>iProfit</th>
+                            <th>Total Value</th>
+                            <th>Cost</th>
+                            <th>Loan</th>
                             <th>% &#8710</th>
+                            <th>iProfit</th>
+                            <th>Reinvestment</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><%- grand_tally.total_value %></td>
-                            <td><%- grand_tally.invested %></td>
-                            <td><%- grand_tally.total_sold %></td>
-                            <% if (grand_tally.diff.includes('-')) { %>
-                                <td class="down"><%- grand_tally.diff %></td>
-                                <% } else {%>
-                                <td class="up"><%- grand_tally.diff %></td>
-                            <% } %>
+                            <td><%- grand_tally.portfolio_value %></td>
+                            <td><%- grand_tally.total_cost %></td>
+                            <td><%- grand_tally.loan %></td>
                             <% if (Number(grand_tally.p_gain) > 0) { %>
                                 <td class="up"><%- grand_tally.p_gain %></td>
                                 <% } else {%>
                                 <td class="down"><%- grand_tally.p_gain %></td>
                             <% } %>
+                            <% if (grand_tally.current_value.includes('-')) { %>
+                                <td class="down"><%- grand_tally.current_value %></td>
+                                <% } else {%>
+                                <td class="up"><%- grand_tally.current_value %></td>
+                            <% } %>
+                            <td><%- grand_tally.reinvestment %></td>
                         </tr>    
                     </tbody>
                 </table>
@@ -87,6 +89,12 @@
                         <div class="top_input">
                             <input type="text" name="pool_name" id="pool_name" placeholder="Name" required required class="pure-input-1-4"/>
                             <input type="text" name="pool_description" placeholder="Add A Description" class="pure-input-1-4" />
+                            <input list="pool_types" name="pool_type" id="pool_type" placeholder="Fiat" required class="pure-input-1-4">
+                            <datalist id="pool_types">
+                                <option value="fiat">
+                                <option value="loan">
+                                <option value="reinvestment">
+                            </datalist>
                         </div>
                         <br>
                         <button type="submit" value="add_pool" class="pure-button" id="portfolio_button" required>
@@ -101,13 +109,12 @@
                         <tr>
                             <th>Coin</th>
                             <th>Price</th>
-                            <th>Owned</th>
                             <th>P.Price</th>
-                            <th>% &#8710</th>
+                            <th>Number</th>
                             <th>CV</th>
                             <th>Invested</th>
-                            <th>Realized</th>
-                            <th>iProfit</th>
+                            <th>% &#8710</th>
+                            <th>$ &#8710</th>
                             <th>Deets</th>
                         </tr>
                     </thead>
@@ -116,20 +123,19 @@
                         <tr>
                             <td><a href="/crypto/coin/<%-t.summary.coin_id%>"><%- t.summary.symbol.toUpperCase() %></a></td>
                             <td><%- t.summary.current_price %></td>
-                            <td><%- t.summary.owned %></td>
                             <td><%- t.summary.avg_price %></td>
+                            <td><%- t.summary.own %></td>
+                            <td><%- t.summary.current_value %></td>
+                            <td><%- t.summary.cost %></td>
                             <% if (Number(t.summary.price_diff) > 0) { %>
                                 <td class="up"><%- t.summary.price_diff %></td>
                                 <% } else {%>
                                 <td class="down"><%- t.summary.price_diff %></td>
                             <% } %>
-                            <td><%- t.summary.current_value %></td>
-                            <td><%- t.summary.total_spent %></td>
-                            <td><%- t.summary.sold %></td>
-                            <% if (t.summary.diff.includes('-')) { %>
-                                <td class="down"><%- t.summary.diff %></td>
+                            <% if (t.summary.cost_cv_diff.includes('-')) { %>
+                                <td class="down"><%- t.summary.cost_cv_diff %></td>
                                 <% } else {%>
-                                <td class="up"><%- t.summary.diff %></td>
+                                <td class="up"><%- t.summary.cost_cv_diff %></td>
                             <% } %>
                             <td>
                                 <a href="#"
@@ -143,6 +149,7 @@
                             <th>Date</th>
                             <th>Exchange</th>
                             <th>Type</th>
+                            <th>Pool</th>
                             <th>Amount</th>
                             <th>Price</th>
                             <th>Total</th>
@@ -157,7 +164,8 @@
                             <td><%- y[3] %></td>
                             <td><%- y[4] %></td>
                             <td><%- y[5] %></td>
-                            <td><a href="/transactions/<%- y[6] %>/delete">Del</a></td>
+                            <td><%- y[6] %></td>
+                            <td><a href="/transactions/<%- y[7] %>/delete">Del</a></td>
                         </tr>
                         <% } %>
                     <% } %>
