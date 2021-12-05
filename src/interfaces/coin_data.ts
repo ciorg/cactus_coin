@@ -44,7 +44,7 @@ export interface Transaction {
 
 export interface TransactionsWithSummary {
     summary: Summary;
-    transactions: any[][];
+    transactions: string;
 }
 
 export interface Summary {
@@ -86,4 +86,5 @@ export interface GrandTally {
     p_gain: string,
     loan: string;
     reinvestment: string;
+    fiat: string;
 }

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const CoinPurchaseSchema = new Schema({
+const CoinTransactionSchema = new Schema({
     date: {
         type: Date,
         required: true
@@ -39,6 +39,6 @@ const CoinPurchaseSchema = new Schema({
     }
 });
 
-const CoinPurchaseModel = mongoose.model('coin_purchases', CoinPurchaseSchema);
+const CoinTransactionModel = mongoose.model('coin_purchases', CoinTransactionSchema);
 
-export = CoinPurchaseModel;
+export = CoinTransactionModel;
