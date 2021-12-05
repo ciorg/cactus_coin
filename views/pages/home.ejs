@@ -12,58 +12,58 @@
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
             <div class="grand_tally pure-g">
-                <div class="grand_tally_data pure-u-1-4">
-                    <div class="grand_tally_header"><p>Total Value</p></div>
-                   <div class="grand_tally_value"><p><%- grand_tally.portfolio_value %></p></div>
-                </div>
-                <div class="grand_tally_data pure-u-1-4">
-                    <div class="grand_tally_header"><p>Total Invested</p></div>
-                    <div class="grand_tally_value"><p><%- grand_tally.total_cost %></p></div>
-                </div>
-                <div class="grand_tally_data pure-u-1-4">
-                    <div class="grand_tally_header"><p>% &#8710</p></div>
-                    <% if (Number(grand_tally.p_gain) > 0) { %>
-                        <div class="grand_tally_value_up">
-                            <p><%- grand_tally.p_gain %> %</p>
-                        </div>
-                        <% } else {%>
-                        <div class="grand_tally_value_down">
-                            <p><%- grand_tally.p_gain %> %</p>
-                        </div>
-                    <% } %>
-                </div>
-                <div class="grand_tally_data pure-u-1-4">
-                    <div class="grand_tally_header"><p>$ Gain</p></div>
-                    <% if (grand_tally.current_value.includes('-')) { %>
-                        <div class="grand_tally_value_down">
-                            <p><%- grand_tally.current_value %></p>
-                        </div>
-                        <% } else {%>
-                        <div class="grand_tally_value_up">
-                            <p class="up"><%- grand_tally.current_value %></p>
-                        </div>
-                    <% } %>
-                </div>
-                <div class="grand_tally_data pure-u-1-2">
-                    <table class="pure-table">
-                        <tr>
-                            <td id="pool_type" >Fiat</td>
-                            <td><%= grand_tally.fiat %></td>
-                        </tr>
-                        <tr>
-                            <td id="pool_type" >Loan</td>
-                            <td><%= grand_tally.loan %></td>
-                        </tr>
-                        <tr>
-                            <td id="pool_type" >ReInvest</td>
-                            <td><%= grand_tally.reinvestment %></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="grand_tally_data pure-u-1-2">
-                    <div style="width: 100%">
-                        <div id="pie_chart"></div>
+                <div class="pure-u-1-2" style="float: left">
+                    <div class="grand_tally_data pure-u-1-2">
+                        <div class="grand_tally_header"><p>Total Value</p></div>
+                       <div class="grand_tally_value"><p><%- grand_tally.portfolio_value %></p></div>
                     </div>
+                    <div class="grand_tally_data pure-u-1-2">
+                        <div class="grand_tally_header"><p>Total Invested</p></div>
+                        <div class="grand_tally_value"><p><%- grand_tally.total_cost %></p></div>
+                    </div>
+                    <div class="grand_tally_data pure-u-1-2">
+                        <div class="grand_tally_header"><p>% &#8710</p></div>
+                        <% if (Number(grand_tally.p_gain) > 0) { %>
+                            <div class="grand_tally_value_up">
+                                <p><%- grand_tally.p_gain %> %</p>
+                            </div>
+                            <% } else {%>
+                            <div class="grand_tally_value_down">
+                                <p><%- grand_tally.p_gain %> %</p>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="grand_tally_data pure-u-1-2">
+                        <div class="grand_tally_header"><p>$ Gain</p></div>
+                        <% if (grand_tally.current_value.includes('-')) { %>
+                            <div class="grand_tally_value_down">
+                                <p><%- grand_tally.current_value %></p>
+                            </div>
+                            <% } else {%>
+                            <div class="grand_tally_value_up">
+                                <p class="up"><%- grand_tally.current_value %></p>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="pool_table pure-u-1-1">
+                        <table class="pure-table">
+                            <tr>
+                                <td id="pool_type" >Fiat</td>
+                                <td><%= grand_tally.fiat %></td>
+                            </tr>
+                            <tr>
+                                <td id="pool_type" >Loan</td>
+                                <td><%= grand_tally.loan %></td>
+                            </tr>
+                            <tr>
+                                <td id="pool_type" >ReInvest</td>
+                                <td><%= grand_tally.reinvestment %></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div id="pie_chart"></div>
                 </div>
             </div>
             <div class="portfolio_links">
@@ -203,7 +203,7 @@
 
                 var options = {
                     chart: {
-                        width: 400,
+                        width: '100%',
                         type: 'donut',
                     },
                     series,

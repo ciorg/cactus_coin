@@ -27,16 +27,18 @@
 }
 
 .grand_tally_data {
-    margin-bottom: 10px;
+   width: 49.6%;
+   margin-bottom: 10px;
 }
 
-.grand_tally_data table {
+.pool_table table {
     margin: auto;
     background-color: white;
     font-size: 1.3em;
+    width: 100%
 }
 
-.grand_tally_data table tr td {
+.pool_table table tr td {
     border: 1px solid white;
     border-collapse: collapse;
 }
@@ -82,8 +84,8 @@
 }
 
 #pie_chart {
-    background-color: white;
-    width: 70%;
+    background:rgba(255,255,255,0.5);
+    width: 99%;
     margin: auto;
 }
 
