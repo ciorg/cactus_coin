@@ -39,6 +39,6 @@ const CoinTransactionSchema = new Schema({
     }
 });
 
-const CoinTransactionModel = mongoose.model('coin_purchases', CoinTransactionSchema);
+const CoinTransactionModel = mongoose.model('crypto_transactions', CoinTransactionSchema);
 
 export = CoinTransactionModel;

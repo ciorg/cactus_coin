@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="css/portfolio.css">
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     </head>
-    <body onload="makeChart()">
+    <body>
         <div class="pageBody">
             <%- include('../partials/nav_bar'); %>
             <div class="grand_tally pure-g">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="grand_tally_data pure-u-1-2">
                         <div class="grand_tally_header"><p>% &#8710</p></div>
-                        <% if (Number(grand_tally.p_gain) > 0) { %>
+                        <% if (Number(grand_tally.p_gain.replace(',', '')) > 0) { %>
                             <div class="grand_tally_value_up">
                                 <p><%- grand_tally.p_gain %> %</p>
                             </div>
@@ -48,15 +48,15 @@
                     <div class="pool_table pure-u-1-1">
                         <table class="pure-table">
                             <tr>
-                                <td id="pool_type" >Fiat</td>
+                                <td id="pool_type_td" >Fiat</td>
                                 <td><%= grand_tally.fiat %></td>
                             </tr>
                             <tr>
-                                <td id="pool_type" >Loan</td>
+                                <td id="pool_type_td" >Loan</td>
                                 <td><%= grand_tally.loan %></td>
                             </tr>
                             <tr>
-                                <td id="pool_type" >ReInvest</td>
+                                <td id="pool_type_td" >ReInvest</td>
                                 <td><%= grand_tally.reinvestment %></td>
                             </tr>
                         </table>
@@ -153,7 +153,7 @@
                             <td><%= t.summary.own %></td>
                             <td><%= t.summary.current_value %></td>
                             <td><%= t.summary.cost %></td>
-                            <% if (Number(t.summary.price_diff) >= 0) { %>
+                            <% if (Number(t.summary.price_diff.replace(',', '')) >= 0) { %>
                                 <td class="up"><%= t.summary.price_diff %></td>
                                 <% } else {%>
                                 <td class="down"><%= t.summary.price_diff %></td>
@@ -191,69 +191,9 @@
         <script src="javascript/pop_out_window.js"></script>
         <script src="javascript/toggle_class_display.js"></script>
         <script src="/javascript/transactions_table.js"></script>
+        <script src="/javascript/pie_chart.js"></script>
         <script>
-            function makeChart() {
-                const series = [];
-                const labels = [];
-
-                for (const t of <%- JSON.stringify(transactions) %>) {
-                    series.push(Number.parseFloat(t.summary.current_value.replace(/[^0-9.]/g, '')));
-                    labels.push(t.summary.symbol);
-                }
-
-                var options = {
-                    chart: {
-                        width: '100%',
-                        type: 'donut',
-                    },
-                    series,
-                    labels,
-                    legend: {
-                        show: true,
-                        position: 'bottom'
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        pie:{
-                            donut: {
-                                size: '65%',
-                                labels: {
-                                    show: true,
-                                    total: {
-                                        show: true,
-                                        label: 'Total',
-                                        formatter: (w) => {
-                                            const t = w.globals.seriesTotals.reduce((a, b) => {
-                                                return a + b
-                                            }, 0);
-
-                                            return Number(t).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    responsive: [
-                        {
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: 200
-                                },
-                                legend: {
-                                    position: 'bottom'
-                                }
-                            }
-                        }
-                    ]
-                };
-
-                const chart = new ApexCharts(document.querySelector("#pie_chart"), options);
-                chart.render();
-            };
+            document.addEventListener('DOMContentLoaded', makeChart(<%-JSON.stringify(transactions)%>));
         </script>
     </body>
 </html>
