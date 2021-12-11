@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import RatingModel from '../models/rating';
-import Utils from './lib/utils';
+import Utils from './lib/rb_utils';
 
 import * as I from '../interfaces';
 
@@ -43,13 +43,13 @@ class Ratings {
     }
 
     getRbRatings(req: Request) {
-        return this.action.search('rb_id', req.params.rb_id);
+        return this.action.search({ rb_id: req.params.rb_id });
     }
 
     async ratingsByUser(req: Request) {
         const { user }: any = req;
 
-        const ratings = await this.action.search('user', user._id);
+        const ratings = await this.action.search({ user: user._id });
 
         const ratingsDocs = this.utils.getDocs(ratings.res);
 

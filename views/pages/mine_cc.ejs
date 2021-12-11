@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); -%>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/cactus.css">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/css/data_table.css">
+        <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    </head>
+    <body>
+        <div class="pageBody">
+            <%- include('../partials/nav_bar'); %>
+            <div class="cc_links">
+                <a href=# onClick="bigGeoMap('big_map', 'close', '<%- allCoords %>')">Cactus Map</a>
+            </br>
+                <a href="#" onclick="viewHideClass('add_cactus')">Add New Cactus</a>
+            </div>
+            <div class="add_cactus" id="add_cactus">
+                <form class="pure-form" action="/submit_cactus" method="post" enctype="multipart/form-data" id="submit_cactus">
+                    <label>Select Your Image</label>
+                    </br>
+                    <input type="file" name="cactus_img" required accept=".png, .jpg, .jpeg" />
+                    </br>
+                    <button type="submit" value="submit_cactus" class="pure-button">
+                        Submit
+                    </button>
+                </form>
+            </div>
+            <div class="cactus_imgs">
+                <% for ( const c of cacti) {%>
+                    <a href="#" onClick="geoPopUp(
+                        'cactus_map',
+                        'close',
+                        '<%-c.truncated_geo %>',
+                        '<%- c.created %>',
+                        '<%- c.checked %>',
+                        '<%- c.valid %>',
+                        '<%- c.image %>'
+                    )">
+                        <img src="data:image/jpg;charset=utf-8;base64,<%- c.image %>" alt="Cactus">
+                    </a>
+                <% } %>
+            </div>
+            <div id="cactus_map" class="modal">
+                <div class="modal-content"  style="text-align: center;">
+                    <span class="close corner_x">&times;</span>
+                    <div id="map" class="map"></div>
+                    <div class="c_side">
+                        <div id="c_data" class="c_data"></div>
+                        <div id="c_img" class="c_img"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="big_map" class="modal">
+                <div class="modal-content"  style="text-align: center;">
+                    <span class="close corner_x">&times;</span>
+                    <div id="inner_big_map" class="big_map"></div>
+                </div>
+            </div>
+            <%- include('../partials/footer'); %>
+        </div>
+        <script src="javascript/toggle_class_display.js"></script>
+        <script src="javascript/pop_out_window.js"></script>
+    </body>
+</html>

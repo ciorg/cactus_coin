@@ -10,7 +10,7 @@ const routeUtils = new RUtils();
 const rb = new RB();
 const router = express.Router();
 
-const upload = multer({ storage: routeUtils.imgStorage() });
+const upload = multer({ storage: routeUtils.imgStorage('rb_imgs') });
 
 router.get('/rootbeer',
     connectEnsureLogin.ensureLoggedIn('/'),

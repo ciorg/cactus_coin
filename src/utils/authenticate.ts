@@ -18,7 +18,7 @@ const router = express.Router();
 const MongoStore = MongoDBStore(session);
 
 const store = new MongoStore({
-        uri: `mongodb://${mongoSettings.url}:27017/${mongoSettings.database}`,
+        uri: `mongodb://${mongoSettings.url}:${mongoSettings.port}/${mongoSettings.database}`,
         collection: 'sessions'
     },
     (error) => { if (error) mongoError(error) }

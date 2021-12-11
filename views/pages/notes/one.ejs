@@ -55,7 +55,7 @@
                 });
 
                 function toMarkDown(){
-                    document.getElementById('view_content').innerHTML = marked(<%-JSON.stringify(note.content)%>);
+                    document.getElementById('view_content').innerHTML = marked.parse(<%-JSON.stringify(note.content)%>);
                 }
             </script>
         </div>
