@@ -81,7 +81,7 @@ class CryptoData {
             res: undefined
         }
 
-        const response = await this.dbExchanges.search({ name });
+        const response = await this.dbExchanges.search('name', name);
 
         const { res } = response;
 
@@ -127,7 +127,7 @@ class CryptoData {
             res: undefined
         };
     
-        const response = await this.dbCoins.search({ symbol });
+        const response = await this.dbCoins.search('symbol', symbol);
 
         const { res } = response;
 
@@ -291,7 +291,7 @@ class CryptoData {
     }
 
     private async _getCategoriesFromCode(code: string): Promise<string[]> {
-        const result = await this.dbCats.search({ code });
+        const result = await this.dbCats.search('code', code);
 
         if (result.res.length > 0) {
             return result.res.map((res: any) => res.full);
@@ -301,7 +301,7 @@ class CryptoData {
     }
 
     private async _getCoinIdsInCategory(categories: string): Promise<string[]> {
-        const result = await this.dbCoins.search({ categories });
+        const result = await this.dbCoins.search('categories', categories);
 
         if (result.res.length === 0) return [];
     
@@ -309,7 +309,7 @@ class CryptoData {
     }
 
     private async _getCategories(coin_id: string): Promise<string[]> {
-        const result = await this.dbCoins.search({ coin_id });
+        const result = await this.dbCoins.search('coin_id', coin_id);
         
         if (result.res.length > 0) {
             const { categories } = result.res[0]
@@ -331,7 +331,7 @@ class CryptoData {
     }
 
     private async _getCodeFromCategory(category: string): Promise<string | null> {
-        const codeResult = await this.dbCats.search({ key: this._normalizeCategory(category) });
+        const codeResult = await this.dbCats.search('key', this._normalizeCategory(category));
 
         if (codeResult.res.length) {
             return codeResult.res[0].code;

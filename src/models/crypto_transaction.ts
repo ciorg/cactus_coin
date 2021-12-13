@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const CoinTransactionSchema = new Schema({
+const CoinPurchaseSchema = new Schema({
     date: {
         type: Date,
         required: true
@@ -32,13 +32,9 @@ const CoinTransactionSchema = new Schema({
     type: {
         type: String,
         required: true
-    },
-    pool_id: {
-        type: String,
-        required: true
     }
 });
 
-const CoinTransactionModel = mongoose.model('crypto_transactions', CoinTransactionSchema);
+const CoinPurchaseModel = mongoose.model('coin_purchases', CoinPurchaseSchema);
 
-export = CoinTransactionModel;
+export = CoinPurchaseModel;

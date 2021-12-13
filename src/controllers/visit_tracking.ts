@@ -29,7 +29,7 @@ class VisitTracker {
         this.ip_address.save(ipAddress);
     
         const reqData: Partial<I.VisitDetails> = {
-            timestamp: new Date().toISOString(),
+            timestamp: new Date(),
             ip_address: ipAddress,
             hostname: req.hostname,
             path: req.path
@@ -79,7 +79,8 @@ class VisitTracker {
     }
 
     private _getIpAddress(req: Request) {
-        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const ip = req.headers['x-forwarded-for'] || 
+            req.connection.remoteAddress || req.socket.remoteAddress;
 
         if (Array.isArray(ip)) return ip[0].trim();
 

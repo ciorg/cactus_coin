@@ -19,7 +19,6 @@ export interface WebSite {
 export interface Mongo {
     url: string;
     database: string;
-    port: number;
 }
 
 export interface Logger {
