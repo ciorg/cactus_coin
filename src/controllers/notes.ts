@@ -42,7 +42,7 @@ class Notes {
     async getUsersNotes(req: Request): Promise<I.Result> {
         const { user }: any = req;
 
-        const notes = await this.action.search('user', user._id);
+        const notes = await this.action.search({ user: user._id });
 
         return this.formatNotes(notes);
     }
@@ -69,7 +69,7 @@ class Notes {
     }
 
     async searchTag(req: Request): Promise<I.Result> {
-        const notes = await this.action.search('tags', req.params.tag);
+        const notes = await this.action.search({ tags: req.params.tag });
 
         return this.formatNotes(notes);
     }
