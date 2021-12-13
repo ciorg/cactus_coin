@@ -43,26 +43,12 @@ class SiteStats {
             tallyByOs: this._sortTallies(tallyByOs),
             tallyByBrowser: this._sortTallies(tallyByBrowser),
             tallyByIp: enhancedIp,
-            tallyByCountry: this._sortTallies(countByCountry)
+            tallyByCountry: this._sortTallies(countByCountry)        
         };
     }
 
     private async _mongoQuery(startDate: string) {
-        const botQuery = this.bot.platform_fields.reduce((bQ: any[], field) => {
-            const fieldQ = { [field]: { $ne: 'unknown' } };
-
-            bQ.push(fieldQ);
-
-            return bQ;
-        }, []);
-
-        return this.visit_actions.search(
-            { 
-                timestamp: { $gte: startDate },
-                path: { $ne: '/crypto/cached_markets' },
-                $or: botQuery
-            }
-        );
+        return this.visit_actions.search('timestamp', { $gte: startDate })
         // return Visit.find( { timestamp: { $gte: startDate } });
     }
 
@@ -171,7 +157,7 @@ class SiteStats {
         const enhancedIp:{ [prop: string]: [string, number] } = {};
     
         for (const ip of Object.keys(data)) {
-            const result = await this.ip_actions.search({ ip_address: ip });
+            const result = await this.ip_actions.search('ip_address', ip);
 
             if (result.error || result.res.length === 0) continue;
 

@@ -44,7 +44,7 @@ class SaveCryptoCategories {
     }
 
     async _saveToDb( key: string, value: CodeValue) {
-        const result = await this.dbActions.search({ key: key });
+        const result = await this.dbActions.search('key', key);
 
         const [cat] = result.res;
 

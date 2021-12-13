@@ -38,31 +38,25 @@ export interface Transaction {
     size: number;
     fee: number;
     type: 'buy' | 'sell';
-    pool_id: 'loan' | 'fiat' | 'reinvestment';
     _id: string;
 }
 
 export interface TransactionsWithSummary {
     summary: Summary;
-    transactions: string;
+    transactions: any[][];
 }
 
 export interface Summary {
-    own: string;
-    cost: string;
+    owned: string;
+    total_spent: string;
     avg_price: string;
     current_price: string;
     current_value: string;
     price_diff: string;
-    cost_cv_diff: string;
+    sold: string;
+    diff: string;
     symbol: string;
     coin_id: string;
-    loan: string;
-    reinvestment: string;
-    fiat: string;
-    sold: string;
-    sold_value: string;
-    avg_sell_price: string;
 }
 
 export interface CurrentPrices {
@@ -70,21 +64,16 @@ export interface CurrentPrices {
 }
 
 export interface TransactionsTally {
-    loan: number;
-    fiat: number;
-    reinvestment: number;
-    cost: number;
-    own: number;
-    sold: number;
-    soldValue: number;
+    realized_gain: number;
+    avg_purchase_price: number;
+    total_cost: number;
+    coins_owned: number;
 }
 
 export interface GrandTally {
-    portfolio_value: string;
-    total_cost: string;
-    current_value: string;
-    p_gain: string,
-    loan: string;
-    reinvestment: string;
-    fiat: string;
+    total_value: string;
+    invested: string;
+    total_sold: string;
+    diff: string;
+    p_gain: string
 }

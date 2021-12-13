@@ -14,7 +14,7 @@ class IpAddress {
     }
 
     async save(ipAddress: string): Promise<void> {
-        const savedIpInfo = await this.ip_actions.search({ ip_address: ipAddress });
+        const savedIpInfo = await this.ip_actions.search('ip_address', ipAddress);
 
         if (savedIpInfo.res && savedIpInfo.res.length > 0 
             && this._within30Days(savedIpInfo.res[0].updated)) return;
