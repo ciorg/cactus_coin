@@ -43,7 +43,7 @@ class CoinPurchase {
     async getTransactions(req: Request): Promise<[I.TransactionsWithSummary[], I.GrandTally, Date]> {
         const { user }: any = req;
 
-        const results = await this.action.search('user_id', user._id);
+        const results = await this.action.search({ user_id: user._id });
 
         const transactionsByCoin = await this.organizeTransactions(results.res);
        

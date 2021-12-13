@@ -55,7 +55,7 @@ class Rootbeer {
 
     async getUsersRb(req: Request) {
         const { user }: any = req;
-        const result = await this.rb_actions.search('user', user._id);
+        const result = await this.rb_actions.search({ user: user._id });
 
         if (result.error) return result;
 
@@ -79,7 +79,7 @@ class Rootbeer {
         const searchTerms = this.utils.makeRegex(req.body.rb_search);
 
         if (searchTerms) {
-            const result = await this.rb_actions.search(field, searchTerms)
+            const result = await this.rb_actions.search({ [field]: searchTerms });
 
             if (result.error) return result;
 

@@ -19,7 +19,11 @@ class BotDetector {
             'version.js',
             'sql',
             'exe',
-            'ncdh'
+            'ncdh',
+            'env',
+            'mifs',
+            'console',
+            'git'
         ];  
         
         this.platform_fields = [

@@ -43,13 +43,13 @@ class Ratings {
     }
 
     getRbRatings(req: Request) {
-        return this.action.search('rb_id', req.params.rb_id);
+        return this.action.search({ rb_id: req.params.rb_id });
     }
 
     async ratingsByUser(req: Request) {
         const { user }: any = req;
 
-        const ratings = await this.action.search('user', user._id);
+        const ratings = await this.action.search({ user: user._id });
 
         const ratingsDocs = this.utils.getDocs(ratings.res);
 
