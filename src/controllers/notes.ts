@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import NotesModel from '../models/notes';
-import Utils from './lib/utils';
+import Utils from './lib/rb_utils';
 
 import * as I from '../interfaces';
 

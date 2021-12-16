@@ -2,7 +2,7 @@ import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import Ratings from './ratings';
 import RbModel from '../models/rb';
-import Utils from './lib/utils';
+import Utils from './lib/rb_utils';
 import * as I from '../interfaces';
 
 class Rootbeer {

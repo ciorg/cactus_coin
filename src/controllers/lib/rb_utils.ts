@@ -8,7 +8,7 @@ import Actions from '../../utils/db_actions';
 import * as useful from '../../utils/useful_funcs';
 
 
-class Utils {
+class RbUtils {
     rbActions: Actions;
     ratingActions: Actions;
 
@@ -82,7 +82,7 @@ class Utils {
     }
 
     getRatingsByRbId(rbId: string) {
-        return this.ratingActions.search({ rb_id:  rbId });
+        return this.ratingActions.search({ rb_id: rbId });
     }
 
     async getTotalAvg(rbDocs: I.RootBeer[]) {
@@ -186,4 +186,4 @@ class Utils {
 
 }
 
-export = Utils;
+export = RbUtils;

@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.get('/notes',
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.getUsersNotes(req);
 
@@ -25,7 +24,6 @@ router.get('/notes',
 
 router.get('/note/:id/view',
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.view(req);
 
@@ -43,7 +41,6 @@ router.get('/note/:id/view',
 router.post(
     '/note/:user_id',
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.create(req);
 
@@ -57,7 +54,6 @@ router.post(
 
 router.post('/note/:id/update',
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.update(req);
 
@@ -71,7 +67,6 @@ router.post('/note/:id/update',
 
 router.get('/note/:id/delete', 
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.delete(req);
 
@@ -84,7 +79,6 @@ router.get('/note/:id/delete',
 
 router.get('/notes/search/:tag',
     connectEnsureLogin.ensureLoggedIn('/'),
-    permissions(['king', 'rr']),
     async (req: Request, res: Response) => {
         const result = await notes.searchTag(req);
 
