@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import RatingModel from '../models/rating';
-import Utils from './lib/utils';
+import Utils from './lib/rb_utils';
 
 import * as I from '../interfaces';
 

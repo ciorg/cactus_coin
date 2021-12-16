@@ -26,9 +26,11 @@
         <li>
             <a href="/user_info">User Info</a>
         </li>
+        <% if (user.role === 'king') { %>
         <li>
             <a href="/web_stats">Web Stats</a>
         </li>
+        <% } %>
         <li>
             <a href="/logout">Log Out</a>
         </li>

@@ -2,6 +2,7 @@ import { Request } from 'express';
 import Actions from '../utils/db_actions';
 import CryptoTransactionModel from '../models/crypto_transaction';
 import CryptoData from './crypto_data';
+import Pool from './pool';
 import * as useful from '../utils/useful_funcs';
 
 import * as I from '../interfaces';
@@ -9,18 +10,21 @@ import * as I from '../interfaces';
 class CoinPurchase {
     action: Actions;
     cryptoData: CryptoData;
+    pool: Pool;
 
     constructor() {
         this.action = new Actions(CryptoTransactionModel);
         this.cryptoData = new CryptoData();
+        this.pool = new Pool();
     }
 
     async create(req: Request) {
         const { user }: any = req;
 
         const coinId = await this.cryptoData.getCoinId(req.body.coin);
+        const poolId = await this.pool.getId(req.body.pool);
        
-        const coinPurchaseData = {
+        const coinTransactionData = {
             date: req.body.date,
             coin_id: coinId.res,
             exchange: req.body.exchange,
@@ -28,11 +32,12 @@ class CoinPurchase {
             size: req.body.size,
             fee: req.body.fee,
             user_id: user._id,
-            type: req.body.type
+            type: req.body.type,
+            pool_id: poolId.res
 
         };
     
-        return this.action.create(coinPurchaseData);
+        return this.action.create(coinTransactionData);
     }
 
     async delete(req: Request) {
@@ -49,7 +54,7 @@ class CoinPurchase {
        
         const [currentPrices, cacheTime] = await this.getCurrentPrice(Object.keys(transactionsByCoin));
 
-        const summary = this.createSummary(transactionsByCoin, currentPrices);
+        const summary = await this.createSummary(transactionsByCoin, currentPrices);
 
         const grandTally = this.grandTally(summary);
 
@@ -86,108 +91,187 @@ class CoinPurchase {
         return [currentPrices, cache_time];
     }
 
-    createSummary(transactionsByCoin: I.TransactionsByCoin, currentPrices: I.CurrentPrices): I.TransactionsWithSummary[] {
+    async createSummary(
+        transactionsByCoin: I.TransactionsByCoin,
+        currentPrices: I.CurrentPrices
+        ): Promise<I.TransactionsWithSummary[]> {
         const transactionsWithSummary: I.TransactionsWithSummary[] = [];
 
-        for (const [coin_id, transactions] of Object.entries(transactionsByCoin)) {
-            const transactionTally = this.tallyTransactions(transactions);
-
-            const [currentPrice, symbol] = currentPrices[coin_id];
-
-            if (currentPrice == null) continue;
-
-            const currentValue = (currentPrice * transactionTally.coins_owned);
-            const pPriceDiff = ((currentPrice - transactionTally.avg_purchase_price) / transactionTally.avg_purchase_price) * 100;
-
-            transactionsWithSummary.push({
-                summary: {
-                    owned: useful.setDecimals(transactionTally.coins_owned),
-                    current_price: useful.toCurrency(currentPrice),
-                    avg_price: useful.toCurrency(transactionTally.avg_purchase_price),
-                    price_diff: useful.setDecimals(pPriceDiff, 2),
-                    current_value: useful.toCurrency(currentValue),
-                    total_spent: useful.toCurrency(transactionTally.total_cost),
-                    sold: useful.toCurrency(transactionTally.realized_gain),
-                    diff: useful.toCurrency(currentValue - transactionTally.total_cost + transactionTally.realized_gain),
-                    symbol,
-                    coin_id
-                },
-                transactions: this.formatTransactions(transactions)
-            });
-        }
+        await Promise.all(Object.entries(transactionsByCoin)
+            .map(([coinId, transactions]) => this._includeSummary(
+                currentPrices,
+                coinId,
+                transactions,
+                transactionsWithSummary
+            ))
+        );
 
         transactionsWithSummary.sort((a, b) => useful.currencyToNumber(b.summary.current_value) - useful.currencyToNumber(a.summary.current_value));
 
         return transactionsWithSummary;
     }
 
-    tallyTransactions(transactions: I.Transaction[]): I.TransactionsTally {
-        let realizedGain = 0;
-        let coinsSold = 0;
-        let cost = 0;
-        let coinsBought = 0;
+    private async _includeSummary(
+        currentPrices: I.CurrentPrices,
+        coinId: string, 
+        transactions: I.Transaction[],
+        transactionsWithSummary: I.TransactionsWithSummary[]
+    ) {
+        const [currentPrice, symbol] = currentPrices[coinId];
 
-        for (const transaction of transactions) {
-            const tValue = (transaction.price * transaction.size) - transaction.fee;
+        if (currentPrice == null) return;
 
-            if (transaction.type === 'buy') {
-                cost += tValue;
-                coinsBought += transaction.size;
-            }
-            
-            if (transaction.type === 'sell') {
-                realizedGain += tValue;
-                coinsSold += transaction.size;
-            }
-        }
+        const tSummary = await this._calculateSummary(
+            currentPrice,
+            symbol,
+            coinId,
+            transactions
+        )
+
+        transactionsWithSummary.push(tSummary);
+    }
+
+    private async _calculateSummary(
+        currentPrice: number,
+        symbol: string,
+        coinId: string,
+        transactions: I.Transaction[]
+        ) {
+        const {
+            loan,
+            fiat,
+            reinvestment,
+            cost,
+            own,
+            sold,
+            soldValue
+        } = (await this.tallyTransactions(transactions));
+
+        const currentValue = (currentPrice * own);
+
+        const avgPurchasePrice = cost > 0 ? cost / own : 0.00;
+
+        const pPriceDiff = cost > 0 ? ((currentPrice - avgPurchasePrice) / avgPurchasePrice) * 100 : 0.00;
+
+        const formatedTrans = await this.formatTransactions(transactions);
 
         return {
-            realized_gain: realizedGain,
-            avg_purchase_price: cost / coinsBought,
-            total_cost: cost,
-            coins_owned: coinsBought - coinsSold
+            summary: {
+                own: useful.setDecimals(own),
+                current_price: useful.toCurrency(currentPrice),
+                avg_price: useful.toCurrency(avgPurchasePrice),
+                price_diff: useful.setDecimals(pPriceDiff, 2),
+                current_value: useful.toCurrency(currentValue),
+                cost: cost > 0 ? useful.toCurrency(cost) : useful.toCurrency(0),
+                loan: useful.toCurrency(loan),
+                fiat: useful.toCurrency(fiat),
+                reinvestment: useful.toCurrency(reinvestment),
+                cost_cv_diff: useful.toCurrency(currentValue - cost),
+                sold: useful.setDecimals(sold),
+                sold_value: useful.toCurrency(soldValue),
+                avg_sell_price: useful.toCurrency(soldValue / sold),
+                symbol,
+                coin_id: coinId
+            },
+            transactions: JSON.stringify(formatedTrans)
         };
     }
 
-    formatTransactions(transactions: I.Transaction[]) {
+    async tallyTransactions(transactions: I.Transaction[]): Promise<I.TransactionsTally> {
+        const tracker: I.TransactionsTally = {
+            loan: 0,
+            fiat: 0,
+            reinvestment: 0,
+            cost: 0,
+            own: 0,
+            sold: 0,
+            soldValue: 0
+        };
+
+
+        try {
+            await Promise.all(transactions.map((t) => this._addTransaction(t, tracker)));
+        } catch (e) {
+            throw new Error('coult not process transactions');
+        }
+
+        return tracker;
+    }
+
+    private async _addTransaction(transaction: I.Transaction, tracker: I.TransactionsTally) {
+        const poolType = await this.pool.getType(transaction.pool_id);
+
+        const tValue = (transaction.price * transaction.size) - transaction.fee;
+
+        if (transaction.type === 'buy') {
+            tracker.cost += tValue;
+            tracker.own += transaction.size;
+            if (poolType === 'loan') tracker.loan += tValue;
+            if (poolType === 'fiat') tracker.fiat += tValue;
+            if (poolType === 'reinvestment') tracker.reinvestment -= tValue;
+        }
+        
+        if (transaction.type === 'sell') {
+            tracker.sold += transaction.size;
+            tracker.soldValue += tValue;
+            tracker.cost -= tValue;
+            tracker.own -= transaction.size;
+            if (poolType === 'loan') tracker.loan -= tValue;
+            if (poolType === 'fiat') tracker.fiat -= tValue;
+            if (poolType === 'reinvestment') tracker.reinvestment += tValue;
+        }
+    }
+
+    async formatTransactions(transactions: I.Transaction[]) {
         const formatedTransactions: any[][] = [];
 
-        for (const trans of transactions) {
-            formatedTransactions.push([
-                useful.formatDate(trans.date),
-                trans.exchange,
-                trans.type,
-                useful.setDecimals(trans.size, 4),
-                useful.toCurrency(trans.price),
-                useful.toCurrency(trans.price * trans.size),
-                trans._id
-            ]);
-        }
+        await Promise.all(transactions.map((t) => this._applyFormating(t, formatedTransactions)));
 
         formatedTransactions.sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
 
         return formatedTransactions;
     }
 
+    private async _applyFormating(t: I.Transaction, formated: any[][]) {
+        const poolName = await this.pool.getName(t.pool_id);
+
+        formated.push([
+            useful.formatDate(t.date),
+            t.exchange,
+            t.type,
+            poolName,
+            useful.setDecimals(t.size, 4),
+            useful.toCurrency(t.price),
+            useful.toCurrency(t.price * t.size),
+            t._id
+        ]);
+    }
+
     grandTally(summaries: I.TransactionsWithSummary[]): I.GrandTally {
-        let totalValue = 0;
-        let invested = 0;
-        let totalSold = 0;
+        let portfolioValue = 0;
+        let fiat = 0;
+        let loan = 0;
+        let reinvestment = 0;
 
         for (const sum of summaries) {
-            totalValue += useful.currencyToNumber(sum.summary.current_value);
-            invested += useful.currencyToNumber(sum.summary.total_spent);
-            totalSold += useful.currencyToNumber(sum.summary.sold);
+            portfolioValue += useful.currencyToNumber(sum.summary.current_value);
+            fiat += useful.currencyToNumber(sum.summary.fiat);
+            loan += useful.currencyToNumber(sum.summary.loan);
+            reinvestment += useful.currencyToNumber(sum.summary.reinvestment);
         }
 
-        const diff = totalValue - invested + totalSold;
+        const totalCost = fiat + loan;
+
+        portfolioValue += reinvestment;
 
         return {
-            total_value: useful.toCurrency(totalValue),
-            invested: useful.toCurrency(invested),
-            total_sold: useful.toCurrency(totalSold),
-            diff: useful.toCurrency(diff),
-            p_gain: useful.setDecimals((diff / invested) * 100, 2)
+            portfolio_value: useful.toCurrency(portfolioValue),
+            total_cost: useful.toCurrency(totalCost),
+            current_value: useful.toCurrency(portfolioValue - (fiat + loan)),
+            p_gain: useful.setDecimals(((portfolioValue / totalCost) - 1) * 100, 2),
+            fiat: useful.toCurrency(fiat),
+            loan: useful.toCurrency(loan),
+            reinvestment: useful.toCurrency(reinvestment)
         };
     }
 }

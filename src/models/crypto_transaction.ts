@@ -32,9 +32,13 @@ const CoinPurchaseSchema = new Schema({
     type: {
         type: String,
         required: true
+    },
+    pool_id: {
+        type: String,
+        required: true
     }
 });
 
-const CoinPurchaseModel = mongoose.model('coin_purchases', CoinPurchaseSchema);
+const CoinPurchaseModel = mongoose.model('crypto_transactions', CoinPurchaseSchema);
 
 export = CoinPurchaseModel;
