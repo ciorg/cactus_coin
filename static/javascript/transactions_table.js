@@ -1,8 +1,9 @@
 $(document).ready(() => {
     $('#transactions_table').DataTable({
         searching: true,
-        pageLength: 25,
+        pageLength: 20,
         lengthChange: false,
+        order: [],
         columns: [
             { orderable: true, searchable: true },
             { orderable: true, searchable: false },

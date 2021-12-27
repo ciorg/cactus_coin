@@ -106,7 +106,8 @@ class CoinPurchase {
             ))
         );
 
-        transactionsWithSummary.sort((a, b) => useful.currencyToNumber(b.summary.current_value) - useful.currencyToNumber(a.summary.current_value));
+        transactionsWithSummary
+            .sort((a, b) => useful.currencyToNumber(b.summary.current_value) - useful.currencyToNumber(a.summary.current_value));
 
         return transactionsWithSummary;
     }
@@ -260,15 +261,14 @@ class CoinPurchase {
             reinvestment += useful.currencyToNumber(sum.summary.reinvestment);
         }
 
-        const totalCost = fiat + loan;
-
         portfolioValue += reinvestment;
+        const realValue = portfolioValue - loan;
 
         return {
             portfolio_value: useful.toCurrency(portfolioValue),
-            total_cost: useful.toCurrency(totalCost),
-            current_value: useful.toCurrency(portfolioValue - (fiat + loan)),
-            p_gain: useful.setDecimals(((portfolioValue / totalCost) - 1) * 100, 2),
+            total_cost: useful.toCurrency(fiat),
+            value_gain: useful.toCurrency(realValue - fiat),
+            p_gain: useful.setDecimals(((realValue / fiat) - 1) * 100, 2),
             fiat: useful.toCurrency(fiat),
             loan: useful.toCurrency(loan),
             reinvestment: useful.toCurrency(reinvestment)

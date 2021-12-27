@@ -82,7 +82,7 @@ export interface TransactionsTally {
 export interface GrandTally {
     portfolio_value: string;
     total_cost: string;
-    current_value: string;
+    value_gain: string;
     p_gain: string,
     loan: string;
     reinvestment: string;
