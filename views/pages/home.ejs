@@ -35,13 +35,13 @@
                     </div>
                     <div class="grand_tally_data pure-u-1-2">
                         <div class="grand_tally_header"><p>$ Gain</p></div>
-                        <% if (grand_tally.current_value.includes('-')) { %>
+                        <% if (grand_tally.value_gain.includes('-')) { %>
                             <div class="grand_tally_value_down">
-                                <p><%- grand_tally.current_value %></p>
+                                <p><%- grand_tally.value_gain %></p>
                             </div>
                             <% } else {%>
                             <div class="grand_tally_value_up">
-                                <p class="up"><%- grand_tally.current_value %></p>
+                                <p class="up"><%- grand_tally.value_gain %></p>
                             </div>
                         <% } %>
                     </div>

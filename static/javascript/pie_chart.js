@@ -1,14 +1,29 @@
 function makeChart(transactions) {
     const series = [];
     const labels = [];
+    let other = 0;
+
+    const total = transactions.reduce((value, t) => {
+        return value + toNumber(t.summary.current_value);
+    }, 0);
 
     for (const t of transactions) {
-        const value = Number.parseFloat(t.summary.current_value.replace(/[^0-9.]/g, ''));
+        const value = toNumber(t.summary.current_value);
 
         if (value < 0.1) continue;
 
+        if ((value / total) <= 0.05) {
+            other += value;
+            continue;
+        }
+
         series.push(value);
         labels.push(t.summary.symbol.toUpperCase());
+    }
+
+    if (other > 0) {
+        series.push(other);
+        labels.push('Other');
     }
 
     var options = {
@@ -74,4 +89,8 @@ function formatTotal(w) {
 
 function toCurrency(value) {
     return Number(value).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+}
+
+function toNumber(value) {
+    return Number.parseFloat(value.replace(/[^0-9.]/g, ''));
 }

@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
-import permissions from '../utils/permissions';
 import CryptoTransaction from '../controllers/crypto_transaction';
 import Pool from '../controllers/pool';
 
