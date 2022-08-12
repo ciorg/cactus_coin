@@ -26,7 +26,7 @@ class IpAddress {
         }
     }
 
-    private async _within30Days(date: string): Promise<boolean> {
+    private _within30Days(date: string): boolean {
         return new Date().getTime() - new Date(date).getTime() < 80 * 86400 * 1000;
     }
 

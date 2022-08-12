@@ -1,10 +1,11 @@
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
-import MongoDBStore from 'connect-mongodb-session'
 import userModel from '../models/user';
 import Configs from './configs';
 import Logger from './logger';
+
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const config = new Configs();
 
@@ -15,16 +16,14 @@ const logger = new Logger();
 
 const router = express.Router();
 
-const MongoStore = MongoDBStore(session);
-
-const store = new MongoStore({
+const store = new MongoDBStore({
         uri: `mongodb://${mongoSettings.url}:27017/${mongoSettings.database}`,
         collection: 'sessions'
     },
-    (error) => { if (error) mongoError(error) }
+    (error: any) => { if (error) mongoError(error) }
 );
 
-store.on('error', (error) => { if (error) mongoError(error) });
+store.on('error', (error: any) => { if (error) mongoError(error) });
 
 router.use(session({
     name: 'session',
