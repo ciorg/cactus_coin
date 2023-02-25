@@ -100,18 +100,16 @@ class CryptoData {
             res: undefined
         };
     
-        const response = await this.dbCoins.getAll();
-
-        if (response.res.length) {
-            result.res = response.res.map((coin: I.Coin) => coin.symbol)
-            .sort();
-
+        try {
+            const response = await this.dbCoins.getAll();
+            result.res = response.res.map((coin: I.Coin) => coin.symbol).sort();
+    
+            return result;
+        } catch(e: unknown) {
+            this.logger.error('error fetching user crypto portfolio', { err: e });
+            result.error = true;
             return result;
         }
-
-        result.error = true;
-
-        return result;
     }
 
     async getCoinSymbolById(id: string): Promise<string> {

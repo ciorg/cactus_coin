@@ -1,6 +1,6 @@
 {
   "name": "cactus_coin",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "my website and stuff",
   "license": "UNLICENSED",
   "main": "index.js",
@@ -16,7 +16,7 @@
     "update-coin-list": "node dist/scripts/metadata_updates updateCoinList",
     "update-coin-metadata": "node dist/scripts/metadata_updates updateCoinMetadata",
     "update-coin-categories": "node dist/scripts/metadata_updates loadCryptoCategories",
-    "init-user": "node dist/scripts/db_actions initUser"
+    "init-user": "node dist/scripts/db_setup initUser"
   },
   "jest": {
     "testMatch": [
