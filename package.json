@@ -16,7 +16,7 @@
     "update-coin-list": "node dist/scripts/metadata_updates updateCoinList",
     "update-coin-metadata": "node dist/scripts/metadata_updates updateCoinMetadata",
     "update-coin-categories": "node dist/scripts/metadata_updates loadCryptoCategories",
-    "init-user": "node dist/scripts/db_actions initUser"
+    "init-user": "node dist/scripts/db_setup initUser"
   },
   "jest": {
     "testMatch": [
